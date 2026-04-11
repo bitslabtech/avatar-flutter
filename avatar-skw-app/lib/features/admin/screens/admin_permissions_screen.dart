@@ -28,7 +28,7 @@ class _AdminPermissionsScreenState extends ConsumerState<AdminPermissionsScreen>
     'users': _ResourceInfo('Users', Icons.group, Colors.pink),
     'ecommerce': _ResourceInfo('Ecommerce', Icons.shopping_bag, Colors.purple),
     'reports': _ResourceInfo('Reports', Icons.bar_chart, Colors.teal),
-
+    'configurations': _ResourceInfo('Configurations', Icons.settings, Colors.blueGrey),
   };
 
   final List<String> _actions = ['read', 'create', 'update', 'delete'];

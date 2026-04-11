@@ -12,15 +12,19 @@ final dealerRepositoryProvider = Provider<DealerRepository>((ref) {
 // Dealers List State State
 class DealersNotifier extends StateNotifier<AsyncValue<List<User>>> {
   final DealerRepository _repository;
+  bool _lastShowDeleted = false;
 
   DealersNotifier(this._repository) : super(const AsyncValue.loading()) {
     refresh();
   }
 
-  Future<void> refresh({bool showDeleted = false}) async {
+  Future<void> refresh({bool? showDeleted}) async {
+    if (showDeleted != null) {
+      _lastShowDeleted = showDeleted;
+    }
     state = const AsyncValue.loading();
     try {
-      final dealers = await _repository.getDealers(showDeleted: showDeleted);
+      final dealers = await _repository.getDealers(showDeleted: _lastShowDeleted);
       state = AsyncValue.data(dealers);
     } catch (e, st) {
       state = AsyncValue.error(e, st);

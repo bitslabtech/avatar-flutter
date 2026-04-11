@@ -26,9 +26,9 @@ class ApiEndpoints {
       return 'http://localhost:3000';
     }
     if (Platform.isAndroid) {
-      // 10.0.2.2 maps to host machine's localhost on Android Emulator.
-      // For a physical device, pass your LAN IP via --dart-define=API_BASE_URL
-      return 'http://10.0.2.2:3000';
+      // For physical device on local network — update if your LAN IP changes
+      // To override without code change: flutter run --dart-define=API_BASE_URL=http://<ip>:3000
+      return 'http://192.168.31.75:3000';
     } else if (Platform.isIOS) {
       return 'http://localhost:3000';
     } else {

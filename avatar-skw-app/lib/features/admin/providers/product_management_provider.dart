@@ -200,13 +200,6 @@ class ProductState {
       
       return true;
     }).toList();
-    
-    // Sort: Active products first, then inactive
-    filtered.sort((a, b) {
-      if (a.isActive == b.isActive) return 0;
-      return a.isActive ? -1 : 1;
-    });
-    
     return filtered;
   }
 
@@ -405,7 +398,7 @@ class ProductManagementNotifier extends StateNotifier<ProductState> {
   Future<bool> toggleProductStatus(String id, bool isActive) async {
     try {
        await _apiClient.patch('/admin/products/$id', data: {'isActive': isActive});
-       await loadProducts();
+       await loadProducts(force: true);
        return true;
     } catch (e) {
       print('DEBUG: Toggle Status Error: $e');

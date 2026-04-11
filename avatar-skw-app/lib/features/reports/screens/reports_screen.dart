@@ -102,7 +102,7 @@ class _ReportsScreenState extends ConsumerState<ReportsScreen> with SingleTicker
                     const Icon(Icons.table_view, color: Color(0xFF1D6F42), size: 20), // table_view
                     const SizedBox(width: 6),
                     const Text(
-                      'XLSX', 
+                      'Export', 
                       style: TextStyle(
                         color: Color(0xFF1D6F42), // excel-green
                         fontWeight: FontWeight.bold,

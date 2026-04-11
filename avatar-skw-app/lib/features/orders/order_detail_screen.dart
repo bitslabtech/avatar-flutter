@@ -515,33 +515,7 @@ class _OrderDetailScreenState extends ConsumerState<OrderDetailScreen> {
                               )
                            ]
                         ),
-                        const SizedBox(height: 12),
-                        _buildExpansionTile(
-                           context, 
-                           icon: Icons.credit_card, 
-                           color: Colors.purple, 
-                           title: 'Payment Info', 
-                           isDark: isDark,
-                           children: [
-                              Row(children: [
-                                 Container(
-                                    padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
-                                    decoration: BoxDecoration(border: Border.all(color: Colors.grey), borderRadius: BorderRadius.circular(4)),
-                                    child: Text(order.paymentMethod ?? 'COD', style: const TextStyle(fontWeight: FontWeight.w900, fontSize: 10)),
-                                 ),
-                                 const SizedBox(width: 8),
-                                 Expanded(
-                                   child: Text(
-                                     _formatPaymentMethod(order.paymentMethod), 
-                                     style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14, color: isDark?Colors.white:Colors.black87),
-                                     overflow: TextOverflow.ellipsis,
-                                   ),
-                                 ),
-                              ]),
-                              const SizedBox(height: 4),
-                              Text('Billing address same as shipping', style: TextStyle(fontSize: 12, color: Colors.grey[500])),
-                           ]
-                        ),
+
                         const SizedBox(height: 12),
                         _buildExpansionTile(
                            context, 

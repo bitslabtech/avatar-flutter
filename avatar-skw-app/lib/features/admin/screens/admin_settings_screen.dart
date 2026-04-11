@@ -352,7 +352,7 @@ class _AdminSettingsScreenState extends ConsumerState<AdminSettingsScreen> {
                                context.push('/profile/edit');
                              }),
                              
-                              // Change Password & Two-Factor
+                              // Change Password
                               _buildDivider(borderColor),
                               _buildSettingsTile(
                                 title: 'Change Password',
@@ -361,20 +361,6 @@ class _AdminSettingsScreenState extends ConsumerState<AdminSettingsScreen> {
                                 isDark: isDark,
                                 textColor: textColor,
                                 onTap: () => _showChangePasswordSheet(context, isDark),
-                              ),
-                              _buildDivider(borderColor),
-                              _buildSwitchTile(
-                                title: 'Two-Factor Auth',
-                                subtitle: 'Recommended for admins',
-                                icon: Icons.security,
-                                iconColor: Colors.green,
-                                value: settingsState.twoFactorAuth,
-                                isDark: isDark,
-                                textColor: textColor,
-                                subTextColor: subTextColor,
-                                onChanged: (val) {
-                                  ref.read(adminSettingsProvider.notifier).toggleTwoFactor(val);
-                                },
                               ),
                            ],
                          ),

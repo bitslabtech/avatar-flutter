@@ -89,16 +89,6 @@ class ProfileScreen extends ConsumerWidget {
                         _buildAccountItem(
                           context,
                           isDark,
-                          icon: Icons.policy_outlined,
-                          title: 'Policies',
-                          onTap: () {
-                             context.pushNamed('policies');
-                          },
-                        ),
-
-                        _buildAccountItem(
-                          context,
-                          isDark,
                           icon: Icons.logout,
                           title: 'Log Out',
                           isDestructive: true,
@@ -281,7 +271,7 @@ class ProfileScreen extends ConsumerWidget {
         _buildActionCard(context, isDark, Icons.favorite, 'Wishlist', () => context.push('/profile/wishlist')),
         _buildActionCard(context, isDark, Icons.support_agent, 'Support', () => context.pushNamed('support')),
         _buildActionCard(context, isDark, Icons.receipt_long, 'My Order', () => context.push('/profile/orders')),
-        _buildActionCard(context, isDark, Icons.settings, 'Settings', () {}),
+        _buildActionCard(context, isDark, Icons.policy, 'Policies', () => context.pushNamed('policies')),
       ],
     );
   }

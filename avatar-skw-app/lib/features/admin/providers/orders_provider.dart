@@ -180,7 +180,7 @@ class OrdersNotifier extends StateNotifier<OrdersState> {
   Future<bool> updateOrderItems(String orderId, List<Map<String, dynamic>> items) async {
     try {
       await _apiClient.patch('/orders/$orderId/items', data: {'items': items});
-      await loadData();
+      await loadData(force: true);
       return true;
     } catch (e) {
       return false;
@@ -214,7 +214,7 @@ class OrdersNotifier extends StateNotifier<OrdersState> {
         'shippingOverridePaise': shippingOverridePaise, // Always send (null or int)
       };
       await _apiClient.patch('/orders/$orderId/status', data: payload);
-      await loadData();
+      await loadData(force: true);
     } catch (e) {
       rethrow;
     }

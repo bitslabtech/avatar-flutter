@@ -305,7 +305,7 @@ class AdminDashboardScreen extends ConsumerWidget {
                             borderColor: borderColor,
                             onTap: () => context.pushNamed('admin-orders'),
                           ),
-                        if (user?.hasPermission('users', 'read') == true)
+                        if (user?.hasPermission('dealers', 'read') == true)
                           _buildMenuCard(
                             context: context,
                             title: 'Dealers',
@@ -325,7 +325,7 @@ class AdminDashboardScreen extends ConsumerWidget {
                             borderColor: borderColor,
                             onTap: () => context.pushNamed('admin-users'),
                           ),
-                        if (user?.isSuperAdmin == true)
+                        if (user?.hasPermission('configurations', 'read') == true || user?.isSuperAdmin == true)
                           _buildMenuCard(
                             context: context,
                             title: 'Configurations',
