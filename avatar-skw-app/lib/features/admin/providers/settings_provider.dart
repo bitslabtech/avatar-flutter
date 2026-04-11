@@ -10,6 +10,7 @@ class AdminSettingsState {
   final bool newDealerAlert;
   final bool newConsumerAlert;
   final bool maintenanceMode;
+  final bool priceIncludesGst;
   final String themeMode; // 'system', 'light', 'dark'
   final String language;
   final Map<String, String> whatsAppConfig;
@@ -25,6 +26,7 @@ class AdminSettingsState {
     this.newDealerAlert = true,
     this.newConsumerAlert = false,
     this.maintenanceMode = false,
+    this.priceIncludesGst = false,
     this.themeMode = 'system',
     this.language = 'en',
     this.whatsAppConfig = const {},
@@ -41,6 +43,7 @@ class AdminSettingsState {
     bool? newDealerAlert,
     bool? newConsumerAlert,
     bool? maintenanceMode,
+    bool? priceIncludesGst,
     String? themeMode,
     String? language,
     Map<String, String>? whatsAppConfig,
@@ -56,6 +59,7 @@ class AdminSettingsState {
       newDealerAlert: newDealerAlert ?? this.newDealerAlert,
       newConsumerAlert: newConsumerAlert ?? this.newConsumerAlert,
       maintenanceMode: maintenanceMode ?? this.maintenanceMode,
+      priceIncludesGst: priceIncludesGst ?? this.priceIncludesGst,
       themeMode: themeMode ?? this.themeMode,
       language: language ?? this.language,
       whatsAppConfig: whatsAppConfig ?? this.whatsAppConfig,
@@ -90,6 +94,7 @@ class AdminSettingsNotifier extends StateNotifier<AdminSettingsState> {
 
       // Load Server Settings
       bool maintenanceMode = false;
+      bool priceIncludesGst = false;
       double minOrderValue = 500.0;
       double shippingCharge = 0.0;
       Map<String, String> waConfig = {};
@@ -108,6 +113,7 @@ class AdminSettingsNotifier extends StateNotifier<AdminSettingsState> {
         }
 
         maintenanceMode = getValue('system.maintenance_mode') == 'true';
+        priceIncludesGst = getValue('system.price_includes_gst') == 'true';
         minOrderValue = double.tryParse(getValue('system.min_order_value') ?? '500') ?? 500.0;
         shippingCharge = double.tryParse(getValue('system.shipping_charge') ?? '0') ?? 0.0;
         
@@ -158,6 +164,7 @@ class AdminSettingsNotifier extends StateNotifier<AdminSettingsState> {
         themeMode: themeMode,
         language: language,
         maintenanceMode: maintenanceMode,
+        priceIncludesGst: priceIncludesGst,
         minOrderValue: minOrderValue,
         shippingCharge: shippingCharge,
         whatsAppConfig: waConfig,
@@ -198,6 +205,20 @@ class AdminSettingsNotifier extends StateNotifier<AdminSettingsState> {
       state = state.copyWith(maintenanceMode: value, isLoading: false);
     } catch (e) {
       state = state.copyWith(isLoading: false, error: 'Failed to update maintenance mode');
+    }
+  }
+
+  Future<void> setPriceIncludesGst(bool value) async {
+    state = state.copyWith(isLoading: true);
+    try {
+      await _apiClient.post('/settings', data: {
+        'key': 'system.price_includes_gst',
+        'value': value.toString(),
+        'isSecret': false,
+      });
+      state = state.copyWith(priceIncludesGst: value, isLoading: false);
+    } catch (e) {
+      state = state.copyWith(isLoading: false, error: 'Failed to update GST pricing mode');
     }
   }
 

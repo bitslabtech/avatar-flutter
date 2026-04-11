@@ -44,6 +44,7 @@ import '../../features/admin/screens/admin_configurations_screen.dart';
 import '../../features/admin/screens/content/admin_policy_list_screen.dart';
 import '../../features/admin/screens/content/admin_policy_edit_screen.dart';
 import '../../features/admin/screens/admin_contact_settings_screen.dart';
+import '../../features/admin/screens/admin_business_details_screen.dart';
 import '../../features/profile/screens/support_screen.dart';
 import '../../features/reports/screens/reports_screen.dart';
 
@@ -351,6 +352,11 @@ final routerProvider = Provider<GoRouter>((ref) {
              path: 'contact-settings',
              name: 'admin-contact-settings',
              builder: (context, state) => const AdminContactSettingsScreen(),
+           ),
+           GoRoute(
+             path: 'business-details',
+             name: 'admin-business-details',
+             builder: (context, state) => const AdminBusinessDetailsScreen(),
            ),
            GoRoute(
              path: 'ecommerce',

@@ -220,7 +220,6 @@ export class CatalogService {
       name: product.name,
       brand: product.brandRel?.name || 'Generic',
       category: product.category?.name || 'Uncategorized',
-      // DEBUG: Always show prices to debug dealer issue
       price: product.price ? Number(product.price) : 0,
       mrp: product.mrp ? Number(product.mrp) : 0,
       taxPercent: product.gstPercent,

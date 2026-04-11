@@ -90,10 +90,16 @@ class OrderItem {
     };
   }
 
-  /// Get display price in ₹ format using CurrencyUtils
-  String get priceDisplay => CurrencyUtils.formatPaise(dpPricePaise);
+  /// Get display price in ₹ format (INCLUSIVE of tax for UI)
+  String get priceDisplay {
+    final inclusivePaise = (dpPricePaise * (1 + taxPercent / 100)).round();
+    return CurrencyUtils.formatPaise(inclusivePaise);
+  }
   
-  /// Get line total display price in ₹ format using CurrencyUtils
-  String get lineTotalDisplay => CurrencyUtils.formatPaise(lineTotalDpPaise);
+  /// Get line total display price in ₹ format (INCLUSIVE of tax for UI)
+  String get lineTotalDisplay {
+    final inclusivePaise = (lineTotalDpPaise * (1 + taxPercent / 100)).round();
+    return CurrencyUtils.formatPaise(inclusivePaise);
+  }
 }
 

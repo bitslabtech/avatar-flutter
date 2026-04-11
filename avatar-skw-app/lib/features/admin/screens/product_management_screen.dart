@@ -7,6 +7,7 @@ import '../../../providers/auth_provider.dart';
 import 'product_add_edit_screen.dart';
 
 import '../../../models/user.dart';
+import '../providers/settings_provider.dart';
 
 class ProductManagementScreen extends ConsumerStatefulWidget {
   const ProductManagementScreen({super.key});
@@ -272,6 +273,8 @@ class _ProductManagementScreenState extends ConsumerState<ProductManagementScree
           }
           context.pushNamed('admin-gst');
         }),
+        const SizedBox(height: 12),
+        _buildGstPricingTile(context, isDark),
       ],
     );
   }
@@ -346,6 +349,82 @@ class _ProductManagementScreenState extends ConsumerState<ProductManagementScree
             Icon(Icons.chevron_right, color: isDark ? Colors.grey.shade600 : Colors.grey.shade400),
           ],
         ),
+      ),
+    );
+  }
+
+  Widget _buildGstPricingTile(BuildContext context, bool isDark) {
+    final settings = ref.watch(adminSettingsProvider);
+    final isInclusive = settings.priceIncludesGst;
+
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+      decoration: BoxDecoration(
+        color: isDark ? AppColors.surfaceDark : Colors.white,
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(
+          color: isInclusive
+              ? AppColors.primaryBlue.withOpacity(0.4)
+              : (isDark ? Colors.white.withOpacity(0.05) : Colors.grey.shade100),
+        ),
+      ),
+      child: Row(
+        children: [
+          Container(
+            width: 40,
+            height: 40,
+            decoration: BoxDecoration(
+              color: AppColors.primaryBlue.withOpacity(0.1),
+              borderRadius: BorderRadius.circular(8),
+            ),
+            child: const Icon(Icons.calculate_outlined, color: AppColors.primaryBlue),
+          ),
+          const SizedBox(width: 16),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Prices Include GST',
+                  style: TextStyle(
+                    fontWeight: FontWeight.w600,
+                    fontSize: 15,
+                    color: isDark ? Colors.white : Colors.black87,
+                  ),
+                ),
+                const SizedBox(height: 2),
+                Text(
+                  isInclusive
+                      ? 'Product prices already contain GST'
+                      : 'GST will be added on top of product prices',
+                  style: TextStyle(
+                    fontSize: 11,
+                    color: isDark ? Colors.grey.shade400 : Colors.grey.shade500,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          Switch(
+            value: isInclusive,
+            activeColor: AppColors.primaryBlue,
+            onChanged: settings.isLoading
+                ? null
+                : (val) async {
+                    await ref.read(adminSettingsProvider.notifier).setPriceIncludesGst(val);
+                    if (context.mounted) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text(val
+                              ? 'Prices now treated as GST inclusive'
+                              : 'GST will be added on top of prices'),
+                          duration: const Duration(seconds: 2),
+                        ),
+                      );
+                    }
+                  },
+          ),
+        ],
       ),
     );
   }

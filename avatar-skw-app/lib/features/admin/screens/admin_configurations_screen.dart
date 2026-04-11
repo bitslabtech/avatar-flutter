@@ -129,6 +129,19 @@ class AdminConfigurationsScreen extends ConsumerWidget {
                       child: Column(
                         children: [
                           _buildSettingsTile(
+                            title: 'Business Details',
+                            subtitle: 'Company name, address, GSTIN for invoices',
+                            icon: Icons.business_outlined,
+                            iconColor: Colors.indigo,
+                            isDark: isDark,
+                            textColor: textColor,
+                            subTextColor: subTextColor,
+                            onTap: () {
+                              context.pushNamed('admin-business-details');
+                            },
+                          ),
+                          _buildDivider(borderColor),
+                          _buildSettingsTile(
                             title: 'Policy Management',
                             subtitle: 'Terms, Privacy, etc.',
                             icon: Icons.policy,

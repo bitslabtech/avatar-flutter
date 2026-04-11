@@ -1,5 +1,7 @@
 /// Product model representing a home appliance/kitchenware item
 /// Maps to the backend Product entity
+import 'user.dart';
+
 class Product {
   final String id;
   final String sku;
@@ -27,6 +29,7 @@ class Product {
   final String? description;
   final String? material;
   final String? badge;
+  final bool isGstInclusive;
 
   Product({
     required this.id,
@@ -55,6 +58,7 @@ class Product {
     this.size,
     this.material,
     this.badge,
+    this.isGstInclusive = false,
   });
 
   /// Create Product from JSON response
@@ -113,6 +117,7 @@ class Product {
       size: json['size'],
       material: json['material'],
       badge: json['badge'],
+      isGstInclusive: json['isGstInclusive'] ?? json['is_gst_inclusive'] ?? false,
     );
   }
 
@@ -153,6 +158,7 @@ class Product {
       'size': size,
       'material': material,
       'badge': badge,
+      'isGstInclusive': isGstInclusive,
     };
   }
 
@@ -165,6 +171,40 @@ class Product {
     }
     
     return ((originalPrice - currentPrice) / originalPrice * 100).round();
+  }
+
+  /// Calculates the inclusive display price based on the user's dealer discount (if any)
+  /// isGstInclusive is the GLOBAL setting from the admin panel.
+  /// If the global setting is inclusive, the base price is extracted, discounted, then GST added back.
+  /// If exclusive, it calculates discount on base then adds GST.
+  double getDisplayPrice(User? user, {bool isGstInclusive = false}) {
+    if (price == null) return 0.0;
+    
+    final isPendingDealer = user != null && user.isDealer && user.status == 'pending';
+    double discount = 0.0;
+    
+    if (user != null && user.isDealer && !isPendingDealer) {
+      discount = user.discountPercentage;
+    }
+
+    // Determine the exclusive base price
+    double exclusiveBase = isGstInclusive 
+        ? (price! / (1 + (gstPercent ?? 0) / 100))
+        : price!;
+
+    // Apply dealer discount on the base
+    double discountedBase = exclusiveBase * (1 - (discount / 100));
+
+    // Determine the final inclusive display price to show to users everywhere
+    return discountedBase * (1 + (gstPercent ?? 0) / 100);
+  }
+
+  /// Calculates the original inclusive display price (before dealer discount) to use for strikethroughs
+  double getOriginalDisplayPrice({bool isGstInclusive = false}) {
+    if (price == null) return 0.0;
+    return isGstInclusive 
+        ? price!
+        : price! * (1 + (gstPercent ?? 0) / 100);
   }
 }
 

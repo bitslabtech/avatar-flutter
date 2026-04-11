@@ -26,11 +26,22 @@ export class SettingsService {
     'whatsapp.template.abandoned_cart.name', 'whatsapp.template.abandoned_cart.lang', 'whatsapp.template.abandoned_cart.enabled',
 
     'branding.company_name',
+    'branding.address',
+    'branding.phone',
+    'branding.gstin',
     'tax.notes',
     'courier.default_rule',
     'system.maintenance_mode',
     'system.min_order_value',
     'system.shipping_charge',
+    'system.price_includes_gst',
+    // Business Details (used for Proforma Invoice)
+    'business.company_name',
+    'business.address',
+    'business.phone',
+    'business.alt_phone',
+    'business.email',
+    'business.gstin',
   ];
 
   constructor(

@@ -1,0 +1,29 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Avatar App (Physical Device)",
+      "request": "launch",
+      "type": "dart",
+      "args": [
+        "--dart-define=API_BASE_URL=http://192.168.31.75:3000"
+      ]
+    },
+    {
+      "name": "Avatar App (Android Emulator)",
+      "request": "launch",
+      "type": "dart",
+      "args": [
+        "--dart-define=API_BASE_URL=http://10.0.2.2:3000"
+      ]
+    },
+    {
+      "name": "Avatar App (iOS Simulator)",
+      "request": "launch",
+      "type": "dart",
+      "args": [
+        "--dart-define=API_BASE_URL=http://localhost:3000"
+      ]
+    }
+  ]
+}

@@ -138,9 +138,11 @@ export class AuthController {
   @Get('me')
   @ApiBearerAuth()
   @UseGuards(JwtAuthGuard)
-  @ApiOperation({ summary: 'Get current user' })
+  @ApiOperation({ summary: 'Get current user profile (full DB record)' })
   async getMe(@CurrentUser() user: any) {
-    return user;
+    // Return full DB user (not just JWT payload) so fields like
+    // discountPercentage, companyName, address are always up-to-date
+    return this.authService.getProfile(user.id);
   }
 }
 

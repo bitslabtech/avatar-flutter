@@ -67,6 +67,10 @@ export class CreateProductDto {
 
     @IsOptional()
     @IsBoolean()
+    isGstInclusive?: boolean = false;
+
+    @IsOptional()
+    @IsBoolean()
     isActive?: boolean = true;
 
     @IsOptional()
@@ -141,6 +145,10 @@ export class UpdateProductDto {
     @IsOptional()
     @IsString()
     variationType?: string;
+
+    @IsOptional()
+    @IsBoolean()
+    isGstInclusive?: boolean;
 
     @IsOptional()
     @IsBoolean()

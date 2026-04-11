@@ -1,5 +1,6 @@
 /// Order service
 /// Handles order draft (cart) and order management
+import 'dart:typed_data';
 import 'package:dio/dio.dart';
 import '../core/api/api_client.dart';
 import '../core/api/api_endpoints.dart';
@@ -218,6 +219,20 @@ class OrderService {
       } catch (_) {
         return null;
       }
+    }
+  }
+
+  /// Download proforma GST invoice PDF for an order
+  /// Returns raw bytes which the caller can save to disk / share
+  Future<Uint8List> downloadInvoice(String orderId) async {
+    try {
+      final response = await _apiClient.dio.get(
+        ApiEndpoints.orderInvoice(orderId),
+        options: Options(responseType: ResponseType.bytes),
+      );
+      return Uint8List.fromList(response.data as List<int>);
+    } on DioException catch (e) {
+      throw _handleError(e);
     }
   }
 

@@ -8,6 +8,7 @@ import '../../providers/cart_provider.dart';
 import '../../providers/catalog_provider.dart';
 import '../../widgets/common/loading_indicator.dart';
 import '../admin/providers/settings_provider.dart';
+import '../../core/utils/currency_utils.dart';
 
 class CartScreen extends ConsumerWidget {
   const CartScreen({super.key});
@@ -96,6 +97,8 @@ class CartScreen extends ConsumerWidget {
   ) {
     final draftOrder = cartState.draftOrder!;
     final isDark = Theme.of(context).brightness == Brightness.dark;
+    final gstSettings = ref.watch(adminSettingsProvider);
+    final priceIncludesGst = gstSettings.priceIncludesGst;
     final minOrderPaise = (settings.minOrderValue * 100).round();
     final orderValuePaise = draftOrder.subtotalDpPaise + draftOrder.taxPaise;
     final isBelowMin = minOrderPaise > 0 && orderValuePaise < minOrderPaise;
@@ -175,23 +178,51 @@ class CartScreen extends ConsumerWidget {
 
                 // Promo Code Section REMOVED
 
-                // Summary Breakdown (In-flow)
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16),
-                  child: Column(
-                    children: [
-                      _buildTotalRow(context, 'Subtotal', draftOrder.subtotalDisplay),
-                      const SizedBox(height: 12),
-                      if (draftOrder.courierFeePaise > 0)
-                        _buildTotalRow(context, 'Shipping', draftOrder.courierFeeDisplay),
-                      if (draftOrder.courierFeePaise > 0)
-                        const SizedBox(height: 12),
-                      if (draftOrder.taxPaise > 0)
-                        _buildTotalRow(context, 'Taxes', draftOrder.taxDisplay),
-                      const SizedBox(height: 24),
-                    ],
-                  ),
-                ),
+                 // Summary Breakdown (In-flow)
+                 Padding(
+                   padding: const EdgeInsets.symmetric(horizontal: 16),
+                   child: Column(
+                     children: [
+                       // When inclusive, subtotal shown = base + tax (exclusive base is confusing)
+                       _buildTotalRow(
+                         context,
+                         'Subtotal',
+                         priceIncludesGst
+                             ? CurrencyUtils.formatPaise(draftOrder.subtotalDpPaise + draftOrder.taxPaise)
+                             : draftOrder.subtotalDisplay,
+                       ),
+                       const SizedBox(height: 12),
+                       if (draftOrder.courierFeePaise > 0)
+                         _buildTotalRow(context, 'Shipping', draftOrder.courierFeeDisplay),
+                       if (draftOrder.courierFeePaise > 0)
+                         const SizedBox(height: 12),
+                       // Only show separate tax row when prices are EXCLUSIVE of GST
+                       if (!priceIncludesGst && draftOrder.taxPaise > 0)
+                         _buildTotalRow(context, 'GST', draftOrder.taxDisplay),
+                       if (!priceIncludesGst && draftOrder.taxPaise > 0)
+                         const SizedBox(height: 12),
+                       // When inclusive, show a note that tax is already included
+                       if (priceIncludesGst)
+                         Padding(
+                           padding: const EdgeInsets.only(bottom: 12),
+                           child: Row(
+                             children: [
+                               Icon(Icons.info_outline, size: 13, color: isDark ? Colors.grey[400] : Colors.grey[500]),
+                               const SizedBox(width: 4),
+                               Text(
+                                 'Prices include GST',
+                                 style: TextStyle(
+                                   fontSize: 11,
+                                   color: isDark ? Colors.grey[400] : Colors.grey[500],
+                                 ),
+                               ),
+                             ],
+                           ),
+                         ),
+                       const SizedBox(height: 12),
+                     ],
+                   ),
+                 ),
               ],
             ),
           ),

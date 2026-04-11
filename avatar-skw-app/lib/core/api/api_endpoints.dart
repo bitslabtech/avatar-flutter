@@ -60,6 +60,7 @@ class ApiEndpoints {
   static const String orders = '/orders';
   static const String orderConfirm = '/orders/confirm';
   static String orderById(String id) => '/orders/$id';
+  static String orderInvoice(String id) => '/orders/$id/proforma.pdf';
 
   // User endpoints
   static const String userMe = '/users/me';

@@ -355,6 +355,15 @@ export class AuthService {
     };
   }
 
+  /** Fetch full user profile from DB (used by GET /auth/me) */
+  async getProfile(userId: string) {
+    const user = await this.userRepository.findOne({ where: { id: userId } });
+    if (!user) {
+      throw new UnauthorizedException('User not found');
+    }
+    return this.sanitizeUser(user);
+  }
+
   private sanitizeUser(user: User) {
     const { passwordHash, ...sanitized } = user;
     return sanitized;

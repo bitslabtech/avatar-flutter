@@ -1,16 +1,129 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../../core/theme/app_colors.dart';
 import '../../../providers/auth_provider.dart';
 import '../providers/admin_provider.dart';
 import '../../notifications/widgets/notification_bell.dart';
 
-class AdminDashboardScreen extends ConsumerWidget {
+class AdminDashboardScreen extends ConsumerStatefulWidget {
   const AdminDashboardScreen({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<AdminDashboardScreen> createState() => _AdminDashboardScreenState();
+}
+
+class _AdminDashboardScreenState extends ConsumerState<AdminDashboardScreen> {
+  DateTime? _lastBackPressTime;
+
+  Future<bool> _onWillPop() async {
+    final now = DateTime.now();
+    final isFirstPress = _lastBackPressTime == null ||
+        now.difference(_lastBackPressTime!) > const Duration(seconds: 2);
+
+    if (isFirstPress) {
+      _lastBackPressTime = now;
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: const Row(
+              children: [
+                Icon(Icons.exit_to_app, color: Colors.white, size: 18),
+                SizedBox(width: 8),
+                Text('Press back again to exit'),
+              ],
+            ),
+            duration: const Duration(seconds: 2),
+            behavior: SnackBarBehavior.floating,
+            margin: const EdgeInsets.fromLTRB(16, 0, 16, 24),
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+            backgroundColor: const Color(0xFF1E293B),
+          ),
+        );
+      }
+      return false;
+    }
+
+    _lastBackPressTime = null;
+    return await _showExitDialog();
+  }
+
+  Future<bool> _showExitDialog() async {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final result = await showDialog<bool>(
+      context: context,
+      barrierDismissible: true,
+      barrierColor: Colors.black.withOpacity(0.5),
+      builder: (ctx) => Dialog(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+        backgroundColor: isDark ? const Color(0xFF1E293B) : Colors.white,
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(24, 28, 24, 20),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Container(
+                width: 64,
+                height: 64,
+                decoration: BoxDecoration(
+                  color: AppColors.primaryBlue.withOpacity(0.1),
+                  shape: BoxShape.circle,
+                ),
+                child: const Icon(Icons.exit_to_app_rounded, color: AppColors.primaryBlue, size: 32),
+              ),
+              const SizedBox(height: 20),
+              Text('Exit App?',
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold,
+                  color: isDark ? Colors.white : Colors.black87)),
+              const SizedBox(height: 8),
+              Text('Are you sure you want to exit Avatar?',
+                textAlign: TextAlign.center,
+                style: TextStyle(fontSize: 14, height: 1.4,
+                  color: isDark ? Colors.grey[400] : Colors.grey[600])),
+              const SizedBox(height: 28),
+              Row(
+                children: [
+                  Expanded(
+                    child: OutlinedButton(
+                      onPressed: () => Navigator.of(ctx).pop(false),
+                      style: OutlinedButton.styleFrom(
+                        padding: const EdgeInsets.symmetric(vertical: 14),
+                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                        side: BorderSide(color: isDark ? Colors.grey[600]! : Colors.grey[300]!),
+                      ),
+                      child: Text('Stay',
+                        style: TextStyle(fontWeight: FontWeight.w600,
+                          color: isDark ? Colors.white : Colors.black87)),
+                    ),
+                  ),
+                  const SizedBox(width: 12),
+                  Expanded(
+                    child: ElevatedButton(
+                      onPressed: () => Navigator.of(ctx).pop(true),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: AppColors.primaryBlue,
+                        foregroundColor: Colors.white,
+                        padding: const EdgeInsets.symmetric(vertical: 14),
+                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                        elevation: 0,
+                      ),
+                      child: const Text('Exit', style: TextStyle(fontWeight: FontWeight.bold)),
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+    return result ?? false;
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final user = ref.watch(authProvider).user;
     final isDark = Theme.of(context).brightness == Brightness.dark;
     
@@ -20,7 +133,16 @@ class AdminDashboardScreen extends ConsumerWidget {
     final borderColor = isDark ? const Color(0xFF323F67) : const Color(0xFFE5E7EB);
     final primaryColor = const Color(0xFF1349ec);
 
-    return Scaffold(
+    return PopScope(
+      canPop: false,
+      onPopInvokedWithResult: (didPop, _) async {
+        if (didPop) return;
+        final shouldExit = await _onWillPop();
+        if (shouldExit && context.mounted) {
+          SystemNavigator.pop();
+        }
+      },
+      child: Scaffold(
       backgroundColor: backgroundColor,
       body: Column(
         children: [
@@ -379,6 +501,7 @@ class AdminDashboardScreen extends ConsumerWidget {
             ),
           ),
         ],
+      ),
       ),
     );
   }

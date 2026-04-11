@@ -18,6 +18,7 @@ import '../../models/order.dart';
 import '../../providers/order_provider.dart';
 import '../../providers/reviews_provider.dart';
 import '../../features/wishlist/providers/wishlist_provider.dart';
+import '../../features/admin/providers/settings_provider.dart';
 
 class ProductDetailScreen extends ConsumerStatefulWidget {
   final String productId;
@@ -375,16 +376,11 @@ class _ProductDetailScreenState extends ConsumerState<ProductDetailScreen> {
                    final isPendingDealer = user != null && user.isDealer && user.status == 'pending';
                    
                    if (isPendingDealer) return const SizedBox.shrink(); // Or show 'Pending'
-
-                   double displayPrice = product.price!;
-                   bool hasDiscount = false;
-                   if (user != null && user.isDealer && !isPendingDealer) {
-                      final discount = user.discountPercentage ?? 0.0;
-                      if (discount > 0) {
-                         displayPrice = product.price! * (1 - (discount / 100));
-                         hasDiscount = true;
-                      }
-                   }
+                   
+                   final globalSettings = ref.watch(adminSettingsProvider);
+                   double displayPrice = product.getDisplayPrice(user, isGstInclusive: globalSettings.priceIncludesGst);
+                   double originalDisplayPrice = product.getOriginalDisplayPrice(isGstInclusive: globalSettings.priceIncludesGst);
+                   bool hasDiscount = user != null && user.isDealer && !isPendingDealer && (user.discountPercentage ?? 0.0) > 0;
 
                    return Column(
                      crossAxisAlignment: CrossAxisAlignment.end,
@@ -399,7 +395,7 @@ class _ProductDetailScreenState extends ConsumerState<ProductDetailScreen> {
                       ),
                       if (hasDiscount)
                         Text(
-                          CurrencyUtils.format(product.price),
+                          CurrencyUtils.format(originalDisplayPrice),
                           style: TextStyle(
                             fontSize: 14,
                             color: isDark ? Colors.grey[400] : Colors.grey[500],

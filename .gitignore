@@ -19,3 +19,8 @@ desktop.ini
 Product list/
 antigravity work/
 assets/
+
+# Database dumps & restore scripts (sensitive — transfer manually, never commit)
+*.sql
+*_backup_*.sql
+restore_db.ps1

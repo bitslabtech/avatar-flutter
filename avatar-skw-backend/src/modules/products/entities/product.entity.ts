@@ -54,6 +54,9 @@ export class Product {
     @Column('int', { nullable: true })
     gstPercent: number;
 
+    @Column({ name: 'is_gst_inclusive', default: false })
+    isGstInclusive: boolean;
+
     @Column({ nullable: true })
     material: string;
 

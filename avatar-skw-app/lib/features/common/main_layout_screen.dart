@@ -11,13 +11,177 @@ import '../../providers/auth_provider.dart';
 import '../../features/notifications/providers/notification_provider.dart';
 import '../../models/app_notification.dart';
 
-class MainLayoutScreen extends ConsumerWidget {
+class MainLayoutScreen extends ConsumerStatefulWidget {
   final StatefulNavigationShell navigationShell;
 
   const MainLayoutScreen({super.key, required this.navigationShell});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<MainLayoutScreen> createState() => _MainLayoutScreenState();
+}
+
+class _MainLayoutScreenState extends ConsumerState<MainLayoutScreen> {
+  DateTime? _lastBackPressTime;
+
+  /// Called on every Android back press / back gesture.
+  /// Returns [true] to allow pop (exit), [false] to block it.
+  Future<bool> _onWillPop() async {
+    final now = DateTime.now();
+    final shell = widget.navigationShell;
+
+    // If we're NOT on the root tab (index 0) and can go up, let the shell handle it
+    if (shell.currentIndex != 0) {
+      shell.goBranch(0, initialLocation: true);
+      return false;
+    }
+
+    // On root tab — check double-press window (2 seconds)
+    final isFirstPress = _lastBackPressTime == null ||
+        now.difference(_lastBackPressTime!) > const Duration(seconds: 2);
+
+    if (isFirstPress) {
+      _lastBackPressTime = now;
+      // Show a snackbar hint on first press
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: const Row(
+              children: [
+                Icon(Icons.exit_to_app, color: Colors.white, size: 18),
+                SizedBox(width: 8),
+                Text('Press back again to exit'),
+              ],
+            ),
+            duration: const Duration(seconds: 2),
+            behavior: SnackBarBehavior.floating,
+            margin: const EdgeInsets.fromLTRB(16, 0, 16, 80),
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+            backgroundColor: const Color(0xFF1E293B),
+          ),
+        );
+      }
+      return false; // Block exit
+    }
+
+    // Second press within window — show confirmation dialog
+    _lastBackPressTime = null; // Reset
+    final shouldExit = await _showExitDialog();
+    return shouldExit;
+  }
+
+  Future<bool> _showExitDialog() async {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+
+    final result = await showDialog<bool>(
+      context: context,
+      barrierDismissible: true,
+      barrierColor: Colors.black.withOpacity(0.5),
+      builder: (ctx) => Dialog(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+        backgroundColor: isDark ? const Color(0xFF1E293B) : Colors.white,
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(24, 28, 24, 20),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              // Icon
+              Container(
+                width: 64,
+                height: 64,
+                decoration: BoxDecoration(
+                  color: AppColors.primaryBlue.withOpacity(0.1),
+                  shape: BoxShape.circle,
+                ),
+                child: const Icon(
+                  Icons.exit_to_app_rounded,
+                  color: AppColors.primaryBlue,
+                  size: 32,
+                ),
+              ),
+              const SizedBox(height: 20),
+
+              // Title
+              Text(
+                'Exit App?',
+                style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                  color: isDark ? Colors.white : Colors.black87,
+                ),
+              ),
+              const SizedBox(height: 8),
+
+              // Subtitle
+              Text(
+                'Are you sure you want to exit Avatar?',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 14,
+                  color: isDark ? Colors.grey[400] : Colors.grey[600],
+                  height: 1.4,
+                ),
+              ),
+              const SizedBox(height: 28),
+
+              // Buttons
+              Row(
+                children: [
+                  // Stay
+                  Expanded(
+                    child: OutlinedButton(
+                      onPressed: () => Navigator.of(ctx).pop(false),
+                      style: OutlinedButton.styleFrom(
+                        padding: const EdgeInsets.symmetric(vertical: 14),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        side: BorderSide(
+                          color: isDark ? Colors.grey[600]! : Colors.grey[300]!,
+                        ),
+                      ),
+                      child: Text(
+                        'Stay',
+                        style: TextStyle(
+                          fontWeight: FontWeight.w600,
+                          color: isDark ? Colors.white : Colors.black87,
+                        ),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(width: 12),
+
+                  // Exit
+                  Expanded(
+                    child: ElevatedButton(
+                      onPressed: () => Navigator.of(ctx).pop(true),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: AppColors.primaryBlue,
+                        foregroundColor: Colors.white,
+                        padding: const EdgeInsets.symmetric(vertical: 14),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        elevation: 0,
+                      ),
+                      child: const Text(
+                        'Exit',
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+
+    return result ?? false;
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final isDark = theme.brightness == Brightness.dark;
 
@@ -52,7 +216,7 @@ class MainLayoutScreen extends ConsumerWidget {
               action: SnackBarAction(
                 label: 'View',
                 textColor: Colors.white,
-                onPressed: () => navigationShell.goBranch(3),
+                onPressed: () => widget.navigationShell.goBranch(3),
               ),
             ),
           );
@@ -61,17 +225,28 @@ class MainLayoutScreen extends ConsumerWidget {
         // 4. If Rejected, FORCE navigate to Profile (Status Screen)
         final user = ref.read(authProvider).user;
         if (user?.status == 'rejected') {
-           navigationShell.goBranch(3);
+           widget.navigationShell.goBranch(3);
         }
       }
     });
     
-    return Scaffold(
-      extendBody: true, // Important for floating bar to overlay body
-      body: navigationShell,
-      bottomNavigationBar: _FloatingNavBar(
-        navigationShell: navigationShell,
-        isDark: isDark,
+    return PopScope(
+      canPop: false,
+      onPopInvokedWithResult: (didPop, _) async {
+        if (didPop) return;
+        final shouldExit = await _onWillPop();
+        if (shouldExit && context.mounted) {
+          // Physically exit the app
+          SystemNavigator.pop();
+        }
+      },
+      child: Scaffold(
+        extendBody: true, // Important for floating bar to overlay body
+        body: widget.navigationShell,
+        bottomNavigationBar: _FloatingNavBar(
+          navigationShell: widget.navigationShell,
+          isDark: isDark,
+        ),
       ),
     );
   }

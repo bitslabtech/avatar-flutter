@@ -4,11 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../core/theme/app_colors.dart';
-import '../../models/user.dart';
-import '../../providers/auth_provider.dart';
 import '../../models/product.dart';
 import '../../core/utils/currency_utils.dart';
-import '../../features/wishlist/providers/wishlist_provider.dart';
+import '../../features/admin/providers/settings_provider.dart';
+import '../../providers/auth_provider.dart';
+import '../../models/user.dart';
 
 class ProductCard extends ConsumerWidget {
   final Product product;
@@ -27,6 +27,7 @@ class ProductCard extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final user = ref.watch(authProvider).user;
+    final settings = ref.watch(adminSettingsProvider);
     final isPendingDealer = user != null && user.isDealer && user.status == 'pending';
     final isRejected = user != null && user.status == 'rejected';
     // Show price if explicitly requested AND not pending/rejected
@@ -190,17 +191,9 @@ class ProductCard extends ConsumerWidget {
                     if (shouldShowPrice && product.price != null)
                       Builder(
                         builder: (context) {
-                          // Calculate discount if dealer
-                          double displayPrice = product.price!;
-                          bool hasDiscount = false;
-                          
-                          if (user != null && user.isDealer && !isPendingDealer) {
-                             final discount = user.discountPercentage ?? 0.0;
-                             if (discount > 0) {
-                               displayPrice = product.price! * (1 - (discount / 100));
-                               hasDiscount = true;
-                             }
-                          }
+                          double displayPrice = product.getDisplayPrice(user, isGstInclusive: settings.priceIncludesGst);
+                          double originalDisplayPrice = product.getOriginalDisplayPrice(isGstInclusive: settings.priceIncludesGst);
+                          bool hasDiscount = user != null && user.isDealer && !isPendingDealer && user.discountPercentage > 0;
 
                           return Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -215,7 +208,7 @@ class ProductCard extends ConsumerWidget {
                               ),
                               if (hasDiscount)
                                 Text(
-                                  CurrencyUtils.format(product.price),
+                                  CurrencyUtils.format(originalDisplayPrice),
                                   style: TextStyle(
                                     color: Colors.grey[500],
                                     fontSize: 12,

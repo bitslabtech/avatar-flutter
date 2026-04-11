@@ -1,8 +1,13 @@
 /// Order detail screen
+import 'dart:io';
+import 'dart:typed_data';
 import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
+import 'package:file_picker/file_picker.dart';
+import 'package:path_provider/path_provider.dart';
 import '../../core/theme/app_colors.dart';
 import '../../core/utils/currency_utils.dart';
 import '../../providers/order_provider.dart';
@@ -10,6 +15,8 @@ import '../../providers/auth_provider.dart';
 import '../../models/order.dart';
 import '../../widgets/common/loading_indicator.dart';
 import '../../widgets/common/error_widget.dart';
+import '../../services/order_service.dart';
+import '../../providers/cart_provider.dart'; // for orderServiceProvider
 
 class OrderDetailScreen extends ConsumerStatefulWidget {
   final String orderId;
@@ -25,6 +32,7 @@ class OrderDetailScreen extends ConsumerStatefulWidget {
 
 class _OrderDetailScreenState extends ConsumerState<OrderDetailScreen> {
   bool _isListView = true; // Default to List View
+  bool _isDownloading = false;
 
   @override
   void initState() {
@@ -33,6 +41,108 @@ class _OrderDetailScreenState extends ConsumerState<OrderDetailScreen> {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       ref.invalidate(orderProvider(widget.orderId));
     });
+  }
+
+  Future<void> _downloadInvoice() async {
+    if (_isDownloading) return;
+    setState(() => _isDownloading = true);
+
+    try {
+      final orderService = ref.read(orderServiceProvider);
+      final bytes = await orderService.downloadInvoice(widget.orderId);
+      final fileName = 'Invoice_${widget.orderId.substring(0, 8).toUpperCase()}.pdf';
+
+      if (kIsWeb) {
+        // Web: not fully supported in mobile-first app; show message
+        if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('Web download not supported. Use mobile app.')),
+          );
+        }
+        return;
+      }
+
+      if (Platform.isWindows || Platform.isMacOS || Platform.isLinux) {
+        // Desktop: show save file dialog
+        final path = await FilePicker.platform.saveFile(
+          dialogTitle: 'Save Invoice',
+          fileName: fileName,
+          type: FileType.custom,
+          allowedExtensions: ['pdf'],
+          bytes: bytes,
+        );
+        if (path != null) {
+          final file = File(path);
+          await file.writeAsBytes(bytes);
+          if (mounted) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Row(
+                  children: [
+                    const Icon(Icons.check_circle, color: Colors.white, size: 18),
+                    const SizedBox(width: 8),
+                    Expanded(child: Text('Invoice saved to $path')),
+                  ],
+                ),
+                backgroundColor: Colors.green[700],
+                duration: const Duration(seconds: 4),
+              ),
+            );
+          }
+        }
+      } else {
+        // Mobile (Android / iOS): save to Downloads / Documents
+        Directory? dir;
+        if (Platform.isAndroid) {
+          dir = Directory('/storage/emulated/0/Download');
+          if (!await dir.exists()) dir = await getApplicationDocumentsDirectory();
+        } else {
+          dir = await getApplicationDocumentsDirectory();
+        }
+
+        final file = File('${dir.path}/$fileName');
+        await file.writeAsBytes(bytes);
+
+        if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Row(
+                children: [
+                  const Icon(Icons.picture_as_pdf, color: Colors.white, size: 18),
+                  const SizedBox(width: 8),
+                  Expanded(child: Text('Invoice saved: ${file.path}')),
+                ],
+              ),
+              backgroundColor: Colors.green[700],
+              duration: const Duration(seconds: 5),
+              action: SnackBarAction(
+                label: 'OK',
+                textColor: Colors.white,
+                onPressed: () {},
+              ),
+            ),
+          );
+        }
+      }
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Row(
+              children: [
+                const Icon(Icons.error_outline, color: Colors.white, size: 18),
+                const SizedBox(width: 8),
+                Expanded(child: Text('Failed to download invoice: ${e.toString().replaceAll('Exception: ', '')}')),
+              ],
+            ),
+            backgroundColor: Colors.red[700],
+            duration: const Duration(seconds: 4),
+          ),
+        );
+      }
+    } finally {
+      if (mounted) setState(() => _isDownloading = false);
+    }
   }
 
   @override
@@ -567,11 +677,17 @@ class _OrderDetailScreenState extends ConsumerState<OrderDetailScreen> {
                  Expanded(
                     flex: 2,
                     child: ElevatedButton.icon(
-                       onPressed: () {
-                          // TODO: Download Invoice
-                       }, 
-                       icon: const Icon(Icons.download, size: 20),
-                       label: const Text('Download Invoice'),
+                       onPressed: _isDownloading ? null : _downloadInvoice,
+                       icon: _isDownloading
+                           ? const SizedBox(
+                               width: 18, height: 18,
+                               child: CircularProgressIndicator(
+                                 strokeWidth: 2,
+                                 color: Colors.white,
+                               ),
+                             )
+                           : const Icon(Icons.download, size: 20),
+                       label: Text(_isDownloading ? 'Generating...' : 'Download Invoice'),
                        style: ElevatedButton.styleFrom(
                           backgroundColor: AppColors.primaryBlue,
                           foregroundColor: Colors.white,
