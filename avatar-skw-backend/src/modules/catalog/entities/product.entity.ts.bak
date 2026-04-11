@@ -1,0 +1,75 @@
+import {
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  CreateDateColumn,
+  UpdateDateColumn,
+  Index,
+} from 'typeorm';
+
+@Entity('products')
+export class Product {
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
+
+  @Column({ unique: true })
+  @Index()
+  sku: string;
+
+  @Column({ name: 'variation_group_id', nullable: true })
+  @Index()
+  variationGroupId: string;
+
+  @Column({ name: 'variation_type', nullable: true })
+  variationType: string;
+
+  @Column()
+  name: string;
+
+  @Column()
+  brand: string;
+
+  @Column()
+  category: string;
+
+  @Column({ name: 'dp_price_paise', type: 'bigint' })
+  dpPricePaise: number;
+
+  @Column({ name: 'mrp_paise', type: 'bigint', nullable: true })
+  mrpPaise: number;
+
+  @Column({ name: 'tax_percent', type: 'decimal', precision: 5, scale: 2 })
+  taxPercent: number;
+
+  @Column({ type: 'jsonb', nullable: true })
+  flags: Record<string, any>;
+
+  @Column({ type: 'jsonb', nullable: true })
+  specs: Record<string, any>;
+
+  @Column({ name: 'warranty_period', nullable: true })
+  warrantyPeriod: string;
+
+  @Column({ name: 'energy_rating', nullable: true })
+  energyRating: string;
+
+  @Column({ name: 'model_number', nullable: true })
+  modelNumber: string;
+
+  @Column({ name: 'installation_required', default: false })
+  installationRequired: boolean;
+
+  @Column({ type: 'jsonb', nullable: true })
+  images: string[];
+
+  @Column({ default: true })
+  active: boolean;
+
+  @CreateDateColumn({ name: 'created_at' })
+  createdAt: Date;
+
+  @UpdateDateColumn({ name: 'updated_at' })
+  updatedAt: Date;
+}
+
+

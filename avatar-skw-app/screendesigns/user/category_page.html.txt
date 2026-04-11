@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Refrigerators - Premium Cooling</title>
+<link href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#1349ec",
+                        "background-light": "#f6f6f8",
+                        "background-dark": "#101522",
+                        "surface-light": "#ffffff",
+                        "surface-dark": "#1d2333",
+                        "subtle-light": "#e2e4ea",
+                        "subtle-dark": "#2a3245",
+                    },
+                    fontFamily: {
+                        "display": ["Work Sans", "sans-serif"]
+                    },
+                    borderRadius: {"DEFAULT": "0.5rem", "lg": "1rem", "xl": "1.5rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark font-display antialiased text-slate-900 dark:text-white transition-colors duration-300">
+<div class="relative flex h-full min-h-screen w-full flex-col overflow-x-hidden max-w-md mx-auto shadow-2xl">
+<div class="sticky top-0 z-50 flex items-center bg-background-light/95 dark:bg-background-dark/95 backdrop-blur-md p-4 pb-2 justify-between border-b border-transparent transition-all duration-300">
+<button class="flex size-10 shrink-0 items-center justify-center rounded-full active:bg-subtle-light dark:active:bg-subtle-dark transition-colors">
+<span class="material-symbols-outlined text-slate-900 dark:text-white" style="font-size: 24px;">arrow_back</span>
+</button>
+<h2 class="text-slate-900 dark:text-white text-lg font-bold leading-tight tracking-tight flex-1 text-center">Refrigerators</h2>
+<div class="flex items-center justify-end gap-2">
+<button class="relative flex size-10 shrink-0 items-center justify-center rounded-full active:bg-subtle-light dark:active:bg-subtle-dark transition-colors">
+<span class="material-symbols-outlined text-slate-900 dark:text-white" style="font-size: 24px;">shopping_cart</span>
+<span class="absolute top-1 right-1 flex h-4 w-4 items-center justify-center rounded-full bg-primary text-[10px] font-bold text-white">2</span>
+</button>
+</div>
+</div>
+<div class="flex-1 flex flex-col pb-8">
+<div class="px-4 py-4">
+<div class="relative w-full h-64 overflow-hidden rounded-2xl shadow-lg group">
+<div class="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-105" data-alt="Modern dark kitchen interior with stainless steel refrigerator" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDDaNXGPkjbRx1_W2kLqKSuvvvBJO5R55LZulzR7WbHInQOLanp2JPb99WikejFU79m4d04yO7Jth7mMoJSelqQOrrZCSr1-k2QwHuZ0cDg0y5TG5B-N6f1rV7CYDTCUfjEzu88hY50ivRaZqphA8W3-8BVZ1WvX2Jq2oI-2u70Q06L2HA__N-W4GpFE-hYDnO1D4eSnmeO8a3YdBtrJssHaS4Kxy_1Bw6JJGY6nRauBJ4L89bGm7P9uRAE1z4Ec5oM04tReTrbmBxi');"></div>
+<div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
+<div class="absolute bottom-0 left-0 p-6 w-full">
+<h1 class="text-3xl font-bold text-white leading-tight">Premium Cooling</h1>
+<p class="text-gray-300 text-sm mt-1 line-clamp-1">Discover the future of food preservation.</p>
+</div>
+</div>
+</div>
+<div class="sticky top-[60px] z-40 bg-background-light dark:bg-background-dark py-2 px-4 shadow-sm transition-shadow duration-300">
+<div class="flex gap-3 items-center">
+<label class="flex-1 relative h-12 group">
+<div class="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-primary transition-colors">
+<span class="material-symbols-outlined" style="font-size: 20px;">search</span>
+</div>
+<input class="w-full h-full rounded-xl bg-white dark:bg-surface-dark border-none ring-1 ring-slate-200 dark:ring-slate-700 focus:ring-2 focus:ring-primary pl-11 pr-4 text-sm text-slate-900 dark:text-white placeholder:text-slate-400 transition-all shadow-sm" placeholder="Search Samsung, LG, Whirlpool..." type="text"/>
+</label>
+<button class="h-12 w-12 shrink-0 flex items-center justify-center rounded-xl bg-white dark:bg-surface-dark ring-1 ring-slate-200 dark:ring-slate-700 hover:bg-slate-50 dark:hover:bg-subtle-dark text-slate-900 dark:text-white transition-all shadow-sm">
+<span class="material-symbols-outlined" style="font-size: 24px;">tune</span>
+</button>
+</div>
+</div>
+<div class="p-4 grid grid-cols-2 gap-4">
+<div class="group flex flex-col bg-white dark:bg-surface-dark rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 ring-1 ring-slate-100 dark:ring-slate-800">
+<div class="relative aspect-[3/4] w-full bg-gray-100 dark:bg-gray-800 overflow-hidden">
+<div class="absolute inset-0 bg-center bg-cover transition-transform duration-500 group-hover:scale-110" data-alt="Samsung Bespoke 4-Door Flex refrigerator in modern kitchen" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuARvkhrEgVmuLRhnnYovIOnCCi2rk0DNVVoZTIA_3P3QEJvdfCrTonlltEFIZlBvwyXmeCh92Zi-XnhMVNyUJkVDwJ0x1cxkzRoKhCTGmXKIFTKAsnhV-SanYI28ch10yPY_z1yt6aieRNlRXOb-02fIc1270mcJvJ9eetzBLirnyxLZnaYxVd0nKu6XTA-EIllqmGH4yI5HEKjVj2eq3gih765lj0ZaYvSAVPLimqs1vLaJ8H8jAV1un_DeFbaN9jL8kgtx3BqZMSQ');"></div>
+<button class="absolute top-2 right-2 p-2 rounded-full bg-white/20 backdrop-blur-md text-white hover:bg-white hover:text-red-500 transition-colors">
+<span class="material-symbols-outlined filled" style="font-size: 20px;">favorite</span>
+</button>
+<div class="absolute top-2 left-2 bg-primary text-white text-[10px] font-bold px-2 py-1 rounded-md uppercase tracking-wider">New</div>
+</div>
+<div class="p-3 flex flex-col flex-1">
+<div class="flex items-center gap-1 mb-1">
+<span class="material-symbols-outlined text-yellow-400 text-[14px] fill-current">star</span>
+<span class="text-xs font-medium text-slate-500 dark:text-slate-400">4.8 (128)</span>
+</div>
+<h3 class="text-sm font-semibold text-slate-900 dark:text-white leading-tight mb-1 line-clamp-2">Samsung Bespoke 4-Door Flex</h3>
+<div class="mt-auto pt-2 flex items-center justify-between">
+<span class="text-base font-bold text-primary">$2,499</span>
+<button class="h-8 w-8 flex items-center justify-center rounded-full bg-subtle-light dark:bg-subtle-dark text-slate-900 dark:text-white hover:bg-primary hover:text-white transition-colors">
+<span class="material-symbols-outlined" style="font-size: 18px;">add</span>
+</button>
+</div>
+</div>
+</div>
+<div class="group flex flex-col bg-white dark:bg-surface-dark rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 ring-1 ring-slate-100 dark:ring-slate-800">
+<div class="relative aspect-[3/4] w-full bg-gray-100 dark:bg-gray-800 overflow-hidden">
+<div class="absolute inset-0 bg-center bg-cover transition-transform duration-500 group-hover:scale-110" data-alt="LG InstaView Door-in-Door refrigerator with light on inside" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCsmmbbU5fkeEMYlc__tLDNjzPeqpMRNKb2gLreEeLBIWobkU1wfOOnBiDcjyb2e1BBEjC2zvjCmo4njhGZXkjiCyXTELDDXqtQN-lyF7yTTZ6rrIFpRjBs5yZ4cs67xPN0jBHmEARR5zOIAoi4thFfvup_cv0vVD45y86rrFxiQrwQJ3G931AD7AsFKk3nrPEld25DdojQc2W46HrCrIyo6OkwJeUFjuVSrxvdlylKchoQpJIcapikId_ZvAcc95Z-rAs-MAMy733h');"></div>
+<button class="absolute top-2 right-2 p-2 rounded-full bg-white/20 backdrop-blur-md text-white hover:bg-white hover:text-red-500 transition-colors">
+<span class="material-symbols-outlined" style="font-size: 20px;">favorite</span>
+</button>
+</div>
+<div class="p-3 flex flex-col flex-1">
+<div class="flex items-center gap-1 mb-1">
+<span class="material-symbols-outlined text-yellow-400 text-[14px] fill-current">star</span>
+<span class="text-xs font-medium text-slate-500 dark:text-slate-400">4.7 (84)</span>
+</div>
+<h3 class="text-sm font-semibold text-slate-900 dark:text-white leading-tight mb-1 line-clamp-2">LG InstaView Door-in-Door</h3>
+<div class="mt-auto pt-2 flex items-center justify-between">
+<span class="text-base font-bold text-primary">$1,899</span>
+<button class="h-8 w-8 flex items-center justify-center rounded-full bg-subtle-light dark:bg-subtle-dark text-slate-900 dark:text-white hover:bg-primary hover:text-white transition-colors">
+<span class="material-symbols-outlined" style="font-size: 18px;">add</span>
+</button>
+</div>
+</div>
+</div>
+<div class="group flex flex-col bg-white dark:bg-surface-dark rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 ring-1 ring-slate-100 dark:ring-slate-800">
+<div class="relative aspect-[3/4] w-full bg-gray-100 dark:bg-gray-800 overflow-hidden">
+<div class="absolute inset-0 bg-center bg-cover transition-transform duration-500 group-hover:scale-110" data-alt="Whirlpool Side-by-Side refrigerator stainless steel finish" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCUtYxB2h9A81iYpqJxPr7Mp0BnhZHKSv5ROFf7juuX7dzflWWqwqCvDsVwnUxnMdcWPTKWaLXrY7v3Upc7R-IKvABH7dLjJNMNsFXQ4O_pim9eoAhWBU88NcEYN_ThriPuyzocd2sHsWKZVXO7ep2x4G5Zy-ihMh2rwtj4B_q4VcnyeqLjObqj2kRzbeHErwSjiKWMDD2aIdANTpj3ueqFAO1IKEPvOpVB843ZjKpSk-qXwRzzyOM7zH6S4H2iA2_H4UoX8y6W1Vzu');"></div>
+<button class="absolute top-2 right-2 p-2 rounded-full bg-white/20 backdrop-blur-md text-white hover:bg-white hover:text-red-500 transition-colors">
+<span class="material-symbols-outlined" style="font-size: 20px;">favorite</span>
+</button>
+<div class="absolute top-2 left-2 bg-red-500 text-white text-[10px] font-bold px-2 py-1 rounded-md uppercase tracking-wider">Sale</div>
+</div>
+<div class="p-3 flex flex-col flex-1">
+<div class="flex items-center gap-1 mb-1">
+<span class="material-symbols-outlined text-yellow-400 text-[14px] fill-current">star</span>
+<span class="text-xs font-medium text-slate-500 dark:text-slate-400">4.5 (200+)</span>
+</div>
+<h3 class="text-sm font-semibold text-slate-900 dark:text-white leading-tight mb-1 line-clamp-2">Whirlpool Side-by-Side</h3>
+<div class="mt-auto pt-2 flex flex-col">
+<span class="text-xs text-slate-400 line-through font-medium">$1,500</span>
+<div class="flex items-center justify-between">
+<span class="text-base font-bold text-red-500">$1,200</span>
+<button class="h-8 w-8 flex items-center justify-center rounded-full bg-subtle-light dark:bg-subtle-dark text-slate-900 dark:text-white hover:bg-primary hover:text-white transition-colors">
+<span class="material-symbols-outlined" style="font-size: 18px;">add</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+<div class="group flex flex-col bg-white dark:bg-surface-dark rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 ring-1 ring-slate-100 dark:ring-slate-800">
+<div class="relative aspect-[3/4] w-full bg-gray-100 dark:bg-gray-800 overflow-hidden">
+<div class="absolute inset-0 bg-center bg-cover transition-transform duration-500 group-hover:scale-110" data-alt="Bosch 800 Series refrigerator minimalistic design" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAuPDX1goINogJBlx2Sush3i_juG_dtomQHZlFX5VWGONc_wypDF35hZ4UsYi3BNV1hV2SNvDAAWLRP8kVCdJ3waOIevpUtny1Y7RDlxNN6ymC7uiOBUNBdR1jyLKwiemRp9iP4lMgalBRYiwSXiy1VAF9QyiY3sGpAwml8h0GjjJ64bCCVQYWUh4ZqGjc1ufWwEPKmPTNyuB5PG06BtbaC480ih8YCn1fVYhXGW_dutGiDvZf_T6Vk4a9mPpIB23-ZGgK2zTjwMVOL');"></div>
+<button class="absolute top-2 right-2 p-2 rounded-full bg-white/20 backdrop-blur-md text-white hover:bg-white hover:text-red-500 transition-colors">
+<span class="material-symbols-outlined" style="font-size: 20px;">favorite</span>
+</button>
+</div>
+<div class="p-3 flex flex-col flex-1">
+<div class="flex items-center gap-1 mb-1">
+<span class="material-symbols-outlined text-yellow-400 text-[14px] fill-current">star</span>
+<span class="text-xs font-medium text-slate-500 dark:text-slate-400">4.9 (42)</span>
+</div>
+<h3 class="text-sm font-semibold text-slate-900 dark:text-white leading-tight mb-1 line-clamp-2">Bosch 800 Series</h3>
+<div class="mt-auto pt-2 flex items-center justify-between">
+<span class="text-base font-bold text-primary">$3,100</span>
+<button class="h-8 w-8 flex items-center justify-center rounded-full bg-subtle-light dark:bg-subtle-dark text-slate-900 dark:text-white hover:bg-primary hover:text-white transition-colors">
+<span class="material-symbols-outlined" style="font-size: 18px;">add</span>
+</button>
+</div>
+</div>
+</div>
+<div class="group flex flex-col bg-white dark:bg-surface-dark rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 ring-1 ring-slate-100 dark:ring-slate-800">
+<div class="relative aspect-[3/4] w-full bg-gray-100 dark:bg-gray-800 overflow-hidden">
+<div class="absolute inset-0 bg-center bg-cover transition-transform duration-500 group-hover:scale-110" data-alt="Smart Refrigerator with screen interface" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuARhc6Ik4unQfFRYoIbGcNw7ohVPFWFPbzJK0P0BbPmLTbiCwToS3suI17un9G5ODYwEZ572rkeANvft4nE8M4pG1qmTFrFGfn6xBz3dpd-OESbc5ntPEVwTEfQpL07JE_SSZ9x36AoSClBqqTwIqdFRjgfNtAjXorupvboJvu-7qYsSaXg_vL-rcz30ajkIiKFtUrrtdno1t6bqMx3I4YmRMS1sGb1FEhRYA-JPmzYLmjhT1bYUmpsdCWJYsWx5Hlkbik9aU0uhLXA');"></div>
+<button class="absolute top-2 right-2 p-2 rounded-full bg-white/20 backdrop-blur-md text-white hover:bg-white hover:text-red-500 transition-colors">
+<span class="material-symbols-outlined" style="font-size: 20px;">favorite</span>
+</button>
+</div>
+<div class="p-3 flex flex-col flex-1">
+<div class="flex items-center gap-1 mb-1">
+<span class="material-symbols-outlined text-yellow-400 text-[14px] fill-current">star</span>
+<span class="text-xs font-medium text-slate-500 dark:text-slate-400">4.6 (56)</span>
+</div>
+<h3 class="text-sm font-semibold text-slate-900 dark:text-white leading-tight mb-1 line-clamp-2">Family Hub Smart Fridge</h3>
+<div class="mt-auto pt-2 flex items-center justify-between">
+<span class="text-base font-bold text-primary">$2,800</span>
+<button class="h-8 w-8 flex items-center justify-center rounded-full bg-subtle-light dark:bg-subtle-dark text-slate-900 dark:text-white hover:bg-primary hover:text-white transition-colors">
+<span class="material-symbols-outlined" style="font-size: 18px;">add</span>
+</button>
+</div>
+</div>
+</div>
+<div class="group flex flex-col bg-white dark:bg-surface-dark rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 ring-1 ring-slate-100 dark:ring-slate-800">
+<div class="relative aspect-[3/4] w-full bg-gray-100 dark:bg-gray-800 overflow-hidden">
+<div class="absolute inset-0 bg-center bg-cover transition-transform duration-500 group-hover:scale-110" data-alt="Compact mini fridge for small spaces" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAAYdp4wTEBrKaBt1U5gYRtLwKXDIfUfP72N-Hiuq6C7NzFJyh_iLdwOscLPGFA6O-DtqEozU7J8GLm4oq62uCIhUZulp00iMYtZSOJ8Zwyh28K0kQl5LpjQuF0ZXw9bxdcIRc3XgeuoffLsJfPm9cES3uoNZR5SKNgCS5EC0L29R5ra2D7dySSRlcnPLvCrOcpPc46pJV74Y1s-bvISdfBTZ4c8G4dnjABN1JwdQUHNwB__2EC3kUPTwXnMuMsWnV0sOBw0lXZyeyq');"></div>
+<button class="absolute top-2 right-2 p-2 rounded-full bg-white/20 backdrop-blur-md text-white hover:bg-white hover:text-red-500 transition-colors">
+<span class="material-symbols-outlined" style="font-size: 20px;">favorite</span>
+</button>
+<div class="absolute top-2 left-2 bg-green-500 text-white text-[10px] font-bold px-2 py-1 rounded-md uppercase tracking-wider">Eco</div>
+</div>
+<div class="p-3 flex flex-col flex-1">
+<div class="flex items-center gap-1 mb-1">
+<span class="material-symbols-outlined text-yellow-400 text-[14px] fill-current">star</span>
+<span class="text-xs font-medium text-slate-500 dark:text-slate-400">4.9 (15)</span>
+</div>
+<h3 class="text-sm font-semibold text-slate-900 dark:text-white leading-tight mb-1 line-clamp-2">Compact Retro Cooler</h3>
+<div class="mt-auto pt-2 flex items-center justify-between">
+<span class="text-base font-bold text-primary">$899</span>
+<button class="h-8 w-8 flex items-center justify-center rounded-full bg-subtle-light dark:bg-subtle-dark text-slate-900 dark:text-white hover:bg-primary hover:text-white transition-colors">
+<span class="material-symbols-outlined" style="font-size: 18px;">add</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+<div class="px-4 py-6">
+<button class="w-full py-3 rounded-xl bg-subtle-light dark:bg-subtle-dark text-slate-900 dark:text-white font-semibold text-sm hover:bg-primary hover:text-white transition-colors duration-300">
+                    Load More Products
+                </button>
+</div>
+</div>
+</div>
+
+</body></html>

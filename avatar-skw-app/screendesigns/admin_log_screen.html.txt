@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Admin Activity Logs Dashboard</title>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#136dec",
+                        "background-light": "#f6f7f8",
+                        "background-dark": "#101822",
+                        "card-dark": "#1c2430",
+                        "surface-dark": "#161e29",
+                    },
+                    fontFamily: {
+                        "display": ["Manrope", "sans-serif"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .hide-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+<style>
+        body {
+          min-height: max(884px, 100dvh);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-white antialiased selection:bg-primary/30">
+<div class="relative flex h-full min-h-screen w-full flex-col overflow-x-hidden pb-10">
+<div class="sticky top-0 z-40 bg-background-light/80 dark:bg-background-dark/80 backdrop-blur-md border-b border-slate-200 dark:border-slate-800">
+<div class="flex items-center justify-between px-4 py-3">
+<button class="flex size-10 items-center justify-center rounded-full text-slate-900 dark:text-white hover:bg-black/5 dark:hover:bg-white/5 transition-colors">
+<span class="material-symbols-outlined" style="font-size: 24px;">arrow_back_ios_new</span>
+</button>
+<h2 class="text-lg font-bold leading-tight tracking-tight flex-1 text-center pr-2">Activity Logs</h2>
+<button class="flex size-10 items-center justify-center rounded-full text-slate-900 dark:text-white hover:bg-black/5 dark:hover:bg-white/5 transition-colors opacity-0 pointer-events-none">
+<span class="material-symbols-outlined" style="font-size: 24px;">more_horiz</span>
+</button>
+</div>
+</div>
+<div class="px-4 py-6">
+<div class="flex items-center gap-4 p-4 rounded-2xl bg-white dark:bg-card-dark border border-slate-200 dark:border-slate-800 shadow-sm">
+<div class="relative shrink-0">
+<div class="h-16 w-16 rounded-full bg-cover bg-center shadow-inner" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBvob_VYw31qyLbnzC3jhJNgEK7vWFQ-Xrc_UITGEwAwJVGw1qg-lAStyHoycP_6tCpDjnwsTjBJD6oOz4YUeVtTdEssIFwqCaCBItOM3nXBS5r2vASM_baVP15txfyHU3Vr9TNxtF08309pFsdDV1JjmuurgbsiU4ZZ3QGnA3ZHiUrav0ROoY6S4LwkDnl6FwrqOgZYGrLVqcWUIQRhw8SiShHm8RJz0gpCmf3LIn4wXdQkNysrHzGLzDWBghfFnfEfSJnsEZ1-GOM');"></div>
+<div class="absolute bottom-0 right-0 h-4 w-4 rounded-full border-2 border-white dark:border-card-dark bg-emerald-500 shadow-sm"></div>
+</div>
+<div class="flex flex-col gap-1 min-w-0">
+<h3 class="text-lg font-bold text-slate-900 dark:text-white truncate">Sarah Jenkins</h3>
+<div class="flex items-center gap-2">
+<span class="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-medium bg-blue-100 dark:bg-blue-500/10 text-blue-700 dark:text-blue-300">Finance Head</span>
+<span class="text-xs text-slate-500 dark:text-slate-400">ID: #ADM-004</span>
+</div>
+</div>
+<div class="ml-auto">
+<button class="flex size-8 items-center justify-center rounded-full bg-slate-100 dark:bg-slate-700 hover:bg-slate-200 dark:hover:bg-slate-600 transition-colors">
+<span class="material-symbols-outlined text-slate-600 dark:text-slate-300" style="font-size: 20px;">filter_list</span>
+</button>
+</div>
+</div>
+</div>
+<div class="px-4 flex-1">
+<div class="relative pl-6 border-l-2 border-slate-200 dark:border-slate-800 space-y-8">
+<div class="relative group">
+<div class="absolute -left-[29px] top-1 flex h-7 w-7 items-center justify-center rounded-full bg-emerald-100 dark:bg-emerald-900/30 ring-4 ring-white dark:ring-background-dark">
+<span class="material-symbols-outlined text-emerald-600 dark:text-emerald-400" style="font-size: 16px;">shopping_cart</span>
+</div>
+<div class="flex flex-col gap-2 rounded-xl bg-white dark:bg-card-dark border border-slate-100 dark:border-slate-800 p-4 shadow-sm">
+<div class="flex justify-between items-start">
+<div>
+<h4 class="text-sm font-bold text-slate-900 dark:text-white">Updated Order #ORD-102</h4>
+<p class="text-xs text-slate-500 dark:text-slate-400 mt-0.5">Changed status to "Shipped"</p>
+</div>
+<span class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-100 dark:bg-emerald-500/10 text-emerald-700 dark:text-emerald-300">
+                                Success
+                            </span>
+</div>
+<div class="flex items-center gap-3 pt-2 mt-1 border-t border-slate-100 dark:border-slate-700/50">
+<div class="flex items-center gap-1.5 text-xs text-slate-500 dark:text-slate-400">
+<span class="material-symbols-outlined" style="font-size: 14px;">schedule</span>
+<span>Today, 10:42 AM</span>
+</div>
+<div class="flex items-center gap-1.5 text-xs text-slate-500 dark:text-slate-400">
+<span class="material-symbols-outlined" style="font-size: 14px;">dns</span>
+<span>192.168.1.14</span>
+</div>
+</div>
+</div>
+</div>
+<div class="relative group">
+<div class="absolute -left-[29px] top-1 flex h-7 w-7 items-center justify-center rounded-full bg-blue-100 dark:bg-blue-900/30 ring-4 ring-white dark:ring-background-dark">
+<span class="material-symbols-outlined text-blue-600 dark:text-blue-400" style="font-size: 16px;">person_edit</span>
+</div>
+<div class="flex flex-col gap-2 rounded-xl bg-white dark:bg-card-dark border border-slate-100 dark:border-slate-800 p-4 shadow-sm">
+<div class="flex justify-between items-start">
+<div>
+<h4 class="text-sm font-bold text-slate-900 dark:text-white">Modified User Profile</h4>
+<p class="text-xs text-slate-500 dark:text-slate-400 mt-0.5">Updated email for user @jdoe</p>
+</div>
+<span class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold bg-blue-100 dark:bg-blue-500/10 text-blue-700 dark:text-blue-300">
+                                Updated
+                            </span>
+</div>
+<div class="flex items-center gap-3 pt-2 mt-1 border-t border-slate-100 dark:border-slate-700/50">
+<div class="flex items-center gap-1.5 text-xs text-slate-500 dark:text-slate-400">
+<span class="material-symbols-outlined" style="font-size: 14px;">schedule</span>
+<span>Yesterday, 04:15 PM</span>
+</div>
+<div class="flex items-center gap-1.5 text-xs text-slate-500 dark:text-slate-400">
+<span class="material-symbols-outlined" style="font-size: 14px;">dns</span>
+<span>192.168.1.14</span>
+</div>
+</div>
+</div>
+</div>
+<div class="relative group">
+<div class="absolute -left-[29px] top-1 flex h-7 w-7 items-center justify-center rounded-full bg-amber-100 dark:bg-amber-900/30 ring-4 ring-white dark:ring-background-dark">
+<span class="material-symbols-outlined text-amber-600 dark:text-amber-400" style="font-size: 16px;">lock_person</span>
+</div>
+<div class="flex flex-col gap-2 rounded-xl bg-white dark:bg-card-dark border border-slate-100 dark:border-slate-800 p-4 shadow-sm">
+<div class="flex justify-between items-start">
+<div>
+<h4 class="text-sm font-bold text-slate-900 dark:text-white">Login Attempt Failed</h4>
+<p class="text-xs text-slate-500 dark:text-slate-400 mt-0.5">Invalid credentials from new device</p>
+</div>
+<span class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold bg-amber-100 dark:bg-amber-500/10 text-amber-700 dark:text-amber-300">
+                                Alert
+                            </span>
+</div>
+<div class="flex items-center gap-3 pt-2 mt-1 border-t border-slate-100 dark:border-slate-700/50">
+<div class="flex items-center gap-1.5 text-xs text-slate-500 dark:text-slate-400">
+<span class="material-symbols-outlined" style="font-size: 14px;">schedule</span>
+<span>Oct 24, 09:30 AM</span>
+</div>
+<div class="flex items-center gap-1.5 text-xs text-slate-500 dark:text-slate-400">
+<span class="material-symbols-outlined" style="font-size: 14px;">dns</span>
+<span>10.0.0.45</span>
+</div>
+</div>
+</div>
+</div>
+<div class="relative group">
+<div class="absolute -left-[29px] top-1 flex h-7 w-7 items-center justify-center rounded-full bg-purple-100 dark:bg-purple-900/30 ring-4 ring-white dark:ring-background-dark">
+<span class="material-symbols-outlined text-purple-600 dark:text-purple-400" style="font-size: 16px;">inventory_2</span>
+</div>
+<div class="flex flex-col gap-2 rounded-xl bg-white dark:bg-card-dark border border-slate-100 dark:border-slate-800 p-4 shadow-sm">
+<div class="flex justify-between items-start">
+<div>
+<h4 class="text-sm font-bold text-slate-900 dark:text-white">Inventory Adjustment</h4>
+<p class="text-xs text-slate-500 dark:text-slate-400 mt-0.5">Restocked SKU-992 (+50 units)</p>
+</div>
+<span class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold bg-purple-100 dark:bg-purple-500/10 text-purple-700 dark:text-purple-300">
+                                Inventory
+                            </span>
+</div>
+<div class="flex items-center gap-3 pt-2 mt-1 border-t border-slate-100 dark:border-slate-700/50">
+<div class="flex items-center gap-1.5 text-xs text-slate-500 dark:text-slate-400">
+<span class="material-symbols-outlined" style="font-size: 14px;">schedule</span>
+<span>Oct 23, 02:15 PM</span>
+</div>
+<div class="flex items-center gap-1.5 text-xs text-slate-500 dark:text-slate-400">
+<span class="material-symbols-outlined" style="font-size: 14px;">dns</span>
+<span>192.168.1.14</span>
+</div>
+</div>
+</div>
+</div>
+<div class="relative group">
+<div class="absolute -left-[29px] top-1 flex h-7 w-7 items-center justify-center rounded-full bg-pink-100 dark:bg-pink-900/30 ring-4 ring-white dark:ring-background-dark">
+<span class="material-symbols-outlined text-pink-600 dark:text-pink-400" style="font-size: 16px;">delete</span>
+</div>
+<div class="flex flex-col gap-2 rounded-xl bg-white dark:bg-card-dark border border-slate-100 dark:border-slate-800 p-4 shadow-sm">
+<div class="flex justify-between items-start">
+<div>
+<h4 class="text-sm font-bold text-slate-900 dark:text-white">Deleted Coupon Code</h4>
+<p class="text-xs text-slate-500 dark:text-slate-400 mt-0.5">Removed expired coupon "SUMMER2023"</p>
+</div>
+<span class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300">
+                                Deleted
+                            </span>
+</div>
+<div class="flex items-center gap-3 pt-2 mt-1 border-t border-slate-100 dark:border-slate-700/50">
+<div class="flex items-center gap-1.5 text-xs text-slate-500 dark:text-slate-400">
+<span class="material-symbols-outlined" style="font-size: 14px;">schedule</span>
+<span>Oct 22, 11:00 AM</span>
+</div>
+<div class="flex items-center gap-1.5 text-xs text-slate-500 dark:text-slate-400">
+<span class="material-symbols-outlined" style="font-size: 14px;">dns</span>
+<span>192.168.1.14</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="flex justify-center py-6">
+<button class="text-xs font-semibold text-slate-500 dark:text-slate-400 hover:text-primary dark:hover:text-primary transition-colors">
+                    Load older activities
+                </button>
+</div>
+</div>
+</div>
+
+</body></html>

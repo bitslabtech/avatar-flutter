@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Edit Dealer Profile</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#1349ec",
+                        "background-light": "#f6f6f8",
+                        "background-dark": "#101522",
+                        "surface-dark": "#1e2433",
+                        "surface-light": "#ffffff",
+                    },
+                    fontFamily: {
+                        "display": ["Work Sans", "Noto Sans", "sans-serif"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "2xl": "1rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>.no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+<style>
+        body {
+          min-height: max(884px, 100dvh);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-white antialiased selection:bg-primary selection:text-white">
+<div class="relative flex h-full min-h-screen w-full flex-col overflow-x-hidden max-w-md mx-auto border-x border-slate-200 dark:border-slate-800">
+<header class="flex items-center justify-between p-4 sticky top-0 z-20 bg-background-light/95 dark:bg-background-dark/95 backdrop-blur-md border-b border-slate-200/50 dark:border-slate-800/50">
+<button class="flex size-10 shrink-0 items-center justify-center rounded-full hover:bg-slate-200 dark:hover:bg-slate-800 transition-colors">
+<span class="material-symbols-outlined text-slate-900 dark:text-white text-2xl">arrow_back</span>
+</button>
+<h2 class="text-lg font-bold leading-tight tracking-[-0.015em] text-slate-900 dark:text-white">Edit Dealer</h2>
+<div class="size-10 shrink-0"></div> 
+</header>
+<main class="flex-1 px-4 py-6">
+<div class="flex flex-col items-center justify-center mb-8">
+<div class="relative group cursor-pointer">
+<div class="size-24 rounded-full bg-gradient-to-br from-orange-100 to-orange-200 dark:from-orange-900/40 dark:to-orange-800/40 flex items-center justify-center text-orange-600 dark:text-orange-400 text-3xl font-bold shadow-sm border border-orange-200 dark:border-orange-700/50">
+                        H
+                    </div>
+<button class="absolute bottom-0 right-0 size-8 bg-primary hover:bg-blue-600 border-2 border-background-light dark:border-background-dark rounded-full flex items-center justify-center text-white shadow-md transition-colors">
+<span class="material-symbols-outlined text-[16px]">edit</span>
+</button>
+</div>
+<div class="mt-3 text-center">
+<h3 class="text-lg font-bold text-slate-900 dark:text-white">Home Comfort Solutions</h3>
+<p class="text-sm text-slate-500 dark:text-slate-400 font-medium">ID: #D-4105</p>
+</div>
+</div>
+<form class="flex flex-col gap-6" onsubmit="event.preventDefault();">
+<div class="flex flex-col gap-4">
+<h4 class="text-xs font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider px-1">Organization Details</h4>
+<div class="space-y-1.5">
+<label class="text-sm font-semibold text-slate-700 dark:text-slate-300 ml-1">Company Name</label>
+<div class="relative group">
+<span class="material-symbols-outlined absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-primary transition-colors text-[20px]">domain</span>
+<input class="w-full pl-11 pr-4 py-3 bg-white dark:bg-surface-dark border border-slate-200 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all text-slate-900 dark:text-white placeholder:text-slate-400 font-medium text-base shadow-sm" placeholder="Enter company name" type="text" value="Home Comfort Solutions"/>
+</div>
+</div>
+<div class="space-y-1.5">
+<label class="text-sm font-semibold text-slate-700 dark:text-slate-300 ml-1">GST Number</label>
+<div class="relative group">
+<span class="material-symbols-outlined absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-primary transition-colors text-[20px]">receipt_long</span>
+<input class="w-full pl-11 pr-4 py-3 bg-white dark:bg-surface-dark border border-slate-200 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all text-slate-900 dark:text-white placeholder:text-slate-400 font-medium text-base uppercase shadow-sm" placeholder="Enter GST number" type="text" value="22AAAAA0000A1Z5"/>
+</div>
+</div>
+</div>
+<div class="flex flex-col gap-4 mt-2">
+<h4 class="text-xs font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider px-1">Primary Contact</h4>
+<div class="space-y-1.5">
+<label class="text-sm font-semibold text-slate-700 dark:text-slate-300 ml-1">Full Name</label>
+<div class="relative group">
+<span class="material-symbols-outlined absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-primary transition-colors text-[20px]">person</span>
+<input class="w-full pl-11 pr-4 py-3 bg-white dark:bg-surface-dark border border-slate-200 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all text-slate-900 dark:text-white placeholder:text-slate-400 font-medium text-base shadow-sm" placeholder="Contact person name" type="text" value="Jonathan Doe"/>
+</div>
+</div>
+<div class="space-y-1.5">
+<label class="text-sm font-semibold text-slate-700 dark:text-slate-300 ml-1">Phone Number</label>
+<div class="relative group">
+<span class="material-symbols-outlined absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-primary transition-colors text-[20px]">call</span>
+<input class="w-full pl-11 pr-4 py-3 bg-white dark:bg-surface-dark border border-slate-200 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all text-slate-900 dark:text-white placeholder:text-slate-400 font-medium text-base shadow-sm" placeholder="Enter phone number" type="tel" value="+1 (555) 019-2834"/>
+</div>
+</div>
+<div class="space-y-1.5">
+<label class="text-sm font-semibold text-slate-700 dark:text-slate-300 ml-1">Email Address</label>
+<div class="relative group">
+<span class="material-symbols-outlined absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-primary transition-colors text-[20px]">mail</span>
+<input class="w-full pl-11 pr-4 py-3 bg-white dark:bg-surface-dark border border-slate-200 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all text-slate-900 dark:text-white placeholder:text-slate-400 font-medium text-base shadow-sm" placeholder="Enter email address" type="email" value="contact@homecomfort.com"/>
+</div>
+</div>
+</div>
+<div class="flex flex-col gap-3 mt-2">
+<h4 class="text-xs font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider px-1">Account Status</h4>
+<div class="grid grid-cols-2 gap-3">
+<label class="cursor-pointer group relative">
+<input checked="" class="peer sr-only" name="status" type="radio"/>
+<div class="flex flex-col items-center justify-center p-4 rounded-xl border-2 border-slate-200 dark:border-slate-700 bg-white dark:bg-surface-dark peer-checked:border-emerald-500 peer-checked:bg-emerald-50 dark:peer-checked:bg-emerald-500/10 transition-all h-full shadow-sm hover:border-emerald-200 dark:hover:border-emerald-800">
+<div class="size-10 rounded-full bg-emerald-100 dark:bg-emerald-500/20 text-emerald-600 dark:text-emerald-400 flex items-center justify-center mb-2 transition-transform group-hover:scale-110">
+<span class="material-symbols-outlined text-2xl">check_circle</span>
+</div>
+<span class="text-sm font-bold text-slate-600 dark:text-slate-300 peer-checked:text-emerald-700 dark:peer-checked:text-emerald-400">Approved</span>
+</div>
+<div class="absolute top-3 right-3 opacity-0 peer-checked:opacity-100 transition-opacity">
+<span class="material-symbols-outlined text-emerald-500 text-lg fill-current">check_circle</span>
+</div>
+</label>
+<label class="cursor-pointer group relative">
+<input class="peer sr-only" name="status" type="radio"/>
+<div class="flex flex-col items-center justify-center p-4 rounded-xl border-2 border-slate-200 dark:border-slate-700 bg-white dark:bg-surface-dark peer-checked:border-red-500 peer-checked:bg-red-50 dark:peer-checked:bg-red-500/10 transition-all h-full shadow-sm hover:border-red-200 dark:hover:border-red-800">
+<div class="size-10 rounded-full bg-red-100 dark:bg-red-500/20 text-red-600 dark:text-red-400 flex items-center justify-center mb-2 transition-transform group-hover:scale-110">
+<span class="material-symbols-outlined text-2xl">cancel</span>
+</div>
+<span class="text-sm font-bold text-slate-600 dark:text-slate-300 peer-checked:text-red-700 dark:peer-checked:text-red-400">Rejected</span>
+</div>
+<div class="absolute top-3 right-3 opacity-0 peer-checked:opacity-100 transition-opacity">
+<span class="material-symbols-outlined text-red-500 text-lg fill-current">check_circle</span>
+</div>
+</label>
+</div>
+</div>
+<div class="h-6"></div>
+</form>
+</main>
+<div class="p-4 bg-white/90 dark:bg-background-dark/90 backdrop-blur-sm border-t border-slate-200 dark:border-slate-800 sticky bottom-0 z-30">
+<button class="w-full flex items-center justify-center gap-2 rounded-xl h-12 bg-primary hover:bg-blue-600 active:scale-[0.98] transition-all text-white shadow-lg shadow-blue-900/20 font-bold text-base tracking-wide">
+<span class="material-symbols-outlined text-[20px]">save</span>
+                Save Changes
+            </button>
+</div>
+</div>
+
+</body></html>

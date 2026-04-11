@@ -1,0 +1,663 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
+import '../../../core/theme/app_colors.dart';
+import '../../../providers/auth_provider.dart';
+import '../providers/settings_provider.dart';
+import 'whatsapp_config_screen.dart';
+
+class AdminSettingsScreen extends ConsumerStatefulWidget {
+  const AdminSettingsScreen({super.key});
+
+  @override
+  ConsumerState<AdminSettingsScreen> createState() => _AdminSettingsScreenState();
+}
+
+class _AdminSettingsScreenState extends ConsumerState<AdminSettingsScreen> {
+  // Local state removed in favor of Riverpod
+
+  @override
+  Widget build(BuildContext context) {
+    final settingsState = ref.watch(adminSettingsProvider);
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final user = ref.watch(authProvider).user;
+    
+    // Theme Colors
+    final surfaceColor = isDark ? const Color(0xFF1C2333) : Colors.white;
+    final backgroundColor = isDark ? const Color(0xFF101522) : const Color(0xFFF6F6F8);
+    final borderColor = isDark ? const Color(0xFF323F67) : const Color(0xFFE5E7EB);
+    final textColor = isDark ? Colors.white : Colors.black87;
+    final subTextColor = isDark ? Colors.grey.shade400 : Colors.grey.shade500;
+
+    return Scaffold(
+      backgroundColor: backgroundColor,
+      body: SafeArea(
+        child: Column(
+          children: [
+             _buildHeader(context, isDark, surfaceColor, borderColor, textColor),
+             if (settingsState.isLoading) const LinearProgressIndicator(),
+             Expanded(
+               child: SingleChildScrollView(
+                 padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                 child: Column(
+                   crossAxisAlignment: CrossAxisAlignment.start,
+                   children: [
+                     _buildSectionHeader('Account', subTextColor),
+                     Container(
+                       decoration: BoxDecoration(
+                         color: surfaceColor,
+                         borderRadius: BorderRadius.circular(12),
+                         border: Border.all(color: borderColor),
+                       ),
+                       child: Column(
+                         children: [
+                           _buildProfileTile(user?.name ?? 'Super Admin', isDark, textColor, subTextColor),
+                           _buildDivider(borderColor),
+                           _buildSettingsTile(
+                             title: 'Change Password',
+                             icon: Icons.lock_reset,
+                             iconColor: Colors.orange,
+                             isDark: isDark,
+                             textColor: textColor,
+                             onTap: () {},
+                           ),
+                           _buildDivider(borderColor),
+                           _buildSwitchTile(
+                             title: 'Two-Factor Auth',
+                             subtitle: 'Recommended for admins',
+                             icon: Icons.security,
+                             iconColor: Colors.green,
+                             value: settingsState.twoFactorAuth,
+                             isDark: isDark,
+                             textColor: textColor,
+                             subTextColor: subTextColor,
+                             onChanged: (val) => ref.read(adminSettingsProvider.notifier).toggleTwoFactor(val),
+                           ),
+                         ],
+                       ),
+                     ),
+                     const SizedBox(height: 24),
+
+                     _buildSectionHeader('Configurations', subTextColor),
+                     Container(
+                       decoration: BoxDecoration(
+                         color: surfaceColor,
+                         borderRadius: BorderRadius.circular(12),
+                         border: Border.all(color: borderColor),
+                       ),
+                       child: _buildSettingsTile(
+                         title: 'WhatsApp API Config',
+                         icon: Icons.chat,
+                         iconColor: Colors.green.shade600,
+                         isDark: isDark,
+                         textColor: textColor,
+                         onTap: () {
+                           final user = ref.read(authProvider).user;
+                           if (user?.hasPermission('settings', 'update') != true) {
+                              ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Permission Denied')));
+                              return;
+                           }
+                           Navigator.push(
+                             context,
+                             MaterialPageRoute(builder: (context) => const WhatsAppConfigScreen()),
+                           );
+                         },
+                       ),
+                     ),
+                     const SizedBox(height: 24),
+
+                     _buildSectionHeader('System Alerts', subTextColor),
+                     Container(
+                       decoration: BoxDecoration(
+                         color: surfaceColor,
+                         borderRadius: BorderRadius.circular(12),
+                         border: Border.all(color: borderColor),
+                       ),
+                       child: Column(
+                         children: [
+                           _buildSwitchTile(
+                             title: 'New Order Alerts',
+                             icon: Icons.shopping_bag,
+                             iconColor: Colors.blue,
+                             value: settingsState.newOrderAlerts,
+                             isDark: isDark,
+                             textColor: textColor,
+                             subTextColor: subTextColor,
+                             onChanged: (val) {
+                               final user = ref.read(authProvider).user;
+                               if (user?.hasPermission('settings', 'update') != true) {
+                                  ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Permission Denied')));
+                                  return;
+                               }
+                               ref.read(adminSettingsProvider.notifier).toggleLocalSetting('admin_alert_orders', val);
+                             },
+                           ),
+                           _buildDivider(borderColor),
+                           _buildSwitchTile(
+                             title: 'Inventory Warnings',
+                             icon: Icons.inventory_2,
+                             iconColor: Colors.red,
+                             value: settingsState.inventoryWarnings,
+                             isDark: isDark,
+                             textColor: textColor,
+                             subTextColor: subTextColor,
+                             onChanged: (val) {
+                               final user = ref.read(authProvider).user;
+                               if (user?.hasPermission('settings', 'update') != true) {
+                                  ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Permission Denied')));
+                                  return;
+                               }
+                               ref.read(adminSettingsProvider.notifier).toggleLocalSetting('admin_alert_inventory', val);
+                             },
+                           ),
+                            _buildDivider(borderColor),
+                           _buildSwitchTile(
+                             title: 'New Dealer Alert',
+                             icon: Icons.storefront,
+                             iconColor: Colors.purple,
+                             value: settingsState.newDealerAlert,
+                             isDark: isDark,
+                             textColor: textColor,
+                             subTextColor: subTextColor,
+                             onChanged: (val) {
+                               final user = ref.read(authProvider).user;
+                               if (user?.hasPermission('settings', 'update') != true) {
+                                  ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Permission Denied')));
+                                  return;
+                               }
+                               ref.read(adminSettingsProvider.notifier).toggleLocalSetting('admin_alert_dealer', val);
+                             },
+                           ),
+                            _buildDivider(borderColor),
+                           _buildSwitchTile(
+                             title: 'New Consumer Alert',
+                             icon: Icons.person_add,
+                             iconColor: Colors.teal,
+                             value: settingsState.newConsumerAlert,
+                             isDark: isDark,
+                             textColor: textColor,
+                             subTextColor: subTextColor,
+                             onChanged: (val) {
+                               final user = ref.read(authProvider).user;
+                               if (user?.hasPermission('settings', 'update') != true) {
+                                  ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Permission Denied')));
+                                  return;
+                               }
+                               ref.read(adminSettingsProvider.notifier).toggleLocalSetting('admin_alert_consumer', val);
+                             },
+                           ),
+                         ],
+                       ),
+                     ),
+                     const SizedBox(height: 24),
+
+                     _buildSectionHeader('Privacy & Security', subTextColor),
+                     Container(
+                       decoration: BoxDecoration(
+                         color: surfaceColor,
+                         borderRadius: BorderRadius.circular(12),
+                         border: Border.all(color: borderColor),
+                       ),
+                       child: Column(
+                         children: [
+                           _buildSettingsTile(
+                             title: 'Admin Audit Logs',
+                             icon: Icons.fact_check,
+                             iconColor: Colors.amber,
+                             isDark: isDark,
+                             textColor: textColor,
+                             onTap: () {},
+                           ),
+                           _buildDivider(borderColor),
+                           _buildSwitchTile(
+                             title: 'Maintenance Mode',
+                             subtitle: 'App will be offline for users',
+                             icon: Icons.build,
+                             iconColor: Colors.redAccent,
+                             value: settingsState.maintenanceMode,
+                             isDark: isDark,
+                             textColor: textColor,
+                             subTextColor: subTextColor,
+                             onChanged: (val) {
+                               final user = ref.read(authProvider).user;
+                               if (user?.hasPermission('settings', 'update') != true) {
+                                  ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Permission Denied')));
+                                  return;
+                               }
+                               ref.read(adminSettingsProvider.notifier).setMaintenanceMode(val);
+                             },
+                           ),
+                         ],
+                       ),
+                     ),
+                     const SizedBox(height: 24),
+
+                     _buildSectionHeader('General', subTextColor),
+                     Container(
+                       decoration: BoxDecoration(
+                         color: surfaceColor,
+                         borderRadius: BorderRadius.circular(12),
+                         border: Border.all(color: borderColor),
+                       ),
+                       child: Column(
+                         children: [
+                           _buildValueTile(
+                             title: 'App Theme',
+                             value: settingsState.themeMode == 'system' ? 'System Default' : (settingsState.themeMode == 'dark' ? 'Dark Mode' : 'Light Mode'),
+                             icon: Icons.dark_mode,
+                             iconColor: Colors.blueGrey,
+                             isDark: isDark,
+                             textColor: textColor,
+                             subTextColor: subTextColor,
+                             onTap: () {
+                               // Toggle theme logic
+                             },
+                           ),
+                           _buildDivider(borderColor),
+                            _buildValueTile(
+                             title: 'Language',
+                             value: settingsState.language == 'en' ? 'English (US)' : settingsState.language,
+                             icon: Icons.language,
+                             iconColor: Colors.pink,
+                             isDark: isDark,
+                             textColor: textColor,
+                             subTextColor: subTextColor,
+                             onTap: () {},
+                           ),
+                         ],
+                       ),
+                     ),
+                     const SizedBox(height: 24),
+
+                     _buildSectionHeader('Help & Support', subTextColor),
+                     Container(
+                       decoration: BoxDecoration(
+                         color: surfaceColor,
+                         borderRadius: BorderRadius.circular(12),
+                         border: Border.all(color: borderColor),
+                       ),
+                       child: Column(
+                         children: [
+                           _buildSettingsTile(
+                             title: 'Admin Documentation', // Open in new icon in design
+                             icon: Icons.article,
+                             iconColor: Colors.cyan,
+                             isDark: isDark,
+                             textColor: textColor,
+                             trailing: Icon(Icons.open_in_new, size: 20, color: subTextColor),
+                             onTap: () {},
+                           ),
+                           _buildDivider(borderColor),
+                           _buildSettingsTile(
+                             title: 'Contact Dev Team',
+                             icon: Icons.support_agent,
+                             iconColor: Colors.green,
+                             isDark: isDark,
+                             textColor: textColor,
+                             onTap: () {},
+                           ),
+                         ],
+                       ),
+                     ),
+                     const SizedBox(height: 32),
+
+                     // Logout Button
+                     Padding(
+                       padding: const EdgeInsets.only(bottom: 32),
+                       child: SizedBox(
+                         width: double.infinity,
+                         child: ElevatedButton(
+                            onPressed: () async {
+                              await ref.read(authProvider.notifier).logout();
+                              if (context.mounted) {
+                                context.go('/login');
+                              }
+                            },
+                           style: ElevatedButton.styleFrom(
+                             backgroundColor: Colors.red.withValues(alpha: 0.1),
+                             foregroundColor: Colors.red,
+                             elevation: 0,
+                             padding: const EdgeInsets.symmetric(vertical: 16),
+                             shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                           ),
+                           child: const Text('Log Out', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
+                         ),
+                       ),
+                     ),
+                   ],
+                 ),
+               ),
+             ),
+          ],
+        ),
+      ),
+    );
+  }
+
+
+
+  Widget _buildSectionTitle(String title, bool isDark) {
+    return Text(
+      title.toUpperCase(),
+      style: TextStyle(
+        color: AppColors.primaryBlue,
+        fontWeight: FontWeight.bold,
+        letterSpacing: 1.1,
+        fontSize: 14,
+      ),
+    );
+  }
+
+  Widget _buildTemplateRow(String label, TextEditingController nameCtrl, TextEditingController langCtrl, bool isDark) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(label, style: TextStyle(fontWeight: FontWeight.w600, color: isDark ? Colors.white70 : Colors.black87)),
+        const SizedBox(height: 8),
+        Row(
+          children: [
+            Expanded(
+              flex: 2,
+              child: _buildTextField('Template Name', nameCtrl, isDark, hint: 'hello_world'),
+            ),
+            const SizedBox(width: 12),
+            Expanded(
+              flex: 1,
+              child: _buildTextField('Lang Code', langCtrl, isDark, hint: 'en_US'),
+            ),
+          ],
+        ),
+        const SizedBox(height: 16),
+      ],
+    );
+  }
+
+  Widget _buildTextField(String label, TextEditingController controller, bool isDark, {String? hint, int maxLines = 1}) {
+    return TextField(
+      controller: controller,
+      maxLines: maxLines,
+      style: TextStyle(color: isDark ? Colors.white : Colors.black),
+      decoration: _inputDecoration(label, isDark, hint: hint),
+    );
+  }
+
+  InputDecoration _inputDecoration(String label, bool isDark, {String? hint}) {
+    return InputDecoration(
+      labelText: label,
+      labelStyle: TextStyle(color: isDark ? Colors.grey : Colors.black54),
+      hintText: hint,
+      hintStyle: TextStyle(color: isDark ? Colors.grey.shade600 : Colors.grey.shade400),
+      filled: true,
+      fillColor: isDark ? Colors.white.withOpacity(0.05) : Colors.grey.shade50,
+      border: OutlineInputBorder(borderRadius: BorderRadius.circular(8), borderSide: BorderSide.none),
+      contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 14),
+    );
+  }
+
+  Widget _buildHeader(BuildContext context, bool isDark, Color surfaceColor, Color borderColor, Color textColor) {
+    return Container(
+      color: surfaceColor.withOpacity(0.9),
+      padding: const EdgeInsets.all(16),
+      child: Column(
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              IconButton(
+                onPressed: () => context.pop(),
+                icon: Icon(Icons.arrow_back, color: textColor),
+                style: IconButton.styleFrom(
+                  shape: const CircleBorder(),
+                  padding: EdgeInsets.zero,
+                ),
+              ),
+              Text(
+                'App Settings',
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: textColor),
+              ),
+              TextButton(
+                onPressed: () {
+                   ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Settings Saved')));
+                },
+                style: TextButton.styleFrom(
+                  backgroundColor: AppColors.primaryBlue,
+                  foregroundColor: Colors.white,
+                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                ),
+                child: const Text('Save', style: TextStyle(fontWeight: FontWeight.w600)),
+              ),
+            ],
+          ),
+          const SizedBox(height: 16),
+          // Search Bar
+          Container(
+            height: 48,
+            decoration: BoxDecoration(
+              color: isDark ? Colors.black.withOpacity(0.2) : Colors.white,
+              borderRadius: BorderRadius.circular(12),
+              border: Border.all(color: borderColor),
+              boxShadow: isDark ? [] : [
+                BoxShadow(
+                  color: Colors.black.withOpacity(0.03),
+                  blurRadius: 4,
+                  offset: const Offset(0, 2),
+                ),
+              ],
+            ),
+            child: TextField(
+              textAlignVertical: TextAlignVertical.center,
+              style: TextStyle(color: textColor),
+              decoration: InputDecoration(
+                hintText: 'Search settings...',
+                hintStyle: TextStyle(color: isDark ? Colors.grey : Colors.grey.shade400),
+                prefixIcon: Icon(Icons.search, color: isDark ? Colors.grey : Colors.grey.shade400),
+                border: InputBorder.none,
+                contentPadding: const EdgeInsets.symmetric(horizontal: 16),
+                isCollapsed: true,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildSectionHeader(String title, Color color) {
+    return Padding(
+      padding: const EdgeInsets.only(left: 4, bottom: 8),
+      child: Text(
+        title.toUpperCase(),
+        style: TextStyle(
+          color: color,
+          fontSize: 12,
+          fontWeight: FontWeight.bold,
+          letterSpacing: 1.0,
+        ),
+      ),
+    );
+  }
+
+  Widget _buildDivider(Color color) {
+    return Divider(height: 1, thickness: 1, color: color.withOpacity(0.5));
+  }
+
+  Widget _buildProfileTile(String name, bool isDark, Color textColor, Color subTextColor) {
+    return InkWell(
+      onTap: () {},
+      child: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Row(
+          children: [
+            Container(
+              width: 48,
+              height: 48,
+              decoration: BoxDecoration(
+                color: AppColors.primaryBlue.withOpacity(0.1),
+                shape: BoxShape.circle,
+              ),
+              child: const Icon(Icons.person, color: AppColors.primaryBlue),
+            ),
+            const SizedBox(width: 16),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    name,
+                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500, color: textColor),
+                  ),
+                  Text(
+                    'Super Admin • Active',
+                    style: TextStyle(fontSize: 14, color: subTextColor),
+                  ),
+                ],
+              ),
+            ),
+            Icon(Icons.chevron_right, color: subTextColor),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildSettingsTile({
+    required String title,
+    required IconData icon,
+    required Color iconColor,
+    required bool isDark,
+    required Color textColor,
+    required VoidCallback onTap,
+    Widget? trailing,
+  }) {
+    return InkWell(
+      onTap: onTap,
+      child: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Row(
+          children: [
+            Container(
+              width: 32,
+              height: 32,
+              decoration: BoxDecoration(
+                color: iconColor.withOpacity(0.1),
+                borderRadius: BorderRadius.circular(8),
+              ),
+              child: Icon(icon, size: 20, color: iconColor),
+            ),
+            const SizedBox(width: 16),
+            Expanded(
+              child: Text(
+                title,
+                style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500, color: textColor),
+              ),
+            ),
+            trailing ?? Icon(Icons.chevron_right, color: Colors.grey.shade400),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildSwitchTile({
+    required String title,
+    String? subtitle,
+    required IconData icon,
+    required Color iconColor,
+    required bool value,
+    required bool isDark,
+    required Color textColor,
+    required Color subTextColor,
+    required ValueChanged<bool> onChanged,
+  }) {
+    return Padding(
+      padding: const EdgeInsets.all(16),
+      child: Row(
+        children: [
+          Container(
+            width: 32,
+            height: 32,
+            decoration: BoxDecoration(
+              color: iconColor.withOpacity(0.1),
+              borderRadius: BorderRadius.circular(8),
+            ),
+            child: Icon(icon, size: 20, color: iconColor),
+          ),
+          const SizedBox(width: 16),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  title,
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500, color: textColor),
+                ),
+                if (subtitle != null)
+                  Padding(
+                    padding: const EdgeInsets.only(top: 2),
+                    child: Text(
+                      subtitle,
+                      style: TextStyle(fontSize: 12, color: subTextColor),
+                    ),
+                  ),
+              ],
+            ),
+          ),
+          Switch(
+            value: value,
+            onChanged: onChanged,
+            activeColor: AppColors.primaryBlue,
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildValueTile({
+    required String title,
+    required String value,
+    required IconData icon,
+    required Color iconColor,
+    required bool isDark,
+    required Color textColor,
+    required Color subTextColor,
+    required VoidCallback onTap,
+  }) {
+    return InkWell(
+      onTap: onTap,
+      child: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Row(
+          children: [
+            Container(
+              width: 32,
+              height: 32,
+              decoration: BoxDecoration(
+                color: iconColor.withOpacity(0.1),
+                borderRadius: BorderRadius.circular(8),
+              ),
+              child: Icon(icon, size: 20, color: iconColor),
+            ),
+            const SizedBox(width: 16),
+            Expanded(
+              child: Text(
+                title,
+                style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500, color: textColor),
+              ),
+            ),
+            Row(
+              children: [
+                Text(
+                  value,
+                  style: TextStyle(fontSize: 14, color: subTextColor),
+                ),
+                const SizedBox(width: 4),
+                Icon(Icons.chevron_right, size: 20, color: subTextColor),
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}

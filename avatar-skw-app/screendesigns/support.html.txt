@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Light Support Center</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              "primary": "#136dec",
+              "background-light": "#ffffff",
+              "surface-light": "#f8fafc",
+              "card-border": "#e2e8f0",
+            },
+            fontFamily: {
+              "display": ["Manrope", "sans-serif"]
+            },
+            borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "2xl": "1rem", "3xl": "1.5rem", "full": "9999px"},
+            boxShadow: {
+                'card-soft': '0 4px 20px -2px rgba(0, 0, 0, 0.05)',
+                'glow-primary': '0 0 15px -3px rgba(19, 109, 236, 0.3)',
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .light-card {
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(600px, 100dvh);
+    }
+  </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-surface-light font-display text-slate-800 min-h-screen relative overflow-x-hidden antialiased selection:bg-primary selection:text-white">
+<div class="fixed top-0 left-0 w-full h-full overflow-hidden pointer-events-none z-0">
+<div class="absolute w-[500px] h-[500px] bg-blue-100/50 rounded-full blur-3xl top-[-20%] left-[-20%] opacity-60"></div>
+<div class="absolute w-[400px] h-[400px] bg-purple-100/50 rounded-full blur-3xl bottom-[-10%] right-[-10%] opacity-60"></div>
+</div>
+<div class="relative z-10 max-w-md mx-auto px-6 py-6 min-h-screen flex flex-col">
+<header class="flex items-center justify-between mb-8 pt-2">
+<button class="w-10 h-10 flex items-center justify-center rounded-full bg-white border border-slate-200 shadow-sm text-slate-600 hover:bg-slate-50 transition-colors">
+<span class="material-icons-round">arrow_back</span>
+</button>
+<div class="w-10 h-10 rounded-full overflow-hidden border border-slate-200 shadow-sm">
+<img alt="User Profile Avatar" class="w-full h-full object-cover" data-alt="Close up portrait of a young woman" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAtFAEzPZGKc_68N7CPtAynsa3j5fQNi41t8TfykTsFtmUv4XNlXE2gjAxkDNHAkWqnPf7lRvoYxeAcp8tuf_fGCLx8CYp0p9Zk7d1exga1KpXW9zqT1qI-CZHtioxxjrISKesV9jzXC6nSCmA4sm31bl8LQwtZMNIwVcaboc-8oOV33O3W6Trl4PwjcCvJjL-xxytJLKuAcsjes_9w1KLAg8ohMYo5n7A3WmkkUcslmKAFhCMWnnvn3btVE1GDGt7p4EM9qEXue00Y"/>
+</div>
+</header>
+<section class="mb-10 text-center relative">
+<div class="relative w-48 h-48 mx-auto mb-6">
+<div class="absolute inset-4 bg-blue-50 rounded-full"></div>
+<div class="absolute inset-0 flex items-center justify-center">
+<img alt="Customer Service Representative Illustration" class="w-40 h-40 object-cover rounded-full shadow-lg" data-alt="Friendly customer support agent with headset smiling" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC4jBK7OuchFO4ddUDzjmJpigPGZe-7c4cmvEZ6yDOERVTf4nuXuJMDbAliysXw2Nf5cW0G21LTYyRa9vYtuuRL-kdD4GBbPWiYK_4ferBdtTPpn2jmrLmq7P-QYO_XGjhz20fUURstaX3-OeIB1GgTyfwbeFPUZh4ygZhPOL5uuW-k8althjFUXvupoLO0D9mZAKoJh6dqQj5fH32yZnm0VVvn2duXTxn0QErxVeOxiq09_-2PHUVnE1rZoASuJh0vHh4A4wyrdXio"/>
+</div>
+</div>
+<h1 class="text-3xl font-extrabold text-slate-900 mb-2 leading-tight tracking-tight">
+                How can we <br/> <span class="text-primary">help you today?</span>
+</h1>
+<p class="text-slate-500 font-medium text-sm max-w-[260px] mx-auto">
+                Our support team is here to assist with any appliance concerns.
+            </p>
+</section>
+<section class="flex-1 space-y-4 mb-8">
+<h2 class="text-xs font-bold uppercase tracking-wider text-slate-400 mb-4 pl-1">Quick Contact</h2>
+<div class="light-card rounded-3xl p-5 relative overflow-hidden group transition-all duration-300 hover:shadow-lg hover:border-green-200 hover:-translate-y-1">
+<div class="flex items-center justify-between relative z-10">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-2xl bg-green-50 flex items-center justify-center text-green-600 shadow-sm">
+<span class="material-icons-round text-2xl">chat</span>
+</div>
+<div>
+<h3 class="text-lg font-bold text-slate-800">WhatsApp</h3>
+<p class="text-xs text-slate-500 font-medium">Wait time: ~2 mins</p>
+</div>
+</div>
+<button class="bg-white border border-green-100 text-green-600 hover:bg-green-500 hover:text-white font-bold py-2 px-4 rounded-xl text-sm transition-all duration-300 shadow-sm">
+                        Chat Now
+                    </button>
+</div>
+</div>
+<div class="light-card rounded-3xl p-5 relative overflow-hidden group transition-all duration-300 hover:shadow-lg hover:border-blue-200 hover:-translate-y-1 bg-white ring-2 ring-primary/5 border-primary/20">
+<div class="flex items-center justify-between relative z-10">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-2xl bg-primary/10 flex items-center justify-center text-primary shadow-sm">
+<span class="material-icons-round text-2xl">call</span>
+</div>
+<div>
+<h3 class="text-lg font-bold text-slate-800">Voice Call</h3>
+<p class="text-xs text-slate-500 font-medium">Wait time: Instant</p>
+</div>
+</div>
+<button class="bg-primary text-white font-bold py-2 px-4 rounded-xl text-sm shadow-glow-primary hover:bg-blue-600 transition-colors">
+                        Call Us
+                    </button>
+</div>
+</div>
+<div class="light-card rounded-3xl p-5 relative overflow-hidden group transition-all duration-300 hover:shadow-lg hover:border-slate-300 hover:-translate-y-1">
+<div class="flex items-center justify-between relative z-10">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-2xl bg-slate-100 flex items-center justify-center text-slate-600 shadow-sm">
+<span class="material-icons-round text-2xl">mail</span>
+</div>
+<div>
+<h3 class="text-lg font-bold text-slate-800">Email Inquiry</h3>
+<p class="text-xs text-slate-500 font-medium">Response: 24h</p>
+</div>
+</div>
+<button class="bg-white border border-slate-200 text-slate-600 hover:bg-slate-50 font-bold py-2 px-4 rounded-xl text-sm transition-all duration-300 shadow-sm">
+                        Send Email
+                    </button>
+</div>
+</div>
+</section>
+</div>
+
+</body></html>

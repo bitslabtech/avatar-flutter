@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Add New Address</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "primary": "#136dec",
+              "background-light": "#f6f7f8",
+              "background-dark": "#101822",
+            },
+            fontFamily: {
+              "display": ["Manrope", "Noto Sans", "sans-serif"]
+            },
+            borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+        body {
+          min-height: max(884px, 100dvh);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark font-display">
+<div class="relative flex h-full min-h-screen w-full flex-col overflow-x-hidden max-w-[480px] mx-auto bg-white dark:bg-background-dark shadow-xl">
+<div class="flex items-center bg-white dark:bg-background-dark p-4 pb-2 justify-between sticky top-0 z-10 border-b border-gray-100 dark:border-gray-800">
+<a class="p-2 -ml-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors" href="#">
+<span class="material-symbols-outlined text-[#111418] dark:text-white">arrow_back</span>
+</a>
+<h2 class="text-[#111418] dark:text-white text-lg font-bold leading-tight tracking-[-0.015em] flex-1 text-center pr-8">Add New Address</h2>
+</div>
+<div class="flex-1 flex flex-col p-5 gap-5">
+<div class="flex flex-col gap-1.5">
+<label class="text-sm font-bold text-[#111418] dark:text-white">Full Name</label>
+<input class="w-full rounded-xl border border-gray-200 dark:border-gray-700 bg-background-light dark:bg-[#1a2634] p-3.5 text-base text-[#111418] dark:text-white placeholder-gray-400 focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all shadow-sm" placeholder="e.g. Alex Morgan" type="text"/>
+</div>
+<div class="flex flex-col gap-1.5">
+<label class="text-sm font-bold text-[#111418] dark:text-white">Phone Number</label>
+<input class="w-full rounded-xl border border-gray-200 dark:border-gray-700 bg-background-light dark:bg-[#1a2634] p-3.5 text-base text-[#111418] dark:text-white placeholder-gray-400 focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all shadow-sm" placeholder="(555) 000-0000" type="tel"/>
+</div>
+<div class="flex flex-col gap-1.5">
+<label class="text-sm font-bold text-[#111418] dark:text-white">Street Address</label>
+<input class="w-full rounded-xl border border-gray-200 dark:border-gray-700 bg-background-light dark:bg-[#1a2634] p-3.5 text-base text-[#111418] dark:text-white placeholder-gray-400 focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all shadow-sm" placeholder="Street address" type="text"/>
+</div>
+<div class="flex flex-col gap-1.5">
+<label class="text-sm font-bold text-[#111418] dark:text-white">Location</label>
+<input class="w-full rounded-xl border border-gray-200 dark:border-gray-700 bg-background-light dark:bg-[#1a2634] p-3.5 text-base text-[#111418] dark:text-white placeholder-gray-400 focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all shadow-sm" placeholder="City" type="text"/>
+<div class="grid grid-cols-2 gap-3 mt-1">
+<div class="relative">
+<select class="w-full rounded-xl border border-gray-200 dark:border-gray-700 bg-background-light dark:bg-[#1a2634] p-3.5 text-base text-[#111418] dark:text-white placeholder-gray-400 focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all shadow-sm appearance-none pr-10">
+<option disabled="" selected="" value="">State</option>
+<option value="AL">Alabama</option>
+<option value="AK">Alaska</option>
+<option value="AZ">Arizona</option>
+<option value="CA">California</option>
+</select>
+<span class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none text-xl">expand_more</span>
+</div>
+<input class="w-full rounded-xl border border-gray-200 dark:border-gray-700 bg-background-light dark:bg-[#1a2634] p-3.5 text-base text-[#111418] dark:text-white placeholder-gray-400 focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all shadow-sm" placeholder="Zip Code" type="text"/>
+</div>
+</div>
+<div class="flex flex-col gap-3 pt-2">
+<label class="text-sm font-bold text-[#111418] dark:text-white">Address Type</label>
+<div class="flex gap-3">
+<button class="flex-1 py-3 px-4 rounded-xl bg-primary/10 border border-primary text-primary font-bold text-sm transition-all shadow-sm hover:bg-primary/20" type="button">
+                    Home
+                </button>
+<button class="flex-1 py-3 px-4 rounded-xl bg-background-light dark:bg-[#1a2634] border border-gray-200 dark:border-gray-700 text-gray-500 dark:text-gray-400 font-bold text-sm hover:border-gray-300 dark:hover:border-gray-600 hover:text-gray-700 dark:hover:text-gray-200 transition-all" type="button">
+                    Work
+                </button>
+<button class="flex-1 py-3 px-4 rounded-xl bg-background-light dark:bg-[#1a2634] border border-gray-200 dark:border-gray-700 text-gray-500 dark:text-gray-400 font-bold text-sm hover:border-gray-300 dark:hover:border-gray-600 hover:text-gray-700 dark:hover:text-gray-200 transition-all" type="button">
+                    Other
+                </button>
+</div>
+</div>
+<div class="h-4"></div>
+</div>
+<div class="p-4 bg-white dark:bg-background-dark border-t border-gray-100 dark:border-gray-800 sticky bottom-0 z-20">
+<button class="w-full bg-primary hover:bg-blue-600 text-white font-bold py-3.5 px-4 rounded-xl flex items-center justify-center gap-2 transition-colors shadow-lg shadow-blue-500/20 active:scale-[0.98] transform duration-100">
+            Save Address
+        </button>
+</div>
+</div>
+</body></html>

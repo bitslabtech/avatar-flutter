@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>All Categories Grid (No Cart Button)</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#136dec",
+                        "background-light": "#f6f7f8",
+                        "background-dark": "#101822",
+                    },
+                    fontFamily: {
+                        "display": ["Manrope", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style type="text/tailwindcss">
+        .glass-effect {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .dark .glass-effect {
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        body {
+            min-height: max(884px, 100dvh);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100 antialiased">
+<div class="relative flex min-h-screen w-full flex-col overflow-x-hidden">
+<header class="sticky top-0 z-50 bg-background-light/80 dark:bg-background-dark/80 backdrop-blur-md">
+<div class="flex items-center p-4 pb-2 justify-between">
+<button class="flex size-10 shrink-0 items-center justify-center rounded-full hover:bg-black/5 dark:hover:bg-white/10 transition-colors">
+<span class="material-symbols-outlined text-2xl">arrow_back_ios_new</span>
+</button>
+<h2 class="text-lg font-extrabold leading-tight tracking-tight flex-1 text-center">All Categories</h2>
+<div class="size-10"></div> 
+</div>
+<div class="px-4 py-4">
+<label class="group relative flex items-center h-12 w-full transition-all">
+<div class="absolute left-4 flex items-center justify-center text-slate-400 group-focus-within:text-primary transition-colors">
+<span class="material-symbols-outlined text-2xl">search</span>
+</div>
+<input class="flex w-full h-full rounded-xl bg-slate-100 dark:bg-slate-800/50 border-none pl-12 pr-4 text-base font-medium placeholder:text-slate-400 focus:ring-2 focus:ring-primary/20 focus:bg-white dark:focus:bg-slate-800 transition-all outline-none" placeholder="Search appliances, brands..." type="text" value=""/>
+</label>
+</div>
+</header>
+<main class="flex-1 px-4 pb-12">
+<div class="grid grid-cols-2 gap-4">
+<div class="group relative aspect-[4/5] overflow-hidden rounded-xl shadow-lg shadow-black/5">
+<div class="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-110" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuARPss0mGJ7hNK_Ocg1XieRjgIEN4miHW7s0I0oN2Gsz22-O5KGmp4Oo--ja_H-li8m-mNFaXzKRlHJ7npIjYxy5HIclMMysGEfdiVZfK16jze5-dc3DOK2cX8Nq6hKLp9dd3nFAi6i4anS5q5rsCzhNa-oEqsyRzq5RVuQBjpsGsmJxknF1x57XwnxcSXB5HKlVeahDouLXmEp1w1K7W_Pfi4A4XN-Nijh_HTRl-roIEl4kb3UqQi1Ix_6BUza022PE0UTWfRxKKNF");'></div>
+<div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
+<div class="absolute bottom-3 left-3 right-3 p-3 glass-effect rounded-lg">
+<p class="text-white text-sm font-bold tracking-wide uppercase">Kitchen</p>
+<p class="text-white/70 text-[10px] font-medium">Refrigerators, Ovens, Blenders</p>
+</div>
+</div>
+<div class="group relative aspect-[4/5] overflow-hidden rounded-xl shadow-lg shadow-black/5">
+<div class="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-110" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCNx9hTVUdB9xoSNPLscftbzwKnA-0qjs-BVW7NMJfM_N6ahH8nPQSZdNq0oDkP4eC2lRe3GeWeIK4PtLcMS12MsG9cGX0vCuh1bBXYvNajVhSG78NUqL40qHMrk1j-Tibfa5Cm_fmhgkb6E8Z5sQoN0fQNkq-pRCHgeIiCw72jnNb7yfdQ-4yP1BcOQhTOz9aexsmhPis7rSo1DRr598wHeLuGk8QDuP8LhruBqrAT8F96Y5NGf9Pfhr7Uhh_xbgKkgSSBygpatsqU");'></div>
+<div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
+<div class="absolute bottom-3 left-3 right-3 p-3 glass-effect rounded-lg">
+<p class="text-white text-sm font-bold tracking-wide uppercase">Laundry</p>
+<p class="text-white/70 text-[10px] font-medium">Washers, Dryers, Steamers</p>
+</div>
+</div>
+<div class="group relative aspect-[4/5] overflow-hidden rounded-xl shadow-lg shadow-black/5">
+<div class="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-110" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAg5gDu3eRKEHgLdRupjzJSMRVq8GLliEHrhotGn_fdf0ly3zOb31IJruGaHhtjqFO9scX5NSSbFq2kO4cE4XwPAlZt1wcsHkahxLZAkQw5s5lq9568DgcBkod1b3rRY6HWmrqNCVXNW_XvKovBOhB-vn9Mgu697StTbxLK9TCLZpCNze1kGr89u8AVaRP153iF1Q4fZPjoS-mRdkdF0evC_3Ov3NRTOBvmCA479-B0L_i6oCSJbTMGYmC9TYrOvfnEuTcAz3RlK5r6");'></div>
+<div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
+<div class="absolute bottom-3 left-3 right-3 p-3 glass-effect rounded-lg">
+<p class="text-white text-sm font-bold tracking-wide uppercase">Air Quality</p>
+<p class="text-white/70 text-[10px] font-medium">Purifiers, AC, Fans</p>
+</div>
+</div>
+<div class="group relative aspect-[4/5] overflow-hidden rounded-xl shadow-lg shadow-black/5">
+<div class="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-110" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAM-L-wk-ZqWycDe48MIZ_usZ5KVNa7ZrK79ZgqMWEQVys2ro1wC4blG2nO2HDvKekyJsX2NzAKbR-BeXQl93vK2K6j8VYV4jU8S6q8UdWGUJW3MzOpb0FXeWSNLlrQxiYeI9k7dRRK0ad7uO_0hJMCCFqEZijhmufPsiALlcmL2qJYY-z9VPcywLD5difiPq2IABySvdhBQ_jLLIt_TWqkOzzD43RXXLgOugPFepAVxlfGETV-9o5_-WYacfmudkWxMJVeR88iJo7F");'></div>
+<div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
+<div class="absolute bottom-3 left-3 right-3 p-3 glass-effect rounded-lg">
+<p class="text-white text-sm font-bold tracking-wide uppercase">Cleaning</p>
+<p class="text-white/70 text-[10px] font-medium">Vacuums, Mops, Robots</p>
+</div>
+</div>
+<div class="group relative aspect-[4/5] overflow-hidden rounded-xl shadow-lg shadow-black/5">
+<div class="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-110" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAnp5a1xEj9VmFwPuozwxqaOiwNYRZGZi7Qj3qfy4JITfNcl6uAHQIdcaG4bIlgJwhgQYB4mmrOyfq2ONbIWqopl2Nr5Bk2faH9f7YbWu-ADE7wdstSE_G9qo4QD70bdQk1v4ducoROuuP6fQEfgMKgULB3aL3e593qu2a4Zp8SMkQ_FrE21_98I4J9xz3I3_kXvAVt9_fOpKAdNuJChmIfhWm0DNfmkcknpI-SOeatT0OFFhsk-zG2xF5bQ1kHghnOp7DCMHgxbghG");'></div>
+<div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
+<div class="absolute bottom-3 left-3 right-3 p-3 glass-effect rounded-lg">
+<p class="text-white text-sm font-bold tracking-wide uppercase">Smart Home</p>
+<p class="text-white/70 text-[10px] font-medium">Hubs, Security, Lighting</p>
+</div>
+</div>
+<div class="group relative aspect-[4/5] overflow-hidden rounded-xl shadow-lg shadow-black/5">
+<div class="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-110" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBa1mys6urvDNthKG1oOE3fJKwiy_MO9975q4haR3IvxYAvT1wrSthBeDMzH4QHPJE7WO-hUPQT8m5__hZvKN9xZqMEbho48-wT_omZCrSk6pRCH7Dr4PoT3d5XJYpMF0Pzsnsdnb3q-l6rMj5f2hOkxwDJS4JywLiNEOFS67QHXtyDyctI6orhuqTN987uKa03NZ4X4fJHEm_dYuoZBc1ttfzm7EETD2NAt5pljeZmhzRlpCjHxH_3qcm7_cUC0Hpw6Y4l9y2RL9RV");'></div>
+<div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
+<div class="absolute bottom-3 left-3 right-3 p-3 glass-effect rounded-lg">
+<p class="text-white text-sm font-bold tracking-wide uppercase">Personal Care</p>
+<p class="text-white/70 text-[10px] font-medium">Shavers, Dryers, Health</p>
+</div>
+</div>
+<div class="group relative aspect-[4/5] overflow-hidden rounded-xl shadow-lg shadow-black/5">
+<div class="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-110" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCF_vviE2Z8yGpLJpRMqkXqA3SahV1tDoPQGhPFRFnolX7R5Z5nxYzISiQ-lBjDS-M2sJvp4QU7YW1XK1xPUBhzb89VyzBzBrOihzamCQg9TANaq5K6hToG6qh96qqustNsX3kQuP3GB0AqEPlACZvgM7XpV9Q8vbzBCJt8AwdjVWTki_bw3m8eg6dNbcnwaVETYS2zqpcvYbzpAAfmgAXFhmQd_ta-P9wx3dPgDLdNN1IW6dqKZP1C6pMxKChG5fGMl7BJBg2ZOSl5");'></div>
+<div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
+<div class="absolute bottom-3 left-3 right-3 p-3 glass-effect rounded-lg">
+<p class="text-white text-sm font-bold tracking-wide uppercase">Entertainment</p>
+<p class="text-white/70 text-[10px] font-medium">TVs, Speakers, Consoles</p>
+</div>
+</div>
+<div class="group relative aspect-[4/5] overflow-hidden rounded-xl shadow-lg shadow-black/5">
+<div class="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-110" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAPdhbp9Vez4WWXF00Q2-k7khKJHOOMGC_RuiLSdG2S5scBF0rb6GoNx4gfyyTib3rfuRa_6zSbFX9Hwk3MPuAf-gdRLVRMpjjuBkebsDGkp0Hugj3rHJtS3mjxSkG5iAqk1pYpC3mqYF41q0X9jDmlQ52agcVjG1YLtCG-I90BegEaALSpVVOajqAtos50nL5hXxNjKrMq_FCGqxHTfLnu8b8VB4A9NtfxhqDCKbydNlnSuhI80ye7wOYYMK_KOznwOdG6cfDtjTRE");'></div>
+<div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
+<div class="absolute bottom-3 left-3 right-3 p-3 glass-effect rounded-lg">
+<p class="text-white text-sm font-bold tracking-wide uppercase">Countertop</p>
+<p class="text-white/70 text-[10px] font-medium">Coffee, Toast, Juicers</p>
+</div>
+</div>
+</div>
+</main>
+</div>
+
+</body></html>

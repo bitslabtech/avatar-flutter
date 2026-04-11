@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Wishlist Minimal Grid</title>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#136dec",
+                        "background-light": "#f6f7f8",
+                        "background-dark": "#101822",
+                    },
+                    fontFamily: {
+                        "display": ["Manrope", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.5rem",
+                        "lg": "1rem",
+                        "xl": "1.5rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark min-h-screen font-display text-slate-900 dark:text-white overflow-x-hidden selection:bg-primary/20">
+<div class="flex flex-col min-h-screen max-w-md mx-auto relative bg-background-light dark:bg-background-dark shadow-2xl">
+<!-- Top App Bar -->
+<header class="sticky top-0 z-50 flex items-center justify-between px-4 py-3 bg-background-light/90 dark:bg-background-dark/90 backdrop-blur-md">
+<button class="flex items-center justify-center w-10 h-10 rounded-full hover:bg-slate-200 dark:hover:bg-slate-800 transition-colors">
+<span class="material-symbols-outlined text-[24px]">arrow_back</span>
+</button>
+<h1 class="text-lg font-bold tracking-tight">Wishlist</h1>
+<button class="flex items-center justify-center w-10 h-10 rounded-full hover:bg-slate-200 dark:hover:bg-slate-800 transition-colors">
+<span class="material-symbols-outlined text-[24px]">search</span>
+</button>
+</header>
+<!-- Main Content -->
+<main class="flex-1 px-4 py-2 pb-8">
+<div class="grid grid-cols-2 gap-4">
+<!-- Item 1 -->
+<div class="group flex flex-col p-3 bg-white dark:bg-slate-800 rounded-xl shadow-sm border border-slate-100 dark:border-slate-700/50">
+<div class="relative w-full aspect-square mb-3 overflow-hidden rounded-lg bg-slate-100 dark:bg-slate-700">
+<div class="w-full h-full bg-center bg-cover bg-no-repeat transition-transform duration-500 group-hover:scale-105" data-alt="Modern white air purifier on table" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuANQOliYOMI56_CdYRPzniQB9I4HccrG86kZ7-e_ObxLpS_609ezAL_b9_YzgFkYN-CUnXXigE_EMBtm4upzrVQ8T_t7dUnoIcYmXzoM4jov4t1VQhlZIMjp_9fRSZwbTNXYWCsHypsJ03scRk2YQ5Wtk-_TScCqNPpAp85_L_uE9-_nA6rPGYCvTFDB5PfQBd6mRXemwfM1dM54RRmQnBy5AQ6a7ZQZhTj2hAVR7oxnswu0JdYFXDqI-HB4S_OtFv5nEloZO0A8DQx');"></div>
+<button class="absolute top-2 right-2 flex items-center justify-center w-8 h-8 bg-white/80 dark:bg-black/40 backdrop-blur-sm rounded-full shadow-sm hover:bg-white transition-all active:scale-90">
+<span class="material-symbols-outlined text-[20px] text-red-500" style="font-variation-settings: 'FILL' 1;">favorite</span>
+</button>
+</div>
+<div class="flex flex-col flex-1">
+<h3 class="text-sm font-bold truncate text-slate-900 dark:text-white mb-1">Modern Air Purifier</h3>
+<p class="text-xs font-medium text-slate-500 dark:text-slate-400 mb-3">$129.00</p>
+<button class="mt-auto w-full py-2.5 bg-primary/10 hover:bg-primary text-primary hover:text-white dark:bg-primary/20 dark:hover:bg-primary rounded-lg text-xs font-bold tracking-wide uppercase transition-all duration-200">
+                            Move to Cart
+                        </button>
+</div>
+</div>
+<!-- Item 2 -->
+<div class="group flex flex-col p-3 bg-white dark:bg-slate-800 rounded-xl shadow-sm border border-slate-100 dark:border-slate-700/50">
+<div class="relative w-full aspect-square mb-3 overflow-hidden rounded-lg bg-slate-100 dark:bg-slate-700">
+<div class="w-full h-full bg-center bg-cover bg-no-repeat transition-transform duration-500 group-hover:scale-105" data-alt="Sleek black smart coffee maker" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBKJ-j7caG5W03YdQInw4Tpxkh4gTs8ccQcFrqFjCQXklbgQeL5q-Ss1nMH8KYR6oGtRqDdDVz5RV7QA8MILeVzUl_jgcHNLPx_-0xcuJJs32-SHnXMm9VKUjweqCrJ_UFEs94WsEVogfJ0l8ChQlab6I8ouGvIC97fyDJNmQ1oXLGZ08qo2JhyBRG2ls7TRn_PQ0zj63b-tPW4opXviC239k32wRiYk8mvuwcNSgvtRQYMobP0RlmKAnew1xs589rYudeiWIPHdfpd');"></div>
+<button class="absolute top-2 right-2 flex items-center justify-center w-8 h-8 bg-white/80 dark:bg-black/40 backdrop-blur-sm rounded-full shadow-sm hover:bg-white transition-all active:scale-90">
+<span class="material-symbols-outlined text-[20px] text-red-500" style="font-variation-settings: 'FILL' 1;">favorite</span>
+</button>
+</div>
+<div class="flex flex-col flex-1">
+<h3 class="text-sm font-bold truncate text-slate-900 dark:text-white mb-1">Smart Coffee Maker</h3>
+<p class="text-xs font-medium text-slate-500 dark:text-slate-400 mb-3">$249.99</p>
+<button class="mt-auto w-full py-2.5 bg-primary/10 hover:bg-primary text-primary hover:text-white dark:bg-primary/20 dark:hover:bg-primary rounded-lg text-xs font-bold tracking-wide uppercase transition-all duration-200">
+                            Move to Cart
+                        </button>
+</div>
+</div>
+<!-- Item 3 -->
+<div class="group flex flex-col p-3 bg-white dark:bg-slate-800 rounded-xl shadow-sm border border-slate-100 dark:border-slate-700/50">
+<div class="relative w-full aspect-square mb-3 overflow-hidden rounded-lg bg-slate-100 dark:bg-slate-700">
+<div class="w-full h-full bg-center bg-cover bg-no-repeat transition-transform duration-500 group-hover:scale-105" data-alt="Round white robotic vacuum cleaner" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCoLQRLe8PlUFGVgcSh-EHR5tBkG5JAe7zfLWLtXBFS0Zbu5-6G_jkFjrjOBCaQ8WggMGvAODZasZcyoQb6TxtQ2uqRmH7gd_hxbuCVRZ9AnCeKlQKVRpQUeMcLf9HYk-OowqxEhNohRv6UoQjpuvksVbJsoPNFkeMp9nrwDpDnqp_6NBAtVEKvc9DcbGRrQgcmVe67eP2hlsuA1HV57Bbcq_5oWLV2UWbOyagByDlDXIJViayDZFxjxf3kllfcgUh1pjyGnhvfCvhw');"></div>
+<button class="absolute top-2 right-2 flex items-center justify-center w-8 h-8 bg-white/80 dark:bg-black/40 backdrop-blur-sm rounded-full shadow-sm hover:bg-white transition-all active:scale-90">
+<span class="material-symbols-outlined text-[20px] text-red-500" style="font-variation-settings: 'FILL' 1;">favorite</span>
+</button>
+</div>
+<div class="flex flex-col flex-1">
+<h3 class="text-sm font-bold truncate text-slate-900 dark:text-white mb-1">Robotic Vacuum</h3>
+<p class="text-xs font-medium text-slate-500 dark:text-slate-400 mb-3">$399.00</p>
+<button class="mt-auto w-full py-2.5 bg-primary/10 hover:bg-primary text-primary hover:text-white dark:bg-primary/20 dark:hover:bg-primary rounded-lg text-xs font-bold tracking-wide uppercase transition-all duration-200">
+                            Move to Cart
+                        </button>
+</div>
+</div>
+<!-- Item 4 -->
+<div class="group flex flex-col p-3 bg-white dark:bg-slate-800 rounded-xl shadow-sm border border-slate-100 dark:border-slate-700/50">
+<div class="relative w-full aspect-square mb-3 overflow-hidden rounded-lg bg-slate-100 dark:bg-slate-700">
+<div class="w-full h-full bg-center bg-cover bg-no-repeat transition-transform duration-500 group-hover:scale-105" data-alt="Professional kitchen blender silver" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAfFwtvSXlusyG0D-cOGbbhwK74M5e-dOiErn_lDW0BQhC34_ePDWqOrSqXcuEiwyB1DDnvlopeFE15mSavRvxmydNAkbPjNPeyCbYw5qWvsXyeKPlhDD-L_pWYlD7zGodKbcoTm7iL5I2gxVUTG6WXF49e8D06ugpXX2O_CTkq7c7eFXcJGXML8C8Jmp8mTUZ2YAu5snpHHVoejsCmNuvEKr0WW9rqvtB89CCez5wJhQLQ5TQYDkfiiraUkYGJwkJwZadPAXb7mgj7');"></div>
+<button class="absolute top-2 right-2 flex items-center justify-center w-8 h-8 bg-white/80 dark:bg-black/40 backdrop-blur-sm rounded-full shadow-sm hover:bg-white transition-all active:scale-90">
+<span class="material-symbols-outlined text-[20px] text-red-500" style="font-variation-settings: 'FILL' 1;">favorite</span>
+</button>
+</div>
+<div class="flex flex-col flex-1">
+<h3 class="text-sm font-bold truncate text-slate-900 dark:text-white mb-1">Blender Pro</h3>
+<p class="text-xs font-medium text-slate-500 dark:text-slate-400 mb-3">$89.50</p>
+<button class="mt-auto w-full py-2.5 bg-primary/10 hover:bg-primary text-primary hover:text-white dark:bg-primary/20 dark:hover:bg-primary rounded-lg text-xs font-bold tracking-wide uppercase transition-all duration-200">
+                            Move to Cart
+                        </button>
+</div>
+</div>
+<!-- Item 5 -->
+<div class="group flex flex-col p-3 bg-white dark:bg-slate-800 rounded-xl shadow-sm border border-slate-100 dark:border-slate-700/50">
+<div class="relative w-full aspect-square mb-3 overflow-hidden rounded-lg bg-slate-100 dark:bg-slate-700">
+<div class="w-full h-full bg-center bg-cover bg-no-repeat transition-transform duration-500 group-hover:scale-105" data-alt="Stainless steel toaster oven" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDp84tj-PbQLgCjT7igKSOu4CflDb-s59LS-isIe_Irtw4FgVxz9EszPx3QlU032lGJ65H57-s1KYOeiBnMOE28HhMUH2WbEK8sGJ2pFzQQtyXfb7_LlJRE2WbjyfBjtdEeEdXKPSUDvA3WycZWmTcVweQ2zjGiPKsLNBio_iWT_6OebUSMbpyhAj4L61UdyXjhp9_dxQJ2wYRon5TEtfPUxVFkFJwh1sIKxJKwJrOASfYEwlm84LKpeynPLU3RfKNQvGDZb0_KWKtl');"></div>
+<button class="absolute top-2 right-2 flex items-center justify-center w-8 h-8 bg-white/80 dark:bg-black/40 backdrop-blur-sm rounded-full shadow-sm hover:bg-white transition-all active:scale-90">
+<span class="material-symbols-outlined text-[20px] text-red-500" style="font-variation-settings: 'FILL' 1;">favorite</span>
+</button>
+</div>
+<div class="flex flex-col flex-1">
+<h3 class="text-sm font-bold truncate text-slate-900 dark:text-white mb-1">Toaster Oven</h3>
+<p class="text-xs font-medium text-slate-500 dark:text-slate-400 mb-3">$150.00</p>
+<button class="mt-auto w-full py-2.5 bg-primary/10 hover:bg-primary text-primary hover:text-white dark:bg-primary/20 dark:hover:bg-primary rounded-lg text-xs font-bold tracking-wide uppercase transition-all duration-200">
+                            Move to Cart
+                        </button>
+</div>
+</div>
+<!-- Item 6 -->
+<div class="group flex flex-col p-3 bg-white dark:bg-slate-800 rounded-xl shadow-sm border border-slate-100 dark:border-slate-700/50">
+<div class="relative w-full aspect-square mb-3 overflow-hidden rounded-lg bg-slate-100 dark:bg-slate-700">
+<div class="w-full h-full bg-center bg-cover bg-no-repeat transition-transform duration-500 group-hover:scale-105" data-alt="White modern room humidifier" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBCDu8Q4pgLnIdkeofLlPUcRL4PAR0ephAJ04zEdV1ONP1hNUtCwXUkCa3RdnLS4FpS5kJhcHHP510PGNmKiGobDk-2tEY4IrxVXfiuS99g9GVdkA7jHNofJKKQqxmbupfC3J1zezu2w3DAPW7ZiU0H6Mbrsd0lp6rEPGRSN_Rctu0qOiMFSgEWvygIVDmOgFIN-TU_NfNESzU5UojemDF1l51AZ2b8gicgcMwBc0eOH6vWk5l1uuAvHVWum5J_PEnRWTobDVFmj6oB');"></div>
+<button class="absolute top-2 right-2 flex items-center justify-center w-8 h-8 bg-white/80 dark:bg-black/40 backdrop-blur-sm rounded-full shadow-sm hover:bg-white transition-all active:scale-90">
+<span class="material-symbols-outlined text-[20px] text-red-500" style="font-variation-settings: 'FILL' 1;">favorite</span>
+</button>
+</div>
+<div class="flex flex-col flex-1">
+<h3 class="text-sm font-bold truncate text-slate-900 dark:text-white mb-1">Humidifier</h3>
+<p class="text-xs font-medium text-slate-500 dark:text-slate-400 mb-3">$45.00</p>
+<button class="mt-auto w-full py-2.5 bg-primary/10 hover:bg-primary text-primary hover:text-white dark:bg-primary/20 dark:hover:bg-primary rounded-lg text-xs font-bold tracking-wide uppercase transition-all duration-200">
+                            Move to Cart
+                        </button>
+</div>
+</div>
+</div>
+<!-- Empty State / Footer Space -->
+<div class="h-8"></div>
+</main>
+</div>
+</body></html>

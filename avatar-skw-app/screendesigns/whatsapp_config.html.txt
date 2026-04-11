@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>WhatsApp API Configuration</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#136dec",
+                        "background-light": "#f6f7f8",
+                        "background-dark": "#101822",
+                        "surface-dark": "#1c2027",
+                        "border-dark": "#3b4554",
+                        "text-secondary": "#9da8b9",
+                    },
+                    fontFamily: {
+                        "display": ["Manrope", "sans-serif"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #101822; 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #3b4554; 
+            border-radius: 3px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #4b5563; 
+        }.toggle-checkbox:checked {
+            right: 0;
+            border-color: #136dec;
+        }
+        .toggle-checkbox:checked + .toggle-label {
+            background-color: #136dec;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark font-display text-white overflow-hidden h-screen flex flex-col">
+<div class="relative flex items-center justify-center bg-background-dark p-4 border-b border-border-dark shrink-0 z-10">
+<button class="absolute left-4 p-2 rounded-full hover:bg-surface-dark transition-colors">
+<span class="material-symbols-outlined text-white">arrow_back</span>
+</button>
+<h2 class="text-white text-lg font-bold leading-tight tracking-[-0.015em]">WhatsApp Config</h2>
+</div>
+<div class="flex-1 overflow-y-auto pb-24">
+<div class="px-4 pt-6 pb-2">
+<h3 class="text-white text-lg font-bold leading-tight tracking-[-0.015em] mb-4">API Credentials</h3>
+<div class="flex flex-col gap-4">
+<div class="flex flex-col">
+<label class="text-white text-sm font-medium leading-normal pb-2">Integration Type</label>
+<div class="relative">
+<select class="form-select w-full rounded-lg text-white border border-border-dark bg-surface-dark h-12 px-4 pr-10 text-base font-normal focus:border-primary focus:ring-0 appearance-none">
+<option value="cloud">Meta Cloud API</option>
+<option value="on-premise">On-Premise API</option>
+<option value="partner">3rd Party Partner</option>
+</select>
+<span class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-text-secondary pointer-events-none">expand_more</span>
+</div>
+</div>
+<div class="flex flex-col">
+<label class="text-white text-sm font-medium leading-normal pb-2">Business Phone Number</label>
+<input class="form-input w-full rounded-lg text-white border border-border-dark bg-surface-dark h-12 px-4 placeholder:text-text-secondary text-base font-normal focus:border-primary focus:ring-0" placeholder="+1 (555) 000-0000" type="tel" value=""/>
+</div>
+<div class="flex flex-col">
+<label class="flex items-center gap-2 text-white text-sm font-medium leading-normal pb-2">
+                        Phone Number ID
+                        <span class="material-symbols-outlined text-text-secondary text-[16px] cursor-help" title="Found in Meta App Dashboard">help</span>
+</label>
+<input class="form-input w-full rounded-lg text-white border border-border-dark bg-surface-dark h-12 px-4 placeholder:text-text-secondary text-base font-normal focus:border-primary focus:ring-0 font-mono" placeholder="1092384..." type="text" value=""/>
+</div>
+<div class="flex flex-col">
+<label class="text-white text-sm font-medium leading-normal pb-2">Permanent Access Token</label>
+<div class="relative">
+<input class="form-input w-full rounded-lg text-white border border-border-dark bg-surface-dark h-12 px-4 pr-12 placeholder:text-text-secondary text-base font-normal focus:border-primary focus:ring-0 font-mono" type="password" value="EAAQ..."/>
+<button class="absolute right-0 top-0 h-full w-12 flex items-center justify-center text-text-secondary hover:text-white transition-colors">
+<span class="material-symbols-outlined">visibility</span>
+</button>
+</div>
+<p class="text-text-secondary text-xs mt-1">Token must have 'whatsapp_business_messaging' permission.</p>
+</div>
+</div>
+</div>
+<div class="h-px bg-border-dark mx-4 my-6"></div>
+<div class="px-4 pb-6">
+<div class="flex items-center justify-between mb-4">
+<h3 class="text-white text-lg font-bold leading-tight tracking-[-0.015em]">Message Templates</h3>
+<span class="text-xs text-text-secondary bg-surface-dark px-2 py-1 rounded border border-border-dark">8 configured</span>
+</div>
+<div class="space-y-4">
+<div class="bg-surface-dark border border-border-dark rounded-xl p-4 flex flex-col gap-3 group">
+<div class="flex items-center justify-between gap-3">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-primary/20 flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-primary text-sm">lock</span>
+</div>
+<p class="text-white font-bold text-base">OTP (Login/Reset)</p>
+</div>
+<div class="relative inline-block w-10 mr-2 align-middle select-none transition duration-200 ease-in">
+<input checked="" class="toggle-checkbox absolute block w-5 h-5 rounded-full bg-white border-4 appearance-none cursor-pointer border-border-dark checked:right-0 checked:border-primary transition-all duration-300" id="toggle-otp" name="toggle" type="checkbox"/>
+<label class="toggle-label block overflow-hidden h-5 rounded-full bg-border-dark cursor-pointer transition-colors duration-300" for="toggle-otp"></label>
+</div>
+</div>
+<div class="grid grid-cols-3 gap-3">
+<div class="col-span-2">
+<label class="text-text-secondary text-xs font-medium block mb-1">Template Name</label>
+<input class="w-full bg-background-dark border border-border-dark rounded px-3 py-2 text-sm text-white focus:border-primary focus:ring-0 placeholder:text-text-secondary/50" placeholder="auth_otp_v2" type="text" value="auth_otp_v2"/>
+</div>
+<div class="col-span-1">
+<label class="text-text-secondary text-xs font-medium block mb-1">Lang</label>
+<input class="w-full bg-background-dark border border-border-dark rounded px-3 py-2 text-sm text-white focus:border-primary focus:ring-0 uppercase text-center" type="text" value="en_US"/>
+</div>
+</div>
+</div>
+<div class="bg-surface-dark border border-border-dark rounded-xl p-4 flex flex-col gap-3">
+<div class="flex items-center justify-between gap-3">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-blue-500/20 flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-blue-400 text-sm">person_add</span>
+</div>
+<p class="text-white font-bold text-base">User Registration</p>
+</div>
+<div class="relative inline-block w-10 mr-2 align-middle select-none transition duration-200 ease-in">
+<input checked="" class="toggle-checkbox absolute block w-5 h-5 rounded-full bg-white border-4 appearance-none cursor-pointer border-border-dark checked:right-0 checked:border-primary transition-all duration-300" id="toggle-user-reg" name="toggle" type="checkbox"/>
+<label class="toggle-label block overflow-hidden h-5 rounded-full bg-border-dark cursor-pointer transition-colors duration-300" for="toggle-user-reg"></label>
+</div>
+</div>
+<div class="grid grid-cols-3 gap-3">
+<div class="col-span-2">
+<label class="text-text-secondary text-xs font-medium block mb-1">Template Name</label>
+<input class="w-full bg-background-dark border border-border-dark rounded px-3 py-2 text-sm text-white focus:border-primary focus:ring-0 placeholder:text-text-secondary/50" placeholder="welcome_user" type="text" value="welcome_user_01"/>
+</div>
+<div class="col-span-1">
+<label class="text-text-secondary text-xs font-medium block mb-1">Lang</label>
+<input class="w-full bg-background-dark border border-border-dark rounded px-3 py-2 text-sm text-white focus:border-primary focus:ring-0 uppercase text-center" type="text" value="en_US"/>
+</div>
+</div>
+</div>
+<div class="bg-surface-dark border border-border-dark rounded-xl p-4 flex flex-col gap-3">
+<div class="flex items-center justify-between gap-3">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-purple-500/20 flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-purple-400 text-sm">storefront</span>
+</div>
+<p class="text-white font-bold text-base">Dealer Registration</p>
+</div>
+<div class="relative inline-block w-10 mr-2 align-middle select-none transition duration-200 ease-in">
+<input checked="" class="toggle-checkbox absolute block w-5 h-5 rounded-full bg-white border-4 appearance-none cursor-pointer border-border-dark checked:right-0 checked:border-primary transition-all duration-300" id="toggle-dealer-reg" name="toggle" type="checkbox"/>
+<label class="toggle-label block overflow-hidden h-5 rounded-full bg-border-dark cursor-pointer transition-colors duration-300" for="toggle-dealer-reg"></label>
+</div>
+</div>
+<div class="grid grid-cols-3 gap-3">
+<div class="col-span-2">
+<label class="text-text-secondary text-xs font-medium block mb-1">Template Name</label>
+<input class="w-full bg-background-dark border border-border-dark rounded px-3 py-2 text-sm text-white focus:border-primary focus:ring-0 placeholder:text-text-secondary/50" placeholder="dealer_welcome" type="text" value="dealer_reg_ack"/>
+</div>
+<div class="col-span-1">
+<label class="text-text-secondary text-xs font-medium block mb-1">Lang</label>
+<input class="w-full bg-background-dark border border-border-dark rounded px-3 py-2 text-sm text-white focus:border-primary focus:ring-0 uppercase text-center" type="text" value="en_US"/>
+</div>
+</div>
+</div>
+<div class="bg-surface-dark border border-border-dark rounded-xl p-4 flex flex-col gap-3">
+<div class="flex items-center justify-between gap-3">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-green-500/20 flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-green-400 text-sm">check_circle</span>
+</div>
+<p class="text-white font-bold text-base">Dealer Approval</p>
+</div>
+<div class="relative inline-block w-10 mr-2 align-middle select-none transition duration-200 ease-in">
+<input checked="" class="toggle-checkbox absolute block w-5 h-5 rounded-full bg-white border-4 appearance-none cursor-pointer border-border-dark checked:right-0 checked:border-primary transition-all duration-300" id="toggle-dealer-approve" name="toggle" type="checkbox"/>
+<label class="toggle-label block overflow-hidden h-5 rounded-full bg-border-dark cursor-pointer transition-colors duration-300" for="toggle-dealer-approve"></label>
+</div>
+</div>
+<div class="grid grid-cols-3 gap-3">
+<div class="col-span-2">
+<label class="text-text-secondary text-xs font-medium block mb-1">Template Name</label>
+<input class="w-full bg-background-dark border border-border-dark rounded px-3 py-2 text-sm text-white focus:border-primary focus:ring-0 placeholder:text-text-secondary/50" type="text" value="dealer_approved_v1"/>
+</div>
+<div class="col-span-1">
+<label class="text-text-secondary text-xs font-medium block mb-1">Lang</label>
+<input class="w-full bg-background-dark border border-border-dark rounded px-3 py-2 text-sm text-white focus:border-primary focus:ring-0 uppercase text-center" type="text" value="en_US"/>
+</div>
+</div>
+</div>
+<div class="bg-surface-dark border border-border-dark rounded-xl p-4 flex flex-col gap-3">
+<div class="flex items-center justify-between gap-3">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-red-500/20 flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-red-400 text-sm">cancel</span>
+</div>
+<p class="text-white font-bold text-base">Dealer Rejection</p>
+</div>
+<div class="relative inline-block w-10 mr-2 align-middle select-none transition duration-200 ease-in">
+<input class="toggle-checkbox absolute block w-5 h-5 rounded-full bg-white border-4 appearance-none cursor-pointer border-border-dark checked:right-0 checked:border-primary transition-all duration-300" id="toggle-dealer-reject" name="toggle" type="checkbox"/>
+<label class="toggle-label block overflow-hidden h-5 rounded-full bg-border-dark cursor-pointer transition-colors duration-300" for="toggle-dealer-reject"></label>
+</div>
+</div>
+<div class="grid grid-cols-3 gap-3">
+<div class="col-span-2">
+<label class="text-text-secondary text-xs font-medium block mb-1">Template Name</label>
+<input class="w-full bg-background-dark border border-border-dark rounded px-3 py-2 text-sm text-white focus:border-primary focus:ring-0 placeholder:text-text-secondary/50" type="text" value="dealer_rejected"/>
+</div>
+<div class="col-span-1">
+<label class="text-text-secondary text-xs font-medium block mb-1">Lang</label>
+<input class="w-full bg-background-dark border border-border-dark rounded px-3 py-2 text-sm text-white focus:border-primary focus:ring-0 uppercase text-center" type="text" value="en_US"/>
+</div>
+</div>
+</div>
+<div class="bg-surface-dark border border-border-dark rounded-xl p-4 flex flex-col gap-3">
+<div class="flex items-center justify-between gap-3">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-orange-500/20 flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-orange-400 text-sm">shopping_cart</span>
+</div>
+<p class="text-white font-bold text-base">Order Placed</p>
+</div>
+<div class="relative inline-block w-10 mr-2 align-middle select-none transition duration-200 ease-in">
+<input checked="" class="toggle-checkbox absolute block w-5 h-5 rounded-full bg-white border-4 appearance-none cursor-pointer border-border-dark checked:right-0 checked:border-primary transition-all duration-300" id="toggle-order-placed" name="toggle" type="checkbox"/>
+<label class="toggle-label block overflow-hidden h-5 rounded-full bg-border-dark cursor-pointer transition-colors duration-300" for="toggle-order-placed"></label>
+</div>
+</div>
+<div class="grid grid-cols-3 gap-3">
+<div class="col-span-2">
+<label class="text-text-secondary text-xs font-medium block mb-1">Template Name</label>
+<input class="w-full bg-background-dark border border-border-dark rounded px-3 py-2 text-sm text-white focus:border-primary focus:ring-0 placeholder:text-text-secondary/50" type="text" value="order_confirm_v3"/>
+</div>
+<div class="col-span-1">
+<label class="text-text-secondary text-xs font-medium block mb-1">Lang</label>
+<input class="w-full bg-background-dark border border-border-dark rounded px-3 py-2 text-sm text-white focus:border-primary focus:ring-0 uppercase text-center" type="text" value="en_US"/>
+</div>
+</div>
+</div>
+<div class="bg-surface-dark border border-border-dark rounded-xl p-4 flex flex-col gap-3">
+<div class="flex items-center justify-between gap-3">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-teal-500/20 flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-teal-400 text-sm">local_shipping</span>
+</div>
+<p class="text-white font-bold text-base">Order Status Update</p>
+</div>
+<div class="relative inline-block w-10 mr-2 align-middle select-none transition duration-200 ease-in">
+<input checked="" class="toggle-checkbox absolute block w-5 h-5 rounded-full bg-white border-4 appearance-none cursor-pointer border-border-dark checked:right-0 checked:border-primary transition-all duration-300" id="toggle-order-update" name="toggle" type="checkbox"/>
+<label class="toggle-label block overflow-hidden h-5 rounded-full bg-border-dark cursor-pointer transition-colors duration-300" for="toggle-order-update"></label>
+</div>
+</div>
+<div class="grid grid-cols-3 gap-3">
+<div class="col-span-2">
+<label class="text-text-secondary text-xs font-medium block mb-1">Template Name</label>
+<input class="w-full bg-background-dark border border-border-dark rounded px-3 py-2 text-sm text-white focus:border-primary focus:ring-0 placeholder:text-text-secondary/50" type="text" value="shipping_update"/>
+</div>
+<div class="col-span-1">
+<label class="text-text-secondary text-xs font-medium block mb-1">Lang</label>
+<input class="w-full bg-background-dark border border-border-dark rounded px-3 py-2 text-sm text-white focus:border-primary focus:ring-0 uppercase text-center" type="text" value="en_US"/>
+</div>
+</div>
+</div>
+<div class="bg-surface-dark border border-border-dark rounded-xl p-4 flex flex-col gap-3">
+<div class="flex items-center justify-between gap-3">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-pink-500/20 flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-pink-400 text-sm">production_quantity_limits</span>
+</div>
+<p class="text-white font-bold text-base">Abandoned Cart</p>
+</div>
+<div class="relative inline-block w-10 mr-2 align-middle select-none transition duration-200 ease-in">
+<input class="toggle-checkbox absolute block w-5 h-5 rounded-full bg-white border-4 appearance-none cursor-pointer border-border-dark checked:right-0 checked:border-primary transition-all duration-300" id="toggle-abandoned-cart" name="toggle" type="checkbox"/>
+<label class="toggle-label block overflow-hidden h-5 rounded-full bg-border-dark cursor-pointer transition-colors duration-300" for="toggle-abandoned-cart"></label>
+</div>
+</div>
+<div class="grid grid-cols-3 gap-3">
+<div class="col-span-2">
+<label class="text-text-secondary text-xs font-medium block mb-1">Template Name</label>
+<input class="w-full bg-background-dark border border-border-dark rounded px-3 py-2 text-sm text-white focus:border-primary focus:ring-0 placeholder:text-text-secondary/50" type="text" value="cart_reminder_24h"/>
+</div>
+<div class="col-span-1">
+<label class="text-text-secondary text-xs font-medium block mb-1">Lang</label>
+<input class="w-full bg-background-dark border border-border-dark rounded px-3 py-2 text-sm text-white focus:border-primary focus:ring-0 uppercase text-center" type="text" value="en_US"/>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="fixed bottom-0 left-0 right-0 bg-background-dark/95 backdrop-blur-sm border-t border-border-dark p-4 z-50 flex gap-4">
+<button class="flex-1 flex items-center justify-center bg-transparent border border-border-dark hover:bg-surface-dark text-white font-bold text-base rounded-lg h-12 transition-colors">
+        Test Connection
+    </button>
+<button class="flex-1 flex items-center justify-center bg-primary hover:bg-primary/90 text-white font-bold text-base rounded-lg h-12 transition-colors shadow-lg shadow-primary/20">
+        Save Configuration
+    </button>
+</div>
+</body></html>

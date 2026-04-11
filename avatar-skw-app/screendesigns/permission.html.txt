@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Manage Admin Permissions</title>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#136dec",
+                        "background-light": "#f6f7f8",
+                        "background-dark": "#101822",
+                        "card-dark": "#1c2430",
+                        "surface-dark": "#161e29",
+                    },
+                    fontFamily: {
+                        "display": ["Manrope", "sans-serif"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>.hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .hide-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }.toggle-checkbox:checked {
+            right: 0;
+            border-color: #10B981;
+        }
+        .toggle-checkbox:checked + .toggle-label {
+            background-color: #10B981;
+        }
+    </style>
+<style>
+        body {
+            min-height: max(884px, 100dvh);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-white antialiased selection:bg-primary/30">
+<div class="relative flex h-full min-h-screen w-full flex-col overflow-x-hidden pb-10">
+<div class="sticky top-0 z-40 bg-background-light/80 dark:bg-background-dark/80 backdrop-blur-md border-b border-slate-200 dark:border-slate-800">
+<div class="flex items-center justify-between px-4 py-3">
+<button class="flex size-10 items-center justify-center rounded-full text-slate-900 dark:text-white hover:bg-black/5 dark:hover:bg-white/5 transition-colors">
+<span class="material-symbols-outlined" style="font-size: 24px;">arrow_back_ios_new</span>
+</button>
+<h2 class="text-lg font-bold leading-tight tracking-tight flex-1 text-center">Admin Permissions</h2>
+<button class="flex h-10 px-3 items-center justify-center rounded-lg text-primary hover:bg-primary/10 transition-colors font-semibold text-sm">
+                    Save
+                </button>
+</div>
+</div>
+<div class="flex flex-col gap-6 p-4">
+<div class="flex flex-col rounded-2xl bg-white dark:bg-card-dark border border-slate-200 dark:border-slate-800 shadow-sm p-4">
+<div class="flex items-center gap-4">
+<div class="relative shrink-0">
+<div class="h-16 w-16 rounded-full bg-cover bg-center shadow-inner" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBvob_VYw31qyLbnzC3jhJNgEK7vWFQ-Xrc_UITGEwAwJVGw1qg-lAStyHoycP_6tCpDjnwsTjBJD6oOz4YUeVtTdEssIFwqCaCBItOM3nXBS5r2vASM_baVP15txfyHU3Vr9TNxtF08309pFsdDV1JjmuurgbsiU4ZZ3QGnA3ZHiUrav0ROoY6S4LwkDnl6FwrqOgZYGrLVqcWUIQRhw8SiShHm8RJz0gpCmf3LIn4wXdQkNysrHzGLzDWBghfFnfEfSJnsEZ1-GOM');"></div>
+</div>
+<div class="flex-1 min-w-0">
+<h3 class="text-lg font-bold text-slate-900 dark:text-white truncate">Sarah Jenkins</h3>
+<p class="text-sm text-slate-500 dark:text-slate-400 truncate">sarah.jenkins@admin.com</p>
+<p class="text-xs text-slate-400 mt-0.5">ID: #ADM-8821</p>
+</div>
+<div class="flex flex-col items-end gap-1">
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer" type="checkbox" value=""/>
+<div class="w-11 h-6 bg-slate-200 peer-focus:outline-none rounded-full peer dark:bg-slate-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-emerald-500"></div>
+</label>
+<span class="text-[10px] font-bold text-emerald-500">Active</span>
+</div>
+</div>
+</div>
+<div class="flex flex-col gap-3">
+<h4 class="text-sm font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider px-1">Primary Role</h4>
+<div class="flex gap-2 overflow-x-auto hide-scrollbar snap-x pb-1">
+<button class="snap-start shrink-0 flex items-center gap-2 h-10 px-5 rounded-full bg-white dark:bg-card-dark border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 text-sm font-semibold hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors active:scale-95">
+<div class="w-2 h-2 rounded-full bg-orange-400"></div> Support
+                    </button>
+<button class="snap-start shrink-0 flex items-center gap-2 h-10 px-5 rounded-full bg-primary text-white text-sm font-bold shadow-md shadow-primary/20 transition-transform active:scale-95 ring-2 ring-offset-2 ring-primary ring-offset-background-light dark:ring-offset-background-dark">
+<div class="w-2 h-2 rounded-full bg-white"></div> Finance
+                    </button>
+<button class="snap-start shrink-0 flex items-center gap-2 h-10 px-5 rounded-full bg-white dark:bg-card-dark border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 text-sm font-semibold hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors active:scale-95">
+<div class="w-2 h-2 rounded-full bg-purple-400"></div> Content
+                    </button>
+<button class="snap-start shrink-0 flex items-center gap-2 h-10 px-5 rounded-full bg-white dark:bg-card-dark border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 text-sm font-semibold hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors active:scale-95">
+<div class="w-2 h-2 rounded-full bg-pink-400"></div> Tech
+                    </button>
+</div>
+</div>
+<div class="flex flex-col gap-3">
+<h4 class="text-sm font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider px-1">Module Access</h4>
+<div class="flex flex-col rounded-2xl bg-white dark:bg-card-dark border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden">
+<div class="flex items-center justify-between p-4 border-b border-slate-100 dark:border-slate-800/50">
+<div class="flex items-center gap-3">
+<div class="flex items-center justify-center w-8 h-8 rounded-lg bg-indigo-500/10 text-indigo-500">
+<span class="material-symbols-outlined" style="font-size: 20px;">inventory_2</span>
+</div>
+<span class="font-bold text-slate-900 dark:text-white">Product Management</span>
+</div>
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer" type="checkbox" value=""/>
+<div class="w-9 h-5 bg-slate-200 peer-focus:outline-none rounded-full peer dark:bg-slate-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all dark:border-gray-600 peer-checked:bg-primary"></div>
+</label>
+</div>
+<div class="px-5 py-4 bg-slate-50/50 dark:bg-surface-dark/50">
+<div class="flex items-center justify-between gap-4">
+<label class="flex items-center gap-3 cursor-pointer group">
+<input checked="" class="form-checkbox w-5 h-5 rounded border-slate-300 text-primary focus:ring-primary/20 dark:border-slate-600 dark:bg-slate-700 transition-all" type="checkbox"/>
+<span class="text-sm font-medium text-slate-700 dark:text-slate-300 group-hover:text-slate-900 dark:group-hover:text-white transition-colors">View</span>
+</label>
+<label class="flex items-center gap-3 cursor-pointer group">
+<input checked="" class="form-checkbox w-5 h-5 rounded border-slate-300 text-primary focus:ring-primary/20 dark:border-slate-600 dark:bg-slate-700 transition-all" type="checkbox"/>
+<span class="text-sm font-medium text-slate-700 dark:text-slate-300 group-hover:text-slate-900 dark:group-hover:text-white transition-colors">Edit</span>
+</label>
+<label class="flex items-center gap-3 cursor-pointer group">
+<input class="form-checkbox w-5 h-5 rounded border-slate-300 text-primary focus:ring-primary/20 dark:border-slate-600 dark:bg-slate-700 transition-all" type="checkbox"/>
+<span class="text-sm font-medium text-slate-700 dark:text-slate-300 group-hover:text-slate-900 dark:group-hover:text-white transition-colors">Delete</span>
+</label>
+</div>
+</div>
+</div>
+<div class="flex flex-col rounded-2xl bg-white dark:bg-card-dark border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden">
+<div class="flex items-center justify-between p-4 border-b border-slate-100 dark:border-slate-800/50">
+<div class="flex items-center gap-3">
+<div class="flex items-center justify-center w-8 h-8 rounded-lg bg-emerald-500/10 text-emerald-500">
+<span class="material-symbols-outlined" style="font-size: 20px;">shopping_cart</span>
+</div>
+<span class="font-bold text-slate-900 dark:text-white">Order Management</span>
+</div>
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer" type="checkbox" value=""/>
+<div class="w-9 h-5 bg-slate-200 peer-focus:outline-none rounded-full peer dark:bg-slate-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all dark:border-gray-600 peer-checked:bg-primary"></div>
+</label>
+</div>
+<div class="px-5 py-4 bg-slate-50/50 dark:bg-surface-dark/50">
+<div class="flex items-center justify-between gap-4">
+<label class="flex items-center gap-3 cursor-pointer group">
+<input checked="" class="form-checkbox w-5 h-5 rounded border-slate-300 text-primary focus:ring-primary/20 dark:border-slate-600 dark:bg-slate-700 transition-all" type="checkbox"/>
+<span class="text-sm font-medium text-slate-700 dark:text-slate-300 group-hover:text-slate-900 dark:group-hover:text-white transition-colors">View</span>
+</label>
+<label class="flex items-center gap-3 cursor-pointer group">
+<input class="form-checkbox w-5 h-5 rounded border-slate-300 text-primary focus:ring-primary/20 dark:border-slate-600 dark:bg-slate-700 transition-all" type="checkbox"/>
+<span class="text-sm font-medium text-slate-700 dark:text-slate-300 group-hover:text-slate-900 dark:group-hover:text-white transition-colors">Edit</span>
+</label>
+<label class="flex items-center gap-3 cursor-pointer group">
+<input class="form-checkbox w-5 h-5 rounded border-slate-300 text-primary focus:ring-primary/20 dark:border-slate-600 dark:bg-slate-700 transition-all" type="checkbox"/>
+<span class="text-sm font-medium text-slate-700 dark:text-slate-300 group-hover:text-slate-900 dark:group-hover:text-white transition-colors">Delete</span>
+</label>
+</div>
+</div>
+</div>
+<div class="flex flex-col rounded-2xl bg-white dark:bg-card-dark border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden opacity-60">
+<div class="flex items-center justify-between p-4">
+<div class="flex items-center gap-3">
+<div class="flex items-center justify-center w-8 h-8 rounded-lg bg-pink-500/10 text-pink-500">
+<span class="material-symbols-outlined" style="font-size: 20px;">group</span>
+</div>
+<span class="font-bold text-slate-900 dark:text-white">User Management</span>
+</div>
+<label class="relative inline-flex items-center cursor-pointer">
+<input class="sr-only peer" type="checkbox" value=""/>
+<div class="w-9 h-5 bg-slate-200 peer-focus:outline-none rounded-full peer dark:bg-slate-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all dark:border-gray-600 peer-checked:bg-primary"></div>
+</label>
+</div>
+</div>
+<div class="flex flex-col rounded-2xl bg-white dark:bg-card-dark border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden">
+<div class="flex items-center justify-between p-4 border-b border-slate-100 dark:border-slate-800/50">
+<div class="flex items-center gap-3">
+<div class="flex items-center justify-center w-8 h-8 rounded-lg bg-orange-500/10 text-orange-500">
+<span class="material-symbols-outlined" style="font-size: 20px;">category</span>
+</div>
+<span class="font-bold text-slate-900 dark:text-white">Category Management</span>
+</div>
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer" type="checkbox" value=""/>
+<div class="w-9 h-5 bg-slate-200 peer-focus:outline-none rounded-full peer dark:bg-slate-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all dark:border-gray-600 peer-checked:bg-primary"></div>
+</label>
+</div>
+<div class="px-5 py-4 bg-slate-50/50 dark:bg-surface-dark/50">
+<div class="flex items-center justify-between gap-4">
+<label class="flex items-center gap-3 cursor-pointer group">
+<input checked="" class="form-checkbox w-5 h-5 rounded border-slate-300 text-primary focus:ring-primary/20 dark:border-slate-600 dark:bg-slate-700 transition-all" type="checkbox"/>
+<span class="text-sm font-medium text-slate-700 dark:text-slate-300 group-hover:text-slate-900 dark:group-hover:text-white transition-colors">View</span>
+</label>
+<label class="flex items-center gap-3 cursor-pointer group">
+<input checked="" class="form-checkbox w-5 h-5 rounded border-slate-300 text-primary focus:ring-primary/20 dark:border-slate-600 dark:bg-slate-700 transition-all" type="checkbox"/>
+<span class="text-sm font-medium text-slate-700 dark:text-slate-300 group-hover:text-slate-900 dark:group-hover:text-white transition-colors">Edit</span>
+</label>
+<label class="flex items-center gap-3 cursor-pointer group">
+<input checked="" class="form-checkbox w-5 h-5 rounded border-slate-300 text-primary focus:ring-primary/20 dark:border-slate-600 dark:bg-slate-700 transition-all" type="checkbox"/>
+<span class="text-sm font-medium text-slate-700 dark:text-slate-300 group-hover:text-slate-900 dark:group-hover:text-white transition-colors">Delete</span>
+</label>
+</div>
+</div>
+</div>
+<div class="flex flex-col rounded-2xl bg-white dark:bg-card-dark border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden">
+<div class="flex items-center justify-between p-4 border-b border-slate-100 dark:border-slate-800/50">
+<div class="flex items-center gap-3">
+<div class="flex items-center justify-center w-8 h-8 rounded-lg bg-blue-500/10 text-blue-500">
+<span class="material-symbols-outlined" style="font-size: 20px;">history</span>
+</div>
+<span class="font-bold text-slate-900 dark:text-white">Audit Logs</span>
+</div>
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer" type="checkbox" value=""/>
+<div class="w-9 h-5 bg-slate-200 peer-focus:outline-none rounded-full peer dark:bg-slate-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all dark:border-gray-600 peer-checked:bg-primary"></div>
+</label>
+</div>
+<div class="px-5 py-4 bg-slate-50/50 dark:bg-surface-dark/50">
+<div class="flex items-center justify-between gap-4">
+<label class="flex items-center gap-3 cursor-pointer group">
+<input checked="" class="form-checkbox w-5 h-5 rounded border-slate-300 text-primary focus:ring-primary/20 dark:border-slate-600 dark:bg-slate-700 transition-all" type="checkbox"/>
+<span class="text-sm font-medium text-slate-700 dark:text-slate-300 group-hover:text-slate-900 dark:group-hover:text-white transition-colors">View</span>
+</label>
+<label class="flex items-center gap-3 cursor-pointer group">
+<input class="form-checkbox w-5 h-5 rounded border-slate-300 text-primary focus:ring-primary/20 dark:border-slate-600 dark:bg-slate-700 transition-all" type="checkbox"/>
+<span class="text-sm font-medium text-slate-700 dark:text-slate-300 group-hover:text-slate-900 dark:group-hover:text-white transition-colors">Edit</span>
+</label>
+<label class="flex items-center gap-3 cursor-pointer group">
+<input class="form-checkbox w-5 h-5 rounded border-slate-300 text-primary focus:ring-primary/20 dark:border-slate-600 dark:bg-slate-700 transition-all" type="checkbox"/>
+<span class="text-sm font-medium text-slate-700 dark:text-slate-300 group-hover:text-slate-900 dark:group-hover:text-white transition-colors">Delete</span>
+</label>
+</div>
+</div>
+</div>
+</div>
+<div class="pt-4">
+<button class="w-full h-12 flex items-center justify-center gap-2 rounded-xl bg-red-500/10 hover:bg-red-500/20 text-red-600 dark:text-red-400 font-bold transition-all active:scale-[0.98]">
+<span class="material-symbols-outlined" style="font-size: 20px;">block</span>
+                    Revoke Access
+                </button>
+<p class="text-xs text-center text-slate-400 mt-3 px-6">
+                    Revoking access will immediately log this user out of all sessions. This action cannot be undone.
+                </p>
+</div>
+</div>
+</div>
+</body></html>

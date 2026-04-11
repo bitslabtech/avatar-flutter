@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Dealer List</title>
+<!-- Google Fonts: Work Sans -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Tailwind Config -->
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#1349ec",
+                        "background-light": "#f6f6f8",
+                        "background-dark": "#101522",
+                        "surface-dark": "#1e2433",
+                        "surface-light": "#ffffff",
+                    },
+                    fontFamily: {
+                        "display": ["Work Sans", "Noto Sans", "sans-serif"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "2xl": "1rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        /* Custom scrollbar hiding for cleaner mobile look */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-white antialiased selection:bg-primary selection:text-white">
+<div class="relative flex h-full min-h-screen w-full flex-col overflow-x-hidden max-w-md mx-auto border-x border-slate-200 dark:border-slate-800">
+<!-- Top App Bar -->
+<header class="flex items-center justify-between p-4 sticky top-0 z-10 bg-background-light/95 dark:bg-background-dark/95 backdrop-blur-md">
+<button class="flex size-10 shrink-0 items-center justify-center rounded-full hover:bg-slate-200 dark:hover:bg-slate-800 transition-colors">
+<span class="material-symbols-outlined text-slate-900 dark:text-white text-2xl">arrow_back</span>
+</button>
+<h2 class="text-lg font-bold leading-tight tracking-[-0.015em] flex-1 text-center">Dealer Network</h2>
+<button class="flex size-10 shrink-0 items-center justify-center rounded-full hover:bg-slate-200 dark:hover:bg-slate-800 transition-colors relative">
+<span class="material-symbols-outlined text-slate-900 dark:text-white text-2xl">notifications</span>
+<span class="absolute top-2 right-2 size-2 bg-red-500 rounded-full border border-background-light dark:border-background-dark"></span>
+</button>
+</header>
+<!-- Search Bar -->
+<div class="px-4 pb-2">
+<div class="flex w-full items-center rounded-xl bg-white dark:bg-surface-dark border border-slate-200 dark:border-slate-700 h-12 shadow-sm focus-within:ring-2 focus-within:ring-primary/50 transition-shadow">
+<div class="flex items-center justify-center pl-4 text-slate-400">
+<span class="material-symbols-outlined">search</span>
+</div>
+<input class="flex w-full min-w-0 flex-1 bg-transparent border-none text-base font-normal leading-normal placeholder:text-slate-400 text-slate-900 dark:text-white focus:outline-0 focus:ring-0 h-full px-3" placeholder="Search dealers by name or ID..." value=""/>
+</div>
+</div>
+<!-- Add Dealer Button -->
+<div class="px-4 py-3">
+<button class="flex w-full cursor-pointer items-center justify-center gap-2 overflow-hidden rounded-xl h-12 px-5 bg-primary hover:bg-blue-600 active:scale-[0.98] transition-all text-white shadow-lg shadow-blue-900/20">
+<span class="material-symbols-outlined text-xl">add</span>
+<span class="text-base font-bold leading-normal tracking-wide">Add New Dealer</span>
+</button>
+</div>
+<!-- List Content -->
+<div class="flex flex-col flex-1 px-4 py-2 gap-3 pb-8">
+<!-- List Header -->
+<div class="flex justify-between items-end px-1 pb-1">
+<p class="text-sm font-semibold text-slate-500 dark:text-slate-400">All Dealers (42)</p>
+<div class="flex gap-2 text-primary text-sm font-medium cursor-pointer items-center">
+<span>Filter</span>
+<span class="material-symbols-outlined text-lg">filter_list</span>
+</div>
+</div>
+<!-- List Item 1: Collapsed -->
+<div class="group flex flex-col rounded-xl bg-white dark:bg-surface-dark border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden active:bg-slate-50 dark:active:bg-[#252d40] transition-colors cursor-pointer">
+<div class="flex items-center justify-between p-4 min-h-[72px]">
+<div class="flex items-center gap-4 flex-1 min-w-0">
+<div class="flex size-10 shrink-0 items-center justify-center rounded-full bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 font-bold text-lg">
+                            A
+                        </div>
+<div class="flex flex-col truncate pr-2">
+<p class="text-slate-900 dark:text-white text-base font-semibold truncate leading-tight">Apex Appliances</p>
+<p class="text-slate-500 dark:text-slate-400 text-sm truncate">ID: #D-4092</p>
+</div>
+</div>
+<div class="flex items-center gap-3 shrink-0">
+<span class="inline-flex items-center rounded-full bg-emerald-100 dark:bg-emerald-500/10 px-2.5 py-0.5 text-xs font-medium text-emerald-700 dark:text-emerald-400 ring-1 ring-inset ring-emerald-600/20 dark:ring-emerald-500/20">
+                            Active
+                        </span>
+<span class="material-symbols-outlined text-slate-400 group-hover:text-slate-600 dark:group-hover:text-slate-300 transition-transform">expand_more</span>
+</div>
+</div>
+</div>
+<!-- List Item 2: Expanded -->
+<div class="flex flex-col rounded-xl bg-white dark:bg-surface-dark border border-primary/30 dark:border-primary/30 shadow-md overflow-hidden relative">
+<!-- Selection Indicator -->
+<div class="absolute left-0 top-0 bottom-0 w-1 bg-primary"></div>
+<!-- Header part -->
+<div class="flex items-center justify-between p-4 pb-2 cursor-pointer">
+<div class="flex items-center gap-4 flex-1 min-w-0">
+<div class="flex size-10 shrink-0 items-center justify-center rounded-full bg-orange-100 dark:bg-orange-900/30 text-orange-600 dark:text-orange-400 font-bold text-lg">
+                            H
+                        </div>
+<div class="flex flex-col truncate pr-2">
+<p class="text-slate-900 dark:text-white text-base font-semibold truncate leading-tight">Home Comfort Solutions</p>
+<p class="text-slate-500 dark:text-slate-400 text-sm truncate">ID: #D-4105</p>
+</div>
+</div>
+<div class="flex items-center gap-3 shrink-0">
+<span class="inline-flex items-center rounded-full bg-yellow-100 dark:bg-yellow-500/10 px-2.5 py-0.5 text-xs font-medium text-yellow-800 dark:text-yellow-400 ring-1 ring-inset ring-yellow-600/20 dark:ring-yellow-500/20">
+                            Pending
+                        </span>
+<span class="material-symbols-outlined text-primary rotate-180 transition-transform">expand_more</span>
+</div>
+</div>
+<!-- Expanded Body -->
+<div class="px-4 pb-5 pt-2 flex flex-col gap-3">
+<div class="h-px w-full bg-slate-100 dark:bg-slate-700/50 mb-1"></div>
+<a class="flex items-center gap-3 p-3 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors group/link" href="tel:+15550192834">
+<div class="flex size-9 items-center justify-center rounded-full bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400 group-hover/link:bg-primary/10 group-hover/link:text-primary transition-colors">
+<span class="material-symbols-outlined text-[20px]">call</span>
+</div>
+<div class="flex flex-col">
+<span class="text-xs text-slate-500 dark:text-slate-400">Phone</span>
+<span class="text-sm font-medium text-slate-900 dark:text-white group-hover/link:text-primary transition-colors">+1 (555) 019-2834</span>
+</div>
+</a>
+<a class="flex items-center gap-3 p-3 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors group/link" href="mailto:contact@homecomfort.com">
+<div class="flex size-9 items-center justify-center rounded-full bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400 group-hover/link:bg-primary/10 group-hover/link:text-primary transition-colors">
+<span class="material-symbols-outlined text-[20px]">mail</span>
+</div>
+<div class="flex flex-col">
+<span class="text-xs text-slate-500 dark:text-slate-400">Email</span>
+<span class="text-sm font-medium text-slate-900 dark:text-white group-hover/link:text-primary transition-colors">contact@homecomfort.com</span>
+</div>
+</a>
+<div class="mt-2">
+<button class="w-full flex items-center justify-center gap-2 text-primary font-semibold text-sm py-2 rounded-lg hover:bg-primary/5 transition-colors">
+                            View Full Profile
+                            <span class="material-symbols-outlined text-lg">arrow_forward</span>
+</button>
+</div>
+</div>
+</div>
+<!-- List Item 3: Collapsed -->
+<div class="group flex flex-col rounded-xl bg-white dark:bg-surface-dark border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden active:bg-slate-50 dark:active:bg-[#252d40] transition-colors cursor-pointer">
+<div class="flex items-center justify-between p-4 min-h-[72px]">
+<div class="flex items-center gap-4 flex-1 min-w-0">
+<div class="flex size-10 shrink-0 items-center justify-center rounded-full bg-purple-100 dark:bg-purple-900/30 text-purple-600 dark:text-purple-400 font-bold text-lg">
+                            E
+                        </div>
+<div class="flex flex-col truncate pr-2">
+<p class="text-slate-900 dark:text-white text-base font-semibold truncate leading-tight">Elite Kitchens</p>
+<p class="text-slate-500 dark:text-slate-400 text-sm truncate">ID: #D-3301</p>
+</div>
+</div>
+<div class="flex items-center gap-3 shrink-0">
+<span class="inline-flex items-center rounded-full bg-slate-100 dark:bg-slate-500/10 px-2.5 py-0.5 text-xs font-medium text-slate-600 dark:text-slate-400 ring-1 ring-inset ring-slate-500/20">
+                            Inactive
+                        </span>
+<span class="material-symbols-outlined text-slate-400 group-hover:text-slate-600 dark:group-hover:text-slate-300 transition-transform">expand_more</span>
+</div>
+</div>
+</div>
+<!-- List Item 4: Collapsed -->
+<div class="group flex flex-col rounded-xl bg-white dark:bg-surface-dark border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden active:bg-slate-50 dark:active:bg-[#252d40] transition-colors cursor-pointer">
+<div class="flex items-center justify-between p-4 min-h-[72px]">
+<div class="flex items-center gap-4 flex-1 min-w-0">
+<div class="flex size-10 shrink-0 items-center justify-center rounded-full bg-pink-100 dark:bg-pink-900/30 text-pink-600 dark:text-pink-400 font-bold text-lg">
+                            N
+                        </div>
+<div class="flex flex-col truncate pr-2">
+<p class="text-slate-900 dark:text-white text-base font-semibold truncate leading-tight">North Star Electronics</p>
+<p class="text-slate-500 dark:text-slate-400 text-sm truncate">ID: #D-2219</p>
+</div>
+</div>
+<div class="flex items-center gap-3 shrink-0">
+<span class="inline-flex items-center rounded-full bg-emerald-100 dark:bg-emerald-500/10 px-2.5 py-0.5 text-xs font-medium text-emerald-700 dark:text-emerald-400 ring-1 ring-inset ring-emerald-600/20 dark:ring-emerald-500/20">
+                            Active
+                        </span>
+<span class="material-symbols-outlined text-slate-400 group-hover:text-slate-600 dark:group-hover:text-slate-300 transition-transform">expand_more</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Floating Action Button (Optional Alternative or quick scroll to top) -->
+<!-- <div class="fixed bottom-6 right-6 z-20">
+             <button class="bg-primary hover:bg-blue-600 text-white rounded-full p-4 shadow-xl flex items-center justify-center">
+                 <span class="material-symbols-outlined">keyboard_arrow_up</span>
+             </button>
+        </div> -->
+</div>
+</body></html>

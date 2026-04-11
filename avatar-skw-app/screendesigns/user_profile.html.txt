@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>User Profile</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "primary": "#136dec",
+              "background-light": "#f6f7f8",
+              "background-dark": "#101822",
+            },
+            fontFamily: {
+              "display": ["Manrope", "Noto Sans", "sans-serif"]
+            },
+            borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark font-display">
+<div class="relative flex h-full min-h-screen w-full flex-col overflow-x-hidden max-w-[480px] mx-auto bg-white dark:bg-background-dark shadow-xl">
+<div class="flex items-center bg-white dark:bg-background-dark p-4 pb-2 justify-between sticky top-0 z-10">
+<h2 class="text-[#111418] dark:text-white text-lg font-bold leading-tight tracking-[-0.015em] flex-1 text-center pl-12 pr-12">Profile</h2>
+</div>
+<div class="flex flex-col items-center justify-center p-6 pb-2">
+<div class="relative">
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full h-28 w-28 border-4 border-background-light dark:border-gray-800 shadow-sm" data-alt="Portrait of user Alex Morgan smiling" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCRBHlc98ZM7YjU86PClZLrRydBGuioJCHMwsbragjTd_RPtlMnuHb1OpuOs-Vj7l5fDyx6WCCZkC_q9XWeybQtyncEvKrhLTobGR3pkzryOmIm1ZJpCXO4pdxJQVhY_MoZFcXT1jCMWr4Y1rtEPWlt-NM_kPLeykJZkd2SITWjDT4LpCZt5ED0n321n8e7v4C9vfbPkKuHxTrKDGNd2K_nX1s3pdyYxP2EDJ3o_xglrzsYiwBRGDF8ONdV5i62AnN0mABIH0wOvhvp");'>
+</div>
+<div class="absolute bottom-0 right-0 bg-primary text-white p-1.5 rounded-full border-2 border-white dark:border-background-dark flex items-center justify-center">
+<span class="material-symbols-outlined text-sm">edit</span>
+</div>
+</div>
+<div class="flex flex-col items-center justify-center mt-4">
+<h1 class="text-[#111418] dark:text-white text-2xl font-bold leading-tight tracking-tight text-center">Alex Morgan</h1>
+<div class="flex items-center gap-2 mt-2 px-3 py-1 bg-green-50 dark:bg-green-900/20 rounded-full border border-green-100 dark:border-green-800">
+<div class="h-2 w-2 rounded-full bg-green-500"></div>
+<p class="text-green-700 dark:text-green-400 text-xs font-bold leading-normal text-center">Status: Active</p>
+</div>
+</div>
+</div>
+<div class="grid grid-cols-2 gap-3 p-4">
+<div class="flex flex-col gap-3 rounded-xl bg-background-light dark:bg-[#1a2634] p-4 items-start cursor-pointer hover:bg-gray-100 dark:hover:bg-[#233243] transition-colors">
+<div class="text-[#111418] dark:text-white bg-white dark:bg-background-dark p-2 rounded-full shadow-sm flex items-center justify-center">
+<span class="material-symbols-outlined text-primary">favorite</span>
+</div>
+<h2 class="text-[#111418] dark:text-white text-sm font-bold leading-tight">Wishlist</h2>
+</div>
+<div class="flex flex-col gap-3 rounded-xl bg-background-light dark:bg-[#1a2634] p-4 items-start cursor-pointer hover:bg-gray-100 dark:hover:bg-[#233243] transition-colors">
+<div class="text-[#111418] dark:text-white bg-white dark:bg-background-dark p-2 rounded-full shadow-sm flex items-center justify-center">
+<span class="material-symbols-outlined text-primary">support_agent</span>
+</div>
+<h2 class="text-[#111418] dark:text-white text-sm font-bold leading-tight">Support</h2>
+</div>
+<div class="flex flex-col gap-3 rounded-xl bg-background-light dark:bg-[#1a2634] p-4 items-start cursor-pointer hover:bg-gray-100 dark:hover:bg-[#233243] transition-colors">
+<div class="text-[#111418] dark:text-white bg-white dark:bg-background-dark p-2 rounded-full shadow-sm flex items-center justify-center">
+<span class="material-symbols-outlined text-primary">receipt_long</span>
+</div>
+<h2 class="text-[#111418] dark:text-white text-sm font-bold leading-tight">My Order</h2>
+</div>
+<div class="flex flex-col gap-3 rounded-xl bg-background-light dark:bg-[#1a2634] p-4 items-start cursor-pointer hover:bg-gray-100 dark:hover:bg-[#233243] transition-colors">
+<div class="text-[#111418] dark:text-white bg-white dark:bg-background-dark p-2 rounded-full shadow-sm flex items-center justify-center">
+<span class="material-symbols-outlined text-primary">settings</span>
+</div>
+<h2 class="text-[#111418] dark:text-white text-sm font-bold leading-tight">Settings</h2>
+</div>
+</div>
+<div class="flex flex-col gap-1 px-4 pb-6">
+<p class="text-[#111418] dark:text-white text-base font-bold leading-tight py-2 mt-2">Account</p>
+<a class="flex items-center justify-between p-3 rounded-lg hover:bg-gray-50 dark:hover:bg-[#1a2634] group transition-colors" href="#">
+<div class="flex items-center gap-3">
+<div class="flex items-center justify-center w-8 h-8 rounded-full bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300">
+<span class="material-symbols-outlined text-lg">home</span>
+</div>
+<span class="text-[#111418] dark:text-white text-sm font-medium">My Profile</span>
+</div>
+<span class="material-symbols-outlined text-gray-400 group-hover:text-primary transition-colors text-lg">chevron_right</span>
+</a>
+<a class="flex items-center justify-between p-3 rounded-lg hover:bg-gray-50 dark:hover:bg-[#1a2634] group transition-colors" href="#">
+<div class="flex items-center gap-3">
+<div class="flex items-center justify-center w-8 h-8 rounded-full bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300">
+<span class="material-symbols-outlined text-lg">location_on</span>
+</div>
+<span class="text-[#111418] dark:text-white text-sm font-medium">My Address</span>
+</div>
+<span class="material-symbols-outlined text-gray-400 group-hover:text-primary transition-colors text-lg">chevron_right</span>
+</a>
+<a class="flex items-center justify-between p-3 rounded-lg hover:bg-gray-50 dark:hover:bg-[#1a2634] group transition-colors" href="#">
+<div class="flex items-center gap-3">
+<div class="flex items-center justify-center w-8 h-8 rounded-full bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300">
+<span class="material-symbols-outlined text-lg">notifications</span>
+</div>
+<span class="text-[#111418] dark:text-white text-sm font-medium">Notifications</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="flex h-2 w-2 rounded-full bg-red-500"></span>
+<span class="material-symbols-outlined text-gray-400 group-hover:text-primary transition-colors text-lg">chevron_right</span>
+</div>
+</a>
+<a class="flex items-center justify-between p-3 rounded-lg hover:bg-gray-50 dark:hover:bg-[#1a2634] group transition-colors mt-2" href="#">
+<div class="flex items-center gap-3">
+<div class="flex items-center justify-center w-8 h-8 rounded-full bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400">
+<span class="material-symbols-outlined text-lg">logout</span>
+</div>
+<span class="text-red-600 dark:text-red-400 text-sm font-medium">Log Out</span>
+</div>
+</a>
+</div>
+</div>
+
+</body></html>

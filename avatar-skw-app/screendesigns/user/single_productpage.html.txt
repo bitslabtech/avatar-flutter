@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Product Detail - Variant 1</title>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+            extend: {
+                colors: {
+                "primary": "#136dec",
+                "background-light": "#f6f7f8",
+                "background-dark": "#101822",
+                },
+                fontFamily: {
+                "display": ["Manrope", "sans-serif"]
+                },
+                borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "2xl": "1rem", "3xl": "1.5rem", "full": "9999px"},
+            },
+            },
+        }
+    </script>
+<style>.no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-gray-100 dark:bg-black font-display antialiased flex justify-center min-h-screen">
+<div class="relative flex h-full min-h-screen w-full max-w-[430px] flex-col bg-white dark:bg-background-dark shadow-2xl overflow-hidden">
+<div class="absolute top-0 left-0 w-full z-20 flex items-center justify-between px-5 pt-12 pb-4">
+<button class="group flex h-10 w-10 items-center justify-center rounded-full bg-white/80 dark:bg-black/40 backdrop-blur-md shadow-sm transition active:scale-95">
+<span class="material-symbols-outlined text-gray-900 dark:text-white" style="font-size: 20px;">arrow_back_ios_new</span>
+</button>
+<button class="group flex h-10 w-10 items-center justify-center rounded-full bg-white/80 dark:bg-black/40 backdrop-blur-md shadow-sm transition active:scale-95">
+<span class="material-symbols-outlined text-gray-900 dark:text-white" style="font-size: 24px;">favorite_border</span>
+</button>
+</div>
+<div class="relative w-full aspect-[4/5] bg-gray-100 dark:bg-gray-800 rounded-b-3xl overflow-hidden shrink-0 group/carousel">
+<div class="w-full h-full bg-cover bg-center bg-no-repeat transition-transform duration-700 ease-out" data-alt="Modern sleek white air purifier standing in a minimalist living room" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCaVj0JnITIv8V9-uccWcqd8zRuhGqTNrhtOoQbg-pHum0mmLidn-iNhHC3lK3ac6_rDEsOA9yBl4PD_CpVVRFOCnAp3F915-_TJWcMMKBJqdves6EcanL_-SRXNF6BNK_p-rsKSOSG8Byq1nXmJ1FDO7BBWBLboLl3mEbjDO6lngvitivh_5pgNEwh0pPGxjLClc8VTAhv-DtyqVSALv7Bcf_p8fTRa17XcRm1UoT4QZXs9EmAmgM74yq3TeS-8vJIkaKMKZQjhlqg');">
+</div>
+<div class="absolute bottom-5 left-0 right-0 flex justify-center gap-2">
+<div class="h-1.5 w-5 rounded-full bg-primary shadow-sm"></div>
+<div class="h-1.5 w-1.5 rounded-full bg-white/60 backdrop-blur-sm shadow-sm"></div>
+<div class="h-1.5 w-1.5 rounded-full bg-white/60 backdrop-blur-sm shadow-sm"></div>
+<div class="h-1.5 w-1.5 rounded-full bg-white/60 backdrop-blur-sm shadow-sm"></div>
+</div>
+<div class="absolute bottom-0 left-0 w-full h-12 bg-gradient-to-t from-black/5 to-transparent dark:from-black/40 pointer-events-none"></div>
+</div>
+<div class="flex-1 overflow-y-auto no-scrollbar pb-28">
+<div class="flex flex-col gap-6 px-6 pt-6">
+<div class="flex flex-col gap-3">
+<div class="flex justify-between items-start gap-4">
+<h1 class="text-2xl font-bold text-gray-900 dark:text-white leading-tight">Smart Air Purifier Pro</h1>
+<div class="flex flex-col items-end shrink-0">
+<span class="text-xl font-bold text-primary">$299.00</span>
+</div>
+</div>
+<div class="flex items-center gap-2">
+<div class="flex items-center gap-1 bg-gray-100 dark:bg-gray-800 px-2.5 py-1 rounded-full">
+<span class="material-symbols-outlined text-amber-500 text-[16px] leading-none mb-[1px]" data-variation="fill">star</span>
+<span class="text-sm font-bold text-gray-900 dark:text-white leading-none">4.8</span>
+<span class="text-xs text-gray-500 dark:text-gray-400 leading-none pl-1 border-l border-gray-300 dark:border-gray-600 ml-1">120 Reviews</span>
+</div>
+<span class="text-xs text-primary font-medium">In Stock</span>
+</div>
+</div>
+<div class="flex flex-col gap-3">
+<p class="text-sm font-medium text-gray-500 dark:text-gray-400">Select Finish</p>
+<div class="flex gap-4">
+<div class="relative cursor-pointer group">
+<div class="w-10 h-10 rounded-full bg-[#f0f0f0] border border-gray-200 shadow-inner flex items-center justify-center ring-2 ring-primary ring-offset-2 dark:ring-offset-background-dark">
+<span class="material-symbols-outlined text-gray-400 text-lg opacity-0 group-hover:opacity-100 transition-opacity">check</span>
+</div>
+<span class="absolute -bottom-5 left-1/2 -translate-x-1/2 text-[10px] font-medium text-gray-900 dark:text-white whitespace-nowrap">Matte White</span>
+</div>
+<div class="relative cursor-pointer group">
+<div class="w-10 h-10 rounded-full bg-[#2a2a2a] border border-gray-600 shadow-inner flex items-center justify-center hover:ring-2 hover:ring-gray-300 hover:ring-offset-2 dark:hover:ring-offset-background-dark transition-all"></div>
+</div>
+<div class="relative cursor-pointer group">
+<div class="w-10 h-10 rounded-full bg-[#9CA3AF] border border-gray-400 shadow-inner flex items-center justify-center hover:ring-2 hover:ring-gray-300 hover:ring-offset-2 dark:hover:ring-offset-background-dark transition-all"></div>
+</div>
+</div>
+</div>
+<div class="h-px w-full bg-gray-100 dark:bg-gray-800"></div>
+<div class="flex flex-col gap-2">
+<h3 class="text-base font-bold text-gray-900 dark:text-white">Description</h3>
+<p class="text-base leading-relaxed text-gray-600 dark:text-gray-300 font-normal">
+                        Experience cleaner air with HEPA H13 filtration. Quiet operation and smart app integration make this the perfect addition to your modern home. It effectively removes 99.97% of airborne particles, including dust, pollen, and pet dander.
+                    </p>
+<button class="text-primary font-bold text-sm text-left mt-1 hover:underline w-fit">Read more</button>
+</div>
+<div class="flex flex-col gap-3 mt-2">
+<h3 class="text-base font-bold text-gray-900 dark:text-white">Specifications</h3>
+<div class="flex flex-col bg-background-light dark:bg-gray-800/30 rounded-xl p-4 gap-3">
+<div class="flex justify-between items-center border-b border-gray-200 dark:border-gray-700 pb-3 last:border-0 last:pb-0">
+<span class="text-sm text-gray-500 dark:text-gray-400">Dimensions</span>
+<span class="text-sm font-semibold text-gray-900 dark:text-white">24 x 12 x 12 inches</span>
+</div>
+<div class="flex justify-between items-center border-b border-gray-200 dark:border-gray-700 pb-3 last:border-0 last:pb-0">
+<span class="text-sm text-gray-500 dark:text-gray-400">Weight</span>
+<span class="text-sm font-semibold text-gray-900 dark:text-white">8.5 lbs</span>
+</div>
+<div class="flex justify-between items-center border-b border-gray-200 dark:border-gray-700 pb-3 last:border-0 last:pb-0">
+<span class="text-sm text-gray-500 dark:text-gray-400">Filter Type</span>
+<span class="text-sm font-semibold text-gray-900 dark:text-white">True HEPA H13</span>
+</div>
+<div class="flex justify-between items-center border-b border-gray-200 dark:border-gray-700 pb-3 last:border-0 last:pb-0">
+<span class="text-sm text-gray-500 dark:text-gray-400">Coverage</span>
+<span class="text-sm font-semibold text-gray-900 dark:text-white">Up to 500 sq. ft.</span>
+</div>
+<div class="flex justify-between items-center">
+<span class="text-sm text-gray-500 dark:text-gray-400">Noise Level</span>
+<span class="text-sm font-semibold text-gray-900 dark:text-white">24dB - 50dB</span>
+</div>
+</div>
+</div>
+<div class="flex flex-col gap-4 mt-4 pb-4">
+<h3 class="text-base font-bold text-gray-900 dark:text-white">Customer Reviews</h3>
+<div class="bg-background-light dark:bg-gray-800/50 p-5 rounded-xl">
+<div class="flex items-center gap-6 mb-6">
+<div class="flex flex-col items-center">
+<span class="text-5xl font-extrabold text-gray-900 dark:text-white leading-none">4.8</span>
+</div>
+<div class="h-10 w-px bg-gray-200 dark:bg-gray-700"></div>
+<div class="flex flex-col gap-1">
+<div class="flex text-amber-500">
+<span class="material-symbols-outlined text-[20px] leading-none" data-variation="fill">star</span>
+<span class="material-symbols-outlined text-[20px] leading-none" data-variation="fill">star</span>
+<span class="material-symbols-outlined text-[20px] leading-none" data-variation="fill">star</span>
+<span class="material-symbols-outlined text-[20px] leading-none" data-variation="fill">star</span>
+<span class="material-symbols-outlined text-[20px] leading-none" data-variation="fill">star_half</span>
+</div>
+<span class="text-sm text-gray-500 dark:text-gray-400 font-medium">120 Reviews</span>
+</div>
+</div>
+<div class="flex flex-col gap-2.5 mb-6">
+<div class="flex items-center gap-3 text-xs font-medium">
+<div class="flex items-center gap-1 w-9 shrink-0 text-gray-900 dark:text-white">
+<span>5</span>
+<span class="material-symbols-outlined text-[10px] text-gray-400">star</span>
+</div>
+<div class="flex-1 h-1.5 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
+<div class="h-full bg-amber-500 rounded-full" style="width: 70%"></div>
+</div>
+<span class="w-6 text-right text-gray-400">84</span>
+</div>
+<div class="flex items-center gap-3 text-xs font-medium">
+<div class="flex items-center gap-1 w-9 shrink-0 text-gray-900 dark:text-white">
+<span>4</span>
+<span class="material-symbols-outlined text-[10px] text-gray-400">star</span>
+</div>
+<div class="flex-1 h-1.5 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
+<div class="h-full bg-amber-500 rounded-full" style="width: 15%"></div>
+</div>
+<span class="w-6 text-right text-gray-400">18</span>
+</div>
+<div class="flex items-center gap-3 text-xs font-medium">
+<div class="flex items-center gap-1 w-9 shrink-0 text-gray-900 dark:text-white">
+<span>3</span>
+<span class="material-symbols-outlined text-[10px] text-gray-400">star</span>
+</div>
+<div class="flex-1 h-1.5 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
+<div class="h-full bg-amber-500 rounded-full" style="width: 8%"></div>
+</div>
+<span class="w-6 text-right text-gray-400">10</span>
+</div>
+<div class="flex items-center gap-3 text-xs font-medium">
+<div class="flex items-center gap-1 w-9 shrink-0 text-gray-900 dark:text-white">
+<span>2</span>
+<span class="material-symbols-outlined text-[10px] text-gray-400">star</span>
+</div>
+<div class="flex-1 h-1.5 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
+<div class="h-full bg-amber-500 rounded-full" style="width: 4%"></div>
+</div>
+<span class="w-6 text-right text-gray-400">5</span>
+</div>
+<div class="flex items-center gap-3 text-xs font-medium">
+<div class="flex items-center gap-1 w-9 shrink-0 text-gray-900 dark:text-white">
+<span>1</span>
+<span class="material-symbols-outlined text-[10px] text-gray-400">star</span>
+</div>
+<div class="flex-1 h-1.5 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
+<div class="h-full bg-amber-500 rounded-full" style="width: 3%"></div>
+</div>
+<span class="w-6 text-right text-gray-400">3</span>
+</div>
+</div>
+<button class="w-full h-11 flex items-center justify-center rounded-lg border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-700 text-sm font-bold text-gray-900 dark:text-white shadow-sm hover:bg-gray-50 dark:hover:bg-gray-600 transition-colors">
+                            Read All Reviews
+                        </button>
+</div>
+</div>
+</div>
+</div>
+<div class="absolute bottom-0 left-0 w-full bg-white/90 dark:bg-background-dark/90 backdrop-blur-lg border-t border-gray-100 dark:border-gray-800 p-4 pb-8 z-20">
+<div class="flex items-center justify-between gap-4">
+<div class="flex flex-col">
+<span class="text-xs text-gray-500 dark:text-gray-400">Total Price</span>
+<span class="text-xl font-bold text-gray-900 dark:text-white">$299.00</span>
+</div>
+<button class="flex-1 bg-primary hover:bg-blue-600 active:bg-blue-700 text-white text-base font-bold h-12 rounded-xl shadow-lg shadow-primary/20 flex items-center justify-center gap-2 transition-colors">
+<span class="material-symbols-outlined text-[20px]">shopping_cart</span>
+                    Add to Cart
+                </button>
+</div>
+</div>
+</div>
+</body></html>

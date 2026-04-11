@@ -1,0 +1,52 @@
+# Dependencies
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Environment variables
+.env
+.env.local
+.env.*.local
+
+# Build output
+dist/
+build/
+*.tsbuildinfo
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+._*
+
+# Logs
+logs/
+*.log
+
+# Testing
+coverage/
+.nyc_output/
+
+# Temporary files
+tmp/
+temp/
+
+# Uploads (user-generated content — managed separately, not version-controlled)
+uploads/*
+!uploads/.gitkeep
+
+# Debug & one-off scripts
+*.ps1
+fix-*.js
+fix-*.sql
+inspect-*.js
+debug_*.ts
+test-output*.txt
+src/test-*.ts

@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Super Admin Console</title>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Theme Config -->
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#1349ec",
+                        "background-light": "#f6f6f8",
+                        "background-dark": "#101522",
+                        "surface-light": "#ffffff",
+                        "surface-dark": "#192033",
+                        "border-light": "#e5e7eb",
+                        "border-dark": "#323f67",
+                    },
+                    fontFamily: {
+                        "display": ["Work Sans", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        /* Custom scrollbar hiding for cleaner mobile look */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-white font-display transition-colors duration-200">
+<div class="relative flex min-h-screen w-full flex-col overflow-hidden pb-20">
+<!-- Top App Bar -->
+<div class="sticky top-0 z-20 flex items-center justify-between bg-surface-light/90 dark:bg-background-dark/90 backdrop-blur-md p-4 border-b border-border-light dark:border-border-dark">
+<div class="flex items-center gap-3">
+<div class="relative">
+<div class="bg-center bg-no-repeat bg-cover rounded-full size-10 ring-2 ring-primary/20" data-alt="Portrait of the Super Administrator user" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuB49LuRy7qydnwGsFv9Um_yCHsr-F7qATOSqxwI06oerkv3a0SC--wFwELgao3GpqtMT7qLW8sRYt9p1_vjFJTn1UQPfqFyEeNLB3PlaqWfGHJ3bKLIUpIc43pIR4VssmVhPF-82C4mMV2V0SJkVZqnE6iwCiKT3Hex9qApOwHJUgXTLnmwcUXJvpm0qqtV9-gaQ-lHmCpW4w3jMBhmw2Axm8UOlGi8SQk5fOZIYEDK5NYUUDQmMUU-qGfIXKE_jK4PYks91wGN4dq_");'>
+</div>
+<div class="absolute bottom-0 right-0 size-3 bg-green-500 rounded-full border-2 border-surface-light dark:border-background-dark"></div>
+</div>
+<div class="flex flex-col">
+<h2 class="text-sm font-medium text-slate-500 dark:text-slate-400 leading-tight">Admin Console</h2>
+<span class="text-base font-bold leading-tight">Dashboard</span>
+</div>
+</div>
+<button class="relative flex items-center justify-center size-10 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors text-slate-600 dark:text-slate-300">
+<span class="material-symbols-outlined">notifications</span>
+<span class="absolute top-2 right-2 flex size-2.5">
+<span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
+<span class="relative inline-flex rounded-full size-2.5 bg-red-500"></span>
+</span>
+</button>
+</div>
+<!-- Scrollable Content -->
+<main class="flex-1 overflow-y-auto w-full max-w-3xl mx-auto">
+<!-- Greeting -->
+<div class="px-4 pt-6 pb-2">
+<h1 class="text-2xl md:text-3xl font-bold tracking-tight">Good morning, <br/><span class="text-primary">Super Admin</span></h1>
+</div>
+<!-- Stats KPI Section -->
+<div class="grid grid-cols-2 gap-3 p-4">
+<!-- Total Sales -->
+<div class="flex flex-col gap-2 rounded-xl p-4 bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark shadow-sm">
+<div class="flex justify-between items-start">
+<div class="p-2 rounded-lg bg-primary/10 text-primary">
+<span class="material-symbols-outlined text-[20px]">attach_money</span>
+</div>
+<span class="text-xs font-medium text-emerald-500 bg-emerald-500/10 px-2 py-0.5 rounded-full">+12%</span>
+</div>
+<div>
+<p class="text-sm text-slate-500 dark:text-slate-400 font-medium">Total Sales</p>
+<p class="text-xl font-bold tracking-tight">$124,500</p>
+</div>
+</div>
+<!-- New Orders -->
+<div class="flex flex-col gap-2 rounded-xl p-4 bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark shadow-sm">
+<div class="flex justify-between items-start">
+<div class="p-2 rounded-lg bg-purple-500/10 text-purple-500">
+<span class="material-symbols-outlined text-[20px]">shopping_cart</span>
+</div>
+<span class="text-xs font-medium text-emerald-500 bg-emerald-500/10 px-2 py-0.5 rounded-full">+8%</span>
+</div>
+<div>
+<p class="text-sm text-slate-500 dark:text-slate-400 font-medium">New Orders</p>
+<p class="text-xl font-bold tracking-tight">45</p>
+</div>
+</div>
+<!-- Total Users -->
+<div class="flex flex-col gap-2 rounded-xl p-4 bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark shadow-sm">
+<div class="flex justify-between items-start">
+<div class="p-2 rounded-lg bg-blue-500/10 text-blue-500">
+<span class="material-symbols-outlined text-[20px]">group</span>
+</div>
+<span class="text-xs font-medium text-emerald-500 bg-emerald-500/10 px-2 py-0.5 rounded-full">+24%</span>
+</div>
+<div>
+<p class="text-sm text-slate-500 dark:text-slate-400 font-medium">Total Users</p>
+<p class="text-xl font-bold tracking-tight">8,432</p>
+</div>
+</div>
+<!-- Low Stock -->
+<div class="flex flex-col gap-2 rounded-xl p-4 bg-surface-light dark:bg-surface-dark border border-amber-500/30 dark:border-amber-500/30 shadow-sm relative overflow-hidden">
+<div class="absolute right-0 top-0 p-4 opacity-10">
+<span class="material-symbols-outlined text-[64px] text-amber-500">warning</span>
+</div>
+<div class="flex justify-between items-start z-10">
+<div class="p-2 rounded-lg bg-amber-500/10 text-amber-500">
+<span class="material-symbols-outlined text-[20px]">inventory_2</span>
+</div>
+<span class="text-xs font-bold text-amber-600 dark:text-amber-400 bg-amber-500/10 px-2 py-0.5 rounded-full">Action Req</span>
+</div>
+<div class="z-10">
+<p class="text-sm text-slate-500 dark:text-slate-400 font-medium">Low Stock</p>
+<p class="text-xl font-bold tracking-tight">3 Items</p>
+</div>
+</div>
+</div>
+<div class="h-2 bg-transparent"></div>
+<!-- Quick Actions Grid -->
+<div class="px-4 pb-2 pt-2 flex items-center justify-between">
+<h3 class="text-lg font-bold leading-tight">Quick Actions</h3>
+<button class="text-sm font-medium text-primary hover:text-primary/80">View All</button>
+</div>
+<div class="grid grid-cols-3 gap-3 p-4 pt-0">
+<!-- Products -->
+<div class="group flex flex-col items-center gap-3 rounded-xl border border-border-light dark:border-border-dark bg-surface-light dark:bg-surface-dark p-4 text-center shadow-sm active:scale-95 transition-transform">
+<div class="flex items-center justify-center size-12 rounded-full bg-blue-500/10 text-blue-600 dark:text-blue-400 group-hover:bg-blue-500 group-hover:text-white transition-colors">
+<span class="material-symbols-outlined">package_2</span>
+</div>
+<span class="text-xs font-semibold">Products</span>
+</div>
+<!-- Categories -->
+<div class="group flex flex-col items-center gap-3 rounded-xl border border-border-light dark:border-border-dark bg-surface-light dark:bg-surface-dark p-4 text-center shadow-sm active:scale-95 transition-transform">
+<div class="flex items-center justify-center size-12 rounded-full bg-purple-500/10 text-purple-600 dark:text-purple-400 group-hover:bg-purple-500 group-hover:text-white transition-colors">
+<span class="material-symbols-outlined">category</span>
+</div>
+<span class="text-xs font-semibold">Categories</span>
+</div>
+<!-- Brands -->
+<div class="group flex flex-col items-center gap-3 rounded-xl border border-border-light dark:border-border-dark bg-surface-light dark:bg-surface-dark p-4 text-center shadow-sm active:scale-95 transition-transform">
+<div class="flex items-center justify-center size-12 rounded-full bg-pink-500/10 text-pink-600 dark:text-pink-400 group-hover:bg-pink-500 group-hover:text-white transition-colors">
+<span class="material-symbols-outlined">branding_watermark</span>
+</div>
+<span class="text-xs font-semibold">Brands</span>
+</div>
+<!-- GST/Taxes -->
+<div class="group flex flex-col items-center gap-3 rounded-xl border border-border-light dark:border-border-dark bg-surface-light dark:bg-surface-dark p-4 text-center shadow-sm active:scale-95 transition-transform">
+<div class="flex items-center justify-center size-12 rounded-full bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 group-hover:bg-emerald-500 group-hover:text-white transition-colors">
+<span class="material-symbols-outlined">receipt_long</span>
+</div>
+<span class="text-xs font-semibold">GST/Taxes</span>
+</div>
+<!-- Users -->
+<div class="group flex flex-col items-center gap-3 rounded-xl border border-border-light dark:border-border-dark bg-surface-light dark:bg-surface-dark p-4 text-center shadow-sm active:scale-95 transition-transform">
+<div class="flex items-center justify-center size-12 rounded-full bg-orange-500/10 text-orange-600 dark:text-orange-400 group-hover:bg-orange-500 group-hover:text-white transition-colors">
+<span class="material-symbols-outlined">manage_accounts</span>
+</div>
+<span class="text-xs font-semibold">Users</span>
+</div>
+<!-- Settings -->
+<div class="group flex flex-col items-center gap-3 rounded-xl border border-border-light dark:border-border-dark bg-surface-light dark:bg-surface-dark p-4 text-center shadow-sm active:scale-95 transition-transform">
+<div class="flex items-center justify-center size-12 rounded-full bg-slate-500/10 text-slate-600 dark:text-slate-400 group-hover:bg-slate-500 group-hover:text-white transition-colors">
+<span class="material-symbols-outlined">settings</span>
+</div>
+<span class="text-xs font-semibold">Settings</span>
+</div>
+</div>
+<!-- Recent Activity Feed -->
+<div class="px-4 pb-2 pt-4">
+<h3 class="text-lg font-bold leading-tight">Recent Activity</h3>
+</div>
+<div class="flex flex-col gap-3 p-4 pt-0">
+<!-- Activity Item 1 -->
+<div class="flex items-center gap-4 rounded-xl border border-border-light dark:border-border-dark bg-surface-light dark:bg-surface-dark p-3 shadow-sm">
+<div class="flex size-10 shrink-0 items-center justify-center rounded-lg bg-blue-500/20 text-blue-600 dark:text-blue-400">
+<span class="material-symbols-outlined text-[20px]">shopping_bag</span>
+</div>
+<div class="flex flex-1 flex-col justify-center">
+<p class="text-sm font-bold leading-tight line-clamp-1">New Order #9928</p>
+<p class="text-xs text-slate-500 dark:text-slate-400 line-clamp-1">Samsung Fridge - 480L</p>
+</div>
+<div class="flex flex-col items-end gap-1">
+<p class="text-xs font-medium text-slate-400">2m ago</p>
+<span class="inline-flex items-center rounded-full bg-yellow-500/10 px-2 py-0.5 text-[10px] font-medium text-yellow-600 dark:text-yellow-400">
+                            Pending
+                        </span>
+</div>
+</div>
+<!-- Activity Item 2 -->
+<div class="flex items-center gap-4 rounded-xl border border-border-light dark:border-border-dark bg-surface-light dark:bg-surface-dark p-3 shadow-sm">
+<div class="flex size-10 shrink-0 items-center justify-center rounded-lg bg-emerald-500/20 text-emerald-600 dark:text-emerald-400">
+<span class="material-symbols-outlined text-[20px]">star</span>
+</div>
+<div class="flex flex-1 flex-col justify-center">
+<p class="text-sm font-bold leading-tight line-clamp-1">New Review Received</p>
+<p class="text-xs text-slate-500 dark:text-slate-400 line-clamp-1">LG Washer Front Load</p>
+</div>
+<div class="flex flex-col items-end gap-1">
+<p class="text-xs font-medium text-slate-400">15m ago</p>
+<div class="flex text-amber-400 text-[10px]">
+                            ★★★★★
+                        </div>
+</div>
+</div>
+<!-- Activity Item 3 -->
+<div class="flex items-center gap-4 rounded-xl border border-border-light dark:border-border-dark bg-surface-light dark:bg-surface-dark p-3 shadow-sm">
+<div class="flex size-10 shrink-0 items-center justify-center rounded-lg bg-red-500/20 text-red-600 dark:text-red-400">
+<span class="material-symbols-outlined text-[20px]">inventory</span>
+</div>
+<div class="flex flex-1 flex-col justify-center">
+<p class="text-sm font-bold leading-tight line-clamp-1">Stock Alert: Critical</p>
+<p class="text-xs text-slate-500 dark:text-slate-400 line-clamp-1">Panasonic Microwave</p>
+</div>
+<div class="flex flex-col items-end gap-1">
+<p class="text-xs font-medium text-slate-400">1h ago</p>
+<span class="inline-flex items-center rounded-full bg-red-500/10 px-2 py-0.5 text-[10px] font-medium text-red-600 dark:text-red-400">
+                            Low Stock
+                        </span>
+</div>
+</div>
+</div>
+<!-- Spacer for bottom nav -->
+<div class="h-24"></div>
+</main>
+<!-- Bottom Navigation -->
+<nav class="fixed bottom-0 left-0 w-full z-30 bg-surface-light dark:bg-surface-dark border-t border-border-light dark:border-border-dark pb-safe">
+<div class="flex items-center justify-around h-16 max-w-3xl mx-auto px-2">
+<a class="flex flex-1 flex-col items-center justify-center gap-1 text-primary" href="#">
+<span class="material-symbols-outlined filled">dashboard</span>
+<span class="text-[10px] font-medium">Dashboard</span>
+</a>
+<a class="flex flex-1 flex-col items-center justify-center gap-1 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors" href="#">
+<span class="material-symbols-outlined">shopping_bag</span>
+<span class="text-[10px] font-medium">Orders</span>
+</a>
+<a class="flex flex-1 flex-col items-center justify-center gap-1 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors" href="#">
+<span class="material-symbols-outlined">menu_book</span>
+<span class="text-[10px] font-medium">Catalog</span>
+</a>
+<a class="flex flex-1 flex-col items-center justify-center gap-1 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors" href="#">
+<span class="material-symbols-outlined">group</span>
+<span class="text-[10px] font-medium">Customers</span>
+</a>
+</div>
+<!-- Safe Area Spacer for iOS Home Indicator -->
+<div class="h-5 w-full bg-surface-light dark:bg-surface-dark"></div>
+</nav>
+</div>
+</body></html>

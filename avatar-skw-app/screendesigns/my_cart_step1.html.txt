@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Shopping Cart</title>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "primary": "#136dec",
+              "background-light": "#f6f7f8",
+              "background-dark": "#101822",
+            },
+            fontFamily: {
+              "display": ["Manrope", "Noto Sans", "sans-serif"]
+            },
+            borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+            boxShadow: {
+                'soft': '0 4px 20px -2px rgba(0, 0, 0, 0.05)',
+                'glow': '0 0 15px rgba(19, 109, 236, 0.3)',
+            }
+          },
+        },
+      }
+    </script>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-slate-100 dark:bg-black font-display antialiased flex justify-center min-h-screen">
+<!-- Mobile Container Wrapper -->
+<div class="relative flex h-full min-h-screen w-full max-w-md flex-col bg-background-light dark:bg-background-dark shadow-2xl overflow-hidden group/design-root">
+<!-- Header -->
+<header class="sticky top-0 z-30 flex items-center justify-between bg-background-light/80 dark:bg-background-dark/80 backdrop-blur-md px-4 py-3 border-b border-slate-200/50 dark:border-slate-800/50">
+<button class="flex size-10 items-center justify-center rounded-full hover:bg-slate-200/50 dark:hover:bg-slate-800 transition-colors text-slate-800 dark:text-white">
+<span class="material-symbols-outlined">arrow_back</span>
+</button>
+<h2 class="text-lg font-bold text-slate-900 dark:text-white tracking-tight">My Cart</h2>
+<button class="flex size-10 items-center justify-center rounded-full hover:bg-slate-200/50 dark:hover:bg-slate-800 transition-colors text-slate-800 dark:text-white">
+<span class="material-symbols-outlined">more_horiz</span>
+</button>
+</header>
+<!-- Main Content Area -->
+<main class="flex-1 overflow-y-auto no-scrollbar pb-[140px]">
+<!-- Progress Bar -->
+<div class="px-5 pt-6 pb-2">
+<div class="flex items-center justify-between mb-2">
+<span class="text-sm font-bold text-primary">Step 1 of 3</span>
+<span class="text-xs font-medium text-slate-500 dark:text-slate-400">Next: Shipping</span>
+</div>
+<div class="h-1.5 w-full bg-slate-200 dark:bg-slate-700 rounded-full overflow-hidden">
+<div class="h-full bg-primary w-1/3 rounded-full shadow-[0_0_10px_rgba(19,109,236,0.5)]"></div>
+</div>
+</div>
+<!-- Cart Items List -->
+<div class="flex flex-col gap-4 p-5">
+<!-- Item 1 -->
+<div class="group relative flex gap-4 p-4 bg-white dark:bg-slate-800/80 rounded-2xl shadow-sm border border-slate-100 dark:border-slate-700 hover:border-primary/20 dark:hover:border-primary/30 transition-all">
+<div class="relative shrink-0 size-28 bg-slate-50 dark:bg-slate-700 rounded-xl overflow-hidden">
+<div class="absolute inset-0 bg-cover bg-center mix-blend-multiply dark:mix-blend-normal" data-alt="Dyson vacuum cleaner leaning against a wall" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDae5Lr354C6sqOuGXnTy8TRbemKRRkdOrzN8kYev5vzbrXFQ4e6we2n7s0T4ROOSSxbNS76h-6ANwSv53w-ioZMehOk2f4DJRJJEtr4etRhhdsiAxYRM8ofM9gIuCmR1hzNjk8CH6mbB9nXCVcVV3yKd_bl81QoNzDgfo3pqi1kWY6pZ1z-YimVdGai8h16LRKzblklPZH65yFs904Q5eIaJ6FFNN6TC-GPJKdFId0euD-smAk8ma2fgCaJ_tll1YzJOMCQMYTuXBt');"></div>
+</div>
+<div class="flex flex-1 flex-col justify-between py-1">
+<div>
+<div class="flex justify-between items-start gap-2">
+<h3 class="font-bold text-base text-slate-900 dark:text-white leading-tight">Dyson V15 Detect Vacuum</h3>
+<button class="text-slate-400 hover:text-red-500 transition-colors p-1 -mr-2 -mt-2">
+<span class="material-symbols-outlined text-[20px]">delete</span>
+</button>
+</div>
+<div class="flex gap-2 mt-1.5">
+<span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300">Silver</span>
+<span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300">120V</span>
+</div>
+</div>
+<div class="flex items-end justify-between mt-3">
+<p class="text-lg font-extrabold text-slate-900 dark:text-white">$749.99</p>
+<!-- Quantity Stepper -->
+<div class="flex items-center bg-slate-50 dark:bg-slate-900 rounded-lg p-1 border border-slate-200 dark:border-slate-700">
+<button class="size-7 flex items-center justify-center rounded-md bg-white dark:bg-slate-800 shadow-sm text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors">
+<span class="material-symbols-outlined text-[16px] font-bold">remove</span>
+</button>
+<input class="w-8 p-0 text-center bg-transparent border-none text-sm font-bold text-slate-900 dark:text-white focus:ring-0" readonly="" type="text" value="1"/>
+<button class="size-7 flex items-center justify-center rounded-md bg-primary text-white shadow-sm hover:bg-blue-600 active:scale-95 transition-all">
+<span class="material-symbols-outlined text-[16px] font-bold">add</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Item 2 -->
+<div class="group relative flex gap-4 p-4 bg-white dark:bg-slate-800/80 rounded-2xl shadow-sm border border-slate-100 dark:border-slate-700 hover:border-primary/20 dark:hover:border-primary/30 transition-all">
+<div class="relative shrink-0 size-28 bg-slate-50 dark:bg-slate-700 rounded-xl overflow-hidden">
+<div class="absolute inset-0 bg-cover bg-center mix-blend-multiply dark:mix-blend-normal" data-alt="Modern high-end kitchen espresso machine" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuATPamvDmfTK1ldcVoVkpNkPIjTciNkb-NrDEK5xK7a8PHJYNknZCpVpqidsc2kVYZhe03UVp24IhlMS2tncRjZYtK5cU4zDBFx4I1g1KCZo3y3dTxuSYFWChDHUWILmkN35P44pflH6Vcb-T4ZW9MVw16xYnECnpN-bTFjYpFRRSwZIMZ-rxxTKmA4k6dtH9HTaUdqdilzzYYQD3W8Ztn8QnQmM2I7xHjJPN3m0E6fOjhHiJZ0vp_ZmywP22hGYGqH18QzAVo1OseW');"></div>
+</div>
+<div class="flex flex-1 flex-col justify-between py-1">
+<div>
+<div class="flex justify-between items-start gap-2">
+<h3 class="font-bold text-base text-slate-900 dark:text-white leading-tight">Philips Air Fryer XXL</h3>
+<button class="text-slate-400 hover:text-red-500 transition-colors p-1 -mr-2 -mt-2">
+<span class="material-symbols-outlined text-[20px]">delete</span>
+</button>
+</div>
+<div class="flex gap-2 mt-1.5">
+<span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300">Black</span>
+<span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300">Premium</span>
+</div>
+</div>
+<div class="flex items-end justify-between mt-3">
+<p class="text-lg font-extrabold text-slate-900 dark:text-white">$299.00</p>
+<!-- Quantity Stepper -->
+<div class="flex items-center bg-slate-50 dark:bg-slate-900 rounded-lg p-1 border border-slate-200 dark:border-slate-700">
+<button class="size-7 flex items-center justify-center rounded-md bg-white dark:bg-slate-800 shadow-sm text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors">
+<span class="material-symbols-outlined text-[16px] font-bold">remove</span>
+</button>
+<input class="w-8 p-0 text-center bg-transparent border-none text-sm font-bold text-slate-900 dark:text-white focus:ring-0" readonly="" type="text" value="1"/>
+<button class="size-7 flex items-center justify-center rounded-md bg-primary text-white shadow-sm hover:bg-blue-600 active:scale-95 transition-all">
+<span class="material-symbols-outlined text-[16px] font-bold">add</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Promo Code Action -->
+<div class="px-5 mb-6">
+<button class="w-full group flex items-center justify-between p-4 rounded-xl border border-dashed border-slate-300 dark:border-slate-600 text-slate-600 dark:text-slate-300 bg-transparent hover:bg-white dark:hover:bg-slate-800 hover:border-primary/50 transition-all">
+<div class="flex items-center gap-3">
+<div class="flex items-center justify-center size-8 rounded-full bg-primary/10 text-primary">
+<span class="material-symbols-outlined text-[18px]">confirmation_number</span>
+</div>
+<div class="flex flex-col items-start">
+<span class="font-bold text-sm text-slate-900 dark:text-white">Have a promo code?</span>
+<span class="text-xs text-slate-500">Add voucher for discount</span>
+</div>
+</div>
+<span class="material-symbols-outlined text-slate-400 group-hover:text-primary group-hover:translate-x-1 transition-all text-sm">arrow_forward_ios</span>
+</button>
+</div>
+<!-- Summary Breakdown -->
+<div class="px-5 space-y-3 pb-6">
+<div class="flex justify-between items-center text-sm">
+<span class="text-slate-500 dark:text-slate-400">Subtotal</span>
+<span class="font-bold text-slate-900 dark:text-white">$1,048.99</span>
+</div>
+<div class="flex justify-between items-center text-sm">
+<span class="text-slate-500 dark:text-slate-400">Taxes</span>
+<span class="font-bold text-slate-900 dark:text-white">$84.00</span>
+</div>
+<div class="flex justify-between items-center text-sm">
+<span class="text-slate-500 dark:text-slate-400">Shipping</span>
+<span class="font-bold text-green-600 bg-green-50 dark:bg-green-900/30 px-2 py-0.5 rounded">Free</span>
+</div>
+</div>
+</main>
+<!-- Sticky Footer -->
+<div class="absolute bottom-0 w-full bg-white dark:bg-slate-800 border-t border-slate-100 dark:border-slate-700 p-5 pb-8 shadow-[0_-8px_30px_rgba(0,0,0,0.05)] z-20">
+<div class="flex items-center justify-between gap-4">
+<div class="flex flex-col">
+<span class="text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider">Total Payment</span>
+<span class="text-2xl font-extrabold text-slate-900 dark:text-white tracking-tight">$1,132.99</span>
+</div>
+<button class="flex-1 max-w-[200px] h-14 bg-primary hover:bg-blue-600 text-white font-bold rounded-xl shadow-glow flex items-center justify-center gap-2 group transition-all active:scale-[0.98]">
+<span>Checkout</span>
+<span class="material-symbols-outlined group-hover:translate-x-1 transition-transform">arrow_forward</span>
+</button>
+</div>
+</div>
+</div>
+</body></html>

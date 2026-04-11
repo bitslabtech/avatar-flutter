@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Bulk Import/Export Center</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#4b2bee",
+                        "background-light": "#f6f6f8",
+                        "background-dark": "#131022",
+                    },
+                    fontFamily: {
+                        "display": ["Manrope"]
+                    },
+                    borderRadius: { "DEFAULT": "0.5rem", "lg": "1rem", "xl": "1.5rem", "full": "9999px" },
+                },
+            },
+        }
+    </script>
+<style type="text/tailwindcss">
+        .glass-effect {
+            background: rgba(43, 40, 57, 0.6);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        .upload-gradient {
+            background: radial-gradient(circle at center, rgba(75, 43, 238, 0.1) 0%, transparent 70%);
+        }
+        body {
+            min-height: 100dvh;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark font-display text-white selection:bg-primary/30 min-h-screen">
+<div class="sticky top-0 z-50 glass-effect">
+<div class="flex items-center justify-between px-4 pt-4 pb-4">
+<button class="flex size-10 items-center justify-center rounded-full bg-white/5 active:bg-white/10 transition-colors">
+<span class="material-symbols-outlined text-white text-xl">arrow_back</span>
+</button>
+<h1 class="text-white text-base font-bold tracking-tight">Bulk Import/Export</h1>
+<div class="size-10"></div>
+</div>
+</div>
+<main class="flex flex-col gap-6 p-4 pb-12">
+<div class="flex p-1.5 bg-[#1d1a2e] rounded-xl shadow-inner border border-white/5">
+<button class="flex-1 flex items-center justify-center gap-2 py-2.5 rounded-lg bg-primary text-white text-sm font-bold transition-all shadow-lg shadow-primary/20">
+<span class="material-symbols-outlined text-sm">cloud_upload</span>
+                Import
+            </button>
+<button class="flex-1 flex items-center justify-center gap-2 py-2.5 rounded-lg text-[#a19db9] text-sm font-medium hover:text-white transition-all">
+<span class="material-symbols-outlined text-sm">cloud_download</span>
+                Export
+            </button>
+</div>
+<section class="flex flex-col gap-6">
+<div class="relative group cursor-pointer">
+<div class="upload-gradient absolute inset-0 rounded-xl"></div>
+<div class="relative flex flex-col items-center gap-4 rounded-xl border-2 border-dashed border-primary/40 bg-[#1d1a2e]/40 px-6 py-10 transition-all hover:border-primary/80 hover:bg-primary/5">
+<div class="flex size-16 items-center justify-center rounded-full bg-primary/20 text-primary ring-4 ring-primary/10">
+<span class="material-symbols-outlined text-3xl">upload_file</span>
+</div>
+<div class="flex flex-col items-center gap-1 text-center">
+<p class="text-white text-lg font-bold tracking-tight">Drop &amp; Upload</p>
+<p class="text-[#a19db9] text-sm max-w-[200px]">Supports CSV or XLSX up to 50MB</p>
+</div>
+<button class="mt-2 flex items-center justify-center rounded-lg bg-primary px-6 py-2.5 text-white text-sm font-bold transition-transform active:scale-95 shadow-lg shadow-primary/30">
+                        Select File
+                    </button>
+</div>
+</div>
+<div class="flex items-start gap-3 px-2">
+<span class="material-symbols-outlined text-amber-500 text-xl shrink-0 mt-0.5">warning</span>
+<p class="text-[#a19db9] text-sm leading-relaxed">
+<span class="text-amber-500 font-semibold italic">Note:</span> Import only exported excel and not to use excel ticket.
+                </p>
+</div>
+<div class="bg-[#1d1a2e] rounded-xl p-5 border border-white/5 shadow-xl shadow-black/20">
+<div class="flex items-center justify-between mb-6">
+<h3 class="text-white text-base font-bold flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-xl">analytics</span>
+                        Import Workflow
+                    </h3>
+<span class="text-[10px] font-bold text-primary bg-primary/10 px-2 py-1 rounded">Step 1/4</span>
+</div>
+<div class="grid grid-cols-[32px_1fr] gap-x-4">
+<div class="flex flex-col items-center gap-1 pt-1">
+<div class="flex size-8 items-center justify-center rounded-full bg-primary text-white shadow-[0_0_12px_rgba(75,43,238,0.5)] z-10 relative">
+<span class="material-symbols-outlined text-base">check</span>
+</div>
+<div class="w-[2px] bg-primary h-full grow min-h-[40px]"></div>
+</div>
+<div class="flex flex-col pb-6">
+<p class="text-white text-sm font-bold">Upload File</p>
+<p class="text-[#a19db9] text-xs mt-0.5">Ready to process your local file</p>
+</div>
+<div class="flex flex-col items-center gap-1">
+<div class="flex size-8 items-center justify-center rounded-full border border-[#3f3b54] bg-[#121118] text-[#3f3b54] z-10 relative">
+<span class="material-symbols-outlined text-base">view_column</span>
+</div>
+<div class="w-[2px] bg-[#2a273f] h-full grow min-h-[40px]"></div>
+</div>
+<div class="flex flex-col pb-6">
+<p class="text-white/40 text-sm font-bold">Map Columns</p>
+<p class="text-[#a19db9]/40 text-xs mt-0.5">Assign fields to database columns</p>
+</div>
+<div class="flex flex-col items-center gap-1">
+<div class="flex size-8 items-center justify-center rounded-full border border-[#3f3b54] bg-[#121118] text-[#3f3b54] z-10 relative">
+<span class="material-symbols-outlined text-base">fact_check</span>
+</div>
+<div class="w-[2px] bg-[#2a273f] h-full grow min-h-[40px]"></div>
+</div>
+<div class="flex flex-col pb-6">
+<p class="text-white/40 text-sm font-bold">Validate Data</p>
+<p class="text-[#a19db9]/40 text-xs mt-0.5">Integrity check and error scanning</p>
+</div>
+<div class="flex flex-col items-center gap-1">
+<div class="flex size-8 items-center justify-center rounded-full border border-[#3f3b54] bg-[#121118] text-[#3f3b54] z-10 relative">
+<span class="material-symbols-outlined text-base">flag</span>
+</div>
+</div>
+<div class="flex flex-col">
+<p class="text-white/40 text-sm font-bold">Finish</p>
+<p class="text-[#a19db9]/40 text-xs mt-0.5">Final import to live database</p>
+</div>
+</div>
+</div>
+</section>
+</main>
+</body></html>

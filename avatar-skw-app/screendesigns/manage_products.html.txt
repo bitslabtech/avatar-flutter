@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Manage Products</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#1349ec",
+                        "background-light": "#f6f6f8",
+                        "background-dark": "#101522",
+                        "surface-light": "#ffffff",
+                        "surface-dark": "#232c48",
+                        "text-secondary-light": "#64748b",
+                        "text-secondary-dark": "#92a0c9",
+                    },
+                    fontFamily: {
+                        "display": ["Work Sans", "sans-serif"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>.no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark font-display antialiased text-slate-900 dark:text-white transition-colors duration-200">
+<div class="relative flex min-h-screen w-full flex-col overflow-x-hidden pb-10">
+<div class="sticky top-0 z-50 flex items-center justify-between bg-surface-light/95 dark:bg-background-dark/95 backdrop-blur-sm p-4 border-b border-slate-200 dark:border-slate-800">
+<h2 class="text-xl font-bold leading-tight tracking-tight">Manage Products</h2>
+<button class="flex items-center justify-center gap-2 rounded-lg bg-primary px-4 py-2 text-sm font-bold text-white shadow-md hover:bg-blue-600 transition-colors">
+<span class="material-symbols-outlined text-[20px]">add</span>
+                New Product
+            </button>
+</div>
+<div class="px-4 py-4">
+<div class="flex gap-2 overflow-x-auto no-scrollbar pb-1 snap-x">
+<div class="snap-start flex min-w-[106px] flex-col gap-2 rounded-lg bg-surface-light dark:bg-surface-dark p-3 shadow-sm border border-slate-200 dark:border-slate-700/50">
+<div class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-blue-100 dark:bg-blue-900/30 text-primary">
+<span class="material-symbols-outlined text-[18px]">inventory_2</span>
+</div>
+<div>
+<p class="text-[11px] font-semibold text-text-secondary-light dark:text-text-secondary-dark leading-tight">Total<br/>Products</p>
+<p class="text-lg font-bold tracking-tight text-slate-900 dark:text-white mt-0.5">1,240</p>
+</div>
+</div>
+<div class="snap-start flex min-w-[106px] flex-col gap-2 rounded-lg bg-surface-light dark:bg-surface-dark p-3 shadow-sm border border-slate-200 dark:border-slate-700/50">
+<div class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-emerald-100 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400">
+<span class="material-symbols-outlined text-[18px]">check_circle</span>
+</div>
+<div>
+<p class="text-[11px] font-semibold text-text-secondary-light dark:text-text-secondary-dark leading-tight">Active<br/>Products</p>
+<p class="text-lg font-bold tracking-tight text-slate-900 dark:text-white mt-0.5">1,100</p>
+</div>
+</div>
+<div class="snap-start flex min-w-[106px] flex-col gap-2 rounded-lg bg-surface-light dark:bg-surface-dark p-3 shadow-sm border border-slate-200 dark:border-slate-700/50">
+<div class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-amber-100 dark:bg-amber-900/30 text-amber-600 dark:text-amber-400">
+<span class="material-symbols-outlined text-[18px]">folder_off</span>
+</div>
+<div>
+<p class="text-[11px] font-semibold text-text-secondary-light dark:text-text-secondary-dark leading-tight">Category<br/>Unassigned</p>
+<p class="text-lg font-bold tracking-tight text-slate-900 dark:text-white mt-0.5">12</p>
+</div>
+</div>
+<div class="snap-start flex min-w-[106px] flex-col gap-2 rounded-lg bg-surface-light dark:bg-surface-dark p-3 shadow-sm border border-slate-200 dark:border-slate-700/50">
+<div class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-purple-100 dark:bg-purple-900/30 text-purple-600 dark:text-purple-400">
+<span class="material-symbols-outlined text-[18px]">branding_watermark</span>
+</div>
+<div>
+<p class="text-[11px] font-semibold text-text-secondary-light dark:text-text-secondary-dark leading-tight">Brand<br/>Unassigned</p>
+<p class="text-lg font-bold tracking-tight text-slate-900 dark:text-white mt-0.5">45</p>
+</div>
+</div>
+<div class="snap-start flex min-w-[106px] flex-col gap-2 rounded-lg bg-surface-light dark:bg-surface-dark p-3 shadow-sm border border-slate-200 dark:border-slate-700/50">
+<div class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-rose-100 dark:bg-rose-900/30 text-rose-600 dark:text-rose-400">
+<span class="material-symbols-outlined text-[18px]">receipt_long</span>
+</div>
+<div>
+<p class="text-[11px] font-semibold text-text-secondary-light dark:text-text-secondary-dark leading-tight">GST<br/>Unassigned</p>
+<p class="text-lg font-bold tracking-tight text-slate-900 dark:text-white mt-0.5">8</p>
+</div>
+</div>
+</div>
+</div>
+<div class="px-4 pb-4 sticky top-[73px] z-40 bg-background-light dark:bg-background-dark pt-2">
+<div class="relative flex w-full items-center">
+<div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3 text-text-secondary-light dark:text-text-secondary-dark">
+<span class="material-symbols-outlined text-[24px]">search</span>
+</div>
+<input class="block w-full rounded-xl border-0 bg-surface-light dark:bg-surface-dark py-3.5 pl-10 pr-12 text-sm text-slate-900 dark:text-white placeholder:text-text-secondary-light dark:placeholder:text-text-secondary-dark shadow-sm ring-1 ring-inset ring-slate-200 dark:ring-transparent focus:ring-2 focus:ring-inset focus:ring-primary sm:text-sm sm:leading-6" placeholder="Search by name, SKU, or brand..." type="text"/>
+<div class="absolute inset-y-0 right-0 flex items-center pr-2">
+<button class="p-2 text-text-secondary-light dark:text-text-secondary-dark hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-[24px]">tune</span>
+</button>
+</div>
+</div>
+</div>
+<div class="flex gap-2 px-4 pb-6 overflow-x-auto no-scrollbar">
+<button class="flex h-9 shrink-0 items-center justify-center gap-x-2 rounded-full bg-surface-light dark:bg-surface-dark px-4 border border-slate-200 dark:border-slate-700 shadow-sm transition-colors active:scale-95">
+<span class="text-sm font-medium">All Brands</span>
+<span class="material-symbols-outlined text-[20px]">arrow_drop_down</span>
+</button>
+<button class="flex h-9 shrink-0 items-center justify-center gap-x-2 rounded-full bg-primary px-4 text-white shadow-sm transition-colors active:scale-95">
+<span class="text-sm font-medium">Samsung</span>
+<span class="material-symbols-outlined text-[16px]">close</span>
+</button>
+<button class="flex h-9 shrink-0 items-center justify-center gap-x-2 rounded-full bg-surface-light dark:bg-surface-dark px-4 border border-slate-200 dark:border-slate-700 shadow-sm transition-colors active:scale-95">
+<span class="text-sm font-medium">LG</span>
+</button>
+<button class="flex h-9 shrink-0 items-center justify-center gap-x-2 rounded-full bg-surface-light dark:bg-surface-dark px-4 border border-slate-200 dark:border-slate-700 shadow-sm transition-colors active:scale-95">
+<span class="text-sm font-medium">Whirlpool</span>
+</button>
+</div>
+<div class="flex flex-col gap-4 px-4 pb-20">
+<div class="flex items-center justify-between pb-2">
+<h3 class="text-lg font-bold">Product List</h3>
+<span class="text-xs font-medium text-text-secondary-light dark:text-text-secondary-dark">Showing 3 results</span>
+</div>
+<div class="group relative flex flex-col gap-4 overflow-hidden rounded-xl bg-surface-light dark:bg-surface-dark p-4 shadow-sm border border-slate-200 dark:border-transparent transition-all hover:border-primary/50">
+<div class="flex gap-4">
+<div class="relative shrink-0 overflow-hidden rounded-lg bg-slate-100 dark:bg-slate-800 h-[80px] w-[80px]">
+<img alt="Modern front loading washing machine" class="h-full w-full object-cover" data-alt="Samsung Washing Machine" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC5wMGHbkj-mJOqO_9fi4LjUK-oXMEXxLW44NiqedmyceoUzM5KBi8edfWMGOlS-tp5Z36fWQhOCiepQ4QObP9WwrWoqDvRU7JhEIb15quutrDyM2QoMjcjxfPvDggVfE-Urw-u-2724pRK7e6BfJwnkuDH3fUnnTagwW-X9t_YS4ZF_K_Gyyy4Y_XTNMwD-8IpXUuXDfm9Tog3w1843NN-Fzvc9_-TM5cr2t-BU7vcjTiG87ul1dmnFI4h_WVINAr1p4hit4sihL2c"/>
+</div>
+<div class="flex flex-1 flex-col justify-start">
+<div class="flex justify-between items-start">
+<div>
+<h4 class="text-base font-bold leading-tight text-slate-900 dark:text-white line-clamp-2">Samsung EcoBubble 8kg</h4>
+<p class="mt-1 text-xs font-medium text-primary uppercase tracking-wider">Samsung</p>
+</div>
+<button class="text-text-secondary-light dark:text-text-secondary-dark hover:text-primary p-1 -mr-2">
+<span class="material-symbols-outlined">more_vert</span>
+</button>
+</div>
+<div class="mt-auto flex items-end justify-between w-full pt-2">
+<p class="text-xs text-text-secondary-light dark:text-text-secondary-dark font-mono">SKU: SAM-WM-8KG-001</p>
+<label class="relative inline-flex cursor-pointer items-center">
+<input checked="" class="peer sr-only" type="checkbox" value=""/>
+<div class="peer h-6 w-11 rounded-full bg-slate-200 dark:bg-slate-700 after:absolute after:left-[2px] after:top-[2px] after:h-5 after:w-5 after:rounded-full after:border after:border-gray-300 after:bg-white after:transition-all after:content-[''] peer-checked:bg-primary peer-checked:after:translate-x-full peer-checked:after:border-white peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-primary/20"></div>
+</label>
+</div>
+</div>
+</div>
+</div>
+<div class="group relative flex flex-col gap-4 overflow-hidden rounded-xl bg-surface-light dark:bg-surface-dark p-4 shadow-sm border border-slate-200 dark:border-transparent transition-all hover:border-primary/50">
+<div class="flex gap-4">
+<div class="relative shrink-0 overflow-hidden rounded-lg bg-slate-100 dark:bg-slate-800 h-[80px] w-[80px]">
+<img alt="Silver refrigerator double door" class="h-full w-full object-cover" data-alt="LG Refrigerator" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDH3eXkEljeOUmxvIKe5_IRO7UNpL-MmrJwJsjd1mbkCXwiMeKAMVMu2SDxeg1Ya_qcufGrPKKm590smQYkn8yPwgRuSnmBTLpzfOlFybal_xPiNESK2l_PAtBuESmUL1mn8zL5SeR6ziVVbtEGLLTdr7k2CGlYduGekQcE_3e_T42uItKF8f8PYUeEhaC5YKUaQ_rSiAgb5MDCDL76i4alSXzEBPJBMTktPkkVA5E2t2l29yU-v9cTBB29hzVE_-y8H0h-5QIZwVh5"/>
+</div>
+<div class="flex flex-1 flex-col justify-start">
+<div class="flex justify-between items-start">
+<div>
+<h4 class="text-base font-bold leading-tight text-slate-900 dark:text-white line-clamp-2">LG InstaView Door-in-Door</h4>
+<p class="mt-1 text-xs font-medium text-primary uppercase tracking-wider">LG</p>
+</div>
+<button class="text-text-secondary-light dark:text-text-secondary-dark hover:text-primary p-1 -mr-2">
+<span class="material-symbols-outlined">more_vert</span>
+</button>
+</div>
+<div class="mt-auto flex items-end justify-between w-full pt-2">
+<p class="text-xs text-text-secondary-light dark:text-text-secondary-dark font-mono">SKU: LG-RF-600L-002</p>
+<label class="relative inline-flex cursor-pointer items-center">
+<input checked="" class="peer sr-only" type="checkbox" value=""/>
+<div class="peer h-6 w-11 rounded-full bg-slate-200 dark:bg-slate-700 after:absolute after:left-[2px] after:top-[2px] after:h-5 after:w-5 after:rounded-full after:border after:border-gray-300 after:bg-white after:transition-all after:content-[''] peer-checked:bg-primary peer-checked:after:translate-x-full peer-checked:after:border-white peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-primary/20"></div>
+</label>
+</div>
+</div>
+</div>
+</div>
+<div class="group relative flex flex-col gap-4 overflow-hidden rounded-xl bg-surface-light dark:bg-surface-dark p-4 shadow-sm border border-slate-200 dark:border-transparent transition-all hover:border-primary/50 opacity-80">
+<div class="flex gap-4">
+<div class="relative shrink-0 overflow-hidden rounded-lg bg-slate-100 dark:bg-slate-800 h-[80px] w-[80px]">
+<img alt="White microwave oven on counter" class="h-full w-full object-cover grayscale" data-alt="Whirlpool Microwave" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBoxQR6-DnKuih4tV1GIiLOWAf-ghs_dWLFB0vzmM6pXTKnWxBpl5Q6FAOIiWQuxnjere8pepvbv5CkqcoEpU_Cnw7T3ZaoGL6HtTcm7oomgRYnDKXwt5tpj76S_WLeiHhsXSnxxEn52cQALdrMFYKZRo2RRot_A-qG9_8h3CQGN2stRrhpUqD-JWuag3k7-MDCW9npcW8pCoKUhDdiqzvBqeVVqj9GaFUayANBmsECp6umNulDmLQmuUP2Sz6W8zKP65b4g5c7TOOa"/>
+<div class="absolute inset-0 bg-black/10 dark:bg-black/30"></div>
+</div>
+<div class="flex flex-1 flex-col justify-start">
+<div class="flex justify-between items-start">
+<div>
+<h4 class="text-base font-bold leading-tight text-slate-900 dark:text-white line-clamp-2">Whirlpool Microwave 20L</h4>
+<p class="mt-1 text-xs font-medium text-primary uppercase tracking-wider">Whirlpool</p>
+</div>
+<button class="text-text-secondary-light dark:text-text-secondary-dark hover:text-primary p-1 -mr-2">
+<span class="material-symbols-outlined">more_vert</span>
+</button>
+</div>
+<div class="mt-auto flex items-end justify-between w-full pt-2">
+<p class="text-xs text-text-secondary-light dark:text-text-secondary-dark font-mono">SKU: WP-MW-20L-003</p>
+<label class="relative inline-flex cursor-pointer items-center">
+<input class="peer sr-only" type="checkbox" value=""/>
+<div class="peer h-6 w-11 rounded-full bg-slate-200 dark:bg-slate-700 after:absolute after:left-[2px] after:top-[2px] after:h-5 after:w-5 after:rounded-full after:border after:border-gray-300 after:bg-white after:transition-all after:content-[''] peer-checked:bg-primary peer-checked:after:translate-x-full peer-checked:after:border-white peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-primary/20"></div>
+</label>
+</div>
+</div>
+</div>
+</div>
+<div class="group relative flex flex-col gap-4 overflow-hidden rounded-xl bg-surface-light dark:bg-surface-dark p-4 shadow-sm border border-slate-200 dark:border-transparent transition-all hover:border-primary/50">
+<div class="flex gap-4">
+<div class="relative shrink-0 overflow-hidden rounded-lg bg-slate-100 dark:bg-slate-800 h-[80px] w-[80px]">
+<img alt="Advanced vacuum cleaner robot" class="h-full w-full object-cover" data-alt="RoboVac X1" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDa4RtfvtA7bBJCX9HN_420eW-kvYf8e3zpITJlm-R2Vjm3yPfuU7BgssQTatcSUmuDHF_XqFO2mzZvb_zBUV6r7KsarJckKk7OFnLF8ltqNJ2XDLBrrvSVJYsRoWDjH0DiaLXDxKK7odyqpOEcNy4N2Me1cRspbya1pxqDKniqsmeiDo6Ptz66o2rTgZ4dRdk_H0ZibpxkiVaRLbsaAQVQlcargeFGZfPus3dlSIB9HOSlk7T9gK7qBgbcFLPfQN3wk1pSme6d-KBa"/>
+</div>
+<div class="flex flex-1 flex-col justify-start">
+<div class="flex justify-between items-start">
+<div>
+<h4 class="text-base font-bold leading-tight text-slate-900 dark:text-white line-clamp-2">RoboVac X1 - Smart Clean</h4>
+<p class="mt-1 text-xs font-medium text-primary uppercase tracking-wider">Eufy</p>
+</div>
+<button class="text-text-secondary-light dark:text-text-secondary-dark hover:text-primary p-1 -mr-2">
+<span class="material-symbols-outlined">more_vert</span>
+</button>
+</div>
+<div class="mt-auto flex items-end justify-between w-full pt-2">
+<p class="text-xs text-text-secondary-light dark:text-text-secondary-dark font-mono">SKU: EU-RV-X1-099</p>
+<label class="relative inline-flex cursor-pointer items-center">
+<input checked="" class="peer sr-only" type="checkbox" value=""/>
+<div class="peer h-6 w-11 rounded-full bg-slate-200 dark:bg-slate-700 after:absolute after:left-[2px] after:top-[2px] after:h-5 after:w-5 after:rounded-full after:border after:border-gray-300 after:bg-white after:transition-all after:content-[''] peer-checked:bg-primary peer-checked:after:translate-x-full peer-checked:after:border-white peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-primary/20"></div>
+</label>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</body></html>

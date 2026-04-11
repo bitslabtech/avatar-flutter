@@ -1,0 +1,27 @@
+flutter_launcher_icons:
+  android: true
+  ios: true
+  image_path: "assets/logo/skw-avatar-favicon.png"
+  min_sdk_android: 21
+  
+  # Android adaptive icon
+  adaptive_icon_background: "#FFFFFF"
+  adaptive_icon_foreground: "assets/logo/skw-avatar-favicon.png"
+  
+  # Web favicon
+  web:
+    generate: true
+    image_path: "assets/logo/skw-avatar-favicon.png"
+    background_color: "#FFFFFF"
+    theme_color: "#E53935"
+  
+  # Windows icon
+  windows:
+    generate: true
+    image_path: "assets/logo/skw-avatar-favicon.png"
+    icon_size: 48
+  
+  # macOS icon
+  macos:
+    generate: true
+    image_path: "assets/logo/skw-avatar-favicon.png"

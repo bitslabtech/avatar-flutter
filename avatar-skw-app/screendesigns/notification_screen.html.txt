@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Notification Center</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "primary": "#136dec",
+              "background-light": "#f6f7f8",
+              "background-dark": "#101822",
+            },
+            fontFamily: {
+              "display": ["Manrope", "Noto Sans", "sans-serif"]
+            },
+            borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+        body {
+          min-height: max(884px, 100dvh);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark font-display">
+<div class="relative flex h-full min-h-screen w-full flex-col overflow-x-hidden max-w-[480px] mx-auto bg-white dark:bg-background-dark shadow-xl">
+<div class="flex items-center justify-between bg-white dark:bg-background-dark p-4 sticky top-0 z-20 border-b border-gray-100 dark:border-gray-800">
+<button class="flex items-center justify-center w-8 h-8 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors text-gray-900 dark:text-white">
+<span class="material-symbols-outlined">arrow_back</span>
+</button>
+<h2 class="text-[#111418] dark:text-white text-lg font-bold leading-tight tracking-[-0.015em]">Notifications</h2>
+<button class="text-primary text-sm font-bold hover:text-blue-600 transition-colors">Mark all read</button>
+</div>
+<div class="flex-1 overflow-y-auto">
+<div class="px-4 pt-6 pb-2">
+<div class="flex items-center justify-between mb-4">
+<h3 class="text-xs font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider">New</h3>
+<button class="text-xs font-medium text-gray-400 hover:text-gray-600 dark:hover:text-gray-200">Clear New</button>
+</div>
+<div class="group flex gap-4 p-4 mb-3 bg-blue-50/50 dark:bg-blue-900/10 rounded-xl border border-blue-100 dark:border-blue-800/30 relative cursor-pointer hover:bg-blue-50 dark:hover:bg-blue-900/20 transition-colors">
+<div class="flex-shrink-0 mt-1">
+<div class="w-10 h-10 rounded-full bg-blue-100 dark:bg-blue-900/50 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-xl">local_shipping</span>
+</div>
+</div>
+<div class="flex-1 min-w-0 pr-6">
+<div class="flex justify-between items-center mb-1">
+<p class="text-[#111418] dark:text-white text-sm font-bold">Order Shipped</p>
+<span class="text-xs text-gray-500 font-medium whitespace-nowrap ml-2">25m ago</span>
+</div>
+<p class="text-gray-700 dark:text-gray-300 text-sm leading-snug line-clamp-2">Your order #48291 containing "Samsung Smart Fridge" has been shipped via FedEx.</p>
+</div>
+<div class="absolute top-5 right-4 w-2 h-2 rounded-full bg-primary"></div>
+</div>
+<div class="group flex gap-4 p-4 mb-3 bg-blue-50/50 dark:bg-blue-900/10 rounded-xl border border-blue-100 dark:border-blue-800/30 relative cursor-pointer hover:bg-blue-50 dark:hover:bg-blue-900/20 transition-colors">
+<div class="flex-shrink-0 mt-1">
+<div class="w-10 h-10 rounded-full bg-orange-100 dark:bg-orange-900/50 flex items-center justify-center text-orange-600 dark:text-orange-400">
+<span class="material-symbols-outlined text-xl">percent</span>
+</div>
+</div>
+<div class="flex-1 min-w-0 pr-6">
+<div class="flex justify-between items-center mb-1">
+<p class="text-[#111418] dark:text-white text-sm font-bold">Summer Flash Sale</p>
+<span class="text-xs text-gray-500 font-medium whitespace-nowrap ml-2">1h ago</span>
+</div>
+<p class="text-gray-700 dark:text-gray-300 text-sm leading-snug line-clamp-2">Get up to 20% off on all KitchenAid appliances for the next 24 hours!</p>
+</div>
+<div class="absolute top-5 right-4 w-2 h-2 rounded-full bg-primary"></div>
+</div>
+</div>
+<div class="px-4 pb-6">
+<div class="flex items-center justify-between mb-4 mt-2">
+<h3 class="text-xs font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Earlier</h3>
+</div>
+<div class="group flex gap-4 p-4 mb-3 bg-white dark:bg-[#1a2634] rounded-xl border border-gray-100 dark:border-gray-800/60 relative cursor-pointer hover:bg-gray-50 dark:hover:bg-[#233243] transition-colors">
+<div class="flex-shrink-0 mt-1">
+<div class="w-10 h-10 rounded-full bg-green-100 dark:bg-green-900/30 flex items-center justify-center text-green-600 dark:text-green-400">
+<span class="material-symbols-outlined text-xl">check_circle</span>
+</div>
+</div>
+<div class="flex-1 min-w-0 pr-4">
+<div class="flex justify-between items-center mb-1">
+<p class="text-[#111418] dark:text-white text-sm font-bold">Order Delivered</p>
+<span class="text-xs text-gray-500 font-medium whitespace-nowrap ml-2">Yesterday</span>
+</div>
+<p class="text-gray-500 dark:text-gray-400 text-sm leading-snug line-clamp-2">Your Dyson V15 Detect has been delivered to your front door.</p>
+</div>
+<button class="absolute top-2 right-2 p-1 text-gray-300 hover:text-gray-500 dark:hover:text-gray-200 opacity-0 group-hover:opacity-100 transition-opacity">
+<span class="material-symbols-outlined text-lg">close</span>
+</button>
+</div>
+<div class="group flex gap-4 p-4 mb-3 bg-white dark:bg-[#1a2634] rounded-xl border border-gray-100 dark:border-gray-800/60 relative cursor-pointer hover:bg-gray-50 dark:hover:bg-[#233243] transition-colors">
+<div class="flex-shrink-0 mt-1">
+<div class="w-10 h-10 rounded-full bg-gray-100 dark:bg-gray-700/50 flex items-center justify-center text-gray-600 dark:text-gray-300">
+<span class="material-symbols-outlined text-xl">security</span>
+</div>
+</div>
+<div class="flex-1 min-w-0 pr-4">
+<div class="flex justify-between items-center mb-1">
+<p class="text-[#111418] dark:text-white text-sm font-bold">Security Alert</p>
+<span class="text-xs text-gray-500 font-medium whitespace-nowrap ml-2">2 days ago</span>
+</div>
+<p class="text-gray-500 dark:text-gray-400 text-sm leading-snug line-clamp-2">New sign-in detected on iPhone 13 Pro from New York, USA. Was this you?</p>
+</div>
+<button class="absolute top-2 right-2 p-1 text-gray-300 hover:text-gray-500 dark:hover:text-gray-200 opacity-0 group-hover:opacity-100 transition-opacity">
+<span class="material-symbols-outlined text-lg">close</span>
+</button>
+</div>
+<div class="group flex gap-4 p-4 mb-3 bg-white dark:bg-[#1a2634] rounded-xl border border-gray-100 dark:border-gray-800/60 relative cursor-pointer hover:bg-gray-50 dark:hover:bg-[#233243] transition-colors">
+<div class="flex-shrink-0 mt-1">
+<div class="w-10 h-10 rounded-full bg-purple-100 dark:bg-purple-900/30 flex items-center justify-center text-purple-600 dark:text-purple-400">
+<span class="material-symbols-outlined text-xl">receipt_long</span>
+</div>
+</div>
+<div class="flex-1 min-w-0 pr-4">
+<div class="flex justify-between items-center mb-1">
+<p class="text-[#111418] dark:text-white text-sm font-bold">Payment Successful</p>
+<span class="text-xs text-gray-500 font-medium whitespace-nowrap ml-2">Oct 24</span>
+</div>
+<p class="text-gray-500 dark:text-gray-400 text-sm leading-snug line-clamp-2">Payment of $899.00 was successful for Order #48291.</p>
+</div>
+<button class="absolute top-2 right-2 p-1 text-gray-300 hover:text-gray-500 dark:hover:text-gray-200 opacity-0 group-hover:opacity-100 transition-opacity">
+<span class="material-symbols-outlined text-lg">close</span>
+</button>
+</div>
+<div class="group flex gap-4 p-4 mb-3 bg-white dark:bg-[#1a2634] rounded-xl border border-gray-100 dark:border-gray-800/60 relative cursor-pointer hover:bg-gray-50 dark:hover:bg-[#233243] transition-colors">
+<div class="flex-shrink-0 mt-1">
+<div class="w-10 h-10 rounded-full bg-yellow-100 dark:bg-yellow-900/30 flex items-center justify-center text-yellow-600 dark:text-yellow-400">
+<span class="material-symbols-outlined text-xl">inventory_2</span>
+</div>
+</div>
+<div class="flex-1 min-w-0 pr-4">
+<div class="flex justify-between items-center mb-1">
+<p class="text-[#111418] dark:text-white text-sm font-bold">Back in Stock</p>
+<span class="text-xs text-gray-500 font-medium whitespace-nowrap ml-2">Oct 20</span>
+</div>
+<p class="text-gray-500 dark:text-gray-400 text-sm leading-snug line-clamp-2">The Philips Air Fryer XXL is back in stock. Grab yours now!</p>
+</div>
+<button class="absolute top-2 right-2 p-1 text-gray-300 hover:text-gray-500 dark:hover:text-gray-200 opacity-0 group-hover:opacity-100 transition-opacity">
+<span class="material-symbols-outlined text-lg">close</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+
+</body></html>

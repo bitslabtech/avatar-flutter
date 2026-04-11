@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Admin List Management v3</title>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#136dec",
+                        "background-light": "#f6f7f8",
+                        "background-dark": "#101822",
+                        "card-dark": "#1c2430",
+                        "surface-dark": "#161e29",
+                    },
+                    fontFamily: {
+                        "display": ["Manrope", "sans-serif"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        /* Custom scrollbar for horizontal scrolling */
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .hide-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-white antialiased selection:bg-primary/30">
+<div class="relative flex h-full min-h-screen w-full flex-col overflow-x-hidden pb-24">
+<!-- Top Navigation -->
+<div class="sticky top-0 z-40 bg-background-light/80 dark:bg-background-dark/80 backdrop-blur-md border-b border-slate-200 dark:border-slate-800">
+<div class="flex items-center justify-between px-4 py-3">
+<button class="flex size-10 items-center justify-center rounded-full text-slate-900 dark:text-white hover:bg-black/5 dark:hover:bg-white/5 transition-colors">
+<span class="material-symbols-outlined" style="font-size: 24px;">arrow_back_ios_new</span>
+</button>
+<h2 class="text-lg font-bold leading-tight tracking-tight flex-1 text-center pr-2">Team Management</h2>
+<button class="flex size-10 items-center justify-center rounded-full text-primary hover:bg-primary/10 transition-colors">
+<span class="material-symbols-outlined" style="font-size: 28px;">add_circle</span>
+</button>
+</div>
+<!-- Search Bar -->
+<div class="px-4 pb-3">
+<label class="flex flex-col w-full h-11">
+<div class="flex w-full flex-1 items-center rounded-xl bg-white dark:bg-surface-dark border border-slate-200 dark:border-slate-700 focus-within:border-primary/50 focus-within:ring-2 focus-within:ring-primary/20 transition-all overflow-hidden">
+<div class="pl-3 flex items-center justify-center text-slate-400">
+<span class="material-symbols-outlined" style="font-size: 20px;">search</span>
+</div>
+<input class="w-full bg-transparent border-none text-sm font-medium text-slate-900 dark:text-white placeholder:text-slate-400 focus:outline-0 focus:ring-0 h-full px-3" placeholder="Search by name or email..." value=""/>
+</div>
+</label>
+</div>
+<!-- Filter Chips -->
+<div class="flex gap-2 px-4 pb-3 overflow-x-auto hide-scrollbar snap-x">
+<button class="snap-start shrink-0 flex items-center justify-center h-8 px-4 rounded-full bg-primary text-white text-xs font-bold shadow-sm shadow-primary/20 transition-transform active:scale-95">
+                    All
+                </button>
+<button class="snap-start shrink-0 flex items-center justify-center h-8 px-4 rounded-full bg-white dark:bg-surface-dark border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 text-xs font-semibold hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors active:scale-95">
+                    Support
+                </button>
+<button class="snap-start shrink-0 flex items-center justify-center h-8 px-4 rounded-full bg-white dark:bg-surface-dark border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 text-xs font-semibold hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors active:scale-95">
+                    Content
+                </button>
+<button class="snap-start shrink-0 flex items-center justify-center h-8 px-4 rounded-full bg-white dark:bg-surface-dark border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 text-xs font-semibold hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors active:scale-95">
+                    Finance
+                </button>
+<button class="snap-start shrink-0 flex items-center justify-center h-8 px-4 rounded-full bg-white dark:bg-surface-dark border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 text-xs font-semibold hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors active:scale-95">
+                    Tech Lead
+                </button>
+</div>
+</div>
+<!-- Admin Grid -->
+<div class="grid grid-cols-2 gap-3 p-4">
+<!-- Card 1 -->
+<div class="group relative flex flex-col items-center p-4 rounded-2xl bg-white dark:bg-card-dark border border-slate-100 dark:border-slate-800 shadow-sm overflow-hidden">
+<button class="absolute top-2 right-2 p-1 rounded-full text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 hover:bg-black/5 dark:hover:bg-white/5">
+<span class="material-symbols-outlined" style="font-size: 20px;">more_horiz</span>
+</button>
+<div class="relative mb-3 mt-1">
+<div class="h-16 w-16 rounded-full bg-cover bg-center shadow-inner" data-alt="Portrait of Sarah Jenkins smiling professionally" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBvob_VYw31qyLbnzC3jhJNgEK7vWFQ-Xrc_UITGEwAwJVGw1qg-lAStyHoycP_6tCpDjnwsTjBJD6oOz4YUeVtTdEssIFwqCaCBItOM3nXBS5r2vASM_baVP15txfyHU3Vr9TNxtF08309pFsdDV1JjmuurgbsiU4ZZ3QGnA3ZHiUrav0ROoY6S4LwkDnl6FwrqOgZYGrLVqcWUIQRhw8SiShHm8RJz0gpCmf3LIn4wXdQkNysrHzGLzDWBghfFnfEfSJnsEZ1-GOM');"></div>
+<div class="absolute bottom-0 right-0 h-4 w-4 rounded-full border-2 border-white dark:border-card-dark bg-emerald-500 shadow-sm"></div>
+</div>
+<div class="flex flex-col items-center text-center gap-0.5 w-full mb-3">
+<h3 class="text-slate-900 dark:text-white text-sm font-bold leading-tight truncate w-full">Sarah Jenkins</h3>
+<span class="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-medium bg-blue-100 dark:bg-blue-500/10 text-blue-700 dark:text-blue-300">Finance Head</span>
+</div>
+<button class="w-full h-8 flex items-center justify-center gap-1.5 rounded-lg bg-primary/10 hover:bg-primary/20 text-primary text-xs font-bold transition-colors">
+<span class="material-symbols-outlined" style="font-size: 16px;">history</span>
+                    Logs
+                </button>
+</div>
+<!-- Card 2 -->
+<div class="group relative flex flex-col items-center p-4 rounded-2xl bg-white dark:bg-card-dark border border-slate-100 dark:border-slate-800 shadow-sm overflow-hidden">
+<button class="absolute top-2 right-2 p-1 rounded-full text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 hover:bg-black/5 dark:hover:bg-white/5">
+<span class="material-symbols-outlined" style="font-size: 20px;">more_horiz</span>
+</button>
+<div class="relative mb-3 mt-1">
+<div class="h-16 w-16 rounded-full bg-cover bg-center shadow-inner" data-alt="Portrait of John Doe looking serious" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuADNoktXNPIa4jAUpEgqzvHx1zmiYPbcEV2OHAn97XgEYXKguPCDsv3oHXN0Rg9BLRLWbB_FRpwVTieEBdmhSG9XqY8M_3OfalIw6dMPTasWTPziZ50dvVacBblSnCLoqZifHVPRDjVMfiJVQifgLkaRc-K9C_o5Ect3HUqf9Fcc-oGapNxGSlNmFZrKhh6h3ZPV4JsbTNEsIj1VRK1tsaUIwekQkRbQyUOBWbhYg--5CQbiBRXrCKA0FWjrQdqTDkmiySajXbFBnnH');"></div>
+<div class="absolute bottom-0 right-0 h-4 w-4 rounded-full border-2 border-white dark:border-card-dark bg-amber-500 shadow-sm"></div>
+</div>
+<div class="flex flex-col items-center text-center gap-0.5 w-full mb-3">
+<h3 class="text-slate-900 dark:text-white text-sm font-bold leading-tight truncate w-full">John Doe</h3>
+<span class="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-medium bg-purple-100 dark:bg-purple-500/10 text-purple-700 dark:text-purple-300">Content Mod</span>
+</div>
+<button class="w-full h-8 flex items-center justify-center gap-1.5 rounded-lg bg-primary/10 hover:bg-primary/20 text-primary text-xs font-bold transition-colors">
+<span class="material-symbols-outlined" style="font-size: 16px;">history</span>
+                    Logs
+                </button>
+</div>
+<!-- Card 3 -->
+<div class="group relative flex flex-col items-center p-4 rounded-2xl bg-white dark:bg-card-dark border border-slate-100 dark:border-slate-800 shadow-sm overflow-hidden">
+<button class="absolute top-2 right-2 p-1 rounded-full text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 hover:bg-black/5 dark:hover:bg-white/5">
+<span class="material-symbols-outlined" style="font-size: 20px;">more_horiz</span>
+</button>
+<div class="relative mb-3 mt-1">
+<div class="h-16 w-16 rounded-full bg-cover bg-center shadow-inner" data-alt="Portrait of Emily Chen smiling" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAqrHF-wDnOs4SqC4OHYQzmjH_AAOp75FFtuaY_yBx-7mfY1FRz7XvgnQJwg6PswyhRTzCII4YKpxvUa5Ip9YqAQDe5mA6KZ_HubchMAJOqj_CTX1s8NTnZxnPdUOA_1KYOICJUuGrPXkW3c6jEpsutZwhUwlLzYybGg_7aSILAFHejx727uNsrSwWr_BbQghOaSAV-nExYZj818UXof69wl4bskZnFd8naMj3UeXj4KMQYgvBlse_O-HPCOnZVBpPwmBjowll20hbb');"></div>
+<div class="absolute bottom-0 right-0 h-4 w-4 rounded-full border-2 border-white dark:border-card-dark bg-emerald-500 shadow-sm"></div>
+</div>
+<div class="flex flex-col items-center text-center gap-0.5 w-full mb-3">
+<h3 class="text-slate-900 dark:text-white text-sm font-bold leading-tight truncate w-full">Emily Chen</h3>
+<span class="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-medium bg-orange-100 dark:bg-orange-500/10 text-orange-700 dark:text-orange-300">Support Lead</span>
+</div>
+<button class="w-full h-8 flex items-center justify-center gap-1.5 rounded-lg bg-primary/10 hover:bg-primary/20 text-primary text-xs font-bold transition-colors">
+<span class="material-symbols-outlined" style="font-size: 16px;">history</span>
+                    Logs
+                </button>
+</div>
+<!-- Card 4 -->
+<div class="group relative flex flex-col items-center p-4 rounded-2xl bg-white dark:bg-card-dark border border-slate-100 dark:border-slate-800 shadow-sm overflow-hidden">
+<button class="absolute top-2 right-2 p-1 rounded-full text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 hover:bg-black/5 dark:hover:bg-white/5">
+<span class="material-symbols-outlined" style="font-size: 20px;">more_horiz</span>
+</button>
+<div class="relative mb-3 mt-1">
+<div class="flex items-center justify-center h-16 w-16 rounded-full bg-gradient-to-br from-indigo-500 to-purple-600 text-white font-bold text-xl shadow-inner" data-alt="Initials MR on a gradient background">MR</div>
+<div class="absolute bottom-0 right-0 h-4 w-4 rounded-full border-2 border-white dark:border-card-dark bg-slate-400 shadow-sm"></div>
+</div>
+<div class="flex flex-col items-center text-center gap-0.5 w-full mb-3">
+<h3 class="text-slate-900 dark:text-white text-sm font-bold leading-tight truncate w-full">Michael Ross</h3>
+<span class="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-medium bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300">Admin</span>
+</div>
+<button class="w-full h-8 flex items-center justify-center gap-1.5 rounded-lg bg-primary/10 hover:bg-primary/20 text-primary text-xs font-bold transition-colors">
+<span class="material-symbols-outlined" style="font-size: 16px;">history</span>
+                    Logs
+                </button>
+</div>
+<!-- Card 5 -->
+<div class="group relative flex flex-col items-center p-4 rounded-2xl bg-white dark:bg-card-dark border border-slate-100 dark:border-slate-800 shadow-sm overflow-hidden">
+<button class="absolute top-2 right-2 p-1 rounded-full text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 hover:bg-black/5 dark:hover:bg-white/5">
+<span class="material-symbols-outlined" style="font-size: 20px;">more_horiz</span>
+</button>
+<div class="relative mb-3 mt-1">
+<div class="h-16 w-16 rounded-full bg-cover bg-center shadow-inner" data-alt="Portrait of David Kim in a casual shirt" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCm4RCT3F5ZmE6wN-oOou6VsQpOgS-VIr0XrJJZPXx47S2XzbPhpk6GdldmEpPbw1eliP_vRdATFn1u7G8bWoaeR06l_NDyUvCffC4I94ybyf8VAQbRp9D8XaWNPUd2LF0f99t3U6Zk5iyiL2WCshJY0HZWo-UuU4fQkpDbKADyOonagdkaeJ-A4usShbo2XXFq0-WSL0xtsUQG49GOoouzAbWdL135dO_AOJHp0BWM18y0fuj4Zx6WpTQbDXLPiAPxCMyQJu4SMqUa');"></div>
+<div class="absolute bottom-0 right-0 h-4 w-4 rounded-full border-2 border-white dark:border-card-dark bg-emerald-500 shadow-sm"></div>
+</div>
+<div class="flex flex-col items-center text-center gap-0.5 w-full mb-3">
+<h3 class="text-slate-900 dark:text-white text-sm font-bold leading-tight truncate w-full">David Kim</h3>
+<span class="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-medium bg-pink-100 dark:bg-pink-500/10 text-pink-700 dark:text-pink-300">Tech Support</span>
+</div>
+<button class="w-full h-8 flex items-center justify-center gap-1.5 rounded-lg bg-primary/10 hover:bg-primary/20 text-primary text-xs font-bold transition-colors">
+<span class="material-symbols-outlined" style="font-size: 16px;">history</span>
+                    Logs
+                </button>
+</div>
+<!-- Card 6 -->
+<div class="group relative flex flex-col items-center p-4 rounded-2xl bg-white dark:bg-card-dark border border-slate-100 dark:border-slate-800 shadow-sm overflow-hidden">
+<button class="absolute top-2 right-2 p-1 rounded-full text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 hover:bg-black/5 dark:hover:bg-white/5">
+<span class="material-symbols-outlined" style="font-size: 20px;">more_horiz</span>
+</button>
+<div class="relative mb-3 mt-1">
+<div class="h-16 w-16 rounded-full bg-cover bg-center shadow-inner" data-alt="Portrait of Jessica Low wearing glasses" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuD3DaYzfF_tb9Vu-n1JCK514tYDYAkToWhsMcstXp-CtgRIKyE9L6SwQ4UN5XYfAjDVdazxl28OBGMJHpO-8aCSK9TBw3zoZq8qGzXb0MtXvtsGv9_vleP8ygY8Nkb7DsZZiK8uOGzH3pYwwB4dfqB5aQKmloM0yRBw14PMZRy1lSR9w8GlXYIaaqm8ZNiublncf9HEcuHOEYRQW2DCH0ISHtPy2oUTcCpTmTGevgsHxnue5qXSqTZvJnzp_l8NM5JA0J6mjGVaJ0JS');"></div>
+<div class="absolute bottom-0 right-0 h-4 w-4 rounded-full border-2 border-white dark:border-card-dark bg-red-500 shadow-sm"></div>
+</div>
+<div class="flex flex-col items-center text-center gap-0.5 w-full mb-3">
+<h3 class="text-slate-900 dark:text-white text-sm font-bold leading-tight truncate w-full">Jessica Low</h3>
+<span class="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-medium bg-purple-100 dark:bg-purple-500/10 text-purple-700 dark:text-purple-300">Moderator</span>
+</div>
+<button class="w-full h-8 flex items-center justify-center gap-1.5 rounded-lg bg-primary/10 hover:bg-primary/20 text-primary text-xs font-bold transition-colors">
+<span class="material-symbols-outlined" style="font-size: 16px;">history</span>
+                    Logs
+                </button>
+</div>
+</div>
+<!-- Bottom Navigation -->
+<div class="fixed bottom-0 w-full bg-white/90 dark:bg-[#111418]/90 backdrop-blur-lg border-t border-slate-200 dark:border-slate-800 pb-safe">
+<div class="flex justify-around items-center h-16 pb-2">
+<button class="flex flex-col items-center justify-center w-full h-full text-slate-400 dark:text-slate-500 hover:text-primary dark:hover:text-primary transition-colors gap-1">
+<span class="material-symbols-outlined" style="font-size: 24px;">home</span>
+<span class="text-[10px] font-medium">Home</span>
+</button>
+<button class="flex flex-col items-center justify-center w-full h-full text-primary transition-colors gap-1">
+<span class="material-symbols-outlined" style="font-size: 24px; font-variation-settings: 'FILL' 1;">group</span>
+<span class="text-[10px] font-medium">Admins</span>
+</button>
+<button class="flex flex-col items-center justify-center w-full h-full text-slate-400 dark:text-slate-500 hover:text-primary dark:hover:text-primary transition-colors gap-1">
+<span class="material-symbols-outlined" style="font-size: 24px;">settings</span>
+<span class="text-[10px] font-medium">Settings</span>
+</button>
+</div>
+</div>
+</div>
+</body></html>
