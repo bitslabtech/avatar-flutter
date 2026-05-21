@@ -475,14 +475,14 @@ class _UserAddEditScreenState extends ConsumerState<UserAddEditScreen> {
                   shape: BoxShape.circle,
                   color: roleColor.withOpacity(0.1),
                   border: Border.all(color: roleColor.withOpacity(0.3), width: 2),
-                  image: (widget.user!.avatar != null && widget.user!.avatar!.isNotEmpty)
+                  image: (widget.user!.resolvedAvatarUrl != null && widget.user!.resolvedAvatarUrl!.isNotEmpty)
                       ? DecorationImage(
-                          image: CachedNetworkImageProvider(widget.user!.avatar!),
+                          image: CachedNetworkImageProvider(widget.user!.resolvedAvatarUrl!),
                           fit: BoxFit.cover,
                         )
                       : null,
                 ),
-                child: (widget.user!.avatar != null && widget.user!.avatar!.isNotEmpty)
+                child: (widget.user!.resolvedAvatarUrl != null && widget.user!.resolvedAvatarUrl!.isNotEmpty)
                     ? null
                     : Center(
                         child: Text(

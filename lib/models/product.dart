@@ -63,6 +63,9 @@ class Product {
     this.isGstInclusive = false,
   });
 
+  /// Returns image URLs with the base URL prepended for relative paths
+  List<String>? get resolvedImageUrls => images?.map((img) => ApiEndpoints.resolveImageUrl(img)).toList();
+
   /// Create Product from JSON response
   /// Handles both Admin API format (brandRel object) and Catalog API format (brand string)
   factory Product.fromJson(Map<String, dynamic> json) {

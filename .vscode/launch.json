@@ -6,7 +6,7 @@
       "request": "launch",
       "type": "dart",
       "args": [
-        "--dart-define=API_BASE_URL=http://192.168.31.75:3000"
+        "--dart-define=API_BASE_URL=http://c12s275hwvq1m8uhll3xzio7.187.127.171.15.sslip.io"
       ]
     },
     {

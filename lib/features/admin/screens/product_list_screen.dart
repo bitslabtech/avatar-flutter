@@ -808,7 +808,7 @@ class _ProductListScreenState extends ConsumerState<ProductListScreen> {
                 color: isDark ? const Color(0xFF1E293B) : const Color(0xFFF1F5F9),
                 borderRadius: BorderRadius.circular(8),
               ),
-              child: product.images != null && product.images!.isNotEmpty
+              child: product.resolvedImageUrls != null && product.resolvedImageUrls!.isNotEmpty
                   ? ClipRRect(
                       borderRadius: BorderRadius.circular(8),
                       child: ColorFiltered(
@@ -816,7 +816,7 @@ class _ProductListScreenState extends ConsumerState<ProductListScreen> {
                             ? const ColorFilter.mode(Colors.grey, BlendMode.saturation)
                             : const ColorFilter.mode(Colors.transparent, BlendMode.multiply),
                         child: Image.network(
-                          product.images!.first,
+                          product.resolvedImageUrls!.first,
                           fit: BoxFit.cover,
                           errorBuilder: (_, __, ___) => Icon(
                             Icons.image_not_supported,

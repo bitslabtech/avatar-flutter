@@ -23,11 +23,11 @@ class ApiEndpoints {
 
     // Fallback defaults — suitable for local development only
     if (kIsWeb) {
-      return 'http://c12s275hwvq1m8uhll3xzio7.187.127.171.15.sslip.io/';
+      return 'http://m5irkifh0tzalbpx7ygxy0ab.187.127.171.15.sslip.io/';
     } else if (Platform.isAndroid) {
-      return 'http://c12s275hwvq1m8uhll3xzio7.187.127.171.15.sslip.io/'; 
+      return 'http://m5irkifh0tzalbpx7ygxy0ab.187.127.171.15.sslip.io/'; 
     } else {
-      return 'http://c12s275hwvq1m8uhll3xzio7.187.127.171.15.sslip.io/';
+      return 'http://m5irkifh0tzalbpx7ygxy0ab.187.127.171.15.sslip.io/';
     }
   }
 

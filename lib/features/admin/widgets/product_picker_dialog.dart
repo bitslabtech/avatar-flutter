@@ -107,11 +107,11 @@ class _ProductPickerDialogState extends ConsumerState<ProductPickerDialog> {
                             decoration: BoxDecoration(
                               color: isDark ? Colors.grey[800] : Colors.grey[200],
                               borderRadius: BorderRadius.circular(8),
-                              image: (product.images != null && product.images!.isNotEmpty) 
-                                ? DecorationImage(image: NetworkImage(product.images!.first), fit: BoxFit.cover)
+                              image: (product.resolvedImageUrls != null && product.resolvedImageUrls!.isNotEmpty) 
+                                ? DecorationImage(image: NetworkImage(product.resolvedImageUrls!.first), fit: BoxFit.cover)
                                 : null,
                             ),
-                            child: (product.images == null || product.images!.isEmpty) 
+                            child: (product.resolvedImageUrls == null || product.resolvedImageUrls!.isEmpty) 
                                 ? Icon(Icons.image, size: 20, color: Colors.grey[500]) : null,
                           ),
                           title: Text(product.name, maxLines: 1, overflow: TextOverflow.ellipsis, 

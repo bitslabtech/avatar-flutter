@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../providers/auth_provider.dart';
+import '../../../../core/api/api_endpoints.dart';
 
 class EditProfileScreen extends ConsumerStatefulWidget {
   const EditProfileScreen({super.key});
@@ -150,7 +151,7 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
                                       width: 4,
                                     ),
                                     image: DecorationImage(
-                                      image: _getProfileImage(ref.read(authProvider).user?.avatar),
+                                      image: _getProfileImage(ref.read(authProvider).user?.resolvedAvatarUrl),
                                       fit: BoxFit.cover,
                                     ),
                                     boxShadow: [
@@ -343,6 +344,7 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
   
   ImageProvider _getProfileImage(String? avatarUrl) {
     if (avatarUrl != null && avatarUrl.isNotEmpty) {
+      // avatarUrl is already resolved by resolvedAvatarUrl getter
       return NetworkImage(avatarUrl);
     }
     return const NetworkImage("https://ui-avatars.com/api/?name=User&background=random");

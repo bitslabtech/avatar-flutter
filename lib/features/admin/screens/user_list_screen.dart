@@ -538,14 +538,14 @@ class _UserListScreenState extends ConsumerState<UserListScreen> {
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
                   color: roleColor.withOpacity(0.2),
-                  image: (user.avatar != null && user.avatar!.isNotEmpty)
+                  image: (user.resolvedAvatarUrl != null && user.resolvedAvatarUrl!.isNotEmpty)
                       ? DecorationImage(
-                          image: CachedNetworkImageProvider(user.avatar!),
+                          image: CachedNetworkImageProvider(user.resolvedAvatarUrl!),
                           fit: BoxFit.cover,
                         )
                       : null,
                 ),
-                child: (user.avatar != null && user.avatar!.isNotEmpty)
+                child: (user.resolvedAvatarUrl != null && user.resolvedAvatarUrl!.isNotEmpty)
                     ? null
                     : Center(
                         child: Text(

@@ -10,7 +10,7 @@ import '../providers/admin_provider.dart';
 import '../../../models/product.dart';
 import '../../../core/utils/currency_utils.dart';
 import '../../../providers/auth_provider.dart';
-
+import '../../../core/api/api_endpoints.dart';
 import '../../../models/banner.dart' as model; // Pre-existing import found in original file context might look different, aliasing to avoid conflict if any. Assuming `import '../../../models/banner.dart'` exists or adding it.
 // Wait, I need to check imports. `../../../models/banner.dart` is NOT imported in the original file I viewed. 
 // Original imports:

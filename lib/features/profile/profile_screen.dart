@@ -150,14 +150,14 @@ class ProfileScreen extends ConsumerWidget {
                     width: 4,
                   ),
                   color: AppColors.primaryBlue.withOpacity(0.1),
-                  image: user.avatar != null 
+                  image: user.resolvedAvatarUrl != null 
                       ? DecorationImage(
-                          image: CachedNetworkImageProvider(user.avatar!), 
+                          image: CachedNetworkImageProvider(user.resolvedAvatarUrl!), 
                           fit: BoxFit.cover
                         )
                       : null,
                 ),
-                child: user.avatar == null
+                child: user.resolvedAvatarUrl == null
                     ? Center(
                         child: Text(
                           user.name.isNotEmpty ? user.name[0].toUpperCase() : 'U',

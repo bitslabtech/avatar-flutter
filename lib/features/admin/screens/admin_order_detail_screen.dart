@@ -619,7 +619,7 @@ class _AdminOrderDetailScreenState extends ConsumerState<AdminOrderDetailScreen>
                       dpPricePaise: pricePaise,
                       lineTotalDpPaise: pricePaise,
                       taxPercent: result.gstPercent ?? 0.0,
-                      imageUrl: (result.images != null && result.images!.isNotEmpty) ? result.images!.first : null,
+                      imageUrl: (result.resolvedImageUrls != null && result.resolvedImageUrls!.isNotEmpty) ? result.resolvedImageUrls!.first : null,
                     );
                     setState(() {
                       _localItems.add(newItem);

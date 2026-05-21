@@ -361,10 +361,10 @@ class _AdminManagementScreenState extends ConsumerState<AdminManagementScreen> {
                      ),
                    ],
                  ),
-                 child: admin.avatar != null && admin.avatar!.isNotEmpty
+                 child: admin.resolvedAvatarUrl != null && admin.resolvedAvatarUrl!.isNotEmpty
                      ? ClipOval(
                          child: CachedNetworkImage(
-                           imageUrl: admin.avatar!,
+                           imageUrl: admin.resolvedAvatarUrl!,
                            fit: BoxFit.cover,
                            placeholder: (_, __) => Container(color: Colors.grey[300]),
                            errorWidget: (_, __, ___) => _buildFallbackAvatar(admin.name),

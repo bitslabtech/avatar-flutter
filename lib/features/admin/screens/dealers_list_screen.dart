@@ -506,15 +506,15 @@ class _DealerCard extends ConsumerWidget {
                 decoration: BoxDecoration(
                   color: avatarColor.withOpacity(0.1),
                   shape: BoxShape.circle,
-                  image: (user.avatar != null && user.avatar!.isNotEmpty)
+                  image: (user.resolvedAvatarUrl != null && user.resolvedAvatarUrl!.isNotEmpty)
                       ? DecorationImage(
-                          image: CachedNetworkImageProvider(user.avatar!),
+                          image: CachedNetworkImageProvider(user.resolvedAvatarUrl!),
                           fit: BoxFit.cover,
                         )
                       : null,
                 ),
                 alignment: Alignment.center,
-                child: (user.avatar != null && user.avatar!.isNotEmpty) 
+                child: (user.resolvedAvatarUrl != null && user.resolvedAvatarUrl!.isNotEmpty) 
                     ? null 
                     : Text(
                         displayName.isNotEmpty ? displayName[0].toUpperCase() : '?',

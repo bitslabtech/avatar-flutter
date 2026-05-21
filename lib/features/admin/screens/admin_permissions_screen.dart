@@ -331,8 +331,8 @@ class _AdminPermissionsScreenState extends ConsumerState<AdminPermissionsScreen>
             width: 64,
             height: 64,
             decoration: BoxDecoration(shape: BoxShape.circle, color: Colors.grey[200]),
-             child: widget.admin.avatar != null && widget.admin.avatar!.isNotEmpty
-                 ? ClipOval(child: CachedNetworkImage(imageUrl: widget.admin.avatar!, fit: BoxFit.cover))
+             child: widget.admin.resolvedAvatarUrl != null && widget.admin.resolvedAvatarUrl!.isNotEmpty
+                 ? ClipOval(child: CachedNetworkImage(imageUrl: widget.admin.resolvedAvatarUrl!, fit: BoxFit.cover))
                  : Center(child: Text(widget.admin.name[0].toUpperCase(), style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Colors.grey))),
           ),
           const SizedBox(width: 16),
