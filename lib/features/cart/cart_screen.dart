@@ -330,9 +330,9 @@ class CartScreen extends ConsumerWidget {
           // Product Image (Left) - Optimized to use data from OrderItem directly
           ClipRRect(
             borderRadius: BorderRadius.circular(12),
-            child: item.imageUrl != null && item.imageUrl!.isNotEmpty
+            child: item.resolvedImageUrl != null && item.resolvedImageUrl!.isNotEmpty
                 ? CachedNetworkImage(
-                    imageUrl: item.imageUrl!,
+                    imageUrl: item.resolvedImageUrl!,
                     width: 100,
                     height: 100,
                     fit: BoxFit.cover,

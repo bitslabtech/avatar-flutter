@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../providers/product_management_provider.dart';
 import '../../providers/create_order_provider.dart';
@@ -123,17 +124,18 @@ class _Step2ProductSelectionState extends ConsumerState<Step2ProductSelection> {
                               Container(
                                 width: 60, height: 60,
                                 decoration: BoxDecoration(
-                                  color: isDark ? Colors.grey.shade800 : Colors.grey.shade100,
+                                  color: isDark ? Colors.grey[800] : Colors.grey[200],
                                   borderRadius: BorderRadius.circular(8),
-                                  image: (product.images != null && product.images!.isNotEmpty)
-                                      ? DecorationImage(
-                                          image: NetworkImage(product.images!.first),
-                                          fit: BoxFit.cover,
-                                        )
-                                      : null,
                                 ),
-                                child: (product.images == null || product.images!.isEmpty)
-                                    ? Icon(Icons.image, color: Colors.grey.shade400) : null,
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(8),
+                                  child: CachedNetworkImage(
+                                    imageUrl: product.primaryImageUrl,
+                                    fit: BoxFit.cover,
+                                    placeholder: (context, url) => const Center(child: CircularProgressIndicator(strokeWidth: 2)),
+                                    errorWidget: (context, url, error) => const Icon(Icons.broken_image, color: Colors.grey),
+                                  ),
+                                ),
                               ),
                               const SizedBox(width: 12),
                               Expanded(

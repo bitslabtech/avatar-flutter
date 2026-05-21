@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../providers/create_order_provider.dart';
 import '../../../../core/utils/currency_utils.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
 class Step3ReviewCart extends ConsumerWidget {
   const Step3ReviewCart({super.key});
@@ -53,11 +54,16 @@ class Step3ReviewCart extends ConsumerWidget {
                              decoration: BoxDecoration(
                                borderRadius: BorderRadius.circular(8),
                                color: isDark ? Colors.grey.shade800 : Colors.grey.shade100,
-                               image: (product.images != null && product.images!.isNotEmpty) 
-                                   ? DecorationImage(image: NetworkImage(product.images!.first), fit: BoxFit.cover)
-                                   : null,
                              ),
-                             child: (product.images == null || product.images!.isEmpty) ? Icon(Icons.image, size: 20, color: Colors.grey.shade400) : null,
+                             child: ClipRRect(
+                               borderRadius: BorderRadius.circular(8),
+                               child: CachedNetworkImage(
+                                 imageUrl: product.primaryImageUrl,
+                                 fit: BoxFit.cover,
+                                 placeholder: (context, url) => const Center(child: CircularProgressIndicator(strokeWidth: 2)),
+                                 errorWidget: (context, url, error) => Icon(Icons.image, size: 20, color: Colors.grey.shade400),
+                               ),
+                             ),
                            ),
                            const SizedBox(width: 12),
                            Expanded(

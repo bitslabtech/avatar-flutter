@@ -1,5 +1,7 @@
 /// Product model representing a home appliance/kitchenware item
 /// Maps to the backend Product entity
+import 'dart:convert';
+import '../core/api/api_endpoints.dart';
 import 'user.dart';
 
 class Product {
@@ -72,6 +74,25 @@ class Product {
       return null;
     }
 
+    // Helper to safely parse specs - backend may return a JSON string in guest mode
+    // instead of a parsed Map object, so we handle both cases safely.
+    Map<String, dynamic>? parseSpecs(dynamic value) {
+      if (value == null) return null;
+      if (value is Map<String, dynamic>) return value;
+      if (value is Map) return Map<String, dynamic>.from(value);
+      if (value is String) {
+        try {
+          if (value.isEmpty) return null;
+          final decoded = jsonDecode(value);
+          if (decoded is Map) return Map<String, dynamic>.from(decoded);
+        } catch (_) {
+          // Not valid JSON, ignore
+        }
+        return null;
+      }
+      return null;
+    }
+
     // Handle brand - can be object (Admin API) or string (Catalog API)
     String brandName = 'Unknown';
     BrandRel? brandRelObj;
@@ -99,7 +120,7 @@ class Product {
       price: parseDouble(json['price']),
       mrp: parseDouble(json['mrp']),
       taxPercent: parseDouble(json['taxPercent']),
-      specs: json['specs'] ?? json['specifications'],
+      specs: parseSpecs(json['specs'] ?? json['specifications']),
       warrantyPeriod: json['warrantyPeriod'],
       energyRating: json['energyRating'],
       modelNumber: json['modelNumber'],
@@ -121,12 +142,24 @@ class Product {
     );
   }
 
-  /// Get the first image URL or a placeholder
+  /// Resolves a possibly-relative image path to a full URL.
+  /// The backend stores images as `/uploads/filename.jpg` (relative path).
+  /// If the URL already starts with http/https it is returned as-is.
+  static String resolveImageUrl(String path) {
+    return ApiEndpoints.resolveImageUrl(path);
+  }
+
+  /// Get the first image as a fully-resolved URL, or a placeholder
   String get primaryImageUrl {
     if (images != null && images!.isNotEmpty) {
-      return images!.first;
+      return resolveImageUrl(images!.first);
     }
-    return 'https://via.placeholder.com/400x400?text=No+Image'; // Placeholder
+    return 'https://via.placeholder.com/400x400?text=No+Image';
+  }
+
+  /// Get all images as fully-resolved URLs
+  List<String> get resolvedImages {
+    return images?.map(resolveImageUrl).toList() ?? [];
   }
 
   /// Convert Product to JSON

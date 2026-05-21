@@ -1,5 +1,7 @@
 /// Banner model for promotional banners on home screen
 /// Used in the banner slider carousel
+import '../core/api/api_endpoints.dart';
+
 class Banner {
   final String id;
   final String? title;
@@ -22,6 +24,8 @@ class Banner {
     required this.order,
     this.isActive = true,
   });
+
+  String get resolvedImageUrl => ApiEndpoints.resolveImageUrl(imageUrl);
 
   /// Create Banner from JSON response
   factory Banner.fromJson(Map<String, dynamic> json) {

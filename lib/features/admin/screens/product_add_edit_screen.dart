@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../models/product.dart';
 import '../providers/product_management_provider.dart';
@@ -523,6 +524,7 @@ class _ProductAddEditScreenState extends ConsumerState<ProductAddEditScreen> {
                     scrollDirection: Axis.horizontal,
                     itemCount: _imageUrls.length,
                     itemBuilder: (context, index) {
+                      final resolvedUrl = Product.resolveImageUrl(_imageUrls[index]);
                       return Stack(
                         children: [
                           Container(
@@ -530,7 +532,16 @@ class _ProductAddEditScreenState extends ConsumerState<ProductAddEditScreen> {
                             margin: const EdgeInsets.only(right: 12),
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(8),
-                              image: DecorationImage(image: NetworkImage(_imageUrls[index]), fit: BoxFit.cover),
+                              color: isDark ? Colors.grey[800] : Colors.grey[200],
+                            ),
+                            clipBehavior: Clip.antiAlias,
+                            child: CachedNetworkImage(
+                              imageUrl: resolvedUrl,
+                              fit: BoxFit.cover,
+                              width: double.infinity,
+                              height: double.infinity,
+                              placeholder: (context, url) => const Center(child: SizedBox(width: 20, height: 20, child: CircularProgressIndicator(strokeWidth: 2))),
+                              errorWidget: (context, url, error) => const Icon(Icons.broken_image, color: Colors.grey),
                             ),
                           ),
                           Positioned(

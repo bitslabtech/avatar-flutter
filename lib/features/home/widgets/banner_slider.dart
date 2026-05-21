@@ -129,7 +129,7 @@ class _BannerSliderState extends State<BannerSlider> {
                         children: [
                           // Background Image
                           CachedNetworkImage(
-                            imageUrl: banner.imageUrl,
+                            imageUrl: banner.resolvedImageUrl,
                             fit: BoxFit.cover,
                             placeholder: (context, url) => Container(
                               color: Colors.grey[200],

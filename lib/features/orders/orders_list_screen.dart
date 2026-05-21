@@ -143,7 +143,7 @@ class _OrderCard extends ConsumerWidget {
         ? '${firstItem.name}${otherCount > 0 ? "...and $otherCount more" : ""}' 
         : 'Order #${order.orderNo}';
         
-    final imageUrl = firstItem?.imageUrl;
+    final imageUrl = firstItem?.resolvedImageUrl;
     
     // Status Logic
     String statusText;

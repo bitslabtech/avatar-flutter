@@ -115,7 +115,7 @@ class _CategoryEditScreenState extends ConsumerState<CategoryEditScreen> {
                              ? Image.file(_selectedImage!, width: double.infinity, height: 200, fit: BoxFit.cover)
                              : _currentImageUrl != null && _currentImageUrl!.isNotEmpty
                                 ? CachedNetworkImage(
-                                    imageUrl: _currentImageUrl!,
+                                    imageUrl: ApiEndpoints.resolveImageUrl(_currentImageUrl!),
                                     width: double.infinity, height: 200,
                                     fit: BoxFit.cover,
                                     placeholder: (context, url) => const Center(child: CircularProgressIndicator()),

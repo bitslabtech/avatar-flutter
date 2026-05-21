@@ -191,9 +191,9 @@ class _CategoryCard extends StatelessWidget {
           fit: StackFit.expand,
           children: [
             // Background Image
-            if (category.imageUrl != null)
+            if (category.resolvedImageUrl != null)
               CachedNetworkImage(
-                imageUrl: category.imageUrl!,
+                imageUrl: category.resolvedImageUrl!,
                 fit: BoxFit.cover,
                 placeholder: (_, __) => Container(color: isDark ? const Color(0xFF1E293B) : Colors.grey[200]),
                 errorWidget: (_, __, error) => Container(

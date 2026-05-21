@@ -51,11 +51,13 @@ class CatalogService {
         // Check for 'products' key first
         if (responseData.containsKey('products')) {
           productsList = responseData['products'] as List<dynamic>? ?? [];
-          paginationData = responseData['pagination'] as Map<String, dynamic>?;
+          final pag = responseData['pagination'];
+          paginationData = (pag is Map) ? Map<String, dynamic>.from(pag) : null;
         } else if (responseData.containsKey('data')) {
           // Fallback for wrapped response
           productsList = responseData['data'] as List<dynamic>? ?? [];
-          paginationData = responseData['meta'] as Map<String, dynamic>?;
+          final meta = responseData['meta'];
+          paginationData = (meta is Map) ? Map<String, dynamic>.from(meta) : null;
         } else {
           productsList = [];
         }

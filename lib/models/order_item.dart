@@ -1,6 +1,7 @@
 /// Order item model representing a single product in an order
 /// Maps to the backend OrderItem entity
 import '../core/utils/currency_utils.dart';
+import '../core/api/api_endpoints.dart';
 class OrderItem {
   final String id;
   final String productId;
@@ -23,6 +24,8 @@ class OrderItem {
     required this.taxPercent,
     this.imageUrl,
   });
+
+  String? get resolvedImageUrl => imageUrl != null ? ApiEndpoints.resolveImageUrl(imageUrl!) : null;
 
   /// Create OrderItem from JSON
   factory OrderItem.fromJson(Map<String, dynamic> json) {

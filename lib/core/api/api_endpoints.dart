@@ -36,6 +36,18 @@ class ApiEndpoints {
     }
   }
 
+  /// Resolves a possibly-relative image path to a full URL.
+  /// If the URL already starts with http/https it is returned as-is.
+  static String resolveImageUrl(String path) {
+    if (path.startsWith('http://') || path.startsWith('https://')) {
+      return path;
+    }
+    // Strip trailing slash from base URL and leading slash from path to avoid doubles
+    final base = baseUrl.replaceAll(RegExp(r'/$'), '');
+    final relativePath = path.startsWith('/') ? path : '/$path';
+    return '$base$relativePath';
+  }
+
   // Authentication endpoints
   static const String login = '/auth/login';
   static const String register = '/auth/register';

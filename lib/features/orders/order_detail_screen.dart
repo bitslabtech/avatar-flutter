@@ -439,12 +439,12 @@ class _OrderDetailScreenState extends ConsumerState<OrderDetailScreen> {
                                              borderRadius: BorderRadius.circular(12),
                                              color: isDark ? Colors.grey[800] : Colors.grey[50],
                                              border: Border.all(color: isDark ? Colors.grey[700]! : Colors.grey[200]!),
-                                             image: item.imageUrl != null ? DecorationImage(
-                                                image: NetworkImage(item.imageUrl!),
+                                             image: item.resolvedImageUrl != null ? DecorationImage(
+                                                image: NetworkImage(item.resolvedImageUrl!),
                                                 fit: BoxFit.cover,
                                              ) : null,
                                           ),
-                                          child: item.imageUrl == null ? Icon(Icons.shopping_bag_outlined, color: isDark ? Colors.grey[600] : Colors.grey[400]) : null,
+                                          child: item.resolvedImageUrl == null ? Icon(Icons.shopping_bag_outlined, color: isDark ? Colors.grey[600] : Colors.grey[400]) : null,
                                        ),
                                        const SizedBox(width: 16),
                                        
@@ -522,12 +522,12 @@ class _OrderDetailScreenState extends ConsumerState<OrderDetailScreen> {
                                                      decoration: BoxDecoration(
                                                         borderRadius: const BorderRadius.vertical(top: Radius.circular(16)),
                                                         color: isDark ? Colors.grey[800] : Colors.grey[50],
-                                                        image: item.imageUrl != null ? DecorationImage(
-                                                           image: NetworkImage(item.imageUrl!),
+                                                        image: item.resolvedImageUrl != null ? DecorationImage(
+                                                           image: NetworkImage(item.resolvedImageUrl!),
                                                            fit: BoxFit.cover,
                                                         ) : null,
                                                      ),
-                                                     child: item.imageUrl == null ? Center(child: Icon(Icons.shopping_bag_outlined, size: 40, color: isDark ? Colors.grey[600] : Colors.grey[300])) : null,
+                                                     child: item.resolvedImageUrl == null ? Center(child: Icon(Icons.shopping_bag_outlined, size: 40, color: isDark ? Colors.grey[600] : Colors.grey[300])) : null,
                                                    ),
                                                  ],
                                                ),
@@ -664,7 +664,7 @@ class _OrderDetailScreenState extends ConsumerState<OrderDetailScreen> {
                  Expanded(
                     flex: 1,
                     child: OutlinedButton(
-                       onPressed: () {}, 
+                       onPressed: () => context.push('/profile/support'), 
                        style: OutlinedButton.styleFrom(
                           padding: const EdgeInsets.symmetric(vertical: 16),
                           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),

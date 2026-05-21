@@ -35,8 +35,9 @@ class FileUploadService {
       // Path is relative like /uploads/xyz.jpg
       String relativePath = response.data['path'];
       
-      // Prepend base URL to make it a full URL
-      return '${ApiEndpoints.baseUrl}$relativePath';
+      // Return the relative path so the database stores consistent relative paths
+      // e.g., /uploads/xyz.jpg
+      return relativePath;
     } on DioException catch (e) {
       throw Exception(e.response?.data['message'] ?? 'Failed to upload image');
     }

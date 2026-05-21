@@ -235,7 +235,7 @@ class _AdminAddBannerScreenState extends ConsumerState<AdminAddBannerScreen> {
                     : _uploadedImageUrl != null
                         ? ClipRRect(
                             borderRadius: BorderRadius.circular(12),
-                            child: Image.network(_uploadedImageUrl!, fit: BoxFit.cover),
+                            child: Image.network(ApiEndpoints.resolveImageUrl(_uploadedImageUrl!), fit: BoxFit.cover),
                           )
                         : Column(
                             mainAxisAlignment: MainAxisAlignment.center,

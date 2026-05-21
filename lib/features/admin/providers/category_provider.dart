@@ -1,5 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../core/api/api_client.dart';
+import '../../../core/api/api_endpoints.dart';
 import '../../../providers/auth_provider.dart';
 
 // Simple model for Category Admin view
@@ -23,6 +24,8 @@ class CategoryItem {
     required this.isActive,
     required this.productCount,
   });
+
+  String? get resolvedImageUrl => imageUrl != null ? ApiEndpoints.resolveImageUrl(imageUrl!) : null;
 
   factory CategoryItem.fromJson(Map<String, dynamic> json) {
     return CategoryItem(

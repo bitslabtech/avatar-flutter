@@ -349,11 +349,11 @@ class _CategoryManagementScreenState extends ConsumerState<CategoryManagementScr
                      color: isDark ? Colors.blue.withOpacity(0.1) : Colors.blue.shade50,
                      borderRadius: BorderRadius.circular(8),
                    ),
-                   child: item.imageUrl != null && item.imageUrl!.isNotEmpty
+                   child: item.resolvedImageUrl != null && item.resolvedImageUrl!.isNotEmpty
                        ? ClipRRect(
                            borderRadius: BorderRadius.circular(8),
                            child: CachedNetworkImage(
-                             imageUrl: item.imageUrl!,
+                             imageUrl: item.resolvedImageUrl!,
                              fit: BoxFit.cover,
                              placeholder: (context, url) => Center(child: Icon(iconData, color: Colors.blue.withOpacity(0.5), size: 16)),
                              errorWidget: (context, url, error) => Icon(iconData, color: Colors.blue, size: 20),

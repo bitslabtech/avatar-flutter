@@ -242,8 +242,8 @@ class _ProductDetailScreenState extends ConsumerState<ProductDetailScreen> {
   }
 
   Widget _buildImageCarousel(BuildContext context, Product product, bool isDark) {
-    final images = (product.images != null && product.images!.isNotEmpty) 
-        ? product.images! 
+    final images = product.resolvedImages.isNotEmpty
+        ? product.resolvedImages
         : ['https://via.placeholder.com/400x500?text=No+Image'];
 
     return Stack(

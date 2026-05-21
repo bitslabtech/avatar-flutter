@@ -1,3 +1,5 @@
+import '../core/api/api_endpoints.dart';
+
 class Category {
   final String id;
   final String name;
@@ -18,6 +20,8 @@ class Category {
     this.isActive = true,
     this.order = 0,
   });
+
+  String? get resolvedImageUrl => imageUrl != null ? ApiEndpoints.resolveImageUrl(imageUrl!) : null;
 
   factory Category.fromJson(Map<String, dynamic> json) {
     return Category(

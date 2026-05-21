@@ -1,5 +1,7 @@
 /// User model representing the authenticated user
 /// Maps to the backend User entity
+import '../core/api/api_endpoints.dart';
+
 class User {
   final String id;
   final String name;
@@ -30,6 +32,8 @@ class User {
     this.avatar,
     this.permissions,
   });
+
+  String? get resolvedAvatarUrl => avatar != null ? ApiEndpoints.resolveImageUrl(avatar!) : null;
 
   /// Create User from JSON response
   factory User.fromJson(Map<String, dynamic> json) {
