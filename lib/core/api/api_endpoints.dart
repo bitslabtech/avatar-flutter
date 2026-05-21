@@ -23,16 +23,11 @@ class ApiEndpoints {
 
     // Fallback defaults — suitable for local development only
     if (kIsWeb) {
-      return 'https://avatar-backend-echh.onrender.com/';
-    }
-    if (Platform.isAndroid) {
-      // For physical device on local network — update if your LAN IP changes
-      // To override without code change: flutter run --dart-define=API_BASE_URL=http://<ip>:3000
-      return 'https://avatar-backend-echh.onrender.com/';
-    } else if (Platform.isIOS) {
-      return 'https://avatar-backend-echh.onrender.com/';
+      return 'http://c12s275hwvq1m8uhll3xzio7.187.127.171.15.sslip.io/';
+    } else if (Platform.isAndroid) {
+      return 'http://c12s275hwvq1m8uhll3xzio7.187.127.171.15.sslip.io/'; 
     } else {
-      return 'https://avatar-backend-echh.onrender.com/';
+      return 'http://c12s275hwvq1m8uhll3xzio7.187.127.171.15.sslip.io/';
     }
   }
 
