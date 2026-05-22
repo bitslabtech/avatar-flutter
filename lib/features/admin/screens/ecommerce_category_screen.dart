@@ -93,7 +93,7 @@ class _EcommerceCategoryScreenState extends ConsumerState<EcommerceCategoryScree
                             ? Text(category.description!, maxLines: 1, overflow: TextOverflow.ellipsis, style: TextStyle(color: isDark ? Colors.grey : Colors.grey[600], fontSize: 12))
                             : null,
                         value: category.isActive,
-                        activeColor: AppColors.primaryBlue,
+                        activeColor: Theme.of(context).colorScheme.primary,
                         secondary: Icon(Icons.drag_handle, color: isDark ? Colors.grey : Colors.grey.shade400),
                         onChanged: (val) {
                           ref.read(adminCategoriesProvider.notifier).toggleCategoryStatus(category);

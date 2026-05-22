@@ -1029,7 +1029,7 @@ class _ProductListScreenState extends ConsumerState<ProductListScreen> {
                     ),
                     focusedBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(10),
-                      borderSide: BorderSide(color: isDeleteEnabled ? Colors.red : AppColors.primaryBlue, width: 2),
+                      borderSide: BorderSide(color: isDeleteEnabled ? Colors.red : Theme.of(context).colorScheme.primary, width: 2),
                     ),
                     contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
                   ),

@@ -232,10 +232,10 @@ class _AddDealerScreenState extends ConsumerState<AddDealerScreen> {
                   onPressed: _isLoading ? null : _handleSubmit,
                   style: ElevatedButton.styleFrom(
                     padding: const EdgeInsets.symmetric(vertical: 16),
-                    backgroundColor: AppColors.primaryBlue,
+                    backgroundColor: Theme.of(context).colorScheme.primary,
                     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                     elevation: 4,
-                    shadowColor: AppColors.primaryBlue.withOpacity(0.4),
+                    shadowColor: Theme.of(context).colorScheme.primary.withOpacity(0.4),
                   ),
                   child: _isLoading
                       ? const LoadingIndicator(color: Colors.white)
@@ -260,7 +260,7 @@ class _AddDealerScreenState extends ConsumerState<AddDealerScreen> {
           width: 4,
           height: 18,
           decoration: BoxDecoration(
-            color: AppColors.primaryBlue,
+            color: Theme.of(context).colorScheme.primary,
             borderRadius: BorderRadius.circular(2),
           ),
         ),
@@ -322,7 +322,7 @@ class _AddDealerScreenState extends ConsumerState<AddDealerScreen> {
           borderRadius: BorderRadius.circular(12),
         ),
         focusedBorder: OutlineInputBorder(
-          borderSide: const BorderSide(color: AppColors.primaryBlue, width: 2),
+          borderSide: BorderSide(color: Theme.of(context).colorScheme.primary, width: 2),
           borderRadius: BorderRadius.circular(12),
         ),
         errorBorder: OutlineInputBorder(

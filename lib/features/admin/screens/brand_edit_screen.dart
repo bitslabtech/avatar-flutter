@@ -114,7 +114,7 @@ class _BrandEditScreenState extends ConsumerState<BrandEditScreen> {
                   boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.05), blurRadius: 10)],
                 ),
                 child: Center(
-                  child: Icon(Icons.verified, size: 48, color: AppColors.primaryBlue),
+                  child: Icon(Icons.verified, size: 48, color: Theme.of(context).colorScheme.primary),
                 ),
               ),
               Positioned(
@@ -122,7 +122,7 @@ class _BrandEditScreenState extends ConsumerState<BrandEditScreen> {
                 child: Container(
                   width: 40, height: 40,
                   decoration: BoxDecoration(
-                    color: AppColors.primaryBlue,
+                    color: Theme.of(context).colorScheme.primary,
                     borderRadius: BorderRadius.circular(20),
                     border: Border.all(color: isDark ? AppColors.backgroundBlack : AppColors.backgroundLight, width: 4),
                   ),
@@ -220,7 +220,7 @@ class _BrandEditScreenState extends ConsumerState<BrandEditScreen> {
                   color: Colors.blue.withOpacity(0.1),
                   borderRadius: BorderRadius.circular(12),
                 ),
-                child: Icon(Icons.inventory, color: AppColors.primaryBlue, size: 20),
+                child: Icon(Icons.inventory, color: Theme.of(context).colorScheme.primary, size: 20),
               ),
               const SizedBox(width: 12),
               Column(
@@ -236,9 +236,9 @@ class _BrandEditScreenState extends ConsumerState<BrandEditScreen> {
             onPressed: () {}, // Navigate to products filtered by brand
             child: Row(
               children: [
-                Text('View All', style: TextStyle(color: AppColors.primaryBlue, fontWeight: FontWeight.w600)),
+                Text('View All', style: TextStyle(color: Theme.of(context).colorScheme.primary, fontWeight: FontWeight.w600)),
                 const SizedBox(width: 4),
-                Icon(Icons.arrow_forward, size: 16, color: AppColors.primaryBlue),
+                Icon(Icons.arrow_forward, size: 16, color: Theme.of(context).colorScheme.primary),
               ],
             ),
           )
@@ -256,11 +256,11 @@ class _BrandEditScreenState extends ConsumerState<BrandEditScreen> {
           child: ElevatedButton(
             onPressed: _isLoading ? null : () => _saveChanges(brand),
             style: ElevatedButton.styleFrom(
-              backgroundColor: AppColors.primaryBlue,
+              backgroundColor: Theme.of(context).colorScheme.primary,
               foregroundColor: Colors.white,
               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
               elevation: 4,
-              shadowColor: AppColors.primaryBlue.withOpacity(0.25),
+              shadowColor: Theme.of(context).colorScheme.primary.withOpacity(0.25),
             ),
             child: _isLoading 
                 ? const SizedBox(width: 24, height: 24, child: CircularProgressIndicator(color: Colors.white, strokeWidth: 2))

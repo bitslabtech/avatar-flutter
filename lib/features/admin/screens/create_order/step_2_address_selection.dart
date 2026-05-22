@@ -73,7 +73,7 @@ class _Step2AddressSelectionState extends ConsumerState<Step2AddressSelection> {
               label: const Text('Add New Address'),
               style: OutlinedButton.styleFrom(
                 padding: const EdgeInsets.symmetric(vertical: 14),
-                side: BorderSide(color: AppColors.primaryBlue),
+                side: BorderSide(color: Theme.of(context).colorScheme.primary),
                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
               ),
             ),
@@ -143,11 +143,11 @@ class _Step2AddressSelectionState extends ConsumerState<Step2AddressSelection> {
       },
       child: Card(
         elevation: 0,
-        color: isSelected ? AppColors.primaryBlue.withOpacity(0.1) : cardColor,
+        color: isSelected ? Theme.of(context).colorScheme.primary.withOpacity(0.1) : cardColor,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(12),
           side: BorderSide(
-            color: isSelected ? AppColors.primaryBlue : borderColor,
+            color: isSelected ? Theme.of(context).colorScheme.primary : borderColor,
             width: isSelected ? 2 : 1,
           ),
         ),
@@ -164,7 +164,7 @@ class _Step2AddressSelectionState extends ConsumerState<Step2AddressSelection> {
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
                   border: Border.all(
-                    color: isSelected ? AppColors.primaryBlue : subtitleColor,
+                    color: isSelected ? Theme.of(context).colorScheme.primary : subtitleColor,
                     width: 2,
                   ),
                 ),
@@ -173,9 +173,9 @@ class _Step2AddressSelectionState extends ConsumerState<Step2AddressSelection> {
                         child: Container(
                           width: 12,
                           height: 12,
-                          decoration: const BoxDecoration(
+                          decoration: BoxDecoration(
                             shape: BoxShape.circle,
-                            color: AppColors.primaryBlue,
+                            color: Theme.of(context).colorScheme.primary,
                           ),
                         ),
                       )
@@ -189,14 +189,14 @@ class _Step2AddressSelectionState extends ConsumerState<Step2AddressSelection> {
                   children: [
                     Row(
                       children: [
-                        Icon(iconData, size: 18, color: isSelected ? AppColors.primaryBlue : subtitleColor),
+                        Icon(iconData, size: 18, color: isSelected ? Theme.of(context).colorScheme.primary : subtitleColor),
                         const SizedBox(width: 6),
                         Text(
                           type.toString().toUpperCase(),
                           style: TextStyle(
                             fontSize: 12,
                             fontWeight: FontWeight.bold,
-                            color: isSelected ? AppColors.primaryBlue : subtitleColor,
+                            color: isSelected ? Theme.of(context).colorScheme.primary : subtitleColor,
                           ),
                         ),
                         if (address['isDefault'] == true) ...[
@@ -504,11 +504,11 @@ class _AddressFormModalState extends State<AddressFormModal> {
                                         padding: const EdgeInsets.symmetric(vertical: 14),
                                         decoration: BoxDecoration(
                                           color: isSelected
-                                              ? AppColors.primaryBlue.withOpacity(0.1)
+                                              ? Theme.of(context).colorScheme.primary.withOpacity(0.1)
                                               : (isTaken ? (widget.isDark ? Colors.grey[800] : Colors.grey[200]) : inputBgColor),
                                           borderRadius: BorderRadius.circular(12),
                                           border: Border.all(
-                                            color: isSelected ? AppColors.primaryBlue 
+                                            color: isSelected ? Theme.of(context).colorScheme.primary 
                                               : (isTaken ? Colors.transparent : borderColor),
                                             width: isSelected ? 1.5 : 1,
                                           ),
@@ -520,7 +520,7 @@ class _AddressFormModalState extends State<AddressFormModal> {
                                               fontSize: 12,
                                               fontWeight: FontWeight.bold,
                                               color: isSelected
-                                                  ? AppColors.primaryBlue
+                                                  ? Theme.of(context).colorScheme.primary
                                                   : (isTaken 
                                                       ? (widget.isDark ? Colors.grey[600] : Colors.grey[500]) 
                                                       : (widget.isDark ? Colors.grey[400] : Colors.grey[600])),
@@ -546,7 +546,7 @@ class _AddressFormModalState extends State<AddressFormModal> {
                         Checkbox(
                           value: _saveToProfile,
                           onChanged: (val) => setState(() => _saveToProfile = val ?? false),
-                          activeColor: AppColors.primaryBlue,
+                          activeColor: Theme.of(context).colorScheme.primary,
                         ),
                         Expanded(
                           child: Text(
@@ -577,7 +577,7 @@ class _AddressFormModalState extends State<AddressFormModal> {
                 child: ElevatedButton(
                   onPressed: _saveAddress,
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: AppColors.primaryBlue,
+                    backgroundColor: Theme.of(context).colorScheme.primary,
                     padding: const EdgeInsets.symmetric(vertical: 16),
                     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                   ),
@@ -629,7 +629,7 @@ class _AddressFormModalState extends State<AddressFormModal> {
             contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
             border: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: BorderSide(color: borderColor)),
             enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: BorderSide(color: borderColor)),
-            focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: const BorderSide(color: AppColors.primaryBlue, width: 1.5)),
+            focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: BorderSide(color: Theme.of(context).colorScheme.primary, width: 1.5)),
             errorBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: const BorderSide(color: Colors.red)),
             focusedErrorBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: const BorderSide(color: Colors.red, width: 1.5)),
           ),
@@ -743,8 +743,8 @@ class _AddressFormModalState extends State<AddressFormModal> {
                             Future.delayed(const Duration(milliseconds: 100), () => _zipFocusNode.requestFocus());
                           },
                           title: Text(state, style: TextStyle(color: textColor, fontWeight: isSelected ? FontWeight.bold : FontWeight.normal)),
-                          trailing: isSelected ? const Icon(Icons.check_circle, color: AppColors.primaryBlue) : null,
-                          tileColor: isSelected ? AppColors.primaryBlue.withOpacity(0.1) : null,
+                          trailing: isSelected ? Icon(Icons.check_circle, color: Theme.of(context).colorScheme.primary) : null,
+                          tileColor: isSelected ? Theme.of(context).colorScheme.primary.withOpacity(0.1) : null,
                         );
                       },
                     ),

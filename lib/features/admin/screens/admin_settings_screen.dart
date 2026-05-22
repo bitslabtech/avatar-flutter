@@ -186,7 +186,7 @@ class _AdminSettingsScreenState extends ConsumerState<AdminSettingsScreen> {
                                 },
                           style: ElevatedButton.styleFrom(
                             padding: const EdgeInsets.symmetric(vertical: 14),
-                            backgroundColor: AppColors.primaryBlue,
+                            backgroundColor: Theme.of(context).colorScheme.primary,
                             foregroundColor: Colors.white,
                             shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
                           ),
@@ -543,7 +543,7 @@ class _AdminSettingsScreenState extends ConsumerState<AdminSettingsScreen> {
               TextButton(
                 onPressed: () => _saveSettings(context),
                 style: TextButton.styleFrom(
-                  backgroundColor: AppColors.primaryBlue,
+                  backgroundColor: Theme.of(context).colorScheme.primary,
                   foregroundColor: Colors.white,
                   padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
@@ -620,10 +620,10 @@ class _AdminSettingsScreenState extends ConsumerState<AdminSettingsScreen> {
               width: 48,
               height: 48,
               decoration: BoxDecoration(
-                color: AppColors.primaryBlue.withValues(alpha: 0.1),
+                color: Theme.of(context).colorScheme.primary.withValues(alpha: 0.1),
                 shape: BoxShape.circle,
               ),
-              child: const Icon(Icons.person, color: AppColors.primaryBlue),
+              child: Icon(Icons.person, color: Theme.of(context).colorScheme.primary),
             ),
             const SizedBox(width: 16),
             Expanded(
@@ -733,7 +733,7 @@ class _AdminSettingsScreenState extends ConsumerState<AdminSettingsScreen> {
           Switch(
             value: value,
             onChanged: onChanged,
-            activeColor: AppColors.primaryBlue,
+            activeColor: Theme.of(context).colorScheme.primary,
           ),
         ],
       ),

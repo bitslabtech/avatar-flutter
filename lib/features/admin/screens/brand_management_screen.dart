@@ -110,7 +110,7 @@ class _BrandManagementScreenState extends ConsumerState<BrandManagementScreen> {
                             ScaffoldMessenger.of(context).showSnackBar(
                               SnackBar(
                                 content: Text('Filtering: ${tempFilter.name}'),
-                                backgroundColor: AppColors.primaryBlue,
+                                backgroundColor: Theme.of(context).colorScheme.primary,
                                 behavior: SnackBarBehavior.floating,
                                 duration: const Duration(seconds: 2),
                               ),
@@ -118,7 +118,7 @@ class _BrandManagementScreenState extends ConsumerState<BrandManagementScreen> {
                           }
                         },
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: AppColors.primaryBlue,
+                          backgroundColor: Theme.of(context).colorScheme.primary,
                           padding: const EdgeInsets.symmetric(vertical: 14),
                           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
                         ),
@@ -148,7 +148,7 @@ class _BrandManagementScreenState extends ConsumerState<BrandManagementScreen> {
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
                 border: Border.all(
-                  color: isSelected ? AppColors.primaryBlue : (isDark ? Colors.grey : Colors.grey.shade400),
+                  color: isSelected ? Theme.of(context).colorScheme.primary : (isDark ? Colors.grey : Colors.grey.shade400),
                   width: 2,
                 ),
               ),
@@ -159,7 +159,7 @@ class _BrandManagementScreenState extends ConsumerState<BrandManagementScreen> {
                         height: 12,
                         decoration: BoxDecoration(
                           shape: BoxShape.circle,
-                          color: AppColors.primaryBlue,
+                          color: Theme.of(context).colorScheme.primary,
                         ),
                       ),
                     )
@@ -239,10 +239,10 @@ class _BrandManagementScreenState extends ConsumerState<BrandManagementScreen> {
             icon: const Icon(Icons.add, size: 18),
             label: const Text('New'),
             style: ElevatedButton.styleFrom(
-              backgroundColor: AppColors.primaryBlue,
+              backgroundColor: Theme.of(context).colorScheme.primary,
               foregroundColor: Colors.white,
               elevation: 4,
-              shadowColor: AppColors.primaryBlue.withOpacity(0.2),
+              shadowColor: Theme.of(context).colorScheme.primary.withOpacity(0.2),
               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
             ),
@@ -363,7 +363,7 @@ class _BrandManagementScreenState extends ConsumerState<BrandManagementScreen> {
               IconButton(
                 icon: Icon(
                   Icons.tune,
-                  color: hasActiveFilter ? AppColors.primaryBlue : (isDark ? Colors.grey.shade300 : Colors.grey.shade600),
+                  color: hasActiveFilter ? Theme.of(context).colorScheme.primary : (isDark ? Colors.grey.shade300 : Colors.grey.shade600),
                 ),
                 onPressed: () => _showFilterModal(context, isDark, currentFilter),
               ),
@@ -374,8 +374,8 @@ class _BrandManagementScreenState extends ConsumerState<BrandManagementScreen> {
                   child: Container(
                     width: 8,
                     height: 8,
-                    decoration: const BoxDecoration(
-                      color: AppColors.primaryBlue,
+                    decoration: BoxDecoration(
+                      color: Theme.of(context).colorScheme.primary,
                       shape: BoxShape.circle,
                     ),
                   ),
@@ -591,9 +591,9 @@ class _BrandDialogState extends ConsumerState<_BrandDialog> {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Icon(Icons.add_a_photo, color: AppColors.primaryBlue, size: 24),
+                        Icon(Icons.add_a_photo, color: Theme.of(context).colorScheme.primary, size: 24),
                         const SizedBox(height: 4),
-                        Text('Add Logo', style: TextStyle(fontSize: 10, color: AppColors.primaryBlue, fontWeight: FontWeight.w600)),
+                        Text('Add Logo', style: TextStyle(fontSize: 10, color: Theme.of(context).colorScheme.primary, fontWeight: FontWeight.w600)),
                       ],
                     ),
                   ),
@@ -619,7 +619,7 @@ class _BrandDialogState extends ConsumerState<_BrandDialog> {
                   Switch.adaptive(
                     value: _isActive,
                     onChanged: (v) => setState(() => _isActive = v),
-                    activeColor: AppColors.primaryBlue,
+                    activeColor: Theme.of(context).colorScheme.primary,
                   )
                 ],
               ),
@@ -650,7 +650,7 @@ class _BrandDialogState extends ConsumerState<_BrandDialog> {
                      }
                   },
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: AppColors.primaryBlue,
+                    backgroundColor: Theme.of(context).colorScheme.primary,
                     foregroundColor: Colors.white,
                     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                   ),

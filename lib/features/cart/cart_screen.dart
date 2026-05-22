@@ -120,7 +120,7 @@ class CartScreen extends ConsumerWidget {
                        Row(
                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                          children: [
-                           const Text('Step 1 of 3', style: TextStyle(color: AppColors.primaryBlue, fontWeight: FontWeight.bold, fontSize: 14)),
+                           Text('Step 1 of 3', style: TextStyle(color: Theme.of(context).colorScheme.primary, fontWeight: FontWeight.bold, fontSize: 14)),
                            Text('Next: Shipping', style: TextStyle(color: isDark ? Colors.grey[400] : Colors.grey[500], fontSize: 12, fontWeight: FontWeight.w500)),
                          ],
                        ),
@@ -130,7 +130,7 @@ class CartScreen extends ConsumerWidget {
                          child: LinearProgressIndicator(
                            value: 0.33,
                            backgroundColor: isDark ? Colors.grey[800] : Colors.grey[200],
-                           color: AppColors.primaryBlue,
+                           color: Theme.of(context).colorScheme.primary,
                            minHeight: 6,
                          ),
                        ),
@@ -278,10 +278,10 @@ class CartScreen extends ConsumerWidget {
                   onPressed: isBelowMin ? null : () => context.pushNamed('checkout'),
                   style: ElevatedButton.styleFrom(
                     padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
-                    backgroundColor: isBelowMin ? Colors.grey : AppColors.primaryBlue,
+                    backgroundColor: isBelowMin ? Colors.grey : Theme.of(context).colorScheme.primary,
                     foregroundColor: Colors.white,
                     elevation: isBelowMin ? 0 : 8,
-                    shadowColor: AppColors.primaryBlue.withOpacity(0.4),
+                    shadowColor: Theme.of(context).colorScheme.primary.withOpacity(0.4),
                     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                   ),
                   child: Row(
@@ -489,10 +489,10 @@ class _StepperButton extends StatelessWidget {
       child: Container(
         width: 28, height: 28,
         decoration: BoxDecoration(
-          color: isAdd ? AppColors.primaryBlue : (isDark ? Colors.grey[800] : Colors.white),
+          color: isAdd ? Theme.of(context).colorScheme.primary : (isDark ? Colors.grey[800] : Colors.white),
           borderRadius: BorderRadius.circular(6),
           boxShadow: isAdd ? [
-            BoxShadow(color: AppColors.primaryBlue.withOpacity(0.3), blurRadius: 4, offset: const Offset(0, 2))
+            BoxShadow(color: Theme.of(context).colorScheme.primary.withOpacity(0.3), blurRadius: 4, offset: Offset(0, 2))
           ] : [
              BoxShadow(color: Colors.black.withOpacity(0.05), blurRadius: 2, offset: const Offset(0, 1))
           ],

@@ -345,10 +345,10 @@ class _OrderDetailScreenState extends ConsumerState<OrderDetailScreen> {
                                height: 8,
                                width: MediaQuery.of(context).size.width * 0.8 * progress, // approximation
                                decoration: BoxDecoration(
-                                  color: AppColors.primaryBlue,
+                                  color: Theme.of(context).colorScheme.primary,
                                   borderRadius: BorderRadius.circular(4),
                                   boxShadow: [
-                                     BoxShadow(color: AppColors.primaryBlue.withOpacity(0.6), blurRadius: 8)
+                                     BoxShadow(color: Theme.of(context).colorScheme.primary.withOpacity(0.6), blurRadius: 8)
                                   ]
                                ),
                             ),
@@ -468,11 +468,11 @@ class _OrderDetailScreenState extends ConsumerState<OrderDetailScreen> {
                                                     Container(
                                                       padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
                                                       decoration: BoxDecoration(
-                                                        color: AppColors.primaryBlue.withOpacity(0.1),
+                                                        color: Theme.of(context).colorScheme.primary.withOpacity(0.1),
                                                         borderRadius: BorderRadius.circular(4),
                                                       ),
                                                       child: Text('x${item.qty}', 
-                                                        style: const TextStyle(fontSize: 10, fontWeight: FontWeight.bold, color: AppColors.primaryBlue)),
+                                                        style: TextStyle(fontSize: 10, fontWeight: FontWeight.bold, color: Theme.of(context).colorScheme.primary)),
                                                     ),
                                                  ],
                                                ),
@@ -574,7 +574,7 @@ class _OrderDetailScreenState extends ConsumerState<OrderDetailScreen> {
                                                            
                                                            // Row 2: Total Price (New Line)
                                                            Text(item.lineTotalDisplay, 
-                                                              style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold, color: AppColors.primaryBlue)
+                                                              style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold, color: Theme.of(context).colorScheme.primary)
                                                            ),
                                                          ],
                                                        )
@@ -689,12 +689,12 @@ class _OrderDetailScreenState extends ConsumerState<OrderDetailScreen> {
                            : const Icon(Icons.download, size: 20),
                        label: Text(_isDownloading ? 'Generating...' : 'Download Invoice'),
                        style: ElevatedButton.styleFrom(
-                          backgroundColor: AppColors.primaryBlue,
+                          backgroundColor: Theme.of(context).colorScheme.primary,
                           foregroundColor: Colors.white,
                           padding: const EdgeInsets.symmetric(vertical: 16),
                           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                           elevation: 4,
-                          shadowColor: AppColors.primaryBlue.withOpacity(0.4),
+                          shadowColor: Theme.of(context).colorScheme.primary.withOpacity(0.4),
                        ),
                     ),
                  ),
@@ -718,7 +718,7 @@ class _OrderDetailScreenState extends ConsumerState<OrderDetailScreen> {
              BoxShadow(color: Colors.black.withOpacity(0.1), blurRadius: 2)
           ]
         ) : null,
-        child: Icon(icon, size: 20, color: isActive ? AppColors.primaryBlue : (isDark ? Colors.grey[500] : Colors.grey[400])),
+        child: Icon(icon, size: 20, color: isActive ? Theme.of(context).colorScheme.primary : (isDark ? Colors.grey[500] : Colors.grey[400])),
       ),
     );
   }
@@ -731,7 +731,7 @@ class _OrderDetailScreenState extends ConsumerState<OrderDetailScreen> {
            fontSize: 10,
            fontWeight: FontWeight.bold,
            letterSpacing: 0.5,
-           color: isActive ? AppColors.primaryBlue : (isDark ? Colors.grey[700] : Colors.grey[400]),
+           color: isActive ? Theme.of(context).colorScheme.primary : (isDark ? Colors.grey[700] : Colors.grey[400]),
         ),
      );
   }

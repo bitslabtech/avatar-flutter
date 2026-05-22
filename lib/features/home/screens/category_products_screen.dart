@@ -8,7 +8,7 @@ import '../../../providers/auth_provider.dart';
 import '../../../widgets/common/error_widget.dart';
 import '../../../widgets/common/loading_indicator.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-import '../widgets/category_product_card.dart';
+import '../../../widgets/common/product_card.dart';
 import '../../wishlist/providers/wishlist_provider.dart';
 
 class CategoryProductsScreen extends ConsumerStatefulWidget {
@@ -61,7 +61,7 @@ class _CategoryProductsScreenState extends ConsumerState<CategoryProductsScreen>
           fontSize: 16,
         ),
       ),
-      trailing: Icon(Icons.arrow_forward_ios, size: 16, color: Colors.grey[500]),
+      trailing: null,
       onTap: () {
         context.pop(); // Close modal
         ref.read(categoryProductsProvider(widget.categoryName).notifier).setSort(sortBy, sortOrder);
@@ -108,8 +108,8 @@ class _CategoryProductsScreenState extends ConsumerState<CategoryProductsScreen>
                         top: 0,
                         child: Container(
                           padding: const EdgeInsets.all(2),
-                          decoration: const BoxDecoration(
-                            color: AppColors.primaryBlue,
+                          decoration: BoxDecoration(
+                            color: AppColors.primaryBlueFor(isDark),
                             shape: BoxShape.circle,
                           ),
                           constraints: const BoxConstraints(
@@ -356,25 +356,11 @@ class _CategoryProductsScreenState extends ConsumerState<CategoryProductsScreen>
                   delegate: SliverChildBuilderDelegate(
                     (context, index) {
                       final product = productsState.products[index];
-                      return CategoryProductCard(
+                      return ProductCard(
                         product: product,
                         showPrice: authState.isAuthenticated,
                         onAddToCart: authState.isAuthenticated ? () => _handleAddToCart(product) : null,
                         onTap: () => context.push('/product/${product.id}'),
-                        onToggleWishlist: () async {
-                           final isAdded = await ref.read(wishlistProvider.notifier).toggleWishlist(product);
-                           if (context.mounted) {
-                             ScaffoldMessenger.of(context).clearSnackBars();
-                             ScaffoldMessenger.of(context).showSnackBar(
-                               SnackBar(
-                                 content: Text(isAdded ? 'Added to Wishlist' : 'Removed from Wishlist'),
-                                 backgroundColor: isAdded ? AppColors.successGreen : Colors.black87,
-                                 duration: const Duration(seconds: 1),
-                                 behavior: SnackBarBehavior.floating,
-                               ),
-                             );
-                           }
-                        },
                       );
                     },
                     childCount: productsState.products.length,

@@ -529,7 +529,7 @@ final routerProvider = Provider<GoRouter>((ref) {
                    GoRoute(
                      path: 'support',
                      name: 'support',
-                     builder: (context, state) => const SupportScreen(),
+                     builder: (context, state) => SupportScreen(),
                    ),
                    GoRoute(
                   path: 'wishlist',

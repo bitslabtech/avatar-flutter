@@ -351,7 +351,7 @@ class AdminConfigurationsScreen extends ConsumerWidget {
           Switch(
             value: value,
             onChanged: onChanged,
-            activeColor: AppColors.primaryBlue,
+            activeColor: AppColors.primaryBlueFor(isDark),
           ),
         ],
       ),

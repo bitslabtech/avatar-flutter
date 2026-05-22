@@ -287,7 +287,7 @@ class _WishlistScreenState extends ConsumerState<WishlistScreen> {
                                                 ? '₹${product.price}' 
                                                 : (isRejected ? 'Account Rejected' : ''), // Handle null price & rejection
                                               style: theme.textTheme.bodyMedium?.copyWith(
-                                                color: AppColors.primaryBlue,
+                                                color: Theme.of(context).colorScheme.primary,
                                                 fontWeight: FontWeight.w700,
                                                 fontSize: 16,
                                               ),

@@ -89,12 +89,12 @@ class _MainLayoutScreenState extends ConsumerState<MainLayoutScreen> {
                 width: 64,
                 height: 64,
                 decoration: BoxDecoration(
-                  color: AppColors.primaryBlue.withOpacity(0.1),
+                  color: Theme.of(context).colorScheme.primary.withOpacity(0.1),
                   shape: BoxShape.circle,
                 ),
-                child: const Icon(
+                child: Icon(
                   Icons.exit_to_app_rounded,
-                  color: AppColors.primaryBlue,
+                  color: Theme.of(context).colorScheme.primary,
                   size: 32,
                 ),
               ),
@@ -155,7 +155,7 @@ class _MainLayoutScreenState extends ConsumerState<MainLayoutScreen> {
                     child: ElevatedButton(
                       onPressed: () => Navigator.of(ctx).pop(true),
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: AppColors.primaryBlue,
+                        backgroundColor: Theme.of(context).colorScheme.primary,
                         foregroundColor: Colors.white,
                         padding: const EdgeInsets.symmetric(vertical: 14),
                         shape: RoundedRectangleBorder(
@@ -384,7 +384,7 @@ class _NavBarItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final selectedColor = AppColors.primaryBlue;
+    final selectedColor = Theme.of(context).colorScheme.primary;
     final unselectedColor = isDark ? Colors.grey[500] : Colors.grey[600];
     
     return GestureDetector(

@@ -49,9 +49,9 @@ class _OrdersListScreenState extends ConsumerState<OrdersListScreen> {
              },
            ),
            bottom: TabBar(
-             labelColor: AppColors.primaryBlue,
+             labelColor: Theme.of(context).colorScheme.primary,
              unselectedLabelColor: isDark ? Colors.grey : Colors.grey[600],
-             indicatorColor: AppColors.primaryBlue,
+             indicatorColor: Theme.of(context).colorScheme.primary,
              tabs: const [
                Tab(text: 'Active Orders'),
                Tab(text: 'Completed'),
@@ -163,8 +163,8 @@ class _OrderCard extends ConsumerWidget {
         break;
       case OrderStatus.dispatched:
         statusText = 'Shipped';
-        statusColor = AppColors.primaryBlue;
-        statusBgColor = AppColors.primaryBlue.withOpacity(0.1);
+        statusColor = Theme.of(context).colorScheme.primary;
+        statusBgColor = Theme.of(context).colorScheme.primary.withOpacity(0.1);
         break;
       case OrderStatus.delivered:
         statusText = 'Delivered';
@@ -208,7 +208,7 @@ class _OrderCard extends ConsumerWidget {
        // Fallback if no date is set but status is active
        if (order.status == OrderStatus.dispatched) {
          estText = 'In Transit';
-         estColor = AppColors.primaryBlue;
+         estColor = Theme.of(context).colorScheme.primary;
          progress = 0.65;
        } else if (order.status == OrderStatus.confirmed) {
          estText = 'Processing';
@@ -343,10 +343,10 @@ class _OrderCard extends ConsumerWidget {
                            ),
                            Text(
                              order.grandTotalDisplay,
-                             style: const TextStyle(
+                             style: TextStyle(
                                fontSize: 14,
                                fontWeight: FontWeight.bold,
-                               color: AppColors.primaryBlue,
+                               color: Theme.of(context).colorScheme.primary,
                              ),
                            ),
                          ],
@@ -418,9 +418,9 @@ class _OrderCard extends ConsumerWidget {
                    children: [
                       Text(
                         'Track Order', 
-                        style: TextStyle(color: AppColors.primaryBlue, fontWeight: FontWeight.bold, fontSize: 13),
+                        style: TextStyle(color: Theme.of(context).colorScheme.primary, fontWeight: FontWeight.bold, fontSize: 13),
                       ),
-                      Icon(Icons.chevron_right, size: 16, color: AppColors.primaryBlue),
+                      Icon(Icons.chevron_right, size: 16, color: Theme.of(context).colorScheme.primary),
                    ],
                  ),
                ),

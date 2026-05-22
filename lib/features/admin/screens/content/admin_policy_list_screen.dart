@@ -76,10 +76,10 @@ class AdminPolicyListScreen extends ConsumerWidget {
                   trailing: Container(
                     padding: const EdgeInsets.all(8),
                      decoration: BoxDecoration(
-                      color: AppColors.primaryBlue.withValues(alpha: 0.1),
+                      color: Theme.of(context).colorScheme.primary.withValues(alpha: 0.1),
                       borderRadius: BorderRadius.circular(8),
                     ),
-                    child: const Icon(Icons.edit, size: 20, color: AppColors.primaryBlue),
+                    child: Icon(Icons.edit, size: 20, color: Theme.of(context).colorScheme.primary),
                   ),
                   onTap: () {
                     context.pushNamed('admin-policy-edit', pathParameters: {'key': content.key});

@@ -69,21 +69,21 @@ class _Step2ProductSelectionState extends ConsumerState<Step2ProductSelection> {
                 Container(
                   padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
                   decoration: BoxDecoration(
-                    color: AppColors.primaryBlue.withOpacity(0.1),
+                    color: Theme.of(context).colorScheme.primary.withOpacity(0.1),
                     borderRadius: BorderRadius.circular(8),
                   ),
                   child: Row(
                      children: [
-                       const Icon(Icons.shopping_cart, size: 16, color: AppColors.primaryBlue),
+                       Icon(Icons.shopping_cart, size: 16, color: Theme.of(context).colorScheme.primary),
                        const SizedBox(width: 8),
                        Text(
                          '${createOrderCart.length} items selected',
-                         style: const TextStyle(color: AppColors.primaryBlue, fontWeight: FontWeight.bold),
+                         style: TextStyle(color: Theme.of(context).colorScheme.primary, fontWeight: FontWeight.bold),
                        ),
                        const Spacer(),
                        Text(
                          'Total: ${CurrencyUtils.format(ref.read(createOrderProvider).totalAmount)}',
-                         style: const TextStyle(color: AppColors.primaryBlue, fontWeight: FontWeight.bold),
+                         style: TextStyle(color: Theme.of(context).colorScheme.primary, fontWeight: FontWeight.bold),
                        ),
                      ],
                   ),

@@ -171,7 +171,7 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
                                     child: Container(
                                       padding: const EdgeInsets.all(8),
                                       decoration: BoxDecoration(
-                                        color: AppColors.primaryBlue,
+                                        color: Theme.of(context).colorScheme.primary,
                                         shape: BoxShape.circle,
                                         border: Border.all(
                                           color: isDark ? const Color(0xFF101822) : Colors.white,
@@ -212,6 +212,15 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
                               isDark: isDark,
                               inputFillColor: inputFillColor,
                               textColor: textColor,
+                              validator: (value) {
+                                if (value == null || value.trim().isEmpty) {
+                                  return 'Full name is required';
+                                }
+                                if (value.trim().length < 2) {
+                                  return 'Name must be at least 2 characters';
+                                }
+                                return null;
+                              },
                             ),
                             
                             const SizedBox(height: 16),
@@ -226,6 +235,16 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
                               inputFillColor: inputFillColor,
                               textColor: textColor,
                               keyboardType: TextInputType.emailAddress,
+                              validator: (value) {
+                                if (value == null || value.trim().isEmpty) {
+                                  return 'Email address is required';
+                                }
+                                final emailRegex = RegExp(r'^[\w\-.+]+@[\w\-]+\.[a-zA-Z]{2,}$');
+                                if (!emailRegex.hasMatch(value.trim())) {
+                                  return 'Enter a valid email address';
+                                }
+                                return null;
+                              },
                             ),
                             
                             const SizedBox(height: 16),
@@ -240,21 +259,31 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
                               inputFillColor: isDark ? const Color(0xFF151B24) : Colors.grey[200]!, // Darker/Greayer to indicate disabled
                               textColor: Colors.grey, // Grey text
                               keyboardType: TextInputType.phone,
-                              enabled: false, // Read-only
+                              enabled: false, // Read-only — no validator needed
                             ),
 
                             const SizedBox(height: 16),
                             
-                            _buildFieldLabel(isDark, 'Alternative Phone Number'),
+                            _buildFieldLabel(isDark, 'Alternative Phone Number (Optional)'),
                             const SizedBox(height: 8),
                             _buildTextField(
                               controller: _alternativePhoneController,
                               icon: Icons.phone_outlined,
-                              hint: 'Enter alternative phone number',
+                              hint: 'Enter alternative phone number (optional)',
                               isDark: isDark,
                               inputFillColor: inputFillColor,
                               textColor: textColor,
                               keyboardType: TextInputType.phone,
+                              validator: (value) {
+                                // Optional field — only validate format if something is entered
+                                if (value != null && value.trim().isNotEmpty) {
+                                  final phoneRegex = RegExp(r'^[+]?[0-9\s\-().]{7,15}$');
+                                  if (!phoneRegex.hasMatch(value.trim())) {
+                                    return 'Enter a valid phone number';
+                                  }
+                                }
+                                return null;
+                              },
                             ),
                           ],
                         ),
@@ -279,7 +308,7 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
           child: ElevatedButton(
             onPressed: _isLoading ? null : _saveChanges,
             style: ElevatedButton.styleFrom(
-              backgroundColor: AppColors.primaryBlue,
+              backgroundColor: Theme.of(context).colorScheme.primary,
               foregroundColor: Colors.white,
               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(25)),
               elevation: 4,
@@ -316,6 +345,7 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
     required Color textColor,
     TextInputType keyboardType = TextInputType.text,
     bool enabled = true,
+    String? Function(String?)? validator,
   }) {
     return Container(
       decoration: BoxDecoration(
@@ -334,10 +364,7 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
           border: InputBorder.none,
           contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
         ),
-        validator: (value) {
-          if (value == null || value.isEmpty) return 'Required';
-          return null;
-        },
+        validator: validator,
       ),
     );
   }

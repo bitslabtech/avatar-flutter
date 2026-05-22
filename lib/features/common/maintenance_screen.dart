@@ -60,7 +60,7 @@ class MaintenanceScreen extends ConsumerWidget {
                 icon: const Icon(Icons.login),
                 label: const Text('Back to Login'),
                 style: TextButton.styleFrom(
-                  foregroundColor: AppColors.primaryBlue,
+                  foregroundColor: Theme.of(context).colorScheme.primary,
                 ),
               ),
             ],

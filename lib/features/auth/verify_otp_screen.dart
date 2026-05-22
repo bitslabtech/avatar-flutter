@@ -84,7 +84,7 @@ class _VerifyOtpScreenState extends ConsumerState<VerifyOtpScreen> {
             ElevatedButton(
               onPressed: isLoading ? null : _verify,
               style: ElevatedButton.styleFrom(
-                backgroundColor: AppColors.primaryBlue,
+                backgroundColor: Theme.of(context).colorScheme.primary,
                 foregroundColor: Colors.white,
                 padding: const EdgeInsets.symmetric(vertical: 16),
                 shape: RoundedRectangleBorder(

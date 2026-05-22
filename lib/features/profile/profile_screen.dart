@@ -149,7 +149,7 @@ class ProfileScreen extends ConsumerWidget {
                     color: isDark ? Colors.grey.shade800 : const Color(0xFFF6F7F8),
                     width: 4,
                   ),
-                  color: AppColors.primaryBlue.withOpacity(0.1),
+                  color: AppColors.primaryBlueFor(isDark).withOpacity(0.1),
                   image: user.resolvedAvatarUrl != null 
                       ? DecorationImage(
                           image: CachedNetworkImageProvider(user.resolvedAvatarUrl!), 
@@ -161,7 +161,7 @@ class ProfileScreen extends ConsumerWidget {
                     ? Center(
                         child: Text(
                           user.name.isNotEmpty ? user.name[0].toUpperCase() : 'U',
-                          style: const TextStyle(fontSize: 40, fontWeight: FontWeight.bold, color: AppColors.primaryBlue),
+                          style: TextStyle(fontSize: 40, fontWeight: FontWeight.bold, color: AppColors.primaryBlueFor(isDark)),
                         ),
                       )
                     : null,
@@ -174,7 +174,7 @@ class ProfileScreen extends ConsumerWidget {
                   child: Container(
                     padding: const EdgeInsets.all(6),
                     decoration: BoxDecoration(
-                      color: AppColors.primaryBlue,
+                      color: AppColors.primaryBlueFor(isDark),
                       shape: BoxShape.circle,
                       border: Border.all(color: isDark ? AppColors.backgroundBlack : Colors.white, width: 2),
                     ),
@@ -224,39 +224,13 @@ class ProfileScreen extends ConsumerWidget {
                     ),
                   ),
                 ),
-                
-                const SizedBox(width: 8),
-
-                // Status Badge
-                Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
-                  decoration: BoxDecoration(
-                    color: isDark ? Colors.green.shade900.withOpacity(0.2) : Colors.green.shade50,
-                    borderRadius: BorderRadius.circular(16),
-                    border: Border.all(color: isDark ? Colors.green.shade800 : Colors.green.shade100),
-                  ),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Container(width: 8, height: 8, decoration: const BoxDecoration(color: Colors.green, shape: BoxShape.circle)),
-                      const SizedBox(width: 8),
-                      Text(
-                        user.isActive ? 'Active' : 'Inactive',
-                        style: TextStyle(
-                          fontSize: 12, 
-                          fontWeight: FontWeight.bold, 
-                          color: isDark ? Colors.green.shade400 : Colors.green.shade700
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
               ],
-            )
+            ),
         ],
       ),
     );
   }
+
 
   Widget _buildQuickActionsGrid(BuildContext context, bool isDark) {
     return GridView.count(
@@ -303,7 +277,7 @@ class ProfileScreen extends ConsumerWidget {
                     BoxShadow(color: Colors.black.withValues(alpha: 0.05), blurRadius: 2, offset: const Offset(0, 1)),
                   ],
                 ),
-                child: Icon(icon, color: AppColors.primaryBlue, size: 20),
+                child: Icon(icon, color: Theme.of(context).colorScheme.primary, size: 20),
               ),
               const SizedBox(height: 12),
               Text(

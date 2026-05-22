@@ -292,7 +292,7 @@ class _AdminPermissionsScreenState extends ConsumerState<AdminPermissionsScreen>
                 child: ElevatedButton(
                   onPressed: _isLoading ? null : _save,
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: AppColors.primaryBlue,
+                    backgroundColor: Theme.of(context).colorScheme.primary,
                     foregroundColor: Colors.white,
                     padding: const EdgeInsets.symmetric(vertical: 16),
                     elevation: 0,
@@ -447,7 +447,7 @@ class _AdminPermissionsScreenState extends ConsumerState<AdminPermissionsScreen>
                 Switch(
                   value: isModuleActive,
                   onChanged: (val) => _toggleResourceAll(resourceKey, val),
-                  activeColor: AppColors.primaryBlue,
+                  activeColor: Theme.of(context).colorScheme.primary,
                 ),
               ],
             ),
@@ -483,7 +483,7 @@ class _AdminPermissionsScreenState extends ConsumerState<AdminPermissionsScreen>
                           child: Checkbox(
                             value: isChecked,
                             onChanged: (_) => _togglePermission(resourceKey, action),
-                            activeColor: AppColors.primaryBlue,
+                            activeColor: Theme.of(context).colorScheme.primary,
                             shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
                           ),
                         ),

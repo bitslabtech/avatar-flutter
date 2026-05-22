@@ -11,14 +11,14 @@ class AppTheme {
       useMaterial3: true,
       brightness: Brightness.dark,
       
-      // Color scheme - dark theme with Avatar red accent
+      // Color scheme - dark theme with sky-blue primary (soft on dark surfaces)
       colorScheme: ColorScheme.dark(
-        primary: AppColors.primaryRed,
+        primary: AppColors.primaryBlueDark,  // #90CAF9 very light pastel blue
         secondary: AppColors.accentWarm,
         surface: AppColors.surfaceDark,
         background: AppColors.backgroundBlack,
         error: AppColors.errorRed,
-        onPrimary: AppColors.textPrimary,
+        onPrimary: AppColors.backgroundBlack,  // Dark text on light blue button
         onSecondary: AppColors.textPrimary,
         onSurface: AppColors.textPrimary,
         onBackground: AppColors.textPrimary,
@@ -67,7 +67,7 @@ class AppTheme {
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
-          borderSide: const BorderSide(color: AppColors.primaryRed, width: 2),
+          borderSide: const BorderSide(color: AppColors.primaryBlueDark, width: 2),
         ),
         errorBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
@@ -80,8 +80,8 @@ class AppTheme {
       // Button themes - rounded, premium
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(
-          backgroundColor: AppColors.primaryRed,
-          foregroundColor: AppColors.textPrimary,
+          backgroundColor: AppColors.primaryBlueDark,
+          foregroundColor: AppColors.backgroundBlack, // Dark text on sky-blue
           elevation: 2,
           padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
           shape: RoundedRectangleBorder(

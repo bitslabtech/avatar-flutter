@@ -100,7 +100,7 @@ class Step3ReviewCart extends ConsumerWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text('Total Amount', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16, color: isDark ? Colors.white : Colors.black87)),
-                         Text(CurrencyUtils.format(state.totalAmount), style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18, color: AppColors.primaryBlue)),
+                         Text(CurrencyUtils.format(state.totalAmount), style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18, color: Theme.of(context).colorScheme.primary)),
                       ],
                     ),
                   ),
@@ -134,10 +134,10 @@ class Step3ReviewCart extends ConsumerWidget {
                    children: [
                      CircleAvatar(
                         radius: 20,
-                        backgroundColor: AppColors.primaryBlue.withOpacity(0.1),
+                        backgroundColor: Theme.of(context).colorScheme.primary.withOpacity(0.1),
                         child: Text(
                           (state.selectedUser?.name ?? '?')[0].toUpperCase(), 
-                          style: const TextStyle(fontWeight: FontWeight.bold, color: AppColors.primaryBlue),
+                          style: TextStyle(fontWeight: FontWeight.bold, color: Theme.of(context).colorScheme.primary),
                         ),
                      ),
                      const SizedBox(width: 12),

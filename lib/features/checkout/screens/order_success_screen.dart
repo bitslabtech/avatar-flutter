@@ -39,7 +39,7 @@ class OrderSuccessScreen extends ConsumerWidget {
                      Row(
                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                        children: [
-                         const Text('Step 3 of 3', style: TextStyle(color: AppColors.primaryBlue, fontWeight: FontWeight.bold, fontSize: 14)),
+                         Text('Step 3 of 3', style: TextStyle(color: Theme.of(context).colorScheme.primary, fontWeight: FontWeight.bold, fontSize: 14)),
                          Text('Complete', style: TextStyle(color: isDark ? Colors.grey[400] : Colors.grey[500], fontSize: 12, fontWeight: FontWeight.w500)),
                        ],
                      ),
@@ -113,7 +113,7 @@ class OrderSuccessScreen extends ConsumerWidget {
                      context.goNamed('home');
                   },
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: AppColors.primaryBlue,
+                    backgroundColor: Theme.of(context).colorScheme.primary,
                     foregroundColor: Colors.white,
                     padding: const EdgeInsets.symmetric(vertical: 16),
                     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
@@ -129,7 +129,7 @@ class OrderSuccessScreen extends ConsumerWidget {
                      ref.invalidate(ordersProvider);
                      context.goNamed('orders'); 
                   },
-                  child: const Text('View Order History', style: TextStyle(color: AppColors.primaryBlue, fontWeight: FontWeight.w600)),
+                  child: Text('View Order History', style: TextStyle(color: Theme.of(context).colorScheme.primary, fontWeight: FontWeight.w600)),
                 ),
               ),
             ],

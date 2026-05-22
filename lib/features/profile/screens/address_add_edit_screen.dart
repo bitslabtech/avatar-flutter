@@ -327,12 +327,12 @@ class _AddressAddEditScreenState extends ConsumerState<AddressAddEditScreen> {
                                 padding: const EdgeInsets.symmetric(vertical: 14),
                                 decoration: BoxDecoration(
                                   color: isSelected
-                                      ? AppColors.primaryBlue.withOpacity(0.1)
+                                      ? Theme.of(context).colorScheme.primary.withOpacity(0.1)
                                       : (isTaken ? (isDark ? Colors.grey[800] : Colors.grey[200]) : inputBgColor),
                                   borderRadius: BorderRadius.circular(12),
                                   border: Border.all(
                                     color: isSelected 
-                                      ? AppColors.primaryBlue 
+                                      ? Theme.of(context).colorScheme.primary 
                                       : (isTaken ? Colors.transparent : borderColor),
                                     width: isSelected ? 1.5 : 1,
                                   ),
@@ -344,7 +344,7 @@ class _AddressAddEditScreenState extends ConsumerState<AddressAddEditScreen> {
                                       fontSize: 14,
                                       fontWeight: FontWeight.bold,
                                       color: isSelected
-                                          ? AppColors.primaryBlue
+                                          ? Theme.of(context).colorScheme.primary
                                           : (isTaken 
                                               ? (isDark ? Colors.grey[600] : Colors.grey[500]) 
                                               : (isDark ? Colors.grey[400] : Colors.grey[500])),
@@ -394,15 +394,15 @@ class _AddressAddEditScreenState extends ConsumerState<AddressAddEditScreen> {
                 child: ElevatedButton(
                   onPressed: _isSaving ? null : _saveAddress,
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: AppColors.primaryBlue,
+                    backgroundColor: Theme.of(context).colorScheme.primary,
                     foregroundColor: Colors.white,
-                    disabledBackgroundColor: AppColors.primaryBlue.withOpacity(0.6),
+                    disabledBackgroundColor: Theme.of(context).colorScheme.primary.withOpacity(0.6),
                     padding: const EdgeInsets.symmetric(vertical: 16),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(12),
                     ),
                     elevation: 4,
-                    shadowColor: AppColors.primaryBlue.withOpacity(0.3),
+                    shadowColor: Theme.of(context).colorScheme.primary.withOpacity(0.3),
                   ),
                   child: _isSaving
                       ? const SizedBox(
@@ -491,7 +491,7 @@ class _AddressAddEditScreenState extends ConsumerState<AddressAddEditScreen> {
             ),
             focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(12),
-              borderSide: const BorderSide(color: AppColors.primaryBlue, width: 1.5),
+              borderSide: BorderSide(color: Theme.of(context).colorScheme.primary, width: 1.5),
             ),
             errorBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(12),
@@ -654,10 +654,10 @@ class _AddressAddEditScreenState extends ConsumerState<AddressAddEditScreen> {
                             ),
                           ),
                           trailing: isSelected
-                              ? const Icon(Icons.check_circle, color: AppColors.primaryBlue)
+                              ? Icon(Icons.check_circle, color: Theme.of(context).colorScheme.primary)
                               : null,
                           tileColor: isSelected
-                              ? AppColors.primaryBlue.withOpacity(0.1)
+                              ? Theme.of(context).colorScheme.primary.withOpacity(0.1)
                               : null,
                         );
                       },

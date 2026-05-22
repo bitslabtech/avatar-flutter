@@ -38,31 +38,33 @@ class MyAddressScreen extends ConsumerWidget {
         loading: () => const Center(child: LoadingIndicator()),
         error: (err, stack) => Center(child: Text('Error: $err')),
       ),
-      bottomNavigationBar: Container(
-        padding: const EdgeInsets.only(left: 16, right: 16, top: 16, bottom: 100),
-        decoration: BoxDecoration(
-          color: isDark ? AppColors.backgroundBlack : Colors.white,
-          border: Border(top: BorderSide(color: isDark ? AppColors.dividerGray : Colors.grey[100]!)),
-        ),
-        child: SizedBox(
-          width: double.infinity,
-          height: 56, // Match design height
-          child: ElevatedButton(
-            onPressed: () => context.push('/profile/addresses/add'),
-            style: ElevatedButton.styleFrom(
-              backgroundColor: AppColors.primaryBlue,
-              foregroundColor: Colors.white,
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-              elevation: 4,
-              shadowColor: AppColors.primaryBlue.withOpacity(0.4),
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: const [
-                 Icon(Icons.add),
-                 SizedBox(width: 8),
-                 Text('Add New Address', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
-              ],
+      bottomNavigationBar: SafeArea(
+        child: Container(
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+          decoration: BoxDecoration(
+            color: isDark ? AppColors.backgroundBlack : Colors.white,
+            border: Border(top: BorderSide(color: isDark ? AppColors.dividerGray : Colors.grey[100]!)),
+          ),
+          child: SizedBox(
+            width: double.infinity,
+            height: 56, // Match design height
+            child: ElevatedButton(
+              onPressed: () => context.push('/profile/addresses/add'),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: AppColors.primaryBlueFor(isDark),
+                foregroundColor: Colors.white,
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                elevation: 4,
+                shadowColor: AppColors.primaryBlueFor(isDark).withOpacity(0.4),
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: const [
+                   Icon(Icons.add),
+                   SizedBox(width: 8),
+                   Text('Add New Address', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+                ],
+              ),
             ),
           ),
         ),
@@ -107,7 +109,7 @@ class _AddressCard extends ConsumerWidget {
     final cardBg = isDark ? AppColors.cardDark : Colors.white; // Or backgroundLight if preferred, styling says white/dark bg
     // Using check for default to add primary border highlight if needed, design shows primary/20 for default
     final isDefault = address.isDefault;
-    final activeBorderColor = isDefault ? AppColors.primaryBlue.withOpacity(0.2) : borderColor;
+    final activeBorderColor = isDefault ? AppColors.primaryBlueFor(isDark).withOpacity(0.2) : borderColor;
     final bg = isDefault && !isDark ? const Color(0xFFF6F7F8) : (isDefault && isDark ? const Color(0xFF1A2634) : cardBg);
 
     return Container(
@@ -131,13 +133,14 @@ class _AddressCard extends ConsumerWidget {
                       margin: const EdgeInsets.only(right: 8),
                       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
                       decoration: BoxDecoration(
-                        color: AppColors.primaryBlue.withOpacity(0.1),
-                        borderRadius: BorderRadius.circular(100),
+                        color: AppColors.primaryBlueFor(isDark).withOpacity(0.1),
+                        borderRadius: BorderRadius.circular(6),
+                        border: Border.all(color: AppColors.primaryBlueFor(isDark).withOpacity(0.3)),
                       ),
-                      child: const Text(
+                      child: Text(
                         'DEFAULT',
                         style: TextStyle(
-                          color: AppColors.primaryBlue,
+                          color: AppColors.primaryBlueFor(isDark),
                           fontSize: 10,
                           fontWeight: FontWeight.bold,
                           letterSpacing: 0.5,
@@ -183,23 +186,43 @@ class _AddressCard extends ConsumerWidget {
                         context: context,
                         builder: (context) => AlertDialog(
                           title: const Text('Delete Address'),
-                          content: const Text('Do you want to delete this address?'),
+                          content: Text(
+                            address.isDefault
+                                ? 'This is your default address. To delete it, first set another address as default.'
+                                : 'Do you want to delete this address?',
+                          ),
                           actions: [
                             TextButton(
                               onPressed: () => Navigator.of(context).pop(false),
-                              child: const Text('No'),
+                              child: const Text('Cancel'),
                             ),
-                            TextButton(
-                              onPressed: () => Navigator.of(context).pop(true),
-                              style: TextButton.styleFrom(foregroundColor: AppColors.errorRed),
-                              child: const Text('Yes'),
-                            ),
+                            if (!address.isDefault)
+                              TextButton(
+                                onPressed: () => Navigator.of(context).pop(true),
+                                style: TextButton.styleFrom(foregroundColor: AppColors.errorRed),
+                                child: const Text('Delete'),
+                              ),
                           ],
                         ),
                       );
                       
                       if (confirmed == true) {
-                        ref.read(addressProvider.notifier).deleteAddress(address.id);
+                        try {
+                          await ref.read(addressProvider.notifier).deleteAddress(address.id);
+                        } catch (e) {
+                          if (context.mounted) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content: Text(
+                                  e.toString().replaceAll('Exception: ', ''),
+                                ),
+                                backgroundColor: AppColors.errorRed,
+                                behavior: SnackBarBehavior.floating,
+                                duration: const Duration(seconds: 4),
+                              ),
+                            );
+                          }
+                        }
                       }
                     },
                     isDark: isDark,
@@ -257,7 +280,7 @@ class _AddressCard extends ConsumerWidget {
                 child: Text(
                   'Set as Default',
                   style: TextStyle(
-                    color: AppColors.primaryBlue,
+                    color: AppColors.primaryBlueFor(isDark),
                     fontSize: 14,
                     fontWeight: FontWeight.w500,
                   ),

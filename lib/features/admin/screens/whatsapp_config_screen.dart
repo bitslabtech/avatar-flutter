@@ -740,7 +740,7 @@ class _WhatsAppConfigScreenState extends ConsumerState<WhatsAppConfigScreen> {
                  ),
                  const SizedBox(width: 8), 
                  IconButton(
-                   icon: const Icon(Icons.send, color: AppColors.primaryBlue),
+                   icon: Icon(Icons.send, color: Theme.of(context).colorScheme.primary),
                    tooltip: 'Test this template',
                    onPressed: () => _showTestDialog(key),
                  ),

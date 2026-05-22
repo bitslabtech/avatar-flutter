@@ -179,7 +179,7 @@ class _OrderListScreenState extends ConsumerState<OrderListScreen> {
             icon: const Icon(Icons.add, size: 18, color: Colors.white),
             label: const Text('Create', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
             style: ElevatedButton.styleFrom(
-              backgroundColor: AppColors.primaryBlue,
+              backgroundColor: Theme.of(context).colorScheme.primary,
               foregroundColor: Colors.white,
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
@@ -307,7 +307,7 @@ class _OrderListScreenState extends ConsumerState<OrderListScreen> {
 
   Widget _buildFilterTab(bool isDark, String label, IconData icon, OrderFilter value, OrderFilter currentFilter) {
     final isSelected = currentFilter == value;
-    final bgColor = isSelected ? AppColors.primaryBlue : (isDark ? AppColors.surfaceDark : Colors.white);
+    final bgColor = isSelected ? Theme.of(context).colorScheme.primary : (isDark ? AppColors.surfaceDark : Colors.white);
     final fgColor = isSelected ? Colors.white : (isDark ? Colors.white : Colors.grey.shade700);
     final iconColor = isSelected ? Colors.white : (isDark ? Colors.white : Colors.grey.shade500);
 
@@ -323,7 +323,7 @@ class _OrderListScreenState extends ConsumerState<OrderListScreen> {
           border: isSelected ? null : Border.all(color: isDark ? Colors.transparent : Colors.grey.shade200),
           boxShadow: isSelected ? [
             BoxShadow(
-              color: AppColors.primaryBlue.withOpacity(0.3),
+              color: Theme.of(context).colorScheme.primary.withOpacity(0.3),
               blurRadius: 4,
               offset: const Offset(0, 2),
             )
@@ -570,7 +570,7 @@ class _OrderListScreenState extends ConsumerState<OrderListScreen> {
                        return;
                     }
                     context.pushNamed('admin-order-detail', pathParameters: {'id': order.id});
-                  }, bgColor: AppColors.primaryBlue),
+                  }, bgColor: Theme.of(context).colorScheme.primary),
                 ],
               ),
             ],

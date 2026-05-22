@@ -191,21 +191,18 @@ class _CategoryCard extends StatelessWidget {
           fit: StackFit.expand,
           children: [
             // Background Image
-            if (category.resolvedImageUrl != null)
-              CachedNetworkImage(
-                imageUrl: category.resolvedImageUrl!,
-                fit: BoxFit.cover,
-                placeholder: (_, __) => Container(color: isDark ? const Color(0xFF1E293B) : Colors.grey[200]),
-                errorWidget: (_, __, error) => Container(
-                  color: isDark ? const Color(0xFF1E293B) : Colors.grey[200],
-                  child: Icon(Icons.broken_image, color: Colors.grey[400]),
-                ),
-              )
-            else
-              Container(
-                color: isDark ? const Color(0xFF1E293B) : Colors.blue[50],
-                child: Icon(Icons.category, size: 48, color: Colors.blue[200]),
+            CachedNetworkImage(
+              imageUrl: (category.resolvedImageUrl != null && category.resolvedImageUrl!.isNotEmpty)
+                  ? category.resolvedImageUrl!
+                  : 'https://lh3.googleusercontent.com/aida-public/AB6AXuDDaNXGPkjbRx1_W2kLqKSuvvvBJO5R55LZulzR7WbHInQOLanp2JPb99WikejFU79m4d04yO7Jth7mMoJSelqQOrrZCSr1-k2QwHuZ0cDg0y5TG5B-N6f1rV7CYDTCUfjEzu88hY50ivRaZqphA8W3-8BVZ1WvX2Jq2oI-2u70Q06L2HA__N-W4GpFE-hYDnO1D4eSnmeO8a3YdBtrJssHaS4Kxy_1Bw6JJGY6nRauBJ4L89bGm7P9uRAE1z4Ec5oM04tReTrbmBxi',
+              fit: BoxFit.cover,
+              placeholder: (_, __) => Container(color: isDark ? const Color(0xFF1E293B) : Colors.grey[200]),
+              errorWidget: (_, __, error) => Container(
+                color: isDark ? const Color(0xFF1E293B) : Colors.grey[200],
+                child: Icon(Icons.broken_image, color: Colors.grey[400]),
               ),
+            ),
+
 
             // Gradient Overlay
             Container(

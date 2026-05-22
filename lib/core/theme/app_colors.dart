@@ -5,8 +5,19 @@ import 'package:flutter/material.dart';
 class AppColors {
   // Primary brand color - Avatar red
   static const Color primaryRed = Color(0xFFE63946);
-  static const Color primaryBlue = Color(0xFF1349EC); // From HTML design
-  
+
+  // Primary blue — light mode (rich, vivid: #395bc1ff)
+  static const Color primaryBlue = Color(0xFF1349EC);
+
+  // Primary blue — dark mode (white-blue: #B3D9FF)
+  // Almost white with a blue tint — maximum readability, zero eye strain on dark backgrounds.
+  static const Color primaryBlueDark = Color(0xFFB3D9FF);
+
+  /// Returns the correct primary blue depending on brightness.
+  /// Usage: AppColors.primaryBlueFor(isDark)
+  static Color primaryBlueFor(bool isDark) =>
+      isDark ? primaryBlueDark : primaryBlue;
+
   // Background colors
   static const Color backgroundLight = Color(0xFFF6F6F8); // From HTML design
   static const Color backgroundBlack = Color(0xFF000000);
@@ -34,4 +45,5 @@ class AppColors {
   // Private constructor to prevent instantiation
   AppColors._();
 }
+
 

@@ -94,8 +94,8 @@ class AdminCreateOrderScreen extends ConsumerWidget {
               child: ElevatedButton(
                 onPressed: state.isLoading ? null : () => _handleNext(context, ref, state),
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: AppColors.primaryBlue,
-                  disabledBackgroundColor: AppColors.primaryBlue.withOpacity(0.5),
+                  backgroundColor: AppColors.primaryBlueFor(isDark),
+                  disabledBackgroundColor: AppColors.primaryBlueFor(isDark).withOpacity(0.5),
                   padding: const EdgeInsets.symmetric(vertical: 16),
                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                 ),
@@ -173,8 +173,8 @@ class AdminCreateOrderScreen extends ConsumerWidget {
             width: 32, height: 32,
             decoration: BoxDecoration(
               shape: BoxShape.circle,
-              color: isActive ? AppColors.primaryBlue : (isDark ? Colors.grey.shade800 : Colors.grey.shade200),
-              border: isCurrent ? Border.all(color: AppColors.primaryBlue, width: 2) : null,
+              color: isActive ? AppColors.primaryBlueFor(isDark) : (isDark ? Colors.grey.shade800 : Colors.grey.shade200),
+              border: isCurrent ? Border.all(color: AppColors.primaryBlueFor(isDark), width: 2) : null,
             ),
             child: Center(
               child: isActive 
@@ -191,7 +191,7 @@ class AdminCreateOrderScreen extends ConsumerWidget {
               style: TextStyle(
                 fontSize: 12,
                 fontWeight: isCurrent ? FontWeight.bold : FontWeight.normal,
-                color: isActive ? AppColors.primaryBlue : (isDark ? Colors.grey : Colors.grey.shade600),
+                color: isActive ? AppColors.primaryBlueFor(isDark) : (isDark ? Colors.grey : Colors.grey.shade600),
               ),
             ),
           ),
@@ -205,7 +205,7 @@ class AdminCreateOrderScreen extends ConsumerWidget {
     return Expanded(
        child: Container(
          height: 2,
-         color: isActive ? AppColors.primaryBlue : (isDark ? Colors.grey.shade800 : Colors.grey.shade200),
+         color: isActive ? AppColors.primaryBlueFor(isDark) : (isDark ? Colors.grey.shade800 : Colors.grey.shade200),
          margin: const EdgeInsets.only(bottom: 20), // Align with circle center approximates
        ),
     );

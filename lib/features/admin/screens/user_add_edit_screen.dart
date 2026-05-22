@@ -143,7 +143,7 @@ class _UserAddEditScreenState extends ConsumerState<UserAddEditScreen> {
                     ),
                     focusedBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(10),
-                      borderSide: BorderSide(color: isDisableEnabled ? Colors.orange : AppColors.primaryBlue, width: 2),
+                      borderSide: BorderSide(color: isDisableEnabled ? Colors.orange : Theme.of(context).colorScheme.primary, width: 2),
                     ),
                     contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
                   ),
@@ -256,7 +256,7 @@ class _UserAddEditScreenState extends ConsumerState<UserAddEditScreen> {
                     ),
                     focusedBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(10),
-                      borderSide: BorderSide(color: isDeleteEnabled ? Colors.red : AppColors.primaryBlue, width: 2),
+                      borderSide: BorderSide(color: isDeleteEnabled ? Colors.red : Theme.of(context).colorScheme.primary, width: 2),
                     ),
                     contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
                   ),
@@ -349,7 +349,7 @@ class _UserAddEditScreenState extends ConsumerState<UserAddEditScreen> {
                 decoration: BoxDecoration(
                   color: isDark ? AppColors.surfaceDark : Colors.white,
                   borderRadius: BorderRadius.circular(12),
-                  border: Border.all(color: _isActive ? AppColors.primaryBlue.withOpacity(0.5) : Colors.grey.shade300),
+                  border: Border.all(color: _isActive ? Theme.of(context).colorScheme.primary.withOpacity(0.5) : Colors.grey.shade300),
                 ),
                 child: Row(
                   children: [
@@ -415,7 +415,7 @@ class _UserAddEditScreenState extends ConsumerState<UserAddEditScreen> {
                 child: ElevatedButton(
                   onPressed: _isLoading ? null : _saveChanges,
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: AppColors.primaryBlue,
+                    backgroundColor: Theme.of(context).colorScheme.primary,
                     foregroundColor: Colors.white,
                     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                     elevation: 2,
@@ -460,7 +460,7 @@ class _UserAddEditScreenState extends ConsumerState<UserAddEditScreen> {
     } else if (widget.user!.role == 'dealer') {
       roleColor = Colors.purple;
     } else {
-      roleColor = AppColors.primaryBlue;
+      roleColor = Theme.of(context).colorScheme.primary;
     }
     
     return Center(
@@ -584,7 +584,7 @@ class _UserAddEditScreenState extends ConsumerState<UserAddEditScreen> {
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
-          borderSide: const BorderSide(color: AppColors.primaryBlue, width: 2),
+          borderSide: BorderSide(color: Theme.of(context).colorScheme.primary, width: 2),
         ),
       ),
     );

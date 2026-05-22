@@ -65,10 +65,10 @@ class PolicyListScreen extends ConsumerWidget {
                   leading: Container(
                     padding: const EdgeInsets.all(8),
                     decoration: BoxDecoration(
-                      color: AppColors.primaryBlue.withValues(alpha: 0.1),
+                      color: Theme.of(context).colorScheme.primary.withValues(alpha: 0.1),
                       borderRadius: BorderRadius.circular(8),
                     ),
-                    child: const Icon(Icons.article, color: AppColors.primaryBlue),
+                    child: Icon(Icons.article, color: Theme.of(context).colorScheme.primary),
                   ),
                   title: Text(
                     content.title,

@@ -149,7 +149,7 @@ class _UserListScreenState extends ConsumerState<UserListScreen> {
             'Total',
             '${stats.totalUsers}',
             Icons.people,
-            AppColors.primaryBlue,
+            Theme.of(context).colorScheme.primary,
           ),
         ),
         const SizedBox(width: 12),
@@ -240,7 +240,7 @@ class _UserListScreenState extends ConsumerState<UserListScreen> {
           suffixIcon: Stack(
             children: [
               IconButton(
-                icon: Icon(Icons.tune, color: hasFilter ? AppColors.primaryBlue : (isDark ? Colors.grey.shade400 : Colors.grey.shade500)),
+                icon: Icon(Icons.tune, color: hasFilter ? Theme.of(context).colorScheme.primary : (isDark ? Colors.grey.shade400 : Colors.grey.shade500)),
                 onPressed: () => _showFilterOptions(context, isDark, state),
               ),
               if (hasFilter)
@@ -304,7 +304,7 @@ class _UserListScreenState extends ConsumerState<UserListScreen> {
                 style: TextStyle(
                   fontSize: 13,
                   fontWeight: FontWeight.w600,
-                  color: AppColors.primaryBlue,
+                  color: Theme.of(context).colorScheme.primary,
                 ),
               ),
             ),
@@ -318,26 +318,26 @@ class _UserListScreenState extends ConsumerState<UserListScreen> {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
       decoration: BoxDecoration(
-        color: AppColors.primaryBlue.withOpacity(0.1),
+        color: Theme.of(context).colorScheme.primary.withOpacity(0.1),
         borderRadius: BorderRadius.circular(20),
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(Icons.check, size: 14, color: AppColors.primaryBlue),
+          Icon(Icons.check, size: 14, color: Theme.of(context).colorScheme.primary),
           const SizedBox(width: 6),
           Text(
             label,
-            style: const TextStyle(
+            style: TextStyle(
               fontSize: 13,
               fontWeight: FontWeight.w500,
-              color: AppColors.primaryBlue,
+              color: Theme.of(context).colorScheme.primary,
             ),
           ),
           const SizedBox(width: 8),
           GestureDetector(
             onTap: onRemove,
-            child: const Icon(Icons.close, size: 16, color: AppColors.primaryBlue),
+            child: Icon(Icons.close, size: 16, color: Theme.of(context).colorScheme.primary),
           ),
         ],
       ),
@@ -474,10 +474,10 @@ class _UserListScreenState extends ConsumerState<UserListScreen> {
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
                 border: Border.all(
-                  color: isSelected ? AppColors.primaryBlue : (isDark ? Colors.grey.shade600 : Colors.grey.shade400),
+                  color: isSelected ? Theme.of(context).colorScheme.primary : (isDark ? Colors.grey.shade600 : Colors.grey.shade400),
                   width: 2,
                 ),
-                color: isSelected ? AppColors.primaryBlue : Colors.transparent,
+                color: isSelected ? Theme.of(context).colorScheme.primary : Colors.transparent,
               ),
               child: isSelected
                   ? const Icon(Icons.check, size: 16, color: Colors.white)

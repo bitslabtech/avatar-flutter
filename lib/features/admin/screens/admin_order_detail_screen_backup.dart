@@ -151,7 +151,7 @@ class _AdminOrderDetailScreenState extends ConsumerState<AdminOrderDetailScreen>
                             child: ElevatedButton(
                               onPressed: _saveChanges,
                               style: ElevatedButton.styleFrom(
-                                backgroundColor: AppColors.primaryBlue,
+                                backgroundColor: Theme.of(context).colorScheme.primary,
                                 foregroundColor: Colors.white,
                                 padding: const EdgeInsets.symmetric(vertical: 12),
                                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
@@ -261,9 +261,9 @@ class _AdminOrderDetailScreenState extends ConsumerState<AdminOrderDetailScreen>
             child: Container(
               width: 120, height: 120,
               decoration: BoxDecoration(
-                color: AppColors.primaryBlue.withOpacity(0.1),
+                color: Theme.of(context).colorScheme.primary.withOpacity(0.1),
                 shape: BoxShape.circle,
-                boxShadow: [BoxShadow(color: AppColors.primaryBlue.withOpacity(0.2), blurRadius: 40)],
+                boxShadow: [BoxShadow(color: Theme.of(context).colorScheme.primary.withOpacity(0.2), blurRadius: 40)],
               ),
             ),
           ),
@@ -286,7 +286,7 @@ class _AdminOrderDetailScreenState extends ConsumerState<AdminOrderDetailScreen>
                     children: [
                       const Text('RECEIPT', style: TextStyle(fontSize: 10, fontWeight: FontWeight.bold, letterSpacing: 1.2, color: Colors.grey)),
                       Text('#${order.orderNo.substring(order.orderNo.length > 4 ? order.orderNo.length - 4 : 0)}', // Last 4 chars as dummy receipt
-                        style: const TextStyle(fontSize: 14, fontFamily: 'monospace', color: AppColors.primaryBlue, fontWeight: FontWeight.bold)),
+                        style: TextStyle(fontSize: 14, fontFamily: 'monospace', color: Theme.of(context).colorScheme.primary, fontWeight: FontWeight.bold)),
                     ],
                   )
                 ],
@@ -334,7 +334,7 @@ class _AdminOrderDetailScreenState extends ConsumerState<AdminOrderDetailScreen>
       context, isDark,
       title: 'Customer Information',
       icon: Icons.person,
-      iconColor: AppColors.primaryBlue,
+      iconColor: Theme.of(context).colorScheme.primary,
       child: Column(
         children: [
           Container(
@@ -388,7 +388,7 @@ class _AdminOrderDetailScreenState extends ConsumerState<AdminOrderDetailScreen>
       context, isDark,
       title: 'Order Items (${order.items.length})',
       icon: Icons.inventory_2,
-      iconColor: AppColors.primaryBlue,
+      iconColor: Theme.of(context).colorScheme.primary,
       trailing: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
@@ -396,7 +396,7 @@ class _AdminOrderDetailScreenState extends ConsumerState<AdminOrderDetailScreen>
             Icon(Icons.expand_more, color: isDark ? Colors.grey[400] : Colors.grey[600])
           else
             IconButton(
-              icon: Icon(Icons.edit, size: 20, color: AppColors.primaryBlue),
+              icon: Icon(Icons.edit, size: 20, color: Theme.of(context).colorScheme.primary),
               onPressed: () => setState(() => _isEditingItems = true),
             ),
         ],
@@ -434,7 +434,7 @@ class _AdminOrderDetailScreenState extends ConsumerState<AdminOrderDetailScreen>
                           const SizedBox(height: 4),
                           Text.rich(TextSpan(
                             text: CurrencyUtils.formatPaise(item.dpPricePaise),
-                            style: TextStyle(fontWeight: FontWeight.bold, color: AppColors.primaryBlue, fontSize: 12),
+                            style: TextStyle(fontWeight: FontWeight.bold, color: Theme.of(context).colorScheme.primary, fontSize: 12),
                             children: [ TextSpan(text: ' x ${item.qty}', style: TextStyle(color: Colors.grey[500], fontWeight: FontWeight.normal)) ]
                           )),
                         ],
@@ -460,7 +460,7 @@ class _AdminOrderDetailScreenState extends ConsumerState<AdminOrderDetailScreen>
        context, isDark,
        title: 'Logistics & Delivery',
        icon: Icons.local_shipping,
-       iconColor: AppColors.primaryBlue,
+       iconColor: Theme.of(context).colorScheme.primary,
        child: Column(
          crossAxisAlignment: CrossAxisAlignment.start,
          children: [

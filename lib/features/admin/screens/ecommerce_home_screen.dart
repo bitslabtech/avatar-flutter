@@ -167,7 +167,7 @@ class _EcommerceHomeScreenState extends ConsumerState<EcommerceHomeScreen> {
                                   const SizedBox(width: 8),
                                   IconButton(
                                     icon: const Icon(Icons.edit, size: 20),
-                                    color: AppColors.primaryBlue,
+                                    color: Theme.of(context).colorScheme.primary,
                                     onPressed: () {
                                       final user = ref.read(authProvider).user;
                                       if (user?.hasPermission('ecommerce', 'update') != true) {
@@ -247,11 +247,11 @@ class _EcommerceHomeScreenState extends ConsumerState<EcommerceHomeScreen> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Icon(Icons.add, color: AppColors.primaryBlue),
+                          Icon(Icons.add, color: Theme.of(context).colorScheme.primary),
                           const SizedBox(width: 8),
                           Text(
                             'Add New Banner',
-                            style: const TextStyle(color: AppColors.primaryBlue, fontWeight: FontWeight.bold),
+                            style: TextStyle(color: Theme.of(context).colorScheme.primary, fontWeight: FontWeight.bold),
                           ),
                         ],
                       ),
@@ -275,7 +275,7 @@ class _EcommerceHomeScreenState extends ConsumerState<EcommerceHomeScreen> {
                   SwitchListTile(
                     title: Text('New Arrivals Section', style: TextStyle(color: textColor)),
                     value: _showNewArrivals,
-                    activeColor: AppColors.primaryBlue,
+                    activeColor: Theme.of(context).colorScheme.primary,
                     onChanged: (val) {
                       final user = ref.read(authProvider).user;
                       if (user?.hasPermission('ecommerce', 'update') != true) {
@@ -289,7 +289,7 @@ class _EcommerceHomeScreenState extends ConsumerState<EcommerceHomeScreen> {
                   SwitchListTile(
                     title: Text('Best Sellers Section', style: TextStyle(color: textColor)),
                     value: _showBestSellers,
-                    activeColor: AppColors.primaryBlue,
+                    activeColor: Theme.of(context).colorScheme.primary,
                     onChanged: (val) {
                       final user = ref.read(authProvider).user;
                       if (user?.hasPermission('ecommerce', 'update') != true) {

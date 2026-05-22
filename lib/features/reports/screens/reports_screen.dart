@@ -55,9 +55,9 @@ class _ReportsScreenState extends ConsumerState<ReportsScreen> with SingleTicker
         iconTheme: IconThemeData(color: isDark ? Colors.white : const Color(0xFF475569)), // slate-600
         bottom: TabBar(
           controller: _tabController,
-          labelColor: AppColors.primaryBlue,
+          labelColor: Theme.of(context).colorScheme.primary,
           unselectedLabelColor: isDark ? Colors.grey : const Color(0xFF64748B), // slate-500
-          indicatorColor: AppColors.primaryBlue,
+          indicatorColor: Theme.of(context).colorScheme.primary,
           indicatorWeight: 3,
           labelStyle: const TextStyle(fontWeight: FontWeight.bold),
           tabs: const [

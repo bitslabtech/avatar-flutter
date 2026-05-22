@@ -170,7 +170,7 @@ class _BannerSliderState extends State<BannerSlider> {
                                     child: Container(
                                       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                                       decoration: BoxDecoration(
-                                        color: AppColors.primaryBlue,
+                                        color: Theme.of(context).colorScheme.primary,
                                         borderRadius: BorderRadius.circular(4),
                                       ),
                                       child: Text(
@@ -257,7 +257,7 @@ class _BannerSliderState extends State<BannerSlider> {
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(3),
                 color: _currentPage == index
-                    ? AppColors.primaryBlue
+                    ? Theme.of(context).colorScheme.primary
                     : Colors.grey[300],
               ),
             ),

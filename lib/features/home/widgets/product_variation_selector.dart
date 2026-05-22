@@ -90,10 +90,10 @@ class _ProductVariationSelectorState extends ConsumerState<ProductVariationSelec
                      const SizedBox(height: 8),
                      Text(
                        CurrencyUtils.format(_selectedProduct.price),
-                       style: const TextStyle(
+                       style: TextStyle(
                          fontSize: 16,
                          fontWeight: FontWeight.bold,
-                         color: AppColors.primaryBlue,
+                         color: Theme.of(context).colorScheme.primary,
                        ),
                      ),
                      if (_selectedProduct.variant != null || _selectedProduct.size != null)
@@ -152,7 +152,7 @@ class _ProductVariationSelectorState extends ConsumerState<ProductVariationSelec
            ElevatedButton(
              onPressed: () => widget.onAddToCart(_selectedProduct),
              style: ElevatedButton.styleFrom(
-               backgroundColor: AppColors.primaryBlue,
+               backgroundColor: Theme.of(context).colorScheme.primary,
                foregroundColor: Colors.white,
                padding: const EdgeInsets.symmetric(vertical: 16),
                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
@@ -184,7 +184,7 @@ class _ProductVariationSelectorState extends ConsumerState<ProductVariationSelec
       padding: const EdgeInsets.all(4),
       decoration: BoxDecoration(
         border: Border.all(
-          color: isSelected ? AppColors.primaryBlue : Colors.grey[200]!,
+          color: isSelected ? Theme.of(context).colorScheme.primary : Colors.grey[200]!,
           width: 2,
         ),
         borderRadius: BorderRadius.circular(8),
@@ -207,7 +207,7 @@ class _ProductVariationSelectorState extends ConsumerState<ProductVariationSelec
              style: TextStyle(
                fontSize: 11,
                fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
-               color: isSelected ? AppColors.primaryBlue : Colors.black87,
+               color: isSelected ? Theme.of(context).colorScheme.primary : Colors.black87,
              ),
              maxLines: 1,
              overflow: TextOverflow.ellipsis,

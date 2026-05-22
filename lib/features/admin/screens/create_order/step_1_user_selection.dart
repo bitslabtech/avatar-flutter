@@ -78,17 +78,17 @@ class _Step1UserSelectionState extends ConsumerState<Step1UserSelection> {
                           margin: const EdgeInsets.only(bottom: 8),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(12),
-                            side: isSelected ? const BorderSide(color: AppColors.primaryBlue, width: 2) : BorderSide.none,
+                            side: isSelected ? BorderSide(color: Theme.of(context).colorScheme.primary, width: 2) : BorderSide.none,
                           ),
                           child: ListTile(
                             onTap: () {
                               ref.read(createOrderProvider.notifier).selectUser(user);
                             },
                             leading: CircleAvatar(
-                              backgroundColor: AppColors.primaryBlue.withOpacity(0.1),
+                              backgroundColor: Theme.of(context).colorScheme.primary.withOpacity(0.1),
                               child: Text(
                                 user.name.isNotEmpty ? user.name[0].toUpperCase() : '?',
-                                style: const TextStyle(color: AppColors.primaryBlue, fontWeight: FontWeight.bold),
+                                style: TextStyle(color: Theme.of(context).colorScheme.primary, fontWeight: FontWeight.bold),
                               ),
                             ),
                             title: Text(
@@ -124,7 +124,7 @@ class _Step1UserSelectionState extends ConsumerState<Step1UserSelection> {
                               ],
                             ),
                             trailing: isSelected
-                                ? const Icon(Icons.check_circle, color: AppColors.primaryBlue)
+                                ? Icon(Icons.check_circle, color: Theme.of(context).colorScheme.primary)
                                 : null,
                           ),
                         );

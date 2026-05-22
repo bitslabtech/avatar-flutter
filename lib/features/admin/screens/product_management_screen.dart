@@ -206,7 +206,7 @@ class _ProductManagementScreenState extends ConsumerState<ProductManagementScree
           'Create Products', 
           'Add new inventory items', 
           Icons.add_circle, 
-          AppColors.primaryBlue, 
+          Theme.of(context).colorScheme.primary, 
           Colors.white,
           isDark,
           () {
@@ -364,7 +364,7 @@ class _ProductManagementScreenState extends ConsumerState<ProductManagementScree
         borderRadius: BorderRadius.circular(16),
         border: Border.all(
           color: isInclusive
-              ? AppColors.primaryBlue.withOpacity(0.4)
+              ? Theme.of(context).colorScheme.primary.withOpacity(0.4)
               : (isDark ? Colors.white.withOpacity(0.05) : Colors.grey.shade100),
         ),
       ),
@@ -374,10 +374,10 @@ class _ProductManagementScreenState extends ConsumerState<ProductManagementScree
             width: 40,
             height: 40,
             decoration: BoxDecoration(
-              color: AppColors.primaryBlue.withOpacity(0.1),
+              color: Theme.of(context).colorScheme.primary.withOpacity(0.1),
               borderRadius: BorderRadius.circular(8),
             ),
-            child: const Icon(Icons.calculate_outlined, color: AppColors.primaryBlue),
+            child: Icon(Icons.calculate_outlined, color: Theme.of(context).colorScheme.primary),
           ),
           const SizedBox(width: 16),
           Expanded(
@@ -407,7 +407,7 @@ class _ProductManagementScreenState extends ConsumerState<ProductManagementScree
           ),
           Switch(
             value: isInclusive,
-            activeColor: AppColors.primaryBlue,
+            activeColor: Theme.of(context).colorScheme.primary,
             onChanged: settings.isLoading
                 ? null
                 : (val) async {

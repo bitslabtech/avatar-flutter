@@ -1,5 +1,3 @@
-/// Category chips widget for home screen
-/// Horizontally scrollable category filter chips
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import '../../../core/theme/app_colors.dart';
@@ -28,79 +26,125 @@ class CategoryChips extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 48,
+      height: 116,
       child: ListView(
         scrollDirection: Axis.horizontal,
         padding: const EdgeInsets.symmetric(horizontal: 16),
+        physics: const BouncingScrollPhysics(),
         children: [
-          // "All" chip
-          _buildChip(
+          // "All" Category Item
+          _buildCategoryItem(
+            context: context,
             label: 'All',
-            icon: Icons.grid_view,
+            icon: Icons.grid_view_rounded,
             imageUrl: null,
             isSelected: selectedCategory == null,
             onTap: () => onCategorySelected(null),
+            isAllItem: true,
           ),
-          const SizedBox(width: 8),
-          // Category chips
-          ...categories.map((category) => Padding(
-                padding: const EdgeInsets.only(right: 8),
-                child: _buildChip(
-                  label: category.name,
-                  icon: category.icon != null ? null : _getCategoryIcon(category.name), // Use stored icon or fallback
-                  imageUrl: category.imageUrl, // Use uploaded image if available
-                  isSelected: selectedCategory == category.name,
-                  onTap: () => onCategorySelected(category.name),
-                ),
+          
+          // Category Items
+          ...categories.map((category) => _buildCategoryItem(
+                context: context,
+                label: category.name,
+                icon: category.icon != null ? null : _getCategoryIcon(category.name),
+                imageUrl: category.resolvedImageUrl,
+                isSelected: selectedCategory == category.name,
+                onTap: () => onCategorySelected(category.name),
+                isAllItem: false,
               )),
         ],
       ),
     );
   }
 
-  Widget _buildChip({
+  Widget _buildCategoryItem({
+    required BuildContext context,
     required String label,
     IconData? icon,
     String? imageUrl,
     required bool isSelected,
     required VoidCallback onTap,
+    required bool isAllItem,
   }) {
-    return InkWell(
+    final theme = Theme.of(context);
+    final isDark = theme.brightness == Brightness.dark;
+    final primaryColor = theme.colorScheme.primary;
+
+    return GestureDetector(
       onTap: onTap,
-      borderRadius: BorderRadius.circular(24),
+      behavior: HitTestBehavior.opaque,
       child: Container(
-        height: 40,
-        padding: const EdgeInsets.symmetric(horizontal: 16),
-        decoration: BoxDecoration(
-          color: isSelected
-              ? AppColors.primaryBlue
-              : Colors.white,
-          borderRadius: BorderRadius.circular(24),
-          border: Border.all(
-            color: isSelected
-                ? AppColors.primaryBlue
-                : Colors.grey[200]!,
-            width: 1,
-          ),
-          boxShadow: isSelected 
-              ? [BoxShadow(color: AppColors.primaryBlue.withOpacity(0.2), blurRadius: 8, offset: const Offset(0, 2))]
-              : null,
-        ),
-        child: Row(
+        width: 76,
+        margin: const EdgeInsets.only(right: 12),
+        child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            // Removed image/icon as per user request
-            // if (imageUrl != null) ...
-            // else if (icon != null) ...
-            Text(
-              label,
-              style: TextStyle(
-                color: isSelected
-                    ? Colors.white
-                    : Colors.grey[700],
-                fontWeight: FontWeight.w500,
-                fontSize: 14,
+            // Image/Icon Container with Animation
+            AnimatedContainer(
+              duration: const Duration(milliseconds: 200),
+              curve: Curves.easeInOut,
+              width: 64,
+              height: 64,
+              decoration: BoxDecoration(
+                color: isSelected 
+                    ? primaryColor.withOpacity(isDark ? 0.2 : 0.1) 
+                    : (isAllItem ? (isDark ? Colors.white10 : Colors.black.withOpacity(0.03)) : Colors.transparent),
+                borderRadius: BorderRadius.circular(16),
+                border: isSelected 
+                    ? Border.all(color: primaryColor.withOpacity(0.5), width: 1.5)
+                    : null,
               ),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(15),
+                child: (imageUrl != null && imageUrl.isNotEmpty)
+                    ? CachedNetworkImage(
+                        imageUrl: imageUrl,
+                        fit: BoxFit.cover,
+                        width: double.infinity,
+                        height: double.infinity,
+                        placeholder: (context, url) => const Center(
+                          child: SizedBox(
+                            width: 20,
+                            height: 20,
+                            child: CircularProgressIndicator(strokeWidth: 2),
+                          ),
+                        ),
+                        errorWidget: (context, url, error) => Icon(
+                          icon ?? Icons.category_rounded,
+                          color: isSelected ? primaryColor : (isDark ? Colors.grey[500] : Colors.grey[400]),
+                        ),
+                      )
+                    : Center(
+                        child: Icon(
+                          icon ?? Icons.category_rounded,
+                          size: 28,
+                          color: isSelected 
+                              ? primaryColor 
+                              : (isDark ? Colors.grey[400] : Colors.grey[600]),
+                        ),
+                      ),
+              ),
+            ),
+            const SizedBox(height: 10),
+            
+            // Label with Animated Style
+            AnimatedDefaultTextStyle(
+              duration: const Duration(milliseconds: 200),
+              textAlign: TextAlign.center,
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
+              style: TextStyle(
+                fontFamily: theme.textTheme.bodyMedium?.fontFamily,
+                fontSize: 12,
+                height: 1.1,
+                fontWeight: isSelected ? FontWeight.w700 : FontWeight.w500,
+                color: isSelected 
+                    ? primaryColor 
+                    : (isDark ? Colors.grey[300] : Colors.grey[800]),
+                letterSpacing: -0.2,
+              ),
+              child: Text(label),
             ),
           ],
         ),
@@ -108,4 +152,3 @@ class CategoryChips extends StatelessWidget {
     );
   }
 }
-

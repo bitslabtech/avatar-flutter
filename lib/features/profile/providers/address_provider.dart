@@ -26,11 +26,15 @@ class AddressNotifier extends StateNotifier<AsyncValue<List<Address>>> {
 
   Future<void> addAddress(Address address) async {
     try {
-      // Store current list BEFORE setting loading state
       final currentList = state.value ?? [];
       state = const AsyncValue.loading();
-      
-      final newAddress = await _apiService.createAddress(address);
+
+      // Auto-mark as default if this is the very first address
+      final addressToSave = currentList.isEmpty
+          ? address.copyWith(isDefault: true)
+          : address;
+
+      final newAddress = await _apiService.createAddress(addressToSave);
       state = AsyncValue.data([...currentList, newAddress]);
     } catch (error, stackTrace) {
       state = AsyncValue.error(error, stackTrace);
@@ -66,23 +70,43 @@ class AddressNotifier extends StateNotifier<AsyncValue<List<Address>>> {
   }
 
   Future<void> deleteAddress(String id) async {
+    final currentList = state.value ?? [];
+    final target = currentList.firstWhere((a) => a.id == id,
+        orElse: () => currentList.first);
+
+    // Block deletion of the default address
+    if (target.isDefault) {
+      throw Exception(
+        'Default address cannot be deleted. '
+        'Please set another address as default first, then delete this one.',
+      );
+    }
+
     try {
-      // Store current list BEFORE setting loading state
-      final currentList = state.value ?? [];
       state = const AsyncValue.loading();
-      
       await _apiService.deleteAddress(id);
-      
       final updatedList = currentList.where((a) => a.id != id).toList();
       state = AsyncValue.data(updatedList);
     } catch (error, stackTrace) {
-      state = AsyncValue.error(error, stackTrace);
+      // Restore previous list on failure
+      state = AsyncValue.data(currentList);
       rethrow;
     }
   }
 
   Future<void> refresh() async {
     await _loadAddresses();
+  }
+
+  /// Returns the default address, or the first address if none is marked default.
+  Address? get defaultAddress {
+    final list = state.value ?? [];
+    if (list.isEmpty) return null;
+    try {
+      return list.firstWhere((a) => a.isDefault);
+    } catch (_) {
+      return list.first;
+    }
   }
 }
 

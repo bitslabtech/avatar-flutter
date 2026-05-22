@@ -131,7 +131,7 @@ class _NotificationsScreenState extends ConsumerState<NotificationsScreen> {
                           Container(
                             padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
                             decoration: BoxDecoration(
-                              color: _selectedTabIndex == 0 ? AppColors.primaryBlue : Colors.grey.shade400,
+                              color: _selectedTabIndex == 0 ? Theme.of(context).colorScheme.primary : Colors.grey.shade400,
                               borderRadius: BorderRadius.circular(10),
                             ),
                             child: Text(
@@ -246,11 +246,11 @@ class _NotificationsScreenState extends ConsumerState<NotificationsScreen> {
               tooltip: 'Mark all as read',
               icon: Icon(
                 Icons.done_all_rounded,
-                color: AppColors.primaryBlue,
+                color: Theme.of(context).colorScheme.primary,
                 size: 22,
               ),
               style: IconButton.styleFrom(
-                backgroundColor: AppColors.primaryBlue.withOpacity(0.1),
+                backgroundColor: Theme.of(context).colorScheme.primary.withOpacity(0.1),
                 padding: const EdgeInsets.all(10),
                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
               ),
@@ -289,7 +289,7 @@ class _NotificationsScreenState extends ConsumerState<NotificationsScreen> {
               ),
             ],
             border: isUnread 
-              ? Border.all(color: AppColors.primaryBlue.withOpacity(0.3), width: 1.5)
+              ? Border.all(color: Theme.of(context).colorScheme.primary.withOpacity(0.3), width: 1.5)
               : Border.all(color: Colors.transparent),
           ),
           child: Column(
@@ -337,8 +337,8 @@ class _NotificationsScreenState extends ConsumerState<NotificationsScreen> {
                               const SizedBox(width: 8),
                               Container(
                                 width: 8, height: 8,
-                                decoration: const BoxDecoration(
-                                  color: AppColors.primaryBlue,
+                                decoration: BoxDecoration(
+                                  color: Theme.of(context).colorScheme.primary,
                                   shape: BoxShape.circle,
                                 ),
                               )
@@ -414,10 +414,10 @@ class _NotificationsScreenState extends ConsumerState<NotificationsScreen> {
                             icon: const Icon(Icons.arrow_forward_rounded, size: 16),
                             label: const Text('View Details'),
                             style: TextButton.styleFrom(
-                              foregroundColor: AppColors.primaryBlue,
+                              foregroundColor: Theme.of(context).colorScheme.primary,
                               textStyle: const TextStyle(fontWeight: FontWeight.bold),
                               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                              backgroundColor: AppColors.primaryBlue.withOpacity(0.1),
+                              backgroundColor: Theme.of(context).colorScheme.primary.withOpacity(0.1),
                               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
                             ),
                           ),
@@ -515,7 +515,7 @@ class _NotificationsScreenState extends ConsumerState<NotificationsScreen> {
                     context.go('/auth-choice'); 
                   },
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: AppColors.primaryBlue,
+                    backgroundColor: Theme.of(context).colorScheme.primary,
                     foregroundColor: Colors.white,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(12),

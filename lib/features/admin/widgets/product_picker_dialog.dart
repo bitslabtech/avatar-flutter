@@ -122,7 +122,7 @@ class _ProductPickerDialogState extends ConsumerState<ProductPickerDialog> {
                           ),
                           trailing: Text(
                              CurrencyUtils.format(product.price ?? 0),
-                             style: const TextStyle(fontWeight: FontWeight.bold, color: AppColors.primaryBlue),
+                             style: TextStyle(fontWeight: FontWeight.bold, color: Theme.of(context).colorScheme.primary),
                           ),
                           onTap: () {
                             Navigator.of(context).pop(product);

@@ -162,10 +162,10 @@ class _AdminBusinessDetailsScreenState
                 )
               : TextButton(
                   onPressed: _save,
-                  child: const Text(
+                  child: Text(
                     'Save',
                     style: TextStyle(
-                      color: AppColors.primaryBlue,
+                      color: Theme.of(context).colorScheme.primary,
                       fontWeight: FontWeight.bold,
                       fontSize: 16,
                     ),
@@ -208,20 +208,20 @@ class _AdminBusinessDetailsScreenState
                   Container(
                     padding: const EdgeInsets.all(12),
                     decoration: BoxDecoration(
-                      color: AppColors.primaryBlue.withOpacity(0.08),
+                      color: Theme.of(context).colorScheme.primary.withOpacity(0.08),
                       borderRadius: BorderRadius.circular(12),
-                      border: Border.all(color: AppColors.primaryBlue.withOpacity(0.2)),
+                      border: Border.all(color: Theme.of(context).colorScheme.primary.withOpacity(0.2)),
                     ),
                     child: Row(
                       children: [
-                        Icon(Icons.info_outline, color: AppColors.primaryBlue, size: 18),
+                        Icon(Icons.info_outline, color: Theme.of(context).colorScheme.primary, size: 18),
                         const SizedBox(width: 10),
                         Expanded(
                           child: Text(
                             'These details appear on Proforma GST Invoices sent to dealers and customers.',
                             style: TextStyle(
                               fontSize: 13,
-                              color: isDark ? Colors.blue[200] : AppColors.primaryBlue,
+                              color: isDark ? Colors.blue[200] : Theme.of(context).colorScheme.primary,
                             ),
                           ),
                         ),
@@ -327,7 +327,7 @@ class _AdminBusinessDetailsScreenState
                           : const Icon(Icons.save_outlined),
                       label: Text(_isSaving ? 'Saving...' : 'Save Business Details'),
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: AppColors.primaryBlue,
+                        backgroundColor: Theme.of(context).colorScheme.primary,
                         foregroundColor: Colors.white,
                         padding: const EdgeInsets.symmetric(vertical: 16),
                         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
@@ -394,7 +394,7 @@ class _AdminBusinessDetailsScreenState
             ),
             focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(12),
-              borderSide: const BorderSide(color: AppColors.primaryBlue, width: 2),
+              borderSide: BorderSide(color: Theme.of(context).colorScheme.primary, width: 2),
             ),
             errorBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(12),

@@ -257,7 +257,7 @@ class _AdminAddBannerScreenState extends ConsumerState<AdminAddBannerScreen> {
             const SizedBox(height: 24),
 
             // Basic Details
-            Text('Banner Details', style: TextStyle(color: AppColors.primaryBlue, fontWeight: FontWeight.bold)),
+            Text('Banner Details', style: TextStyle(color: Theme.of(context).colorScheme.primary, fontWeight: FontWeight.bold)),
             const SizedBox(height: 16),
             TextField(
               controller: _titleController,
@@ -297,7 +297,7 @@ class _AdminAddBannerScreenState extends ConsumerState<AdminAddBannerScreen> {
             const SizedBox(height: 24),
 
             // Link Configuration
-             Text('Navigation Configuration *', style: TextStyle(color: AppColors.primaryBlue, fontWeight: FontWeight.bold)),
+             Text('Navigation Configuration *', style: TextStyle(color: Theme.of(context).colorScheme.primary, fontWeight: FontWeight.bold)),
              const SizedBox(height: 16),
              Container(
                padding: const EdgeInsets.all(16),
@@ -371,7 +371,7 @@ class _AdminAddBannerScreenState extends ConsumerState<AdminAddBannerScreen> {
         child: ElevatedButton(
           onPressed: (_isSaving || _uploadedImageUrl == null || _selectedLinkValue == null) ? null : _saveBanner,
           style: ElevatedButton.styleFrom(
-            backgroundColor: AppColors.primaryBlue,
+            backgroundColor: Theme.of(context).colorScheme.primary,
             foregroundColor: Colors.white,
             padding: const EdgeInsets.symmetric(vertical: 16),
           ),

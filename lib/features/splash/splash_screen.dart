@@ -300,6 +300,7 @@ class _SplashScreenState extends State<SplashScreen>
     return AnimatedBuilder(
       animation: _logoController,
       builder: (context, child) {
+        final isDark = Theme.of(context).brightness == Brightness.dark;
         return SlideTransition(
           position: _logoPosition,
           child: FadeTransition(
@@ -307,7 +308,9 @@ class _SplashScreenState extends State<SplashScreen>
             child: ScaleTransition(
               scale: _logoScale,
               child: Image.asset(
-                'assets/logo/skw-avatar-favicon.png',
+                isDark
+                    ? 'assets/logo/skw-avatar-favicon-white.png'
+                    : 'assets/logo/skw-avatar-favicon.png',
                 width: 120,
                 height: 120,
                 fit: BoxFit.contain,

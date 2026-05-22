@@ -74,10 +74,10 @@ class _GstManagementScreenState extends ConsumerState<GstManagementScreen> {
                           ref.read(gstProvider.notifier).setFilter(tempFilter);
                           Navigator.pop(ctx);
                           if (tempFilter != GstFilter.all) {
-                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Filtering: ${tempFilter.name}'), backgroundColor: AppColors.primaryBlue, behavior: SnackBarBehavior.floating, duration: const Duration(seconds: 2)));
+                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Filtering: ${tempFilter.name}'), backgroundColor: Theme.of(context).colorScheme.primary, behavior: SnackBarBehavior.floating, duration: Duration(seconds: 2)));
                           }
                         },
-                        style: ElevatedButton.styleFrom(backgroundColor: AppColors.primaryBlue, padding: const EdgeInsets.symmetric(vertical: 14), shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10))),
+                        style: ElevatedButton.styleFrom(backgroundColor: Theme.of(context).colorScheme.primary, padding: EdgeInsets.symmetric(vertical: 14), shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10))),
                         child: const Text('Apply Filter', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
                       ),
                     ),
@@ -100,8 +100,8 @@ class _GstManagementScreenState extends ConsumerState<GstManagementScreen> {
           children: [
             Container(
               width: 22, height: 22,
-              decoration: BoxDecoration(shape: BoxShape.circle, border: Border.all(color: isSelected ? AppColors.primaryBlue : (isDark ? Colors.grey : Colors.grey.shade400), width: 2)),
-              child: isSelected ? Center(child: Container(width: 12, height: 12, decoration: BoxDecoration(shape: BoxShape.circle, color: AppColors.primaryBlue))) : null,
+              decoration: BoxDecoration(shape: BoxShape.circle, border: Border.all(color: isSelected ? Theme.of(context).colorScheme.primary : (isDark ? Colors.grey : Colors.grey.shade400), width: 2)),
+              child: isSelected ? Center(child: Container(width: 12, height: 12, decoration: BoxDecoration(shape: BoxShape.circle, color: Theme.of(context).colorScheme.primary))) : null,
             ),
             const SizedBox(width: 12),
             Text(label, style: TextStyle(color: isDark ? Colors.white : Colors.black, fontSize: 16)),
@@ -171,10 +171,10 @@ class _GstManagementScreenState extends ConsumerState<GstManagementScreen> {
             icon: const Icon(Icons.add, size: 18),
             label: const Text('Create'),
             style: ElevatedButton.styleFrom(
-              backgroundColor: AppColors.primaryBlue,
+              backgroundColor: Theme.of(context).colorScheme.primary,
               foregroundColor: Colors.white,
               elevation: 4,
-              shadowColor: AppColors.primaryBlue.withOpacity(0.2),
+              shadowColor: Theme.of(context).colorScheme.primary.withOpacity(0.2),
               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
             ),
@@ -278,11 +278,11 @@ class _GstManagementScreenState extends ConsumerState<GstManagementScreen> {
           child: Stack(
             children: [
               IconButton(
-                icon: Icon(Icons.tune, color: hasActiveFilter ? AppColors.primaryBlue : (isDark ? Colors.grey.shade400 : Colors.grey.shade500)),
+                icon: Icon(Icons.tune, color: hasActiveFilter ? Theme.of(context).colorScheme.primary : (isDark ? Colors.grey.shade400 : Colors.grey.shade500)),
                 onPressed: () => _showFilterModal(context, isDark, activeFilter),
               ),
               if (hasActiveFilter)
-                Positioned(top: 8, right: 8, child: Container(width: 8, height: 8, decoration: const BoxDecoration(color: AppColors.primaryBlue, shape: BoxShape.circle))),
+                Positioned(top: 8, right: 8, child: Container(width: 8, height: 8, decoration: BoxDecoration(color: Theme.of(context).colorScheme.primary, shape: BoxShape.circle))),
             ],
           ),
         ),
@@ -569,7 +569,7 @@ class _GstDialogState extends ConsumerState<_GstDialog> {
                   Switch.adaptive(
                     value: _isActive,
                     onChanged: (v) => setState(() => _isActive = v),
-                    activeColor: AppColors.primaryBlue,
+                    activeColor: Theme.of(context).colorScheme.primary,
                   )
                 ],
               ),
@@ -601,7 +601,7 @@ class _GstDialogState extends ConsumerState<_GstDialog> {
                      }
                   },
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: AppColors.primaryBlue,
+                    backgroundColor: Theme.of(context).colorScheme.primary,
                     foregroundColor: Colors.white,
                     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                   ),

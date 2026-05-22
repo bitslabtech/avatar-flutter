@@ -126,7 +126,7 @@ class _CategoryEditScreenState extends ConsumerState<CategoryEditScreen> {
                                     child: Column(
                                       mainAxisAlignment: MainAxisAlignment.center,
                                       children: [
-                                        Icon(Icons.add_photo_alternate, size: 48, color: AppColors.primaryBlue.withOpacity(0.5)),
+                                        Icon(Icons.add_photo_alternate, size: 48, color: Theme.of(context).colorScheme.primary.withOpacity(0.5)),
                                         const SizedBox(height: 8),
                                         Text('Tap to upload Banner', style: TextStyle(color: Colors.grey[400])),
                                       ],
@@ -144,7 +144,7 @@ class _CategoryEditScreenState extends ConsumerState<CategoryEditScreen> {
                         right: 8,
                         child: Container(
                           padding: const EdgeInsets.all(8),
-                          decoration: const BoxDecoration(color: AppColors.primaryBlue, shape: BoxShape.circle),
+                          decoration: BoxDecoration(color: Theme.of(context).colorScheme.primary, shape: BoxShape.circle),
                           child: const Icon(Icons.edit, color: Colors.white, size: 20),
                         ),
                       )
@@ -258,7 +258,7 @@ class _CategoryEditScreenState extends ConsumerState<CategoryEditScreen> {
                 icon: const Icon(Icons.save),
                 label: const Text('Save Changes'),
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: AppColors.primaryBlue,
+                  backgroundColor: Theme.of(context).colorScheme.primary,
                   foregroundColor: Colors.white,
                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
                 ),
@@ -294,7 +294,7 @@ class _CategoryEditScreenState extends ConsumerState<CategoryEditScreen> {
       fillColor: isDark ? AppColors.surfaceDark : Colors.white,
       border: OutlineInputBorder(borderRadius: BorderRadius.circular(16), borderSide: BorderSide.none),
       enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(16), borderSide: BorderSide(color: isDark ? Colors.grey.shade800 : Colors.grey.shade200)),
-      focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(16), borderSide: const BorderSide(color: AppColors.primaryBlue))
+      focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(16), borderSide: BorderSide(color: Theme.of(context).colorScheme.primary))
     );
   }
 

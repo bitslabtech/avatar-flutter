@@ -31,7 +31,7 @@ class ReportsFilterBar extends ConsumerWidget {
                   return Theme(
                     data: Theme.of(context).copyWith(
                       colorScheme: ColorScheme.light(
-                        primary: AppColors.primaryBlue,
+                        primary: Theme.of(context).colorScheme.primary,
                         onPrimary: Colors.white,
                         surface: isDark ? const Color(0xFF1F2937) : Colors.white,
                         onSurface: isDark ? Colors.white : Colors.black,
@@ -68,7 +68,7 @@ class ReportsFilterBar extends ConsumerWidget {
                       color: const Color(0xFFEFF6FF), // blue-50
                       borderRadius: BorderRadius.circular(8),
                     ),
-                    child: const Icon(Icons.calendar_month, color: AppColors.primaryBlue, size: 20),
+                    child: Icon(Icons.calendar_month, color: Theme.of(context).colorScheme.primary, size: 20),
                   ),
                   const SizedBox(width: 12),
                   Expanded(

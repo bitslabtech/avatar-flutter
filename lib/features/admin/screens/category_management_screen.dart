@@ -77,10 +77,10 @@ class _CategoryManagementScreenState extends ConsumerState<CategoryManagementScr
                           ref.read(categoryProvider.notifier).setFilter(tempFilter);
                           Navigator.pop(ctx);
                           if (tempFilter != CategoryFilter.all) {
-                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Filtering: ${tempFilter.name}'), backgroundColor: AppColors.primaryBlue, behavior: SnackBarBehavior.floating, duration: const Duration(seconds: 2)));
+                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Filtering: ${tempFilter.name}'), backgroundColor: Theme.of(context).colorScheme.primary, behavior: SnackBarBehavior.floating, duration: Duration(seconds: 2)));
                           }
                         },
-                        style: ElevatedButton.styleFrom(backgroundColor: AppColors.primaryBlue, padding: const EdgeInsets.symmetric(vertical: 14), shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10))),
+                        style: ElevatedButton.styleFrom(backgroundColor: Theme.of(context).colorScheme.primary, padding: EdgeInsets.symmetric(vertical: 14), shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10))),
                         child: const Text('Apply Filter', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
                       ),
                     ),
@@ -103,8 +103,8 @@ class _CategoryManagementScreenState extends ConsumerState<CategoryManagementScr
           children: [
             Container(
               width: 22, height: 22,
-              decoration: BoxDecoration(shape: BoxShape.circle, border: Border.all(color: isSelected ? AppColors.primaryBlue : (isDark ? Colors.grey : Colors.grey.shade400), width: 2)),
-              child: isSelected ? Center(child: Container(width: 12, height: 12, decoration: BoxDecoration(shape: BoxShape.circle, color: AppColors.primaryBlue))) : null,
+              decoration: BoxDecoration(shape: BoxShape.circle, border: Border.all(color: isSelected ? Theme.of(context).colorScheme.primary : (isDark ? Colors.grey : Colors.grey.shade400), width: 2)),
+              child: isSelected ? Center(child: Container(width: 12, height: 12, decoration: BoxDecoration(shape: BoxShape.circle, color: Theme.of(context).colorScheme.primary))) : null,
             ),
             const SizedBox(width: 12),
             Text(label, style: TextStyle(color: isDark ? Colors.white : Colors.black, fontSize: 16)),
@@ -181,10 +181,10 @@ class _CategoryManagementScreenState extends ConsumerState<CategoryManagementScr
             icon: const Icon(Icons.add, size: 18),
             label: const Text('Create New'),
             style: ElevatedButton.styleFrom(
-              backgroundColor: AppColors.primaryBlue,
+              backgroundColor: Theme.of(context).colorScheme.primary,
               foregroundColor: Colors.white,
               elevation: 4,
-              shadowColor: AppColors.primaryBlue.withOpacity(0.2),
+              shadowColor: Theme.of(context).colorScheme.primary.withOpacity(0.2),
               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
             ),
@@ -289,11 +289,11 @@ class _CategoryManagementScreenState extends ConsumerState<CategoryManagementScr
           child: Stack(
             children: [
               IconButton(
-                icon: Icon(Icons.tune, color: hasActiveFilter ? AppColors.primaryBlue : (isDark ? Colors.grey.shade300 : Colors.grey.shade600)),
+                icon: Icon(Icons.tune, color: hasActiveFilter ? Theme.of(context).colorScheme.primary : (isDark ? Colors.grey.shade300 : Colors.grey.shade600)),
                 onPressed: () => _showFilterModal(context, isDark, currentFilter),
               ),
               if (hasActiveFilter)
-                Positioned(top: 8, right: 8, child: Container(width: 8, height: 8, decoration: const BoxDecoration(color: AppColors.primaryBlue, shape: BoxShape.circle))),
+                Positioned(top: 8, right: 8, child: Container(width: 8, height: 8, decoration: BoxDecoration(color: Theme.of(context).colorScheme.primary, shape: BoxShape.circle))),
             ],
           ),
         ),
@@ -533,9 +533,9 @@ class _CreateCategoryDialogState extends ConsumerState<_CreateCategoryDialog> {
                         ? Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Icon(Icons.add_photo_alternate, color: AppColors.primaryBlue, size: 32),
+                              Icon(Icons.add_photo_alternate, color: Theme.of(context).colorScheme.primary, size: 32),
                               const SizedBox(height: 8),
-                              Text('Add Image *', style: TextStyle(fontSize: 12, color: AppColors.primaryBlue, fontWeight: FontWeight.w600)),
+                              Text('Add Image *', style: TextStyle(fontSize: 12, color: Theme.of(context).colorScheme.primary, fontWeight: FontWeight.w600)),
                             ],
                           )
                         : null,
@@ -600,7 +600,7 @@ class _CreateCategoryDialogState extends ConsumerState<_CreateCategoryDialog> {
                     Switch.adaptive(
                       value: _isActive,
                       onChanged: (v) => setState(() => _isActive = v),
-                      activeColor: AppColors.primaryBlue,
+                      activeColor: Theme.of(context).colorScheme.primary,
                     )
                   ],
                 ),
@@ -654,7 +654,7 @@ class _CreateCategoryDialogState extends ConsumerState<_CreateCategoryDialog> {
                      }
                   },
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: AppColors.primaryBlue,
+                    backgroundColor: Theme.of(context).colorScheme.primary,
                     foregroundColor: Colors.white,
                     elevation: 0,
                     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
@@ -679,7 +679,7 @@ class _CreateCategoryDialogState extends ConsumerState<_CreateCategoryDialog> {
       fillColor: isDark ? Colors.white.withOpacity(0.05) : Colors.grey.shade50,
       border: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: BorderSide.none),
       enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: BorderSide(color: isDark ? Colors.grey.shade800 : Colors.grey.shade200)),
-      focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: const BorderSide(color: AppColors.primaryBlue)),
+      focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: BorderSide(color: Theme.of(context).colorScheme.primary)),
       contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
     );
   }

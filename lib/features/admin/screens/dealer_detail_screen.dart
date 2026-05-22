@@ -334,7 +334,7 @@ class _DealerDetailScreenState extends ConsumerState<DealerDetailScreen> {
       child: ElevatedButton(
         onPressed: _isLoading ? null : _saveChanges,
         style: ElevatedButton.styleFrom(
-          backgroundColor: AppColors.primaryBlue,
+          backgroundColor: Theme.of(context).colorScheme.primary,
           foregroundColor: Colors.white,
           minimumSize: const Size(double.infinity, 50),
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),

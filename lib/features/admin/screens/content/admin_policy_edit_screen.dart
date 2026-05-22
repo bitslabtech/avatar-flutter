@@ -96,7 +96,7 @@ class _AdminPolicyEditScreenState extends ConsumerState<AdminPolicyEditScreen> {
         actions: [
           TextButton(
             onPressed: _save,
-            child: const Text('Save', style: TextStyle(color: AppColors.primaryBlue, fontWeight: FontWeight.bold, fontSize: 16)),
+            child: Text('Save', style: TextStyle(color: Theme.of(context).colorScheme.primary, fontWeight: FontWeight.bold, fontSize: 16)),
           ),
         ],
         elevation: 0,
@@ -145,7 +145,7 @@ class _AdminPolicyEditScreenState extends ConsumerState<AdminPolicyEditScreen> {
                     title: Text('Active', style: TextStyle(color: textColor, fontWeight: FontWeight.bold)),
                     subtitle: Text('Visible to users', style: TextStyle(color: isDark ? Colors.grey : Colors.grey.shade600)),
                     value: _isActive,
-                    activeColor: AppColors.primaryBlue,
+                    activeColor: Theme.of(context).colorScheme.primary,
                     onChanged: (val) => setState(() => _isActive = val),
                   ),
                 ),
@@ -183,7 +183,7 @@ class _AdminPolicyEditScreenState extends ConsumerState<AdminPolicyEditScreen> {
       ),
       focusedBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(12),
-        borderSide: const BorderSide(color: AppColors.primaryBlue, width: 2),
+        borderSide: BorderSide(color: Theme.of(context).colorScheme.primary, width: 2),
       ),
       contentPadding: const EdgeInsets.all(16),
     );

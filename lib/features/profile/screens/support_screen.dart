@@ -7,32 +7,22 @@ import '../../../providers/contact_settings_provider.dart';
 import '../../../widgets/common/loading_indicator.dart';
 
 class SupportScreen extends ConsumerWidget {
-  const SupportScreen({super.key});
+  SupportScreen({super.key});
 
   Future<void> _launchEmail(BuildContext context, String email) async {
     try {
-      print('🔍 DEBUG: Attempting to launch email: $email');
-      final Uri emailUri = Uri(
-        scheme: 'mailto',
-        path: email,
-      );
-      print('🔍 DEBUG: Email URI: $emailUri');
+      final Uri emailUri = Uri(scheme: 'mailto', path: email);
       final canLaunch = await canLaunchUrl(emailUri);
-      print('🔍 DEBUG: Can launch email: $canLaunch');
-      
       if (canLaunch) {
         await launchUrl(emailUri);
-        print('✅ Email launched successfully');
       } else {
-        print('❌ Cannot launch email');
         if (context.mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('Could not open email app. Please check if you have an email app installed.')),
+            SnackBar(content: Text('Could not open email app. Please check if you have an email app installed.')),
           );
         }
       }
     } catch (e) {
-      print('❌ ERROR launching email: $e');
       if (context.mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text('Error: $e')),
@@ -43,28 +33,36 @@ class SupportScreen extends ConsumerWidget {
 
   Future<void> _launchWhatsApp(BuildContext context, String number) async {
     try {
-      print('🔍 DEBUG: Attempting to launch WhatsApp: $number');
-      final Uri whatsappUri = Uri.parse('whatsapp://send?phone=$number');
-      print('🔍 DEBUG: WhatsApp URI: $whatsappUri');
-      final canLaunch = await canLaunchUrl(whatsappUri);
-      print('🔍 DEBUG: Can launch WhatsApp: $canLaunch');
-      
-      if (canLaunch) {
-        await launchUrl(whatsappUri);
-        print('✅ WhatsApp launched successfully');
-      } else {
-        print('❌ Cannot launch WhatsApp');
-        if (context.mounted) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('Could not open WhatsApp. Please check if WhatsApp is installed.')),
-          );
-        }
+      // Strip any non-numeric characters except leading +
+      final cleanNumber = number.replaceAll(RegExp(r'[^\d+]'), '');
+
+      // Try native deep link first (works on Android & iOS when WhatsApp is installed)
+      final Uri nativeUri = Uri.parse('whatsapp://send?phone=$cleanNumber');
+      if (await canLaunchUrl(nativeUri)) {
+        await launchUrl(nativeUri);
+        return;
       }
-    } catch (e) {
-      print('❌ ERROR launching WhatsApp: $e');
+
+      // Fallback: wa.me universal link — opens WhatsApp app on iOS/Android,
+      // or WhatsApp Web in browser if the app isn't installed.
+      final Uri webUri = Uri.parse('https://wa.me/$cleanNumber');
+      if (await canLaunchUrl(webUri)) {
+        await launchUrl(webUri, mode: LaunchMode.externalApplication);
+        return;
+      }
+
+      // Both failed
       if (context.mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Error: $e')),
+          SnackBar(
+            content: Text('Could not open WhatsApp. Please check if WhatsApp is installed.'),
+          ),
+        );
+      }
+    } catch (e) {
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Error opening WhatsApp: $e')),
         );
       }
     }
@@ -72,25 +70,18 @@ class SupportScreen extends ConsumerWidget {
 
   Future<void> _launchCall(BuildContext context, String number) async {
     try {
-      print('🔍 DEBUG: Attempting to launch call: $number');
       final Uri callUri = Uri(scheme: 'tel', path: number);
-      print('🔍 DEBUG: Call URI: $callUri');
       final canLaunch = await canLaunchUrl(callUri);
-      print('🔍 DEBUG: Can launch call: $canLaunch');
-      
       if (canLaunch) {
         await launchUrl(callUri);
-        print('✅ Call launched successfully');
       } else {
-        print('❌ Cannot launch call');
         if (context.mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('Could not initiate call. Please check your phone permissions.')),
+            SnackBar(content: Text('Could not initiate call. Please check your phone permissions.')),
           );
         }
       }
     } catch (e) {
-      print('❌ ERROR launching call: $e');
       if (context.mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text('Error: $e')),
@@ -102,9 +93,29 @@ class SupportScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final settingsAsync = ref.watch(contactSettingsProvider);
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+
+    // ── Theme-aware color tokens ──────────────────────────────────────────────
+    final scaffoldBg        = isDark ? Color(0xFF0F172A) : Color(0xFFF8FAFC);
+    final headerBg          = isDark ? Color(0xFF1E293B) : Colors.white;
+    final headerBorder      = isDark ? Color(0xFF334155) : Color(0xFFE2E8F0);
+    final headerIcon        = isDark ? Color(0xFF94A3B8) : Color(0xFF64748B);
+    final titleColor        = isDark ? Colors.white : Color(0xFF1E293B);
+    final subtitleColor     = isDark ? Color(0xFF94A3B8) : Color(0xFF64748B);
+    final labelColor        = isDark ? Color(0xFF64748B) : Color(0xFF94A3B8);
+    final heroBg            = isDark ? AppColors.primaryBlueFor(isDark).withOpacity(0.15) : Colors.blue.shade50;
+    final cardBg            = isDark ? Color(0xFF1E293B) : Colors.white;
+    final cardBorder        = isDark ? Color(0xFF334155) : Color(0xFFE2E8F0);
+    final errorTextColor    = isDark ? Color(0xFF94A3B8) : Color(0xFF1E293B);
+    final waButtonBg        = isDark ? Color(0xFF14532D) : Colors.white;
+    final waButtonBorder    = isDark ? Color(0xFF166534) : Color(0xFFDCFCE7);
+    final emailButtonBg     = isDark ? Color(0xFF1E293B) : Colors.white;
+    final emailButtonBorder = isDark ? Color(0xFF334155) : Color(0xFFE2E8F0);
+    final emailButtonText   = isDark ? Color(0xFF94A3B8) : Color(0xFF64748B);
+    // ─────────────────────────────────────────────────────────────────────────
 
     return Scaffold(
-      backgroundColor: const Color(0xFFF8FAFC),
+      backgroundColor: scaffoldBg,
       body: Stack(
         children: [
           // Background gradient blobs
@@ -118,8 +129,8 @@ class SupportScreen extends ConsumerWidget {
                 shape: BoxShape.circle,
                 gradient: RadialGradient(
                   colors: [
-                    Colors.blue.shade100.withOpacity(0.3),
-                    Colors.blue.shade50.withOpacity(0.1),
+                    (isDark ? Colors.blue.shade900 : Colors.blue.shade100).withOpacity(0.3),
+                    (isDark ? Colors.blue.shade900 : Colors.blue.shade50).withOpacity(0.1),
                   ],
                 ),
               ),
@@ -135,8 +146,8 @@ class SupportScreen extends ConsumerWidget {
                 shape: BoxShape.circle,
                 gradient: RadialGradient(
                   colors: [
-                    Colors.purple.shade100.withOpacity(0.3),
-                    Colors.purple.shade50.withOpacity(0.1),
+                    (isDark ? Colors.purple.shade900 : Colors.purple.shade100).withOpacity(0.3),
+                    (isDark ? Colors.purple.shade900 : Colors.purple.shade50).withOpacity(0.1),
                   ],
                 ),
               ),
@@ -148,59 +159,58 @@ class SupportScreen extends ConsumerWidget {
               children: [
                 // Header
                 Padding(
-                  padding: const EdgeInsets.all(16.0),
+                  padding: EdgeInsets.all(16.0),
                   child: Row(
                     children: [
                       Container(
                         width: 40,
                         height: 40,
                         decoration: BoxDecoration(
-                          color: Colors.white,
+                          color: headerBg,
                           shape: BoxShape.circle,
-                          border: Border.all(color: const Color(0xFFE2E8F0)),
+                          border: Border.all(color: headerBorder),
                           boxShadow: [
                             BoxShadow(
-                              color: Colors.black.withOpacity(0.05),
+                              color: Colors.black.withOpacity(isDark ? 0.3 : 0.05),
                               blurRadius: 4,
-                              offset: const Offset(0, 2),
+                              offset: Offset(0, 2),
                             ),
                           ],
                         ),
                         child: IconButton(
-                          icon: const Icon(Icons.arrow_back_rounded, size: 20),
-                          color: const Color(0xFF64748B),
+                          icon: Icon(Icons.arrow_back_rounded, size: 20),
+                          color: headerIcon,
                           padding: EdgeInsets.zero,
                           onPressed: () => context.pop(),
                         ),
                       ),
-                      const Expanded(
+                      Expanded(
                         child: Center(
                           child: Text(
                             'Support',
                             style: TextStyle(
                               fontSize: 20,
                               fontWeight: FontWeight.bold,
-                              color: Color(0xFF1E293B),
+                              color: titleColor,
                             ),
                           ),
                         ),
                       ),
-                      const SizedBox(width: 40), // Placeholder for balance
+                      SizedBox(width: 40),
                     ],
                   ),
                 ),
                 // Hero Section
                 Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 16.0),
+                  padding: EdgeInsets.symmetric(vertical: 16.0),
                   child: Column(
                     children: [
-                      // Illustration - reduced by 30%
                       Container(
                         width: 126,
                         height: 126,
                         decoration: BoxDecoration(
                           shape: BoxShape.circle,
-                          color: Colors.blue.shade50,
+                          color: heroBg,
                         ),
                         child: Center(
                           child: Container(
@@ -208,33 +218,32 @@ class SupportScreen extends ConsumerWidget {
                             height: 105,
                             decoration: BoxDecoration(
                               shape: BoxShape.circle,
-                              color: AppColors.primaryBlue.withOpacity(0.1),
+                              color: AppColors.primaryBlueFor(isDark).withOpacity(isDark ? 0.2 : 0.1),
                             ),
-                            child: const Icon(
+                            child: Icon(
                               Icons.headset_mic_rounded,
                               size: 56,
-                              color: AppColors.primaryBlue,
+                              color: AppColors.primaryBlueFor(isDark),
                             ),
                           ),
                         ),
                       ),
-                      const SizedBox(height: 20),
-                      // Title
-                      const Text(
+                      SizedBox(height: 20),
+                      Text(
                         'How can we',
                         style: TextStyle(
                           fontSize: 28,
                           fontWeight: FontWeight.w900,
-                          color: Color(0xFF1E293B),
+                          color: titleColor,
                           height: 1.2,
                         ),
                       ),
-                      const Text(
+                      Text(
                         'help you today?',
                         style: TextStyle(
                           fontSize: 28,
                           fontWeight: FontWeight.w900,
-                          color: AppColors.primaryBlue,
+                          color: AppColors.primaryBlueFor(isDark),
                           height: 1.2,
                         ),
                       ),
@@ -246,72 +255,87 @@ class SupportScreen extends ConsumerWidget {
                   child: settingsAsync.when(
                     data: (settings) {
                       if (!settings.isActive) {
-                        return const Center(
+                        return Center(
                           child: Text(
                             'Support contact information is currently unavailable.',
-                            style: TextStyle(color: Color(0xFF64748B)),
+                            style: TextStyle(color: subtitleColor),
                           ),
                         );
                       }
 
                       return SingleChildScrollView(
-                        padding: const EdgeInsets.fromLTRB(24, 0, 24, 24),
+                        padding: EdgeInsets.fromLTRB(24, 0, 24, 24),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            const Text(
+                            Text(
                               'QUICK CONTACT',
                               style: TextStyle(
                                 fontSize: 11,
                                 fontWeight: FontWeight.w800,
                                 letterSpacing: 1.2,
-                                color: Color(0xFF94A3B8),
+                                color: labelColor,
                               ),
                             ),
-                            const SizedBox(height: 16),
+                            SizedBox(height: 16),
                             // WhatsApp Card
                             if (settings.whatsappNumber != null)
                               _buildContactCard(
+                                isDark: isDark,
+                                cardBg: cardBg,
+                                cardBorder: cardBorder,
+                                titleColor: titleColor,
+                                subtitleColor: subtitleColor,
                                 icon: Icons.chat_rounded,
-                                iconColor: const Color(0xFF22C55E),
-                                iconBgColor: const Color(0xFFF0FDF4),
+                                iconColor: Color(0xFF22C55E),
+                                iconBgColor: isDark ? Color(0xFF052E16) : Color(0xFFF0FDF4),
                                 title: 'WhatsApp',
                                 subtitle: 'Wait time: ~2 mins',
                                 buttonText: 'Chat Now',
-                                buttonColor: Colors.white,
-                                buttonTextColor: const Color(0xFF22C55E),
-                                buttonBorderColor: const Color(0xFFDCFCE7),
+                                buttonColor: waButtonBg,
+                                buttonTextColor: Color(0xFF22C55E),
+                                buttonBorderColor: waButtonBorder,
                                 onTap: () => _launchWhatsApp(context, settings.whatsappNumber!),
                                 isPrimary: false,
                               ),
-                            const SizedBox(height: 16),
+                            SizedBox(height: 16),
                             // Voice Call Card
                             if (settings.callNumber != null)
                               _buildContactCard(
+                                isDark: isDark,
+                                cardBg: cardBg,
+                                cardBorder: cardBorder,
+                                titleColor: titleColor,
+                                subtitleColor: subtitleColor,
                                 icon: Icons.call_rounded,
-                                iconColor: AppColors.primaryBlue,
-                                iconBgColor: AppColors.primaryBlue.withOpacity(0.1),
+                                iconColor: AppColors.primaryBlueFor(isDark),
+                                iconBgColor: AppColors.primaryBlueFor(isDark).withOpacity(isDark ? 0.2 : 0.1),
                                 title: 'Voice Call',
                                 subtitle: 'Wait time: Instant',
                                 buttonText: 'Call Us',
-                                buttonColor: AppColors.primaryBlue,
+                                buttonColor: AppColors.primaryBlueFor(isDark),
                                 buttonTextColor: Colors.white,
                                 onTap: () => _launchCall(context, settings.callNumber!),
                                 isPrimary: true,
                               ),
-                            const SizedBox(height: 16),
+                            SizedBox(height: 16),
                             // Email Card
                             if (settings.supportEmail != null)
                               _buildContactCard(
+                                isDark: isDark,
+                                cardBg: cardBg,
+                                cardBorder: cardBorder,
+                                titleColor: titleColor,
+                                subtitleColor: subtitleColor,
                                 icon: Icons.mail_rounded,
-                                iconColor: const Color(0xFF64748B),
-                                iconBgColor: const Color(0xFFF1F5F9),
+                                iconColor: isDark ? Color(0xFF94A3B8) : Color(0xFF64748B),
+                                iconBgColor: isDark ? Color(0xFF0F172A) : Color(0xFFF1F5F9),
                                 title: 'Email Inquiry',
                                 subtitle: 'Response: 24h',
                                 buttonText: 'Send Email',
-                                buttonColor: Colors.white,
-                                buttonTextColor: const Color(0xFF64748B),
-                                buttonBorderColor: const Color(0xFFE2E8F0),
+                                buttonColor: emailButtonBg,
+                                buttonTextColor: emailButtonText,
+                                buttonBorderColor: emailButtonBorder,
                                 onTap: () => _launchEmail(context, settings.supportEmail!),
                                 isPrimary: false,
                               ),
@@ -319,14 +343,17 @@ class SupportScreen extends ConsumerWidget {
                         ),
                       );
                     },
-                    loading: () => const Center(child: LoadingIndicator()),
+                    loading: () => Center(child: LoadingIndicator()),
                     error: (err, stack) => Center(
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Icon(Icons.error_outline, size: 60, color: Colors.red.shade300),
-                          const SizedBox(height: 16),
-                          const Text('Error loading support information', style: TextStyle(color: Color(0xFF1E293B))),
+                          SizedBox(height: 16),
+                          Text(
+                            'Error loading support information',
+                            style: TextStyle(color: errorTextColor),
+                          ),
                         ],
                       ),
                     ),
@@ -341,6 +368,11 @@ class SupportScreen extends ConsumerWidget {
   }
 
   Widget _buildContactCard({
+    required bool isDark,
+    required Color cardBg,
+    required Color cardBorder,
+    required Color titleColor,
+    required Color subtitleColor,
     required IconData icon,
     required Color iconColor,
     required Color iconBgColor,
@@ -355,17 +387,17 @@ class SupportScreen extends ConsumerWidget {
   }) {
     return Container(
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: cardBg,
         borderRadius: BorderRadius.circular(24),
         border: Border.all(
-          color: isPrimary ? AppColors.primaryBlue.withOpacity(0.2) : const Color(0xFFE2E8F0),
+          color: isPrimary ? AppColors.primaryBlueFor(isDark).withOpacity(0.4) : cardBorder,
           width: isPrimary ? 2 : 1,
         ),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(isPrimary ? 0.08 : 0.05),
+            color: Colors.black.withOpacity(isDark ? 0.3 : (isPrimary ? 0.08 : 0.05)),
             blurRadius: isPrimary ? 12 : 6,
-            offset: const Offset(0, 4),
+            offset: Offset(0, 4),
           ),
         ],
       ),
@@ -375,7 +407,7 @@ class SupportScreen extends ConsumerWidget {
           onTap: onTap,
           borderRadius: BorderRadius.circular(24),
           child: Padding(
-            padding: const EdgeInsets.all(20),
+            padding: EdgeInsets.all(20),
             child: Row(
               children: [
                 Container(
@@ -386,34 +418,34 @@ class SupportScreen extends ConsumerWidget {
                     borderRadius: BorderRadius.circular(16),
                     boxShadow: [
                       BoxShadow(
-                        color: iconColor.withOpacity(0.1),
+                        color: iconColor.withOpacity(0.15),
                         blurRadius: 8,
-                        offset: const Offset(0, 2),
+                        offset: Offset(0, 2),
                       ),
                     ],
                   ),
                   child: Icon(icon, color: iconColor, size: 24),
                 ),
-                const SizedBox(width: 16),
+                SizedBox(width: 16),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
                         title,
-                        style: const TextStyle(
+                        style: TextStyle(
                           fontSize: 17,
                           fontWeight: FontWeight.w800,
-                          color: Color(0xFF1E293B),
+                          color: titleColor,
                         ),
                       ),
-                      const SizedBox(height: 2),
+                      SizedBox(height: 2),
                       Text(
                         subtitle,
-                        style: const TextStyle(
+                        style: TextStyle(
                           fontSize: 12,
                           fontWeight: FontWeight.w500,
-                          color: Color(0xFF64748B),
+                          color: subtitleColor,
                         ),
                       ),
                     ],
@@ -423,27 +455,27 @@ class SupportScreen extends ConsumerWidget {
                   decoration: BoxDecoration(
                     color: buttonColor,
                     borderRadius: BorderRadius.circular(12),
-                    border: buttonBorderColor != null 
-                        ? Border.all(color: buttonBorderColor) 
+                    border: buttonBorderColor != null
+                        ? Border.all(color: buttonBorderColor)
                         : null,
                     boxShadow: isPrimary
                         ? [
                             BoxShadow(
-                              color: AppColors.primaryBlue.withOpacity(0.3),
+                              color: AppColors.primaryBlueFor(isDark).withOpacity(0.35),
                               blurRadius: 12,
-                              offset: const Offset(0, 4),
+                              offset: Offset(0, 4),
                             ),
                           ]
                         : [
                             BoxShadow(
-                              color: Colors.black.withOpacity(0.05),
+                              color: Colors.black.withOpacity(isDark ? 0.2 : 0.05),
                               blurRadius: 4,
-                              offset: const Offset(0, 2),
+                              offset: Offset(0, 2),
                             ),
                           ],
                   ),
                   child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                    padding: EdgeInsets.symmetric(horizontal: 16, vertical: 10),
                     child: Text(
                       buttonText,
                       style: TextStyle(

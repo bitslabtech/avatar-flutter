@@ -469,7 +469,7 @@ class _ProductAddEditScreenState extends ConsumerState<ProductAddEditScreen> {
                  subtitle: Text('Visible to customers', style: TextStyle(color: isDark ? Colors.grey : Colors.grey.shade600, fontSize: 12)),
                  value: _isActive,
                  onChanged: (v) => setState(() => _isActive = v),
-                 activeColor: AppColors.primaryBlue,
+                 activeColor: Theme.of(context).colorScheme.primary,
                  contentPadding: EdgeInsets.zero,
                ),
                // Removed Installation Required Switch
@@ -499,7 +499,7 @@ class _ProductAddEditScreenState extends ConsumerState<ProductAddEditScreen> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   _buildSectionTitle(isDark, 'Images'),
-                   IconButton(onPressed: _pickAndUploadImage, icon: const Icon(Icons.add_photo_alternate, color: AppColors.primaryBlue)),
+                   IconButton(onPressed: _pickAndUploadImage, icon: Icon(Icons.add_photo_alternate, color: Theme.of(context).colorScheme.primary)),
                 ],
               ),
               Padding(
@@ -645,7 +645,7 @@ class _ProductAddEditScreenState extends ConsumerState<ProductAddEditScreen> {
         contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(16), borderSide: BorderSide(color: isDark ? Colors.grey.shade800 : Colors.grey.shade300)),
         enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(16), borderSide: BorderSide(color: isDark ? Colors.transparent : Colors.grey.shade300)),
-        focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(16), borderSide: const BorderSide(color: AppColors.primaryBlue, width: 1.5)),
+        focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(16), borderSide: BorderSide(color: Theme.of(context).colorScheme.primary, width: 1.5)),
         errorBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(16), borderSide: const BorderSide(color: Colors.red, width: 1.5)),
         focusedErrorBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(16), borderSide: const BorderSide(color: Colors.red, width: 1.5)),
         filled: true,

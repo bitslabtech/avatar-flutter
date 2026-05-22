@@ -93,80 +93,81 @@ class _ProductDetailScreenState extends ConsumerState<ProductDetailScreen> {
       body: productAsync.when(
         data: (product) => Stack(
           children: [
-            Column(
-              children: [
-                Expanded(
-                  child: SingleChildScrollView(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        // 1. Hero Image Carousel
-                        Center(
-                          child: ConstrainedBox(
-                            constraints: const BoxConstraints(maxWidth: 800), // Responsive Centering
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                _buildImageCarousel(context, product, isDark),
+            SafeArea(
+              bottom: false,
+              child: Column(
+                children: [
+                  Expanded(
+                    child: SingleChildScrollView(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          // 1. Hero Image Carousel
+                          Center(
+                            child: ConstrainedBox(
+                              constraints: const BoxConstraints(maxWidth: 800), // Responsive Centering
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  _buildImageCarousel(context, product, isDark),
 
-                                // Content
-                                Container(
-                                  padding: const EdgeInsets.fromLTRB(24, 24, 24, 100), // Fixed bottom padding for sticky bar
-                                  child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              // 2. Title & Price
-                              _buildHeader(context, product, primaryColor, isDark),
-                              
-                              const SizedBox(height: 12),
-                              
-                              // 3. Rating & Stock
-                              _buildRatingAndStock(context, isDark, primaryColor),
+                                  // Content
+                                  Container(
+                                    padding: const EdgeInsets.fromLTRB(24, 24, 24, 100), // Fixed bottom padding for sticky bar
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        // 2. Title & Price
+                                        _buildHeader(context, product, primaryColor, isDark),
+                                        
+                                        const SizedBox(height: 12),
+                                        
+                                        // 3. Rating & Stock
+                                        _buildRatingAndStock(context, isDark, primaryColor),
 
-                              // Variation Selector (New)
-                              _buildVariationSelector(context, product, isDark),
-                              
-                              const SizedBox(height: 24),
-                              
-                              // 4. Description
-                              _buildDescription(context, product.description, primaryColor, isDark),
+                                        // Variation Selector (New)
+                                        _buildVariationSelector(context, product, isDark),
+                                        
+                                        const SizedBox(height: 24),
+                                        
+                                        // 4. Description
+                                        _buildDescription(context, product.description, primaryColor, isDark),
 
-                              const SizedBox(height: 12),
-                              Divider(color: isDark ? Colors.grey[800] : Colors.grey[200]),
-                              const SizedBox(height: 12),
+                                        const SizedBox(height: 12),
+                                        Divider(color: isDark ? Colors.grey[800] : Colors.grey[200]),
+                                        const SizedBox(height: 12),
 
-                              // 5. Specifications
-                              if (product.specs != null && product.specs!.isNotEmpty) ...[
-                                Text(
-                                  'Specifications',
-                                  style: TextStyle(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.bold,
-                                    color: isDark ? textLight : textDark,
+                                        // 5. Specifications
+                                        if (product.specs != null && product.specs!.isNotEmpty) ...[
+                                          Text(
+                                            'Specifications',
+                                            style: TextStyle(
+                                              fontSize: 16,
+                                              fontWeight: FontWeight.bold,
+                                              color: isDark ? textLight : textDark,
+                                            ),
+                                          ),
+                                          const SizedBox(height: 12),
+                                          _buildSpecifications(context, product, isDark),
+                                          const SizedBox(height: 24),
+                                        ],
+
+                                        // 6. Reviews
+                                        _buildReviews(context, isDark, primaryColor), 
+                                      ],
+                                    ),
                                   ),
-                                ),
-                                const SizedBox(height: 12),
-                                _buildSpecifications(context, product, isDark),
-                                const SizedBox(height: 24),
-                              ],
-
-                              // 6. Reviews (Conditional - currently hidden as data missing)
-                              // 6. Reviews
-                              _buildReviews(context, isDark, primaryColor), 
-                            ],
+                                ],
+                              ),
+                            ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
-          ),
-        ),
-        // Stacking order continues
-      ],
-    ),
 
             // Top Buttons (Overlay)
             Positioned(
@@ -1205,7 +1206,7 @@ class _ProductDetailScreenState extends ConsumerState<ProductDetailScreen> {
                         ),
                         focusedBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(16),
-                          borderSide: const BorderSide(color: AppColors.primaryBlue, width: 1.5),
+                          borderSide: BorderSide(color: Theme.of(context).colorScheme.primary, width: 1.5),
                         ),
                         contentPadding: const EdgeInsets.all(16),
                       ),
@@ -1254,7 +1255,7 @@ class _ProductDetailScreenState extends ConsumerState<ProductDetailScreen> {
                          }
                       },
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: AppColors.primaryBlue,
+                        backgroundColor: Theme.of(context).colorScheme.primary,
                         foregroundColor: Colors.white,
                         padding: const EdgeInsets.symmetric(vertical: 16),
                         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),

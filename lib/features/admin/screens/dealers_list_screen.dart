@@ -78,10 +78,10 @@ class _DealersListScreenState extends ConsumerState<DealersListScreen> {
                             final filterMsg = tempFilter != null ? 'Filtering: ${tempFilter!.capitalize()}' : '';
                             final deletedMsg = tempShowDeleted ? 'Including deleted' : '';
                             final message = [filterMsg, deletedMsg].where((s) => s.isNotEmpty).join(' • ');
-                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(message), backgroundColor: AppColors.primaryBlue, behavior: SnackBarBehavior.floating, duration: const Duration(seconds: 2)));
+                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(message), backgroundColor: Theme.of(context).colorScheme.primary, behavior: SnackBarBehavior.floating, duration: Duration(seconds: 2)));
                           }
                         },
-                        style: ElevatedButton.styleFrom(backgroundColor: AppColors.primaryBlue, padding: const EdgeInsets.symmetric(vertical: 14), shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10))),
+                        style: ElevatedButton.styleFrom(backgroundColor: Theme.of(context).colorScheme.primary, padding: EdgeInsets.symmetric(vertical: 14), shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10))),
                         child: const Text('Apply Filter', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
                       ),
                     ),
@@ -104,8 +104,8 @@ class _DealersListScreenState extends ConsumerState<DealersListScreen> {
           children: [
             Container(
               width: 22, height: 22,
-              decoration: BoxDecoration(shape: BoxShape.circle, border: Border.all(color: isSelected ? AppColors.primaryBlue : (isDark ? Colors.grey : Colors.grey.shade400), width: 2)),
-              child: isSelected ? Center(child: Container(width: 12, height: 12, decoration: BoxDecoration(shape: BoxShape.circle, color: AppColors.primaryBlue))) : null,
+              decoration: BoxDecoration(shape: BoxShape.circle, border: Border.all(color: isSelected ? Theme.of(context).colorScheme.primary : (isDark ? Colors.grey : Colors.grey.shade400), width: 2)),
+              child: isSelected ? Center(child: Container(width: 12, height: 12, decoration: BoxDecoration(shape: BoxShape.circle, color: Theme.of(context).colorScheme.primary))) : null,
             ),
             const SizedBox(width: 12),
             Text(label, style: TextStyle(color: isDark ? Colors.white : Colors.black, fontSize: 16)),
@@ -128,10 +128,10 @@ class _DealersListScreenState extends ConsumerState<DealersListScreen> {
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(4),
                 border: Border.all(
-                  color: isChecked ? AppColors.primaryBlue : (isDark ? Colors.grey : Colors.grey.shade400),
+                  color: isChecked ? Theme.of(context).colorScheme.primary : (isDark ? Colors.grey : Colors.grey.shade400),
                   width: 2,
                 ),
-                color: isChecked ? AppColors.primaryBlue : Colors.transparent,
+                color: isChecked ? Theme.of(context).colorScheme.primary : Colors.transparent,
               ),
               child: isChecked
                   ? const Icon(Icons.check, size: 16, color: Colors.white)
@@ -265,11 +265,11 @@ class _DealersListScreenState extends ConsumerState<DealersListScreen> {
             child: Stack(
               children: [
                 IconButton(
-                  icon: Icon(Icons.tune, color: hasActiveFilter ? AppColors.primaryBlue : (isDark ? Colors.grey.shade500 : Colors.grey.shade400)),
+                  icon: Icon(Icons.tune, color: hasActiveFilter ? Theme.of(context).colorScheme.primary : (isDark ? Colors.grey.shade500 : Colors.grey.shade400)),
                   onPressed: () => _showFilterModal(context, isDark, currentFilter),
                 ),
                 if (hasActiveFilter)
-                  Positioned(top: 8, right: 8, child: Container(width: 8, height: 8, decoration: const BoxDecoration(color: AppColors.primaryBlue, shape: BoxShape.circle))),
+                  Positioned(top: 8, right: 8, child: Container(width: 8, height: 8, decoration: BoxDecoration(color: Theme.of(context).colorScheme.primary, shape: BoxShape.circle))),
               ],
             ),
           ),
@@ -289,12 +289,12 @@ class _DealersListScreenState extends ConsumerState<DealersListScreen> {
           );
         },
         style: ElevatedButton.styleFrom(
-          backgroundColor: AppColors.primaryBlue,
+          backgroundColor: Theme.of(context).colorScheme.primary,
           foregroundColor: Colors.white,
           minimumSize: const Size(double.infinity, 48),
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
           elevation: 2,
-          shadowColor: AppColors.primaryBlue.withOpacity(0.3),
+          shadowColor: Theme.of(context).colorScheme.primary.withOpacity(0.3),
         ),
         child: const Row(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -348,17 +348,17 @@ class _DealersListScreenState extends ConsumerState<DealersListScreen> {
                 Container(
                   padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
                   decoration: BoxDecoration(
-                    color: AppColors.primaryBlue.withOpacity(0.1),
+                    color: Theme.of(context).colorScheme.primary.withOpacity(0.1),
                     borderRadius: BorderRadius.circular(16),
-                    border: Border.all(color: AppColors.primaryBlue.withOpacity(0.3)),
+                    border: Border.all(color: Theme.of(context).colorScheme.primary.withOpacity(0.3)),
                   ),
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       Text(
                         currentFilter.capitalize(),
-                        style: const TextStyle(
-                          color: AppColors.primaryBlue,
+                        style: TextStyle(
+                          color: Theme.of(context).colorScheme.primary,
                           fontWeight: FontWeight.w600,
                           fontSize: 12,
                         ),
@@ -366,7 +366,7 @@ class _DealersListScreenState extends ConsumerState<DealersListScreen> {
                       const SizedBox(width: 6),
                       GestureDetector(
                         onTap: () => ref.read(dealerFilterProvider.notifier).state = null,
-                        child: const Icon(Icons.close, size: 14, color: AppColors.primaryBlue),
+                        child: Icon(Icons.close, size: 14, color: Theme.of(context).colorScheme.primary),
                       ),
                     ],
                   ),

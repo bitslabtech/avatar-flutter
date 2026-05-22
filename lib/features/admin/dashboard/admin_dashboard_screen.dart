@@ -68,10 +68,10 @@ class _AdminDashboardScreenState extends ConsumerState<AdminDashboardScreen> {
                 width: 64,
                 height: 64,
                 decoration: BoxDecoration(
-                  color: AppColors.primaryBlue.withOpacity(0.1),
+                  color: Theme.of(context).colorScheme.primary.withOpacity(0.1),
                   shape: BoxShape.circle,
                 ),
-                child: const Icon(Icons.exit_to_app_rounded, color: AppColors.primaryBlue, size: 32),
+                child: Icon(Icons.exit_to_app_rounded, color: Theme.of(context).colorScheme.primary, size: 32),
               ),
               const SizedBox(height: 20),
               Text('Exit App?',
@@ -103,7 +103,7 @@ class _AdminDashboardScreenState extends ConsumerState<AdminDashboardScreen> {
                     child: ElevatedButton(
                       onPressed: () => Navigator.of(ctx).pop(true),
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: AppColors.primaryBlue,
+                        backgroundColor: Theme.of(context).colorScheme.primary,
                         foregroundColor: Colors.white,
                         padding: const EdgeInsets.symmetric(vertical: 14),
                         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),

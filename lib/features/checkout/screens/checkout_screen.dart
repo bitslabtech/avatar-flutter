@@ -20,6 +20,21 @@ class CheckoutScreen extends ConsumerWidget {
     final borderColor = isDark ? const Color(0xFF323F67) : const Color(0xFFE5E7EB);
     final textColor = isDark ? Colors.white : Colors.black87;
 
+    // Auto-select the default address when the list loads, if nothing is selected yet
+    ref.listen<AsyncValue<List<Address>>>(addressProvider, (previous, next) {
+      next.whenData((addresses) {
+        if (addresses.isNotEmpty && checkoutState.selectedAddress == null) {
+          try {
+            final defaultAddr = addresses.firstWhere((a) => a.isDefault);
+            ref.read(checkoutProvider.notifier).selectAddress(defaultAddr);
+          } catch (_) {
+            // No default set — select the first address as fallback
+            ref.read(checkoutProvider.notifier).selectAddress(addresses.first);
+          }
+        }
+      });
+    });
+
     return Scaffold(
       backgroundColor: isDark ? const Color(0xFF101522) : const Color(0xFFF6F6F8),
       appBar: AppBar(
@@ -50,7 +65,7 @@ class CheckoutScreen extends ConsumerWidget {
                          Row(
                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                            children: [
-                             const Text('Step 2 of 3', style: TextStyle(color: AppColors.primaryBlue, fontWeight: FontWeight.bold, fontSize: 14)),
+                             Text('Step 2 of 3', style: TextStyle(color: Theme.of(context).colorScheme.primary, fontWeight: FontWeight.bold, fontSize: 14)),
                              Text('Place Order', style: TextStyle(color: isDark ? Colors.grey[400] : Colors.grey[500], fontSize: 12, fontWeight: FontWeight.w500)),
                            ],
                          ),
@@ -60,7 +75,7 @@ class CheckoutScreen extends ConsumerWidget {
                            child: LinearProgressIndicator(
                              value: 0.66,
                              backgroundColor: isDark ? Colors.grey[800] : Colors.grey[200],
-                             color: AppColors.primaryBlue,
+                             color: Theme.of(context).colorScheme.primary,
                              minHeight: 6,
                            ),
                          ),
@@ -95,10 +110,10 @@ class CheckoutScreen extends ConsumerWidget {
                               child: Container(
                                 padding: const EdgeInsets.all(16),
                                 decoration: BoxDecoration(
-                                  color: isSelected ? (isDark ? AppColors.primaryBlue.withOpacity(0.1) : Colors.blue.shade50) : surfaceColor,
+                                  color: isSelected ? (isDark ? Theme.of(context).colorScheme.primary.withOpacity(0.1) : Colors.blue.shade50) : surfaceColor,
                                   borderRadius: BorderRadius.circular(16),
                                   border: Border.all(
-                                    color: isSelected ? AppColors.primaryBlue : borderColor,
+                                    color: isSelected ? Theme.of(context).colorScheme.primary : borderColor,
                                     width: isSelected ? 2 : 1,
                                   ),
                                 ),
@@ -106,7 +121,7 @@ class CheckoutScreen extends ConsumerWidget {
                                   children: [
                                     Icon(
                                       address.type == 'Home' ? Icons.home_outlined : Icons.work_outline,
-                                      color: isSelected ? AppColors.primaryBlue : (isDark?Colors.white70:Colors.grey.shade600)
+                                      color: isSelected ? Theme.of(context).colorScheme.primary : (isDark?Colors.white70:Colors.grey.shade600)
                                     ),
                                     const SizedBox(width: 12),
                                     Expanded(
@@ -121,10 +136,10 @@ class CheckoutScreen extends ConsumerWidget {
                                                   margin: const EdgeInsets.only(left: 8),
                                                   padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
                                                   decoration: BoxDecoration(
-                                                    color: AppColors.primaryBlue.withOpacity(0.1),
+                                                    color: Theme.of(context).colorScheme.primary.withOpacity(0.1),
                                                     borderRadius: BorderRadius.circular(4),
                                                   ),
-                                                  child: const Text('DEFAULT', style: TextStyle(fontSize: 10, color: AppColors.primaryBlue, fontWeight: FontWeight.bold)),
+                                                  child: Text('DEFAULT', style: TextStyle(fontSize: 10, color: Theme.of(context).colorScheme.primary, fontWeight: FontWeight.bold)),
                                                 ),
                                             ],
                                           ),
@@ -137,7 +152,7 @@ class CheckoutScreen extends ConsumerWidget {
                                     Radio<String>(
                                       value: address.id,
                                       groupValue: checkoutState.selectedAddress?.id,
-                                      activeColor: AppColors.primaryBlue,
+                                      activeColor: Theme.of(context).colorScheme.primary,
                                       onChanged: (val) => ref.read(checkoutProvider.notifier).selectAddress(address),
                                     ),
                                   ],
@@ -220,7 +235,7 @@ class CheckoutScreen extends ConsumerWidget {
                   }
               },
             style: ElevatedButton.styleFrom(
-              backgroundColor: AppColors.primaryBlue,
+              backgroundColor: Theme.of(context).colorScheme.primary,
               foregroundColor: Colors.white,
               padding: const EdgeInsets.symmetric(vertical: 16),
               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),

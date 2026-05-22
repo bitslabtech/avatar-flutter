@@ -182,7 +182,7 @@ class RevenueCard extends StatelessWidget {
           LineChartBarData(
             spots: spots,
             isCurved: true,
-            color: AppColors.primaryBlue,
+            color: AppColors.primaryBlueFor(isDark),
             barWidth: 2.5,
             isStrokeCapRound: true,
             dotData: const FlDotData(show: false), // Hide dots by default like design
@@ -192,8 +192,8 @@ class RevenueCard extends StatelessWidget {
                 begin: Alignment.topCenter,
                 end: Alignment.bottomCenter,
                 colors: [
-                  AppColors.primaryBlue.withValues(alpha: 0.2),
-                  AppColors.primaryBlue.withValues(alpha: 0.0),
+                  AppColors.primaryBlueFor(isDark).withValues(alpha: 0.2),
+                  AppColors.primaryBlueFor(isDark).withValues(alpha: 0.0),
                 ],
               ),
             ),

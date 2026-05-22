@@ -88,7 +88,7 @@ class _OrderHistoryScreenState extends ConsumerState<OrderHistoryScreen> {
                           const SizedBox(height: 12),
                           Text('Date: ${order.createdAt.toString().split(' ')[0]}', style: TextStyle(color: isDark ? Colors.grey : Colors.grey.shade600)),
                           const SizedBox(height: 8),
-                          Text('Total: ${order.grandTotalDisplay}', style: const TextStyle(fontWeight: FontWeight.bold, color: AppColors.primaryBlue)),
+                          Text('Total: ${order.grandTotalDisplay}', style: TextStyle(fontWeight: FontWeight.bold, color: Theme.of(context).colorScheme.primary)),
                           const SizedBox(height: 12),
                           Divider(color: borderColor),
                           const SizedBox(height: 8),
@@ -100,8 +100,8 @@ class _OrderHistoryScreenState extends ConsumerState<OrderHistoryScreen> {
                                  ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Order Details coming soon')));
                               },
                               style: OutlinedButton.styleFrom(
-                                foregroundColor: AppColors.primaryBlue,
-                                side: BorderSide(color: AppColors.primaryBlue.withOpacity(0.5)),
+                                foregroundColor: Theme.of(context).colorScheme.primary,
+                                side: BorderSide(color: Theme.of(context).colorScheme.primary.withOpacity(0.5)),
                               ),
                               child: const Text('View Details'),
                             ),

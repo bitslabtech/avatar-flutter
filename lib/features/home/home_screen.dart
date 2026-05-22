@@ -146,20 +146,20 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
           },
           child: CustomScrollView(
             slivers: [
-              // 1. Sticky Header (Menu, Title, Cart)
+              // 1. Sticky Header (Logo, Cart)
               SliverAppBar(
                 floating: false,
                 pinned: true,
                 backgroundColor: theme.scaffoldBackgroundColor,
                 surfaceTintColor: Colors.transparent,
                 elevation: 0,
-                leading: IconButton(
-                  icon: Icon(Icons.menu, color: theme.iconTheme.color),
-                  onPressed: () {}, // Menu action
-                ),
-                title: Text(
-                  'Home Appliances',
-                  style: theme.textTheme.titleLarge,
+                automaticallyImplyLeading: false,
+                title: Image.asset(
+                  isDark
+                      ? 'assets/logo/skw-avatar-logo-dark.png'
+                      : 'assets/logo/skw-avatar-logo-light.png',
+                  height: 36,
+                  fit: BoxFit.contain,
                 ),
                 centerTitle: true,
                 actions: [
@@ -178,8 +178,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                             child: Container(
                               width: 10,
                               height: 10,
-                              decoration: const BoxDecoration(
-                                color: AppColors.primaryBlue,
+                              decoration: BoxDecoration(
+                                color: AppColors.primaryBlueFor(isDark),
                                 shape: BoxShape.circle,
                                 border: Border.fromBorderSide(BorderSide(color: Colors.white, width: 2)),
                               ),

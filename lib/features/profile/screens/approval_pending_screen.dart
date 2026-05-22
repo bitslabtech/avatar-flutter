@@ -38,19 +38,19 @@ class ApprovalPendingScreen extends ConsumerWidget {
                         decoration: BoxDecoration(
                           color: isRejected 
                               ? Colors.red.withOpacity(isDark ? 0.1 : 0.05)
-                              : AppColors.primaryBlue.withOpacity(isDark ? 0.1 : 0.05),
+                              : Theme.of(context).colorScheme.primary.withOpacity(isDark ? 0.1 : 0.05),
                           shape: BoxShape.circle,
                           border: Border.all(
                             color: isRejected 
                                 ? Colors.red.withOpacity(0.2)
-                                : AppColors.primaryBlue.withOpacity(0.2),
+                                : Theme.of(context).colorScheme.primary.withOpacity(0.2),
                             width: 1,
                           ),
                         ),
                         child: Icon(
                           isRejected ? Icons.cancel_outlined : Icons.hourglass_top,
                           size: 48,
-                          color: isRejected ? Colors.red : AppColors.primaryBlue,
+                          color: isRejected ? Colors.red : Theme.of(context).colorScheme.primary,
                         ),
                       ),
                       const SizedBox(height: 32),
@@ -106,12 +106,12 @@ class ApprovalPendingScreen extends ConsumerWidget {
                             Container(
                               padding: const EdgeInsets.all(8),
                               decoration: BoxDecoration(
-                                color: AppColors.primaryBlue.withOpacity(0.1),
+                                color: Theme.of(context).colorScheme.primary.withOpacity(0.1),
                                 borderRadius: BorderRadius.circular(8),
                               ),
-                              child: const Icon(
+                              child: Icon(
                                 Icons.support_agent,
-                                color: AppColors.primaryBlue,
+                                color: Theme.of(context).colorScheme.primary,
                                 size: 24,
                               ),
                             ),
@@ -147,8 +147,8 @@ class ApprovalPendingScreen extends ConsumerWidget {
                                       icon: const Icon(Icons.mail_outline, size: 18),
                                       label: const Text('Contact Support'),
                                       style: OutlinedButton.styleFrom(
-                                        foregroundColor: AppColors.primaryBlue,
-                                        side: BorderSide(color: AppColors.primaryBlue),
+                                        foregroundColor: Theme.of(context).colorScheme.primary,
+                                        side: BorderSide(color: Theme.of(context).colorScheme.primary),
                                         padding: const EdgeInsets.symmetric(horizontal: 16),
                                         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
                                       ),
@@ -180,8 +180,8 @@ class ApprovalPendingScreen extends ConsumerWidget {
                       icon: const Icon(Icons.home),
                       label: const Text('Go to Home'),
                       style: OutlinedButton.styleFrom(
-                        foregroundColor: AppColors.primaryBlue,
-                        side: BorderSide(color: AppColors.primaryBlue),
+                        foregroundColor: Theme.of(context).colorScheme.primary,
+                        side: BorderSide(color: Theme.of(context).colorScheme.primary),
                         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                       ),
                     ),

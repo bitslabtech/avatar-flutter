@@ -209,10 +209,10 @@ class _AdminManagementScreenState extends ConsumerState<AdminManagementScreen> {
                       width: 40,
                       height: 40,
                       decoration: BoxDecoration(
-                        color: AppColors.primaryBlue.withOpacity(0.1),
+                        color: Theme.of(context).colorScheme.primary.withOpacity(0.1),
                         shape: BoxShape.circle,
                       ),
-                      child: const Icon(Icons.add_circle, color: AppColors.primaryBlue, size: 28),
+                      child: Icon(Icons.add_circle, color: Theme.of(context).colorScheme.primary, size: 28),
                     ),
                   ),
                 ],
@@ -435,18 +435,18 @@ class _AdminManagementScreenState extends ConsumerState<AdminManagementScreen> {
                  width: double.infinity,
                  padding: const EdgeInsets.symmetric(vertical: 8),
                  decoration: BoxDecoration(
-                   color: AppColors.primaryBlue.withOpacity(0.1),
+                   color: Theme.of(context).colorScheme.primary.withOpacity(0.1),
                    borderRadius: BorderRadius.circular(8),
                  ),
                  child: Row(
                    mainAxisAlignment: MainAxisAlignment.center,
                    children: [
-                     const Icon(Icons.history, size: 16, color: AppColors.primaryBlue),
+                     Icon(Icons.history, size: 16, color: Theme.of(context).colorScheme.primary),
                      const SizedBox(width: 6),
-                     const Text(
+                     Text(
                        'Logs',
                        style: TextStyle(
-                         color: AppColors.primaryBlue,
+                         color: Theme.of(context).colorScheme.primary,
                          fontSize: 12,
                          fontWeight: FontWeight.bold,
                        ),
@@ -679,7 +679,7 @@ class _CreateAdminSheetState extends ConsumerState<_CreateAdminSheet> {
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
-          borderSide: const BorderSide(color: AppColors.primaryBlue, width: 1.5),
+          borderSide: BorderSide(color: Theme.of(context).colorScheme.primary, width: 1.5),
         ),
         errorBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
