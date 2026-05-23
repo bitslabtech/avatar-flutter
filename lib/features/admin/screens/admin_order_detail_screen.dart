@@ -6,12 +6,19 @@ import 'package:avatar_app/core/theme/app_colors.dart';
 import 'package:avatar_app/core/utils/currency_utils.dart';
 import 'package:avatar_app/models/order.dart';
 import 'package:avatar_app/providers/order_provider.dart';
+import 'dart:io';
+import 'package:flutter/foundation.dart';
+import 'package:file_picker/file_picker.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:open_filex/open_filex.dart';
 import 'package:avatar_app/widgets/common/loading_indicator.dart';
 import 'package:avatar_app/widgets/common/error_widget.dart';
 import 'package:avatar_app/features/admin/widgets/product_picker_dialog.dart';
 import 'package:avatar_app/features/admin/providers/orders_provider.dart' as admin;
 import 'package:avatar_app/models/order_item.dart';
 import 'package:avatar_app/models/product.dart';
+import 'package:avatar_app/services/order_service.dart';
+import 'package:avatar_app/providers/cart_provider.dart'; // for orderServiceProvider
 
 class AdminOrderDetailScreen extends ConsumerStatefulWidget {
   final String orderId;
@@ -35,6 +42,7 @@ class _AdminOrderDetailScreenState extends ConsumerState<AdminOrderDetailScreen>
   DateTime? _estimatedDeliveryDate;
   bool _isDirty = false;
   bool _isEditingItems = false;
+  bool _isDownloading = false;
   List<OrderItem> _localItems = [];
 
   @override
@@ -157,6 +165,113 @@ class _AdminOrderDetailScreenState extends ConsumerState<AdminOrderDetailScreen>
           SnackBar(content: Text('Error updating order: $e'), backgroundColor: Colors.red),
         );
       }
+    }
+  }
+
+  Future<void> _downloadInvoice() async {
+    if (_isDownloading) return;
+    setState(() => _isDownloading = true);
+
+    try {
+      final orderService = ref.read(orderServiceProvider);
+      final bytes = await orderService.downloadInvoice(widget.orderId);
+      final fileName = 'Invoice_${widget.orderId.substring(0, 8).toUpperCase()}.pdf';
+
+      if (kIsWeb) {
+        // Web: not fully supported in mobile-first app; show message
+        if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('Web download not supported. Use mobile app.')),
+          );
+        }
+        return;
+      }
+
+      if (Platform.isWindows || Platform.isMacOS || Platform.isLinux) {
+        // Desktop: show save file dialog
+        final path = await FilePicker.platform.saveFile(
+          dialogTitle: 'Save Invoice',
+          fileName: fileName,
+          type: FileType.custom,
+          allowedExtensions: ['pdf'],
+          bytes: bytes,
+        );
+        if (path != null) {
+          final file = File(path);
+          await file.writeAsBytes(bytes);
+          if (mounted) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Row(
+                  children: [
+                    const Icon(Icons.check_circle, color: Colors.white, size: 18),
+                    const SizedBox(width: 8),
+                    Expanded(child: Text('Invoice saved to $path')),
+                  ],
+                ),
+                backgroundColor: Colors.green[700],
+                duration: const Duration(seconds: 4),
+                action: SnackBarAction(
+                  label: 'VIEW',
+                  textColor: Colors.white,
+                  onPressed: () => OpenFilex.open(path),
+                ),
+              ),
+            );
+          }
+        }
+      } else {
+        // Mobile (Android / iOS): save to Downloads / Documents
+        Directory? dir;
+        if (Platform.isAndroid) {
+          dir = Directory('/storage/emulated/0/Download');
+          if (!await dir.exists()) dir = await getApplicationDocumentsDirectory();
+        } else {
+          dir = await getApplicationDocumentsDirectory();
+        }
+
+        final file = File('${dir.path}/$fileName');
+        await file.writeAsBytes(bytes);
+
+        if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Row(
+                children: [
+                  const Icon(Icons.picture_as_pdf, color: Colors.white, size: 18),
+                  const SizedBox(width: 8),
+                  Expanded(child: Text('Invoice saved: ${file.path}')),
+                ],
+              ),
+              backgroundColor: Colors.green[700],
+              duration: const Duration(seconds: 5),
+              action: SnackBarAction(
+                label: 'VIEW',
+                textColor: Colors.white,
+                onPressed: () => OpenFilex.open(file.path),
+              ),
+            ),
+          );
+        }
+      }
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Row(
+              children: [
+                const Icon(Icons.error_outline, color: Colors.white, size: 18),
+                const SizedBox(width: 8),
+                Expanded(child: Text('Failed to download invoice: ${e.toString().replaceAll('Exception: ', '')}')),
+              ],
+            ),
+            backgroundColor: Colors.red[700],
+            duration: const Duration(seconds: 4),
+          ),
+        );
+      }
+    } finally {
+      if (mounted) setState(() => _isDownloading = false);
     }
   }
 
@@ -333,9 +448,12 @@ class _AdminOrderDetailScreenState extends ConsumerState<AdminOrderDetailScreen>
                           ),
                           const SizedBox(width: 8),
                           // Download Button (10%)
-                          _buildFooterIconButton(Icons.download, Colors.grey[400]!, () {
-                             // Download action
-                          }),
+                          _isDownloading 
+                              ? const SizedBox(
+                                  width: 48, height: 48, 
+                                  child: Center(child: SizedBox(width: 20, height: 20, child: CircularProgressIndicator(strokeWidth: 2)))
+                                )
+                              : _buildFooterIconButton(Icons.download, Colors.grey[400]!, _downloadInvoice),
                           const SizedBox(width: 8),
                           // Save Button (40%)
                           Expanded(
@@ -700,17 +818,34 @@ class _AdminOrderDetailScreenState extends ConsumerState<AdminOrderDetailScreen>
             ),
           ],
           const SizedBox(height: 16),
-          // Totals - calculate dynamically from _localItems
+          // Totals - calculate dynamically if editing, otherwise use actual order totals
           Builder(builder: (context) {
+            if (!_isEditingItems) {
+              return Column(
+                children: [
+                  _buildTotalRow('Subtotal', order.subtotalDisplay, isDark),
+                  if (order.discountAppliedPaise > 0)
+                    _buildTotalRow('Discount', '-${order.discountDisplay}', isDark, valueColor: Colors.green),
+                  _buildTotalRow('Tax (GST)', order.taxDisplay, isDark),
+                  _buildTotalRow('Shipping', order.courierFeeDisplay, isDark),
+                  const Divider(),
+                  _buildTotalRow('Total Amount', order.grandTotalDisplay, isDark, isBold: true),
+                ],
+              );
+            }
+
             final subtotalPaise = _localItems.fold<int>(0, (sum, item) => sum + item.lineTotalDpPaise);
             final taxPaise = _localItems.fold<int>(0, (sum, item) => sum + ((item.lineTotalDpPaise * item.taxPercent) / 100).round());
+            // Since editing discards discount currently, we calculate dynamic total without it
+            final dynamicTotal = subtotalPaise + taxPaise + order.courierFeePaise;
+            
             return Column(
               children: [
                 _buildTotalRow('Subtotal', CurrencyUtils.formatPaise(subtotalPaise), isDark),
                 _buildTotalRow('Tax (GST)', CurrencyUtils.formatPaise(taxPaise), isDark),
                 _buildTotalRow('Shipping', order.courierFeeDisplay, isDark),
                 const Divider(),
-                _buildTotalRow('Total Amount', CurrencyUtils.formatPaise(subtotalPaise + taxPaise + order.courierFeePaise), isDark, isBold: true),
+                _buildTotalRow('Total Amount', CurrencyUtils.formatPaise(dynamicTotal), isDark, isBold: true),
               ],
             );
           }),
@@ -936,9 +1071,9 @@ class _AdminOrderDetailScreenState extends ConsumerState<AdminOrderDetailScreen>
             decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.circular(8),
-              image: item.imageUrl != null ? DecorationImage(image: NetworkImage(item.imageUrl!), fit: BoxFit.cover) : null,
+              image: item.resolvedImageUrl != null ? DecorationImage(image: NetworkImage(item.resolvedImageUrl!), fit: BoxFit.cover) : null,
             ),
-            child: item.imageUrl == null ? const Icon(Icons.image_not_supported, size: 20, color: Colors.grey) : null,
+            child: item.resolvedImageUrl == null ? const Icon(Icons.image_not_supported, size: 20, color: Colors.grey) : null,
           ),
           const SizedBox(width: 12),
           Expanded(

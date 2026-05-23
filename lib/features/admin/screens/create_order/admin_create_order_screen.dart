@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/utils/currency_utils.dart';
+import '../../../../models/user.dart';
 import '../../providers/create_order_provider.dart';
 import '../../providers/orders_provider.dart';
 import 'step_1_user_selection.dart';
@@ -10,11 +11,36 @@ import 'step_2_product_selection.dart';
 import 'step_2_address_selection.dart';
 import 'step_3_review_cart.dart';
 
-class AdminCreateOrderScreen extends ConsumerWidget {
-  const AdminCreateOrderScreen({super.key});
+class AdminCreateOrderScreen extends ConsumerStatefulWidget {
+  final User? preSelectedUser;
+
+  const AdminCreateOrderScreen({super.key, this.preSelectedUser});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<AdminCreateOrderScreen> createState() => _AdminCreateOrderScreenState();
+}
+
+class _AdminCreateOrderScreenState extends ConsumerState<AdminCreateOrderScreen> {
+  bool _hasInitialized = false;
+
+  @override
+  void initState() {
+    super.initState();
+    // Schedule the pre-selection for after the first frame so the provider is alive
+    if (widget.preSelectedUser != null) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (!_hasInitialized && mounted) {
+          _hasInitialized = true;
+          final notifier = ref.read(createOrderProvider.notifier);
+          notifier.selectUser(widget.preSelectedUser!);
+          notifier.setStep(1); // Jump to product selection
+        }
+      });
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final state = ref.watch(createOrderProvider);
     final notifier = ref.read(createOrderProvider.notifier);
     final isDark = Theme.of(context).brightness == Brightness.dark;
@@ -90,7 +116,7 @@ class AdminCreateOrderScreen extends ConsumerWidget {
             
             // Next Button
             Expanded(
-              flex: 1, // Reduced size (matches Back button size now, effectively smaller than flex 2)
+              flex: 1,
               child: ElevatedButton(
                 onPressed: state.isLoading ? null : () => _handleNext(context, ref, state),
                 style: ElevatedButton.styleFrom(
@@ -161,7 +187,6 @@ class AdminCreateOrderScreen extends ConsumerWidget {
   }
 
   Widget _buildStep(bool isDark, int stepIndex, String label, int currentStep) {
-    // Current or Passed
     final isActive = stepIndex <= currentStep;
     final isCurrent = stepIndex == currentStep;
     
@@ -206,7 +231,7 @@ class AdminCreateOrderScreen extends ConsumerWidget {
        child: Container(
          height: 2,
          color: isActive ? AppColors.primaryBlueFor(isDark) : (isDark ? Colors.grey.shade800 : Colors.grey.shade200),
-         margin: const EdgeInsets.only(bottom: 20), // Align with circle center approximates
+         margin: const EdgeInsets.only(bottom: 20),
        ),
     );
   }

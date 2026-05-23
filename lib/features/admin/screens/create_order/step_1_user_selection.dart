@@ -36,7 +36,14 @@ class _Step1UserSelectionState extends ConsumerState<Step1UserSelection> {
     final isDark = Theme.of(context).brightness == Brightness.dark;
 
     // Filter consumers and dealers for order creation
-    final customers = userState.filteredUsers.where((u) => u.role == 'consumer' || u.role == 'dealer').toList();
+    final isSearching = _searchController.text.trim().isNotEmpty;
+    final customers = userState.filteredUsers.where((u) {
+      if (isSearching) {
+        return u.role == 'consumer' || u.role == 'dealer';
+      } else {
+        return u.role == 'dealer';
+      }
+    }).toList();
     
     return Column(
       children: [

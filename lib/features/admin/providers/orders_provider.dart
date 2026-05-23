@@ -112,6 +112,9 @@ class OrdersNotifier extends StateNotifier<OrdersState> {
           .toList();
 
       final merged = reset ? newOrders : [...state.orders, ...newOrders];
+      
+      // Explicitly guarantee sorting by createdAt DESC (newest at top)
+      merged.sort((a, b) => b.createdAt.compareTo(a.createdAt));
 
       state = state.copyWith(
         orders: merged,

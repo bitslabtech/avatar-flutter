@@ -85,6 +85,15 @@ class ProfileScreen extends ConsumerWidget {
                              context.push('/profile/addresses');
                           },
                         ),
+                        _buildAccountItem(
+                          context,
+                          isDark,
+                          icon: Icons.policy_outlined,
+                          title: 'Policies',
+                          onTap: () {
+                             context.pushNamed('policies');
+                          },
+                        ),
 
                         _buildAccountItem(
                           context,

@@ -214,7 +214,7 @@ class OrderService {
       try {
         final orders = await getOrders(status: 'draft');
         if (orders.isEmpty) return null;
-        orders.sort((a, b) => b.updatedAt.compareTo(a.updatedAt));
+        orders.sort((a, b) => b.createdAt.compareTo(a.createdAt));
         return orders.first;
       } catch (_) {
         return null;

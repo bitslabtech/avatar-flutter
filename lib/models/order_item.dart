@@ -51,9 +51,13 @@ class OrderItem {
     }
 
     String? parseImageUrl(Map<String, dynamic> json) {
-      // 1. Try direct imageUrl field
+      // 1. Try direct imageUrl field (camelCase)
       if (json['imageUrl'] != null && (json['imageUrl'] as String).isNotEmpty) {
         return json['imageUrl'] as String;
+      }
+      // 1.5 Try direct image_url field (snake_case from raw queries)
+      if (json['image_url'] != null && (json['image_url'] as String).isNotEmpty) {
+        return json['image_url'] as String;
       }
       // 2. Fallback to product.images[0] if product relation is expanded
       if (json['product'] != null && json['product'] is Map) {

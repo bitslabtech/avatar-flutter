@@ -73,13 +73,52 @@ class AdminPolicyListScreen extends ConsumerWidget {
                       fontWeight: FontWeight.w500,
                     ),
                   ),
-                  trailing: Container(
-                    padding: const EdgeInsets.all(8),
-                     decoration: BoxDecoration(
-                      color: Theme.of(context).colorScheme.primary.withValues(alpha: 0.1),
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    child: Icon(Icons.edit, size: 20, color: Theme.of(context).colorScheme.primary),
+                  trailing: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Container(
+                        padding: const EdgeInsets.all(8),
+                        decoration: BoxDecoration(
+                          color: Theme.of(context).colorScheme.primary.withValues(alpha: 0.1),
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        child: Icon(Icons.edit, size: 20, color: Theme.of(context).colorScheme.primary),
+                      ),
+                      const SizedBox(width: 8),
+                      InkWell(
+                        onTap: () {
+                          showDialog(
+                            context: context,
+                            builder: (context) => AlertDialog(
+                              title: const Text('Delete Policy'),
+                              content: Text('Are you sure you want to delete ${content.title}?'),
+                              actions: [
+                                TextButton(
+                                  onPressed: () => context.pop(),
+                                  child: const Text('Cancel'),
+                                ),
+                                ElevatedButton(
+                                  style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
+                                  onPressed: () {
+                                    context.pop();
+                                    ref.read(contentListProvider.notifier).deleteContent(content.key);
+                                  },
+                                  child: const Text('Delete', style: TextStyle(color: Colors.white)),
+                                ),
+                              ],
+                            ),
+                          );
+                        },
+                        child: Container(
+                          padding: const EdgeInsets.all(8),
+                          decoration: BoxDecoration(
+                            color: Colors.red.withValues(alpha: 0.1),
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          child: const Icon(Icons.delete, size: 20, color: Colors.red),
+                        ),
+                      ),
+                    ],
                   ),
                   onTap: () {
                     context.pushNamed('admin-policy-edit', pathParameters: {'key': content.key});
@@ -91,6 +130,11 @@ class AdminPolicyListScreen extends ConsumerWidget {
         },
         loading: () => const Center(child: LoadingIndicator()),
         error: (err, stack) => Center(child: Text('Error: $err', style: const TextStyle(color: Colors.red))),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () => context.pushNamed('admin-policy-add'),
+        backgroundColor: Theme.of(context).colorScheme.primary,
+        child: const Icon(Icons.add, color: Colors.white),
       ),
     );
   }

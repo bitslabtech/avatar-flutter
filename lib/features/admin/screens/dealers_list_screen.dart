@@ -564,18 +564,58 @@ class _DealerCard extends ConsumerWidget {
                       borderRadius: BorderRadius.circular(20),
                       border: Border.all(color: _getStatusBorderColor(user.status)),
                     ),
-                    child: Text(
-                      user.status == 'approved' ? 'Active' : user.status.capitalize(),
-                      style: TextStyle(
-                        color: _getStatusColor(user.status),
-                        fontSize: 12,
-                        fontWeight: FontWeight.w600,
-                      ),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Container(
+                          width: 8,
+                          height: 8,
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: _getStatusColor(user.status),
+                            boxShadow: [
+                              BoxShadow(
+                                color: _getStatusColor(user.status).withOpacity(0.4),
+                                blurRadius: 4,
+                                spreadRadius: 1,
+                              ),
+                            ],
+                          ),
+                        ),
+                        const SizedBox(width: 6),
+                        Text(
+                          user.status == 'approved' ? 'Active' : user.status.capitalize(),
+                          style: TextStyle(
+                            color: _getStatusColor(user.status),
+                            fontSize: 12,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                 ],
               ),
-              const SizedBox(width: 12),
+              const SizedBox(width: 8),
+              if (user.status != 'rejected')
+                IconButton(
+                  icon: Icon(Icons.add_shopping_cart, color: Theme.of(context).colorScheme.primary),
+                  tooltip: 'Place Order',
+                  onPressed: () {
+                    // Pass dealer as route extra so AdminCreateOrderScreen auto-selects and skips to step 2
+                    context.pushNamed('admin-create-order', extra: user);
+                  },
+                )
+              else
+                IconButton(
+                  icon: Icon(Icons.add_shopping_cart, color: Colors.grey.shade400),
+                  tooltip: 'Cannot place order for rejected dealer',
+                  onPressed: () {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(content: Text('Cannot create order for a rejected dealer'), backgroundColor: Colors.red),
+                    );
+                  },
+                ),
               Icon(Icons.expand_more, color: isDark ? Colors.grey.shade600 : Colors.grey.shade400),
             ],
           ),

@@ -128,7 +128,7 @@ class _AddDealerScreenState extends ConsumerState<AddDealerScreen> {
                   keyboardType: TextInputType.phone,
                   validator: (value) {
                     if (value == null || value.isEmpty) return 'Please enter phone number';
-                    if (value.length < 10) return 'Please enter valid phone number';
+                    if (value.length != 10 || !RegExp(r'^[0-9]+$').hasMatch(value)) return 'Phone must be exactly 10 digits';
                     return null;
                   },
                 ),

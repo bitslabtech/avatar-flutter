@@ -333,7 +333,11 @@ class _UserAddEditScreenState extends ConsumerState<UserAddEditScreen> {
               const SizedBox(height: 16),
               _buildTextField(isDark, 'Full Name', _nameController, Icons.person, validator: (v) => v == null || v.isEmpty ? 'Name is required' : null),
               const SizedBox(height: 16),
-              _buildTextField(isDark, 'Phone Number', _phoneController, Icons.phone, keyboardType: TextInputType.phone, validator: (v) => v == null || v.length < 10 ? 'Valid phone required' : null),
+              _buildTextField(isDark, 'Phone Number', _phoneController, Icons.phone, keyboardType: TextInputType.phone, validator: (v) {
+                if (v == null || v.isEmpty) return 'Phone number is required';
+                if (v.length != 10 || !RegExp(r'^[0-9]+$').hasMatch(v)) return 'Phone must be exactly 10 digits';
+                return null;
+              }),
               const SizedBox(height: 16),
               _buildTextField(isDark, 'Email Address', _emailController, Icons.email, keyboardType: TextInputType.emailAddress, validator: (v) {
                 if (v == null || v.isEmpty) return null; // Optional

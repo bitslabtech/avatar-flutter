@@ -1,5 +1,6 @@
 /// Authentication state provider using Riverpod
 /// Manages user authentication state, tokens, and auth operations
+import 'dart:async';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../core/api/api_client.dart';
 import '../services/auth_service.dart';
@@ -48,9 +49,26 @@ class AuthState {
 // Auth state notifier
 class AuthNotifier extends StateNotifier<AuthState> {
   final AuthService _authService;
+  final ApiClient _apiClient;
+  StreamSubscription<void>? _unauthSubscription;
 
-  AuthNotifier(this._authService) : super(AuthState()) {
+  AuthNotifier(this._authService, this._apiClient) : super(AuthState()) {
     _checkAuthStatus();
+    _unauthSubscription = _apiClient.onUnauthenticated.listen((_) {
+      _forceLogout();
+    });
+  }
+
+  @override
+  void dispose() {
+    _unauthSubscription?.cancel();
+    super.dispose();
+  }
+
+  Future<void> _forceLogout() async {
+    // A simplified logout to reset state instantly
+    await _authService.logout();
+    state = AuthState();
   }
 
   /// Check if user is authenticated on app start
@@ -230,6 +248,7 @@ class AuthNotifier extends StateNotifier<AuthState> {
 // Auth provider
 final authProvider = StateNotifierProvider<AuthNotifier, AuthState>((ref) {
   final authService = ref.watch(authServiceProvider);
-  return AuthNotifier(authService);
+  final apiClient = ref.watch(apiClientProvider);
+  return AuthNotifier(authService, apiClient);
 });
 

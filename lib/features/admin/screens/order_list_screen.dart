@@ -557,10 +557,6 @@ class _OrderListScreenState extends ConsumerState<OrderListScreen> {
               
               Row(
                 children: [
-                  _buildActionButton(isDark, Icons.visibility, Colors.grey, () {
-                    context.pushNamed('admin-order-detail', pathParameters: {'id': order.id});
-                  }),
-                  const SizedBox(width: 8),
                   _buildActionButton(isDark, Icons.edit, Colors.white, () {
                     final user = ref.read(authProvider).user;
                     if (user?.hasPermission('orders', 'update') != true) {
@@ -597,10 +593,31 @@ class _OrderListScreenState extends ConsumerState<OrderListScreen> {
   }
 
   String _formatTimeAgo(DateTime dateTime) {
-    final diff = DateTime.now().difference(dateTime);
-    if (diff.inDays > 0) return '${diff.inDays} days ago';
-    if (diff.inHours > 0) return '${diff.inHours} hours ago';
-    if (diff.inMinutes > 0) return '${diff.inMinutes} mins ago';
-    return 'Just now';
+    final now = DateTime.now();
+    final diff = now.difference(dateTime);
+
+    // Today: show time only
+    if (diff.inDays == 0 && dateTime.day == now.day) {
+      final hour = dateTime.hour % 12 == 0 ? 12 : dateTime.hour % 12;
+      final minute = dateTime.minute.toString().padLeft(2, '0');
+      final ampm = dateTime.hour >= 12 ? 'PM' : 'AM';
+      return 'Today, $hour:$minute $ampm';
+    }
+
+    // Yesterday
+    if (diff.inDays == 1 || (diff.inDays == 0 && dateTime.day != now.day)) {
+      final hour = dateTime.hour % 12 == 0 ? 12 : dateTime.hour % 12;
+      final minute = dateTime.minute.toString().padLeft(2, '0');
+      final ampm = dateTime.hour >= 12 ? 'PM' : 'AM';
+      return 'Yesterday, $hour:$minute $ampm';
+    }
+
+    // Older: show full date
+    const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+    final month = months[dateTime.month - 1];
+    final hour = dateTime.hour % 12 == 0 ? 12 : dateTime.hour % 12;
+    final minute = dateTime.minute.toString().padLeft(2, '0');
+    final ampm = dateTime.hour >= 12 ? 'PM' : 'AM';
+    return '${dateTime.day} $month ${dateTime.year}, $hour:$minute $ampm';
   }
 }

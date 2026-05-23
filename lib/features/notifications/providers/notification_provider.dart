@@ -7,6 +7,7 @@ import '../../../core/api/api_client.dart';
 import '../../../models/app_notification.dart';
 import '../services/notification_service.dart';
 import '../../notifications/services/notification_service.dart';
+import '../../admin/providers/settings_provider.dart';
 
 final notificationServiceProvider = Provider<NotificationService>((ref) {
   return NotificationService(ApiClient());
@@ -44,9 +45,10 @@ class NotificationState {
 class NotificationNotifier extends StateNotifier<NotificationState> {
   final NotificationService _service;
   final User? _currentUser;
+  final Ref _ref;
   Timer? _pollTimer;
 
-  NotificationNotifier(this._service, this._currentUser) : super(NotificationState()) {
+  NotificationNotifier(this._service, this._currentUser, this._ref) : super(NotificationState()) {
     // Start polling when provider is created
     _startPolling();
   }
@@ -69,6 +71,21 @@ class NotificationNotifier extends StateNotifier<NotificationState> {
   bool _hasNotificationPermission(AppNotification notification) {
     if (_currentUser == null) return false;
     
+    // Apply local admin alert settings first!
+    if (_currentUser!.isAdmin || _currentUser!.isSuperAdmin) {
+      final settings = _ref.read(adminSettingsProvider);
+      
+      if (notification.type == 'new_user' || notification.type == 'new_user_registered') {
+        if (!settings.newConsumerAlert) return false;
+      }
+      if (notification.type == 'new_dealer' || notification.type == 'new_dealer_registered') {
+        if (!settings.newDealerAlert) return false;
+      }
+      if (notification.type == 'new_order') {
+        if (!settings.newOrderAlerts) return false;
+      }
+    }
+
     // Super Admin sees everything
     if (_currentUser!.isSuperAdmin) return true;
     
@@ -85,10 +102,12 @@ class NotificationNotifier extends StateNotifier<NotificationState> {
       
       // User Management
       case 'new_user_registered':
+      case 'new_user':
         return _currentUser!.hasPermission('users', 'read');
         
       // Dealer Management
       case 'new_dealer_registered':
+      case 'new_dealer':
         return _currentUser!.hasPermission('dealers', 'read');
         
       // Product Management
@@ -187,5 +206,5 @@ class NotificationNotifier extends StateNotifier<NotificationState> {
 final notificationProvider = StateNotifierProvider<NotificationNotifier, NotificationState>((ref) {
   final service = ref.watch(notificationServiceProvider);
   final authState = ref.watch(authProvider);
-  return NotificationNotifier(service, authState.user);
+  return NotificationNotifier(service, authState.user, ref);
 });

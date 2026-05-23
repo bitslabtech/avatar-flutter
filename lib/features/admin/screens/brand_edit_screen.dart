@@ -1,8 +1,14 @@
+import 'dart:io';
+import 'package:image_picker/image_picker.dart';
+import 'package:image_cropper/image_cropper.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../../../core/theme/app_colors.dart';
 import '../providers/brand_provider.dart';
+import '../../../../providers/upload_provider.dart';
+import '../../../../core/api/api_endpoints.dart';
 
 class BrandEditScreen extends ConsumerStatefulWidget {
   final String brandId;
@@ -17,6 +23,46 @@ class _BrandEditScreenState extends ConsumerState<BrandEditScreen> {
   final _deleteConfirmationController = TextEditingController();
   String _status = 'Active';
   bool _isLoading = false;
+  File? _selectedImage;
+  String? _currentLogoUrl;
+  final ImagePicker _picker = ImagePicker();
+
+  Future<void> _pickImage() async {
+    final XFile? image = await _picker.pickImage(source: ImageSource.gallery);
+    if (image != null) {
+      final croppedFile = await ImageCropper().cropImage(
+        sourcePath: image.path,
+        uiSettings: [
+          AndroidUiSettings(
+            toolbarTitle: 'Crop Brand Logo',
+            toolbarColor: Theme.of(context).colorScheme.primary,
+            toolbarWidgetColor: Colors.white,
+            initAspectRatio: CropAspectRatioPreset.square,
+            lockAspectRatio: false,
+            aspectRatioPresets: [
+              CropAspectRatioPreset.square,
+              CropAspectRatioPreset.ratio4x3,
+              CropAspectRatioPreset.ratio16x9,
+            ],
+          ),
+          IOSUiSettings(
+            title: 'Crop Brand Logo',
+            aspectRatioPresets: [
+              CropAspectRatioPreset.square,
+              CropAspectRatioPreset.ratio4x3,
+              CropAspectRatioPreset.ratio16x9,
+            ],
+          ),
+        ],
+      );
+
+      if (croppedFile != null) {
+        setState(() {
+          _selectedImage = File(croppedFile.path);
+        });
+      }
+    }
+  }
 
   @override
   void initState() {
@@ -30,6 +76,7 @@ class _BrandEditScreenState extends ConsumerState<BrandEditScreen> {
     final brand = ref.read(brandProvider).brands.firstWhere((b) => b.id == widget.brandId, orElse: () => BrandItem(id: '', name: '', isActive: true, productCount: 0));
     _nameController.text = brand.name;
     _status = brand.isActive ? 'Active' : 'Inactive';
+    _currentLogoUrl = brand.logo;
     setState(() {});
   }
 
@@ -97,48 +144,107 @@ class _BrandEditScreenState extends ConsumerState<BrandEditScreen> {
   }
 
   Widget _buildLogoSection(BuildContext context, bool isDark, BrandItem brand) {
+    final bool hasImage = _selectedImage != null || (_currentLogoUrl != null && _currentLogoUrl!.isNotEmpty);
+
     return Column(
       children: [
         GestureDetector(
-          onTap: () {
-            ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Image Upload Feature Coming Soon')));
-          },
+          onTap: _isLoading ? null : (hasImage ? null : _pickImage),
           child: Stack(
+            alignment: Alignment.center,
             children: [
               Container(
-                width: 112, height: 112,
+                width: 120, height: 120,
                 decoration: BoxDecoration(
+                  shape: BoxShape.circle,
                   color: isDark ? AppColors.surfaceDark : Colors.white,
-                  borderRadius: BorderRadius.circular(24),
-                  border: Border.all(color: isDark ? Colors.grey.shade700 : Colors.grey.shade200),
-                  boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.05), blurRadius: 10)],
+                  border: Border.all(color: isDark ? Colors.grey.shade800 : Colors.grey.shade200, width: 2),
+                  boxShadow: [
+                    BoxShadow(color: Colors.black.withOpacity(0.08), blurRadius: 16, offset: const Offset(0, 4)),
+                  ],
+                  image: _selectedImage != null
+                      ? DecorationImage(image: FileImage(_selectedImage!), fit: BoxFit.cover)
+                      : (_currentLogoUrl != null && _currentLogoUrl!.isNotEmpty)
+                          ? DecorationImage(image: CachedNetworkImageProvider(ApiEndpoints.resolveImageUrl(_currentLogoUrl!)), fit: BoxFit.cover)
+                          : null,
                 ),
-                child: Center(
-                  child: Icon(Icons.verified, size: 48, color: Theme.of(context).colorScheme.primary),
-                ),
+                child: !hasImage
+                  ? Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(Icons.storefront_outlined, size: 36, color: Theme.of(context).colorScheme.primary.withOpacity(0.7)),
+                        const SizedBox(height: 4),
+                        Text('Add Logo', style: TextStyle(fontSize: 10, fontWeight: FontWeight.w600, color: Theme.of(context).colorScheme.primary)),
+                      ],
+                    )
+                  : null,
               ),
-              Positioned(
-                bottom: -8, right: -8,
-                child: Container(
-                  width: 40, height: 40,
-                  decoration: BoxDecoration(
-                    color: Theme.of(context).colorScheme.primary,
-                    borderRadius: BorderRadius.circular(20),
-                    border: Border.all(color: isDark ? AppColors.backgroundBlack : AppColors.backgroundLight, width: 4),
+              if (!hasImage)
+                Positioned(
+                  bottom: 0, right: 0,
+                  child: Container(
+                    padding: const EdgeInsets.all(8),
+                    decoration: BoxDecoration(
+                      color: Theme.of(context).colorScheme.primary,
+                      shape: BoxShape.circle,
+                      border: Border.all(color: isDark ? AppColors.backgroundBlack : AppColors.backgroundLight, width: 3),
+                    ),
+                    child: const Icon(Icons.add, color: Colors.white, size: 16),
                   ),
-                  child: const Icon(Icons.edit, color: Colors.white, size: 18),
                 ),
-              )
             ],
           ),
         ),
-        const SizedBox(height: 12),
-        Text('Tap to change logo', style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500, color: isDark ? Colors.grey.shade400 : Colors.grey.shade500)),
-        const SizedBox(height: 4),
-        Text(
-          'Recommended: 400x400 px (Square)', 
-          style: TextStyle(fontSize: 12, color: isDark ? Colors.grey.shade500 : Colors.grey.shade600, fontStyle: FontStyle.italic)
-        ),
+        const SizedBox(height: 16),
+        if (hasImage)
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              OutlinedButton.icon(
+                onPressed: _isLoading ? null : _pickImage,
+                icon: const Icon(Icons.edit_outlined, size: 16),
+                label: const Text('Change'),
+                style: OutlinedButton.styleFrom(
+                  foregroundColor: isDark ? Colors.white : Colors.black87,
+                  side: BorderSide(color: isDark ? Colors.grey.shade700 : Colors.grey.shade300),
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 0),
+                  minimumSize: const Size(0, 36),
+                ),
+              ),
+              const SizedBox(width: 12),
+              OutlinedButton.icon(
+                onPressed: _isLoading
+                    ? null
+                    : () {
+                        setState(() {
+                          _selectedImage = null;
+                          _currentLogoUrl = '';
+                        });
+                      },
+                icon: const Icon(Icons.delete_outline, size: 16),
+                label: const Text('Remove'),
+                style: OutlinedButton.styleFrom(
+                  foregroundColor: Colors.red.shade400,
+                  side: BorderSide(color: Colors.red.shade400.withOpacity(0.5)),
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 0),
+                  minimumSize: const Size(0, 36),
+                ),
+              ),
+            ],
+          ),
+        if (!hasImage)
+          Column(
+            children: [
+              Text('Make your brand recognizable', style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500, color: isDark ? Colors.grey.shade400 : Colors.grey.shade500)),
+              const SizedBox(height: 4),
+              Text(
+                'Recommended: 400x400 px (Square)', 
+                style: TextStyle(fontSize: 12, color: isDark ? Colors.grey.shade500 : Colors.grey.shade600, fontStyle: FontStyle.italic)
+              ),
+            ],
+          ),
       ],
     );
   }
@@ -303,15 +409,29 @@ class _BrandEditScreenState extends ConsumerState<BrandEditScreen> {
 
   Future<void> _saveChanges(BrandItem brand) async {
     setState(() => _isLoading = true);
-    final success = await ref.read(brandProvider.notifier).updateBrand(
-          id: brand.id,
-          name: _nameController.text,
-          isActive: _status == 'Active',
-        );
-    setState(() => _isLoading = false);
-    if (success && mounted) {
-      context.pop();
-      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Brand updated successfully')));
+    try {
+      String? finalLogoUrl = _currentLogoUrl;
+      if (_selectedImage != null) {
+        final uploadService = ref.read(fileUploadServiceProvider);
+        finalLogoUrl = await uploadService.uploadImage(_selectedImage!);
+      }
+
+      final success = await ref.read(brandProvider.notifier).updateBrand(
+            id: brand.id,
+            name: _nameController.text,
+            isActive: _status == 'Active',
+            logo: finalLogoUrl,
+          );
+      if (success && mounted) {
+        context.pop();
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Brand updated successfully')));
+      }
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Error: $e')));
+      }
+    } finally {
+      if (mounted) setState(() => _isLoading = false);
     }
   }
 

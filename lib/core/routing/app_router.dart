@@ -289,7 +289,10 @@ final routerProvider = Provider<GoRouter>((ref) {
                GoRoute(
                  path: 'create',
                  name: 'admin-create-order',
-                 builder: (context, state) => const AdminCreateOrderScreen(),
+                 builder: (context, state) {
+                   final preSelectedUser = state.extra as User?;
+                   return AdminCreateOrderScreen(preSelectedUser: preSelectedUser);
+                 },
                ),
                GoRoute(
                  path: ':id',
@@ -338,6 +341,11 @@ final routerProvider = Provider<GoRouter>((ref) {
               name: 'admin-policy-list',
               builder: (context, state) => const AdminPolicyListScreen(),
               routes: [
+                GoRoute(
+                  path: 'add',
+                  name: 'admin-policy-add',
+                  builder: (context, state) => const AdminPolicyEditScreen(),
+                ),
                 GoRoute(
                   path: 'edit/:key',
                   name: 'admin-policy-edit',

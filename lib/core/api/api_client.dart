@@ -8,6 +8,8 @@ import '../constants/app_constants.dart';
 
 class ApiClient {
   late final Dio _dio;
+  final _unauthController = StreamController<void>.broadcast();
+  Stream<void> get onUnauthenticated => _unauthController.stream;
   
   ApiClient() {
     _dio = Dio(
@@ -24,7 +26,7 @@ class ApiClient {
     
     // Add interceptors for auth and error handling
     _dio.interceptors.add(_AuthInterceptor());
-    _dio.interceptors.add(_TokenRefreshInterceptor(_dio)); // Add Refresh Logic
+    _dio.interceptors.add(_TokenRefreshInterceptor(_dio, _unauthController)); // Add Refresh Logic
     _dio.interceptors.add(_ErrorInterceptor());
     _dio.interceptors.add(LogInterceptor(
       requestBody: true,
@@ -92,10 +94,11 @@ class _AuthInterceptor extends Interceptor {
 /// Interceptor to handle Token Refresh on 401
 class _TokenRefreshInterceptor extends Interceptor {
   final Dio _dio;
+  final StreamController<void> _unauthController;
   bool _isRefreshing = false;
   final List<Map<String, dynamic>> _failedRequests = [];
 
-  _TokenRefreshInterceptor(this._dio);
+  _TokenRefreshInterceptor(this._dio, this._unauthController);
 
   @override
   void onError(DioException err, ErrorInterceptorHandler handler) async {
@@ -194,6 +197,9 @@ class _TokenRefreshInterceptor extends Interceptor {
       const storage = FlutterSecureStorage();
       await storage.delete(key: AppConstants.accessTokenKey);
       await storage.delete(key: AppConstants.refreshTokenKey);
+      
+      // Broadcast unauthenticated event so the app can log the user out
+      _unauthController.add(null);
       
       return handler.next(err);
   }

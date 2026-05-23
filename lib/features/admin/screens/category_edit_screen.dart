@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:image_cropper/image_cropper.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import '../../../core/theme/app_colors.dart';
 import '../providers/category_provider.dart';
@@ -50,22 +51,52 @@ class _CategoryEditScreenState extends ConsumerState<CategoryEditScreen> {
   Future<void> _pickImage() async {
     final XFile? image = await _picker.pickImage(source: ImageSource.gallery);
     if (image != null) {
-      setState(() {
-        _selectedImage = File(image.path);
-        _isUploading = true;
-      });
-      
-      try {
-        final uploadService = ref.read(fileUploadServiceProvider);
-        final url = await uploadService.uploadImage(File(image.path));
+      final croppedFile = await ImageCropper().cropImage(
+        sourcePath: image.path,
+        uiSettings: [
+          AndroidUiSettings(
+            toolbarTitle: 'Crop Category Image',
+            toolbarColor: Theme.of(context).colorScheme.primary,
+            toolbarWidgetColor: Colors.white,
+            initAspectRatio: CropAspectRatioPreset.square,
+            lockAspectRatio: false,
+            aspectRatioPresets: [
+              CropAspectRatioPreset.square,
+              CropAspectRatioPreset.ratio4x3,
+              CropAspectRatioPreset.ratio5x4,
+              CropAspectRatioPreset.ratio16x9
+            ],
+          ),
+          IOSUiSettings(
+            title: 'Crop Category Image',
+            aspectRatioPresets: [
+              CropAspectRatioPreset.square,
+              CropAspectRatioPreset.ratio4x3,
+              CropAspectRatioPreset.ratio5x4,
+              CropAspectRatioPreset.ratio16x9
+            ],
+          ),
+        ],
+      );
+
+      if (croppedFile != null) {
         setState(() {
-          _currentImageUrl = url;
-          _isUploading = false;
+          _selectedImage = File(croppedFile.path);
+          _isUploading = true;
         });
-      } catch (e) {
-        setState(() => _isUploading = false);
-        if (mounted) {
-           ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Upload failed: $e')));
+        
+        try {
+          final uploadService = ref.read(fileUploadServiceProvider);
+          final url = await uploadService.uploadImage(File(croppedFile.path));
+          setState(() {
+            _currentImageUrl = url;
+            _isUploading = false;
+          });
+        } catch (e) {
+          setState(() => _isUploading = false);
+          if (mounted) {
+             ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Upload failed: $e')));
+          }
         }
       }
     }
@@ -147,7 +178,28 @@ class _CategoryEditScreenState extends ConsumerState<CategoryEditScreen> {
                           decoration: BoxDecoration(color: Theme.of(context).colorScheme.primary, shape: BoxShape.circle),
                           child: const Icon(Icons.edit, color: Colors.white, size: 20),
                         ),
-                      )
+                      ),
+                      if (_selectedImage != null || (_currentImageUrl != null && _currentImageUrl!.isNotEmpty))
+                        Positioned(
+                          top: -8, right: -8,
+                          child: GestureDetector(
+                            onTap: () {
+                              setState(() {
+                                _selectedImage = null;
+                                _currentImageUrl = '';
+                              });
+                            },
+                            child: Container(
+                              width: 32, height: 32,
+                              decoration: BoxDecoration(
+                                color: Colors.red.shade600,
+                                shape: BoxShape.circle,
+                                border: Border.all(color: isDark ? AppColors.backgroundBlack : AppColors.backgroundLight, width: 3),
+                              ),
+                              child: const Icon(Icons.close, color: Colors.white, size: 16),
+                            ),
+                          ),
+                        ),
                     ],
                   ),
                 ),

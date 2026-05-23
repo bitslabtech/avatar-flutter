@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:image_picker/image_picker.dart';
+import 'package:image_cropper/image_cropper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -480,9 +481,39 @@ class _CreateCategoryDialogState extends ConsumerState<_CreateCategoryDialog> {
   Future<void> _pickImage() async {
     final XFile? image = await _picker.pickImage(source: ImageSource.gallery);
     if (image != null) {
-      setState(() {
-        _selectedImage = File(image.path);
-      });
+      final croppedFile = await ImageCropper().cropImage(
+        sourcePath: image.path,
+        uiSettings: [
+          AndroidUiSettings(
+            toolbarTitle: 'Crop Category Image',
+            toolbarColor: Theme.of(context).colorScheme.primary,
+            toolbarWidgetColor: Colors.white,
+            initAspectRatio: CropAspectRatioPreset.square,
+            lockAspectRatio: false,
+            aspectRatioPresets: [
+              CropAspectRatioPreset.square,
+              CropAspectRatioPreset.ratio4x3,
+              CropAspectRatioPreset.ratio5x4,
+              CropAspectRatioPreset.ratio16x9
+            ],
+          ),
+          IOSUiSettings(
+            title: 'Crop Category Image',
+            aspectRatioPresets: [
+              CropAspectRatioPreset.square,
+              CropAspectRatioPreset.ratio4x3,
+              CropAspectRatioPreset.ratio5x4,
+              CropAspectRatioPreset.ratio16x9
+            ],
+          ),
+        ],
+      );
+
+      if (croppedFile != null) {
+        setState(() {
+          _selectedImage = File(croppedFile.path);
+        });
+      }
     }
   }
 
@@ -517,29 +548,53 @@ class _CreateCategoryDialogState extends ConsumerState<_CreateCategoryDialog> {
 
               // Image Selection
               Center(
-                child: GestureDetector(
-                  onTap: _pickImage,
-                  child: Container(
-                    width: 120, height: 120,
-                    decoration: BoxDecoration(
-                      color: isDark ? Colors.white.withOpacity(0.05) : Colors.grey.shade50,
-                      borderRadius: BorderRadius.circular(16),
-                      border: Border.all(color: isDark ? Colors.grey.shade700 : Colors.grey.shade200, width: 2),
-                      image: _selectedImage != null 
-                        ? DecorationImage(image: FileImage(_selectedImage!), fit: BoxFit.cover)
-                        : null,
+                child: Stack(
+                  children: [
+                    GestureDetector(
+                      onTap: _pickImage,
+                      child: Container(
+                        width: 120, height: 120,
+                        decoration: BoxDecoration(
+                          color: isDark ? Colors.white.withOpacity(0.05) : Colors.grey.shade50,
+                          borderRadius: BorderRadius.circular(16),
+                          border: Border.all(color: isDark ? Colors.grey.shade700 : Colors.grey.shade200, width: 2),
+                          image: _selectedImage != null 
+                            ? DecorationImage(image: FileImage(_selectedImage!), fit: BoxFit.cover)
+                            : null,
+                        ),
+                        child: _selectedImage == null 
+                            ? Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Icon(Icons.add_photo_alternate, color: Theme.of(context).colorScheme.primary, size: 32),
+                                  const SizedBox(height: 8),
+                                  Text('Add Image *', style: TextStyle(fontSize: 12, color: Theme.of(context).colorScheme.primary, fontWeight: FontWeight.w600)),
+                                ],
+                              )
+                            : null,
+                      ),
                     ),
-                    child: _selectedImage == null 
-                        ? Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Icon(Icons.add_photo_alternate, color: Theme.of(context).colorScheme.primary, size: 32),
-                              const SizedBox(height: 8),
-                              Text('Add Image *', style: TextStyle(fontSize: 12, color: Theme.of(context).colorScheme.primary, fontWeight: FontWeight.w600)),
-                            ],
-                          )
-                        : null,
-                  ),
+                    if (_selectedImage != null)
+                      Positioned(
+                        top: -8, right: -8,
+                        child: GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              _selectedImage = null;
+                            });
+                          },
+                          child: Container(
+                            width: 28, height: 28,
+                            decoration: BoxDecoration(
+                              color: Colors.red.shade600,
+                              shape: BoxShape.circle,
+                              border: Border.all(color: isDark ? AppColors.surfaceDark : Colors.white, width: 2),
+                            ),
+                            child: const Icon(Icons.close, color: Colors.white, size: 14),
+                          ),
+                        ),
+                      ),
+                  ],
                 ),
               ),
               const SizedBox(height: 8),

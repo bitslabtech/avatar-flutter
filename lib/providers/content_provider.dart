@@ -74,6 +74,28 @@ class ContentListNotifier extends StateNotifier<AsyncValue<List<Content>>> {
       rethrow;
     }
   }
+
+  Future<void> createContent(String title, String body, bool isActive) async {
+    try {
+      await _apiClient.post('/content', data: {
+        'title': title,
+        'body': body,
+        'isActive': isActive,
+      });
+      await loadContents(); // Refresh list
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<void> deleteContent(String key) async {
+    try {
+      await _apiClient.delete('/content/$key');
+      await loadContents(); // Refresh list
+    } catch (e) {
+      rethrow;
+    }
+  }
 }
 
 final contentListProvider = StateNotifierProvider<ContentListNotifier, AsyncValue<List<Content>>>((ref) {

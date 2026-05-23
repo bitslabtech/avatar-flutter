@@ -118,18 +118,29 @@ class _ProductAddEditScreenState extends ConsumerState<ProductAddEditScreen> {
     super.dispose();
   }
 
-  Future<void> _pickAndUploadImage() async {
+  Future<void> _pickAndUploadImages() async {
     try {
-      final XFile? image = await _picker.pickImage(source: ImageSource.gallery);
-      if (image == null) return;
+      final List<XFile> images = await _picker.pickMultiImage();
+      if (images.isEmpty) return;
 
       setState(() => _isUploading = true);
       
       final uploadService = ref.read(fileUploadServiceProvider);
-      final url = await uploadService.uploadImage(File(image.path));
+      
+      for (var image in images) {
+        try {
+          final url = await uploadService.uploadImage(File(image.path));
+          setState(() {
+            _imageUrls.add(url);
+          });
+        } catch (e) {
+          if (mounted) {
+            ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Failed to upload ${image.name}')));
+          }
+        }
+      }
 
       setState(() {
-        _imageUrls.add(url);
         _isUploading = false;
       });
     } catch (e) {
@@ -499,40 +510,95 @@ class _ProductAddEditScreenState extends ConsumerState<ProductAddEditScreen> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   _buildSectionTitle(isDark, 'Images'),
-                   IconButton(onPressed: _pickAndUploadImage, icon: Icon(Icons.add_photo_alternate, color: Theme.of(context).colorScheme.primary)),
+                   TextButton.icon(
+                     onPressed: _isUploading ? null : _pickAndUploadImages, 
+                     icon: const Icon(Icons.add_photo_alternate),
+                     label: const Text('Add Images'),
+                     style: TextButton.styleFrom(
+                       foregroundColor: Theme.of(context).colorScheme.primary,
+                       backgroundColor: Theme.of(context).colorScheme.primary.withOpacity(0.1),
+                     ),
+                   ),
                 ],
               ),
               Padding(
-                padding: const EdgeInsets.only(bottom: 8),
+                padding: const EdgeInsets.only(bottom: 8, top: 4),
                 child: Text(
-                  'Recommended: 800x800 px (Square), Max 2MB',
+                  'Recommended: 800x800 px (Square), Max 2MB. You can select multiple images.',
                   style: TextStyle(fontSize: 12, color: isDark ? Colors.grey[400] : Colors.grey[600], fontStyle: FontStyle.italic),
                 ),
               ),
-              if (_isUploading) const Padding(padding: EdgeInsets.all(8.0), child: LinearProgressIndicator()),
+              if (_isUploading) ...[
+                const SizedBox(height: 8),
+                const LinearProgressIndicator(),
+                const SizedBox(height: 4),
+                Text('Uploading images...', style: TextStyle(fontSize: 12, color: Theme.of(context).colorScheme.primary)),
+              ],
               const SizedBox(height: 12),
               if (_imageUrls.isEmpty)
-                 Container(
-                   height: 100, 
-                   decoration: BoxDecoration(border: Border.all(color: Colors.grey), borderRadius: BorderRadius.circular(8)),
-                   child: const Center(child: Text("No images added")),
+                 InkWell(
+                   onTap: _isUploading ? null : _pickAndUploadImages,
+                   borderRadius: BorderRadius.circular(12),
+                   child: Container(
+                     height: 120, 
+                     width: double.infinity,
+                     decoration: BoxDecoration(
+                       border: Border.all(color: isDark ? Colors.grey.shade700 : Colors.grey.shade300, width: 2, style: BorderStyle.solid), 
+                       borderRadius: BorderRadius.circular(12),
+                       color: isDark ? AppColors.surfaceDark : Colors.grey.shade50,
+                     ),
+                     child: Column(
+                       mainAxisAlignment: MainAxisAlignment.center,
+                       children: [
+                         Icon(Icons.cloud_upload_outlined, size: 32, color: Theme.of(context).colorScheme.primary),
+                         const SizedBox(height: 8),
+                         Text("Tap to browse gallery", style: TextStyle(color: isDark ? Colors.grey.shade400 : Colors.grey.shade600, fontWeight: FontWeight.w500)),
+                       ],
+                     ),
+                   ),
                  )
               else 
                 SizedBox(
-                  height: 120,
+                  height: 140,
                   child: ListView.builder(
                     scrollDirection: Axis.horizontal,
-                    itemCount: _imageUrls.length,
+                    itemCount: _imageUrls.length + 1,
                     itemBuilder: (context, index) {
+                      if (index == _imageUrls.length) {
+                        // Add more button at the end
+                        return GestureDetector(
+                          onTap: _isUploading ? null : _pickAndUploadImages,
+                          child: Container(
+                            width: 120,
+                            margin: const EdgeInsets.only(right: 12),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(12),
+                              border: Border.all(color: Theme.of(context).colorScheme.primary.withOpacity(0.5), width: 1.5),
+                              color: Theme.of(context).colorScheme.primary.withOpacity(0.05),
+                            ),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Icon(Icons.add_photo_alternate_outlined, color: Theme.of(context).colorScheme.primary, size: 28),
+                                const SizedBox(height: 8),
+                                Text('Add More', style: TextStyle(color: Theme.of(context).colorScheme.primary, fontWeight: FontWeight.w500)),
+                              ],
+                            ),
+                          ),
+                        );
+                      }
+                      
                       final resolvedUrl = Product.resolveImageUrl(_imageUrls[index]);
                       return Stack(
                         children: [
                           Container(
                             width: 120,
+                            height: 140,
                             margin: const EdgeInsets.only(right: 12),
                             decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(8),
-                              color: isDark ? Colors.grey[800] : Colors.grey[200],
+                              borderRadius: BorderRadius.circular(12),
+                              border: Border.all(color: isDark ? Colors.grey.shade800 : Colors.grey.shade200),
+                              color: isDark ? Colors.grey[800] : Colors.grey[100],
                             ),
                             clipBehavior: Clip.antiAlias,
                             child: CachedNetworkImage(
@@ -545,10 +611,17 @@ class _ProductAddEditScreenState extends ConsumerState<ProductAddEditScreen> {
                             ),
                           ),
                           Positioned(
-                            right: 14, top: 2,
+                            right: 16, top: 4,
                             child: InkWell(
                               onTap: () => _removeImage(index),
-                              child: const CircleAvatar(radius: 10, backgroundColor: Colors.red, child: Icon(Icons.close, size: 12, color: Colors.white)),
+                              child: Container(
+                                padding: const EdgeInsets.all(4),
+                                decoration: BoxDecoration(
+                                  color: Colors.black.withOpacity(0.6),
+                                  shape: BoxShape.circle,
+                                ),
+                                child: const Icon(Icons.close, size: 14, color: Colors.white)
+                              ),
                             ),
                           ),
                         ],

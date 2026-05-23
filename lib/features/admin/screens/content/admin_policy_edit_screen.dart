@@ -7,9 +7,9 @@ import '../../../../providers/content_provider.dart';
 import '../../../../widgets/common/loading_indicator.dart';
 
 class AdminPolicyEditScreen extends ConsumerStatefulWidget {
-  final String contentKey;
+  final String? contentKey;
 
-  const AdminPolicyEditScreen({super.key, required this.contentKey});
+  const AdminPolicyEditScreen({super.key, this.contentKey});
 
   @override
   ConsumerState<AdminPolicyEditScreen> createState() => _AdminPolicyEditScreenState();
@@ -33,16 +33,20 @@ class _AdminPolicyEditScreenState extends ConsumerState<AdminPolicyEditScreen> {
   void didChangeDependencies() {
     super.didChangeDependencies();
     if (!_isInit) {
-       ref.read(contentProvider(widget.contentKey).future).then((content) {
-         if (mounted) {
-           setState(() {
-            _titleController.text = content.title;
-            _bodyController.text = content.body;
-            _isActive = content.isActive;
-            _isInit = true;
-           });
-         }
-       });
+       if (widget.contentKey != null) {
+         ref.read(contentProvider(widget.contentKey!).future).then((content) {
+           if (mounted) {
+             setState(() {
+              _titleController.text = content.title;
+              _bodyController.text = content.body;
+              _isActive = content.isActive;
+              _isInit = true;
+             });
+           }
+         });
+       } else {
+         _isInit = true; // No data to load for new policy
+       }
     }
   }
 
@@ -56,14 +60,22 @@ class _AdminPolicyEditScreenState extends ConsumerState<AdminPolicyEditScreen> {
   Future<void> _save() async {
     if (_formKey.currentState!.validate()) {
       try {
-        await ref.read(contentListProvider.notifier).updateContent(
-          widget.contentKey,
-          _titleController.text,
-          _bodyController.text,
-          _isActive,
-        );
+        if (widget.contentKey == null) {
+          await ref.read(contentListProvider.notifier).createContent(
+            _titleController.text,
+            _bodyController.text,
+            _isActive,
+          );
+        } else {
+          await ref.read(contentListProvider.notifier).updateContent(
+            widget.contentKey!,
+            _titleController.text,
+            _bodyController.text,
+            _isActive,
+          );
+        }
         if (mounted) {
-          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Policy updated successfully')));
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(widget.contentKey == null ? 'Policy created successfully' : 'Policy updated successfully')));
           context.pop();
         }
       } catch (e) {
@@ -87,7 +99,7 @@ class _AdminPolicyEditScreenState extends ConsumerState<AdminPolicyEditScreen> {
     return Scaffold(
       backgroundColor: backgroundColor,
       appBar: AppBar(
-        title: Text('Edit Policy', style: TextStyle(color: textColor, fontWeight: FontWeight.bold)),
+        title: Text(widget.contentKey == null ? 'Add Policy' : 'Edit Policy', style: TextStyle(color: textColor, fontWeight: FontWeight.bold)),
         backgroundColor: surfaceColor,
         leading: IconButton(
           icon: Icon(Icons.arrow_back, color: textColor),

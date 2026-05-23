@@ -8,6 +8,7 @@ import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:open_filex/open_filex.dart';
 import '../../core/theme/app_colors.dart';
 import '../../core/utils/currency_utils.dart';
 import '../../providers/order_provider.dart';
@@ -86,6 +87,11 @@ class _OrderDetailScreenState extends ConsumerState<OrderDetailScreen> {
                 ),
                 backgroundColor: Colors.green[700],
                 duration: const Duration(seconds: 4),
+                action: SnackBarAction(
+                  label: 'VIEW',
+                  textColor: Colors.white,
+                  onPressed: () => OpenFilex.open(path),
+                ),
               ),
             );
           }
@@ -116,9 +122,9 @@ class _OrderDetailScreenState extends ConsumerState<OrderDetailScreen> {
               backgroundColor: Colors.green[700],
               duration: const Duration(seconds: 5),
               action: SnackBarAction(
-                label: 'OK',
+                label: 'VIEW',
                 textColor: Colors.white,
-                onPressed: () {},
+                onPressed: () => OpenFilex.open(file.path),
               ),
             ),
           );

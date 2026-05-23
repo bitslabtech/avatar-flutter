@@ -1,8 +1,14 @@
+import 'dart:io';
+import 'package:image_picker/image_picker.dart';
+import 'package:image_cropper/image_cropper.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../../../core/theme/app_colors.dart';
 import '../providers/brand_provider.dart';
+import '../../../../providers/upload_provider.dart';
+import '../../../../core/api/api_endpoints.dart';
 
 class BrandManagementScreen extends ConsumerStatefulWidget {
   const BrandManagementScreen({super.key});
@@ -432,7 +438,17 @@ class _BrandManagementScreenState extends ConsumerState<BrandManagementScreen> {
                      borderRadius: BorderRadius.circular(8),
                      border: Border.all(color: isDark ? color.withOpacity(0.3) : color.withOpacity(0.1)),
                    ),
-                   child: Icon(icon, color: color, size: 20),
+                   child: item.logo != null && item.logo!.isNotEmpty
+                     ? ClipRRect(
+                         borderRadius: BorderRadius.circular(8),
+                         child: CachedNetworkImage(
+                           imageUrl: ApiEndpoints.resolveImageUrl(item.logo!),
+                           fit: BoxFit.cover,
+                           placeholder: (context, url) => Center(child: Icon(icon, color: color, size: 16)),
+                           errorWidget: (context, url, error) => Icon(icon, color: color, size: 20),
+                         ),
+                       )
+                     : Icon(icon, color: color, size: 20),
                  ),
                  const SizedBox(width: 12),
                  Expanded(
@@ -538,6 +554,47 @@ class _BrandDialog extends ConsumerStatefulWidget {
 class _BrandDialogState extends ConsumerState<_BrandDialog> {
   final _nameController = TextEditingController();
   bool _isActive = true;
+  File? _selectedImage;
+  String? _currentLogoUrl;
+  bool _isUploading = false;
+  final ImagePicker _picker = ImagePicker();
+
+  Future<void> _pickImage() async {
+    final XFile? image = await _picker.pickImage(source: ImageSource.gallery);
+    if (image != null) {
+      final croppedFile = await ImageCropper().cropImage(
+        sourcePath: image.path,
+        uiSettings: [
+          AndroidUiSettings(
+            toolbarTitle: 'Crop Brand Logo',
+            toolbarColor: Theme.of(context).colorScheme.primary,
+            toolbarWidgetColor: Colors.white,
+            initAspectRatio: CropAspectRatioPreset.square,
+            lockAspectRatio: false,
+            aspectRatioPresets: [
+              CropAspectRatioPreset.square,
+              CropAspectRatioPreset.ratio4x3,
+              CropAspectRatioPreset.ratio16x9,
+            ],
+          ),
+          IOSUiSettings(
+            title: 'Crop Brand Logo',
+            aspectRatioPresets: [
+              CropAspectRatioPreset.square,
+              CropAspectRatioPreset.ratio4x3,
+              CropAspectRatioPreset.ratio16x9,
+            ],
+          ),
+        ],
+      );
+
+      if (croppedFile != null) {
+        setState(() {
+          _selectedImage = File(croppedFile.path);
+        });
+      }
+    }
+  }
 
   @override
   void initState() {
@@ -545,6 +602,7 @@ class _BrandDialogState extends ConsumerState<_BrandDialog> {
     if (widget.brand != null) {
       _nameController.text = widget.brand!.name;
       _isActive = widget.brand!.isActive;
+      _currentLogoUrl = widget.brand!.logo;
     }
   }
 
@@ -577,27 +635,96 @@ class _BrandDialogState extends ConsumerState<_BrandDialog> {
             ),
             const SizedBox(height: 24),
             Center(
-               child: GestureDetector(
-                  onTap: () {
-                     ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Image Upload Feature Coming Soon')));
-                  },
-                  child: Container(
-                    width: 80, height: 80,
-                    decoration: BoxDecoration(
-                      color: isDark ? Colors.white.withOpacity(0.05) : Colors.grey.shade50,
-                      borderRadius: BorderRadius.circular(20),
-                      border: Border.all(color: isDark ? Colors.grey.shade700 : Colors.grey.shade200, width: 2),
+               child: Column(
+                 children: [
+                   GestureDetector(
+                      onTap: _isUploading ? null : (_selectedImage == null && (_currentLogoUrl == null || _currentLogoUrl!.isEmpty) ? _pickImage : null),
+                      child: Stack(
+                        alignment: Alignment.center,
+                        children: [
+                          Container(
+                            width: 120, height: 120,
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              color: isDark ? AppColors.surfaceDark : Colors.white,
+                              border: Border.all(color: isDark ? Colors.grey.shade800 : Colors.grey.shade200, width: 2),
+                              boxShadow: [
+                                BoxShadow(color: Colors.black.withOpacity(0.08), blurRadius: 16, offset: const Offset(0, 4)),
+                              ],
+                              image: _selectedImage != null 
+                                ? DecorationImage(image: FileImage(_selectedImage!), fit: BoxFit.cover)
+                                : (_currentLogoUrl != null && _currentLogoUrl!.isNotEmpty)
+                                  ? DecorationImage(image: CachedNetworkImageProvider(ApiEndpoints.resolveImageUrl(_currentLogoUrl!)), fit: BoxFit.cover)
+                                  : null,
+                            ),
+                            child: _selectedImage == null && (_currentLogoUrl == null || _currentLogoUrl!.isEmpty)
+                              ? Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Icon(Icons.storefront_outlined, size: 36, color: Theme.of(context).colorScheme.primary.withOpacity(0.7)),
+                                    const SizedBox(height: 4),
+                                    Text('Add Logo', style: TextStyle(fontSize: 10, fontWeight: FontWeight.w600, color: Theme.of(context).colorScheme.primary)),
+                                  ],
+                                )
+                              : null,
+                          ),
+                          if (_selectedImage == null && (_currentLogoUrl == null || _currentLogoUrl!.isEmpty))
+                            Positioned(
+                              bottom: 0, right: 0,
+                              child: Container(
+                                padding: const EdgeInsets.all(8),
+                                decoration: BoxDecoration(
+                                  color: Theme.of(context).colorScheme.primary,
+                                  shape: BoxShape.circle,
+                                  border: Border.all(color: isDark ? AppColors.backgroundBlack : AppColors.backgroundLight, width: 3),
+                                ),
+                                child: const Icon(Icons.add, color: Colors.white, size: 16),
+                              ),
+                            ),
+                        ],
+                      ),
                     ),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(Icons.add_a_photo, color: Theme.of(context).colorScheme.primary, size: 24),
-                        const SizedBox(height: 4),
-                        Text('Add Logo', style: TextStyle(fontSize: 10, color: Theme.of(context).colorScheme.primary, fontWeight: FontWeight.w600)),
-                      ],
-                    ),
-                  ),
-                ),
+                   const SizedBox(height: 16),
+                   if (_selectedImage != null || (_currentLogoUrl != null && _currentLogoUrl!.isNotEmpty))
+                     Row(
+                       mainAxisAlignment: MainAxisAlignment.center,
+                       children: [
+                         OutlinedButton.icon(
+                           onPressed: _isUploading ? null : _pickImage,
+                           icon: const Icon(Icons.edit_outlined, size: 16),
+                           label: const Text('Change'),
+                           style: OutlinedButton.styleFrom(
+                             foregroundColor: isDark ? Colors.white : Colors.black87,
+                             side: BorderSide(color: isDark ? Colors.grey.shade700 : Colors.grey.shade300),
+                             shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+                             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 0),
+                             minimumSize: const Size(0, 36),
+                           ),
+                         ),
+                         const SizedBox(width: 12),
+                         OutlinedButton.icon(
+                           onPressed: _isUploading
+                               ? null
+                               : () {
+                                   setState(() {
+                                     _selectedImage = null;
+                                     _currentLogoUrl = '';
+                                   });
+                                 },
+                           icon: const Icon(Icons.delete_outline, size: 16),
+                           label: const Text('Remove'),
+                           style: OutlinedButton.styleFrom(
+                             foregroundColor: Colors.red.shade400,
+                             side: BorderSide(color: Colors.red.shade400.withOpacity(0.5)),
+                             shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+                             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 0),
+                             minimumSize: const Size(0, 36),
+                           ),
+                         ),
+                       ],
+                     ),
+                 ],
+               ),
             ),
              const SizedBox(height: 24),
              Text('NAME', style: TextStyle(fontSize: 11, fontWeight: FontWeight.bold, letterSpacing: 0.5, color: isDark ? Colors.grey.shade400 : Colors.grey.shade600)),
@@ -627,25 +754,42 @@ class _BrandDialogState extends ConsumerState<_BrandDialog> {
               SizedBox(
                 width: double.infinity,
                 height: 50,
-                child: ElevatedButton(
-                  onPressed: () async {
+                 child: ElevatedButton(
+                  onPressed: _isUploading ? null : () async {
                      if (_nameController.text.isNotEmpty) {
-                       bool success;
-                       if (isEdit) {
-                         success = await ref.read(brandProvider.notifier).updateBrand(
-                           id: widget.brand!.id,
-                           name: _nameController.text,
-                           isActive: _isActive,
-                         );
-                       } else {
-                         success = await ref.read(brandProvider.notifier).createBrand(
-                           name: _nameController.text,
-                           isActive: _isActive,
-                         );
-                       }
-                       if (success && context.mounted) {
-                         context.pop();
-                         ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(isEdit ? 'Brand Updated' : 'Brand Created')));
+                       setState(() => _isUploading = true);
+                       try {
+                         String? finalLogoUrl = _currentLogoUrl;
+                         if (_selectedImage != null) {
+                           final uploadService = ref.read(fileUploadServiceProvider);
+                           finalLogoUrl = await uploadService.uploadImage(_selectedImage!);
+                         }
+
+                         bool success;
+                         if (isEdit) {
+                           success = await ref.read(brandProvider.notifier).updateBrand(
+                             id: widget.brand!.id,
+                             name: _nameController.text,
+                             isActive: _isActive,
+                             logo: finalLogoUrl,
+                           );
+                         } else {
+                           success = await ref.read(brandProvider.notifier).createBrand(
+                             name: _nameController.text,
+                             isActive: _isActive,
+                             logo: finalLogoUrl,
+                           );
+                         }
+                         if (success && context.mounted) {
+                           context.pop();
+                           ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(isEdit ? 'Brand Updated' : 'Brand Created')));
+                         }
+                       } catch (e) {
+                         if (context.mounted) {
+                           ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Error: $e')));
+                         }
+                       } finally {
+                         if (mounted) setState(() => _isUploading = false);
                        }
                      }
                   },
@@ -654,7 +798,9 @@ class _BrandDialogState extends ConsumerState<_BrandDialog> {
                     foregroundColor: Colors.white,
                     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                   ),
-                  child: Text(isEdit ? 'Save Changes' : 'Create Brand'),
+                  child: _isUploading 
+                    ? const SizedBox(width: 20, height: 20, child: CircularProgressIndicator(color: Colors.white, strokeWidth: 2))
+                    : Text(isEdit ? 'Save Changes' : 'Create Brand'),
                 ),
               )
           ],

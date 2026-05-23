@@ -45,6 +45,8 @@ class OrdersNotifier extends StateNotifier<OrdersState> {
       final orders = await _orderService.getOrders();
       // Filter out draft orders (they're handled by cart)
       final nonDraftOrders = orders.where((o) => !o.isDraft).toList();
+      // Sort by createdAt descending so newest orders appear at top
+      nonDraftOrders.sort((a, b) => b.createdAt.compareTo(a.createdAt));
       state = state.copyWith(
         orders: nonDraftOrders,
         isLoading: false,
