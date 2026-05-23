@@ -100,7 +100,7 @@ class CategoryChips extends StatelessWidget {
                 child: (imageUrl != null && imageUrl.isNotEmpty)
                     ? CachedNetworkImage(
                         imageUrl: imageUrl,
-                        fit: BoxFit.cover,
+                        fit: BoxFit.contain,
                         width: double.infinity,
                         height: double.infinity,
                         placeholder: (context, url) => const Center(

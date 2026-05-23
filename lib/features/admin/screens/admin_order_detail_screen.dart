@@ -823,10 +823,11 @@ class _AdminOrderDetailScreenState extends ConsumerState<AdminOrderDetailScreen>
             if (!_isEditingItems) {
               return Column(
                 children: [
-                  _buildTotalRow('Subtotal', order.subtotalDisplay, isDark),
+                  _buildTotalRow('Subtotal (Excl. GST)', CurrencyUtils.formatPaise(order.subtotalDpPaise - order.taxPaise), isDark),
                   if (order.discountAppliedPaise > 0)
                     _buildTotalRow('Discount', '-${order.discountDisplay}', isDark, valueColor: Colors.green),
-                  _buildTotalRow('Tax (GST)', order.taxDisplay, isDark),
+                  if (order.taxPaise > 0)
+                    _buildTotalRow('Tax (GST)', order.taxDisplay, isDark),
                   _buildTotalRow('Shipping', order.courierFeeDisplay, isDark),
                   const Divider(),
                   _buildTotalRow('Total Amount', order.grandTotalDisplay, isDark, isBold: true),
@@ -835,14 +836,22 @@ class _AdminOrderDetailScreenState extends ConsumerState<AdminOrderDetailScreen>
             }
 
             final subtotalPaise = _localItems.fold<int>(0, (sum, item) => sum + item.lineTotalDpPaise);
-            final taxPaise = _localItems.fold<int>(0, (sum, item) => sum + ((item.lineTotalDpPaise * item.taxPercent) / 100).round());
-            // Since editing discards discount currently, we calculate dynamic total without it
-            final dynamicTotal = subtotalPaise + taxPaise + order.courierFeePaise;
+            // Back-calculate GST from inclusive prices (for display only)
+            final taxPaise = _localItems.fold<int>(0, (sum, item) {
+              final gst = item.taxPercent;
+              if (gst > 0) {
+                return sum + (item.lineTotalDpPaise - (item.lineTotalDpPaise / (1 + gst / 100))).round();
+              }
+              return sum;
+            });
+            // Grand total: prices already include GST, so don't add taxPaise
+            final dynamicTotal = subtotalPaise + order.courierFeePaise;
             
             return Column(
               children: [
-                _buildTotalRow('Subtotal', CurrencyUtils.formatPaise(subtotalPaise), isDark),
-                _buildTotalRow('Tax (GST)', CurrencyUtils.formatPaise(taxPaise), isDark),
+                _buildTotalRow('Subtotal (Excl. GST)', CurrencyUtils.formatPaise(subtotalPaise - taxPaise), isDark),
+                if (taxPaise > 0)
+                  _buildTotalRow('Tax (GST)', CurrencyUtils.formatPaise(taxPaise), isDark),
                 _buildTotalRow('Shipping', order.courierFeeDisplay, isDark),
                 const Divider(),
                 _buildTotalRow('Total Amount', CurrencyUtils.formatPaise(dynamicTotal), isDark, isBold: true),
@@ -1024,7 +1033,7 @@ class _AdminOrderDetailScreenState extends ConsumerState<AdminOrderDetailScreen>
     );
   }
 
-  Widget _buildTotalRow(String label, String value, bool isDark, {bool isBold = false}) {
+  Widget _buildTotalRow(String label, String value, bool isDark, {bool isBold = false, Color? valueColor}) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 4),
       child: Row(
@@ -1038,7 +1047,7 @@ class _AdminOrderDetailScreenState extends ConsumerState<AdminOrderDetailScreen>
           Text(value, style: TextStyle(
             fontSize: isBold ? 16 : 12, 
             fontWeight: FontWeight.bold, 
-            color: isBold ? Theme.of(context).colorScheme.primary : (isDark ? Colors.white : Colors.black87),
+            color: valueColor ?? (isBold ? Theme.of(context).colorScheme.primary : (isDark ? Colors.white : Colors.black87)),
           )),
         ],
       ),
@@ -1069,9 +1078,9 @@ class _AdminOrderDetailScreenState extends ConsumerState<AdminOrderDetailScreen>
           Container(
             width: 56, height: 56,
             decoration: BoxDecoration(
-              color: Colors.white,
+              color: isDark ? Colors.grey[800] : Colors.grey[50],
               borderRadius: BorderRadius.circular(8),
-              image: item.resolvedImageUrl != null ? DecorationImage(image: NetworkImage(item.resolvedImageUrl!), fit: BoxFit.cover) : null,
+              image: item.resolvedImageUrl != null ? DecorationImage(image: NetworkImage(item.resolvedImageUrl!), fit: BoxFit.contain) : null,
             ),
             child: item.resolvedImageUrl == null ? const Icon(Icons.image_not_supported, size: 20, color: Colors.grey) : null,
           ),

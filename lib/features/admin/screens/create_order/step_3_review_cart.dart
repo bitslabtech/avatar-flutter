@@ -18,9 +18,8 @@ class Step3ReviewCart extends ConsumerWidget {
       return Center(child: Text("Cart is empty", style: TextStyle(color: isDark ? Colors.white : Colors.black)));
     }
 
-// Calculate totals
+// Calculate totals — prices are already GST-inclusive
     final settings = ref.watch(adminSettingsProvider);
-    final priceIncludesGst = settings.priceIncludesGst;
     final discountPct = state.selectedUser?.role == 'dealer' ? (state.selectedUser?.discountPercentage ?? 0.0) : 0.0;
 
     double subtotal = 0.0;
@@ -54,14 +53,15 @@ class Step3ReviewCart extends ConsumerWidget {
                     final product = state.productDetails[entry.key];
                     if (product == null) return const SizedBox.shrink();
                     
+                    // Price is already GST-inclusive, just apply dealer discount
                     double rawPrice = (product.price ?? 0).toDouble();
-                    if (priceIncludesGst && (product.gstPercent ?? 0) > 0) {
-                       rawPrice = rawPrice / (1 + (product.gstPercent ?? 0) / 100);
-                    }
                     final dpPrice = discountPct > 0 ? rawPrice * (1 - discountPct / 100) : rawPrice;
                     final lineTotal = dpPrice * entry.value;
                     subtotal += lineTotal;
-                    taxAmount += lineTotal * (product.gstPercent ?? 0) / 100;
+                    // Back-calculate GST from inclusive price (for display only)
+                    if ((product.gstPercent ?? 0) > 0) {
+                      taxAmount += lineTotal - (lineTotal / (1 + (product.gstPercent ?? 0) / 100));
+                    }
                     
                     return Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
@@ -77,7 +77,7 @@ class Step3ReviewCart extends ConsumerWidget {
                                borderRadius: BorderRadius.circular(8),
                                child: CachedNetworkImage(
                                  imageUrl: product.primaryImageUrl,
-                                 fit: BoxFit.cover,
+                                 fit: BoxFit.contain,
                                  placeholder: (context, url) => const Center(child: CircularProgressIndicator(strokeWidth: 2)),
                                  errorWidget: (context, url, error) => Icon(Icons.image, size: 20, color: Colors.grey.shade400),
                                ),
@@ -109,7 +109,8 @@ class Step3ReviewCart extends ConsumerWidget {
                   Builder(
                     builder: (context) {
                       final shippingCharge = subtotal > 0 ? settings.shippingCharge : 0.0;
-                      final grandTotal = subtotal + shippingCharge + taxAmount;
+                      // Grand total: prices already include GST, so don't add taxAmount
+                      final grandTotal = subtotal + shippingCharge;
                       
                       return Padding(
                         padding: const EdgeInsets.all(16),
@@ -118,11 +119,21 @@ class Step3ReviewCart extends ConsumerWidget {
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                Text('Subtotal', style: TextStyle(color: isDark ? Colors.grey.shade400 : Colors.grey.shade600)),
-                                Text(CurrencyUtils.format(subtotal), style: TextStyle(color: isDark ? Colors.white : Colors.black87)),
+                                Text('Subtotal (Excl. GST)', style: TextStyle(color: isDark ? Colors.grey.shade400 : Colors.grey.shade600)),
+                                Text(CurrencyUtils.format(subtotal - taxAmount), style: TextStyle(color: isDark ? Colors.white : Colors.black87)),
                               ],
                             ),
                             const SizedBox(height: 8),
+                            if (taxAmount > 0) ...[
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text('Tax (GST)', style: TextStyle(color: isDark ? Colors.grey.shade400 : Colors.grey.shade600)),
+                                  Text(CurrencyUtils.format(taxAmount), style: TextStyle(color: isDark ? Colors.white : Colors.black87)),
+                                ],
+                              ),
+                              const SizedBox(height: 8),
+                            ],
                             if (shippingCharge > 0)
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -132,16 +143,7 @@ class Step3ReviewCart extends ConsumerWidget {
                                 ],
                               ),
                             if (shippingCharge > 0)
-                              const SizedBox(height: 8),
-                            if (taxAmount > 0)
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text('Tax (GST)', style: TextStyle(color: isDark ? Colors.grey.shade400 : Colors.grey.shade600)),
-                                  Text(CurrencyUtils.format(taxAmount), style: TextStyle(color: isDark ? Colors.white : Colors.black87)),
-                                ],
-                              ),
-                            const SizedBox(height: 12),
+                              const SizedBox(height: 12),
                             Divider(color: isDark ? Colors.grey.shade800 : Colors.grey.shade200, height: 1),
                             const SizedBox(height: 12),
                             Row(

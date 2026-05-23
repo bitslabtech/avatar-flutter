@@ -355,7 +355,7 @@ class _CategoryManagementScreenState extends ConsumerState<CategoryManagementScr
                            borderRadius: BorderRadius.circular(8),
                            child: CachedNetworkImage(
                              imageUrl: item.resolvedImageUrl!,
-                             fit: BoxFit.cover,
+                             fit: BoxFit.contain,
                              placeholder: (context, url) => Center(child: Icon(iconData, color: Colors.blue.withOpacity(0.5), size: 16)),
                              errorWidget: (context, url, error) => Icon(iconData, color: Colors.blue, size: 20),
                            ),
@@ -481,39 +481,9 @@ class _CreateCategoryDialogState extends ConsumerState<_CreateCategoryDialog> {
   Future<void> _pickImage() async {
     final XFile? image = await _picker.pickImage(source: ImageSource.gallery);
     if (image != null) {
-      final croppedFile = await ImageCropper().cropImage(
-        sourcePath: image.path,
-        uiSettings: [
-          AndroidUiSettings(
-            toolbarTitle: 'Crop Category Image',
-            toolbarColor: Theme.of(context).colorScheme.primary,
-            toolbarWidgetColor: Colors.white,
-            initAspectRatio: CropAspectRatioPreset.square,
-            lockAspectRatio: false,
-            aspectRatioPresets: [
-              CropAspectRatioPreset.square,
-              CropAspectRatioPreset.ratio4x3,
-              CropAspectRatioPreset.ratio5x4,
-              CropAspectRatioPreset.ratio16x9
-            ],
-          ),
-          IOSUiSettings(
-            title: 'Crop Category Image',
-            aspectRatioPresets: [
-              CropAspectRatioPreset.square,
-              CropAspectRatioPreset.ratio4x3,
-              CropAspectRatioPreset.ratio5x4,
-              CropAspectRatioPreset.ratio16x9
-            ],
-          ),
-        ],
-      );
-
-      if (croppedFile != null) {
-        setState(() {
-          _selectedImage = File(croppedFile.path);
-        });
-      }
+      setState(() {
+        _selectedImage = File(image.path);
+      });
     }
   }
 
@@ -559,7 +529,7 @@ class _CreateCategoryDialogState extends ConsumerState<_CreateCategoryDialog> {
                           borderRadius: BorderRadius.circular(16),
                           border: Border.all(color: isDark ? Colors.grey.shade700 : Colors.grey.shade200, width: 2),
                           image: _selectedImage != null 
-                            ? DecorationImage(image: FileImage(_selectedImage!), fit: BoxFit.cover)
+                            ? DecorationImage(image: FileImage(_selectedImage!), fit: BoxFit.contain)
                             : null,
                         ),
                         child: _selectedImage == null 

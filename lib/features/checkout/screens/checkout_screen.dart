@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../../../core/theme/app_colors.dart';
+import '../../../core/utils/currency_utils.dart';
 import '../../../models/address.dart';
 import '../../../providers/cart_provider.dart';
 import '../providers/checkout_provider.dart';
@@ -196,21 +197,27 @@ class CheckoutScreen extends ConsumerWidget {
                       borderRadius: BorderRadius.circular(12),
                       border: Border.all(color: borderColor),
                     ),
-                    child: Column(
-                      children: [
-                        _buildSummaryRow('Subtotal', cartState.draftOrder?.subtotalDisplay ?? '\$0.00', textColor),
-                        const SizedBox(height: 8),
-                         // Removed Shipping Row as per request
-                         if ((cartState.draftOrder?.taxPaise ?? 0) > 0) ...[
-                            _buildSummaryRow('Tax', cartState.draftOrder?.taxDisplay ?? '\$0.00', textColor),
-                            const SizedBox(height: 8),
-                         ],
-                         // Shipping is Free/Removed
-                         _buildSummaryRow('Shipping', 'Free', Colors.green, isBold: true),
+                    child: Builder(
+                      builder: (context) {
+                        final draftOrder = cartState.draftOrder;
+                        if (draftOrder == null) return const SizedBox.shrink();
 
-                        const Padding(padding: EdgeInsets.symmetric(vertical: 12), child: Divider()),
-                        _buildSummaryRow('Total Payment', cartState.draftOrder?.grandTotalDisplay ?? '\$0.00', textColor, isBold: true),
-                      ],
+                        final subtotalExclGst = draftOrder.subtotalDpPaise - draftOrder.taxPaise;
+
+                        return Column(
+                          children: [
+                            _buildSummaryRow('Subtotal (Excl. GST)', CurrencyUtils.formatPaise(subtotalExclGst), textColor),
+                            const SizedBox(height: 8),
+                            if (draftOrder.taxPaise > 0) ...[
+                              _buildSummaryRow('Tax (GST)', draftOrder.taxDisplay, textColor),
+                              const SizedBox(height: 8),
+                            ],
+                            _buildSummaryRow('Shipping', draftOrder.courierFeePaise > 0 ? draftOrder.courierFeeDisplay : 'Free', draftOrder.courierFeePaise == 0 ? Colors.green : textColor, isBold: draftOrder.courierFeePaise == 0),
+                            const Padding(padding: EdgeInsets.symmetric(vertical: 12), child: Divider()),
+                            _buildSummaryRow('Total Payment', draftOrder.grandTotalDisplay, textColor, isBold: true),
+                          ],
+                        );
+                      }
                     ),
                   ),
                 ],

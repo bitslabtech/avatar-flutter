@@ -212,7 +212,7 @@ class _WishlistScreenState extends ConsumerState<WishlistScreen> {
                                           borderRadius: const BorderRadius.vertical(top: Radius.circular(15)),
                                           child: CachedNetworkImage(
                                             imageUrl: product.primaryImageUrl,
-                                            fit: BoxFit.cover,
+                                            fit: BoxFit.contain,
                                             placeholder: (context, url) => Container(color: Colors.grey[200]),
                                             errorWidget: (_, __, ___) => Container(color: Colors.grey[200], child: const Icon(Icons.broken_image)),
                                           ),

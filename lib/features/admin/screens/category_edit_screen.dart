@@ -51,52 +51,22 @@ class _CategoryEditScreenState extends ConsumerState<CategoryEditScreen> {
   Future<void> _pickImage() async {
     final XFile? image = await _picker.pickImage(source: ImageSource.gallery);
     if (image != null) {
-      final croppedFile = await ImageCropper().cropImage(
-        sourcePath: image.path,
-        uiSettings: [
-          AndroidUiSettings(
-            toolbarTitle: 'Crop Category Image',
-            toolbarColor: Theme.of(context).colorScheme.primary,
-            toolbarWidgetColor: Colors.white,
-            initAspectRatio: CropAspectRatioPreset.square,
-            lockAspectRatio: false,
-            aspectRatioPresets: [
-              CropAspectRatioPreset.square,
-              CropAspectRatioPreset.ratio4x3,
-              CropAspectRatioPreset.ratio5x4,
-              CropAspectRatioPreset.ratio16x9
-            ],
-          ),
-          IOSUiSettings(
-            title: 'Crop Category Image',
-            aspectRatioPresets: [
-              CropAspectRatioPreset.square,
-              CropAspectRatioPreset.ratio4x3,
-              CropAspectRatioPreset.ratio5x4,
-              CropAspectRatioPreset.ratio16x9
-            ],
-          ),
-        ],
-      );
-
-      if (croppedFile != null) {
+      setState(() {
+        _selectedImage = File(image.path);
+        _isUploading = true;
+      });
+      
+      try {
+        final uploadService = ref.read(fileUploadServiceProvider);
+        final url = await uploadService.uploadImage(File(image.path));
         setState(() {
-          _selectedImage = File(croppedFile.path);
-          _isUploading = true;
+          _currentImageUrl = url;
+          _isUploading = false;
         });
-        
-        try {
-          final uploadService = ref.read(fileUploadServiceProvider);
-          final url = await uploadService.uploadImage(File(croppedFile.path));
-          setState(() {
-            _currentImageUrl = url;
-            _isUploading = false;
-          });
-        } catch (e) {
-          setState(() => _isUploading = false);
-          if (mounted) {
-             ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Upload failed: $e')));
-          }
+      } catch (e) {
+        setState(() => _isUploading = false);
+        if (mounted) {
+           ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Upload failed: $e')));
         }
       }
     }
@@ -144,12 +114,12 @@ class _CategoryEditScreenState extends ConsumerState<CategoryEditScreen> {
                       ClipRRect(
                         borderRadius: BorderRadius.circular(16),
                         child: _selectedImage != null 
-                             ? Image.file(_selectedImage!, width: double.infinity, height: 200, fit: BoxFit.cover)
+                             ? Image.file(_selectedImage!, width: double.infinity, height: 200, fit: BoxFit.contain)
                              : _currentImageUrl != null && _currentImageUrl!.isNotEmpty
                                 ? CachedNetworkImage(
                                     imageUrl: ApiEndpoints.resolveImageUrl(_currentImageUrl!),
                                     width: double.infinity, height: 200,
-                                    fit: BoxFit.cover,
+                                    fit: BoxFit.contain,
                                     placeholder: (context, url) => const Center(child: CircularProgressIndicator()),
                                     errorWidget: (context, url, error) => Icon(Icons.broken_image, size: 40, color: Colors.grey[400]),
                                   )

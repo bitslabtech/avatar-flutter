@@ -126,7 +126,7 @@ class _ProductCardState extends ConsumerState<ProductCard>
                         borderRadius: BorderRadius.circular(12),
                         child: CachedNetworkImage(
                           imageUrl: widget.product.primaryImageUrl,
-                          fit: BoxFit.cover,
+                          fit: BoxFit.contain,
                           width: double.infinity,
                           height: double.infinity,
                           placeholder: (context, url) => Container(

@@ -131,7 +131,7 @@ class _Step2ProductSelectionState extends ConsumerState<Step2ProductSelection> {
                                   borderRadius: BorderRadius.circular(8),
                                   child: CachedNetworkImage(
                                     imageUrl: product.primaryImageUrl,
-                                    fit: BoxFit.cover,
+                                    fit: BoxFit.contain,
                                     placeholder: (context, url) => const Center(child: CircularProgressIndicator(strokeWidth: 2)),
                                     errorWidget: (context, url, error) => const Icon(Icons.broken_image, color: Colors.grey),
                                   ),

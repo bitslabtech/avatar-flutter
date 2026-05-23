@@ -817,7 +817,7 @@ class _ProductListScreenState extends ConsumerState<ProductListScreen> {
                             : const ColorFilter.mode(Colors.transparent, BlendMode.multiply),
                         child: Image.network(
                           product.resolvedImageUrls!.first,
-                          fit: BoxFit.cover,
+                          fit: BoxFit.contain,
                           errorBuilder: (_, __, ___) => Icon(
                             Icons.image_not_supported,
                             size: 32,

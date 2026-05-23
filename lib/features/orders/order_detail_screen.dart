@@ -447,7 +447,7 @@ class _OrderDetailScreenState extends ConsumerState<OrderDetailScreen> {
                                              border: Border.all(color: isDark ? Colors.grey[700]! : Colors.grey[200]!),
                                              image: item.resolvedImageUrl != null ? DecorationImage(
                                                 image: NetworkImage(item.resolvedImageUrl!),
-                                                fit: BoxFit.cover,
+                                                fit: BoxFit.contain,
                                              ) : null,
                                           ),
                                           child: item.resolvedImageUrl == null ? Icon(Icons.shopping_bag_outlined, color: isDark ? Colors.grey[600] : Colors.grey[400]) : null,
@@ -525,15 +525,15 @@ class _OrderDetailScreenState extends ConsumerState<OrderDetailScreen> {
                                                child: Stack(
                                                  children: [
                                                    Container(
-                                                     decoration: BoxDecoration(
-                                                        borderRadius: const BorderRadius.vertical(top: Radius.circular(16)),
-                                                        color: isDark ? Colors.grey[800] : Colors.grey[50],
-                                                        image: item.resolvedImageUrl != null ? DecorationImage(
-                                                           image: NetworkImage(item.resolvedImageUrl!),
-                                                           fit: BoxFit.cover,
-                                                        ) : null,
-                                                     ),
-                                                     child: item.resolvedImageUrl == null ? Center(child: Icon(Icons.shopping_bag_outlined, size: 40, color: isDark ? Colors.grey[600] : Colors.grey[300])) : null,
+                                                      decoration: BoxDecoration(
+                                                         borderRadius: const BorderRadius.vertical(top: Radius.circular(16)),
+                                                         color: isDark ? Colors.grey[800] : Colors.grey[50],
+                                                         image: item.resolvedImageUrl != null ? DecorationImage(
+                                                            image: NetworkImage(item.resolvedImageUrl!),
+                                                            fit: BoxFit.contain,
+                                                         ) : null,
+                                                      ),
+                                                      child: item.resolvedImageUrl == null ? Center(child: Icon(Icons.shopping_bag_outlined, size: 40, color: isDark ? Colors.grey[600] : Colors.grey[300])) : null,
                                                    ),
                                                  ],
                                                ),
@@ -640,8 +640,9 @@ class _OrderDetailScreenState extends ConsumerState<OrderDetailScreen> {
                            title: 'Order Summary', 
                            isDark: isDark,
                            children: [
-                              _buildSummaryRow('Subtotal', order.subtotalDisplay, isDark),
-                              _buildSummaryRow('Tax (GST)', order.taxDisplay, isDark),
+                              _buildSummaryRow('Subtotal (Excl. GST)', CurrencyUtils.formatPaise(order.subtotalDpPaise - order.taxPaise), isDark),
+                              if (order.taxPaise > 0)
+                                _buildSummaryRow('Tax (GST)', order.taxDisplay, isDark),
                               _buildSummaryRow('Shipping', order.courierFeePaise > 0 ? order.courierFeeDisplay : 'Free', isDark, isGreen: order.courierFeePaise == 0),
                               const SizedBox(height: 12),
                               Row(

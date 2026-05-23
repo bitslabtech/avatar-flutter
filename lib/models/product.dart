@@ -209,10 +209,8 @@ class Product {
     return ((originalPrice - currentPrice) / originalPrice * 100).round();
   }
 
-  /// Calculates the inclusive display price based on the user's dealer discount (if any)
-  /// isGstInclusive is the GLOBAL setting from the admin panel.
-  /// If the global setting is inclusive, the base price is extracted, discounted, then GST added back.
-  /// If exclusive, it calculates discount on base then adds GST.
+  /// Calculates the display price based on the user's dealer discount (if any)
+  /// Price is already GST-inclusive, so just apply dealer discount directly.
   double getDisplayPrice(User? user, {bool isGstInclusive = false}) {
     if (price == null) return 0.0;
     
@@ -223,24 +221,14 @@ class Product {
       discount = user.discountPercentage;
     }
 
-    // Determine the exclusive base price
-    double exclusiveBase = isGstInclusive 
-        ? (price! / (1 + (gstPercent ?? 0) / 100))
-        : price!;
-
-    // Apply dealer discount on the base
-    double discountedBase = exclusiveBase * (1 - (discount / 100));
-
-    // Determine the final inclusive display price to show to users everywhere
-    return discountedBase * (1 + (gstPercent ?? 0) / 100);
+    // Price is already GST-inclusive, just apply dealer discount
+    return price! * (1 - (discount / 100));
   }
 
-  /// Calculates the original inclusive display price (before dealer discount) to use for strikethroughs
+  /// Returns the original display price (before dealer discount) for strikethroughs
   double getOriginalDisplayPrice({bool isGstInclusive = false}) {
     if (price == null) return 0.0;
-    return isGstInclusive 
-        ? price!
-        : price! * (1 + (gstPercent ?? 0) / 100);
+    return price!; // Price is already the final display price (GST-inclusive)
   }
 }
 

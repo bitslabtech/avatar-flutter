@@ -73,10 +73,8 @@ class CreateOrderState {
           ? (product.price is int ? (product.price as int).toDouble() : product.price as double) 
           : 0.0;
         
-        // Calculate price with GST
-        final priceWithGst = price * (1 + (product.gstPercent ?? 0) / 100);
-        
-        total += priceWithGst * quantity;
+        // Price is already GST-inclusive, no need to add GST
+        total += price * quantity;
       }
     });
     return total;
@@ -162,7 +160,29 @@ class CreateOrderNotifier extends StateNotifier<CreateOrderState> {
   }
 
   void setShippingAddress(Map<String, dynamic> address) {
-    state = state.copyWith(shippingAddress: address, clearSelectedAddress: true);
+    final newAddressId = address['id'] ?? 'temp_${DateTime.now().millisecondsSinceEpoch}';
+    final newAddress = Map<String, dynamic>.from(address);
+    newAddress['id'] = newAddressId;
+    // Map 'name' to 'recipientName' for display in the address card
+    if (newAddress.containsKey('name') && !newAddress.containsKey('recipientName')) {
+      newAddress['recipientName'] = newAddress['name'];
+    }
+    
+    // Check if it already exists to avoid duplicates
+    final existingIndex = state.userAddresses.indexWhere((a) => a['id'] == newAddressId);
+    List<Map<String, dynamic>> updatedAddresses = List.from(state.userAddresses);
+    
+    if (existingIndex >= 0) {
+      updatedAddresses[existingIndex] = newAddress;
+    } else {
+      updatedAddresses.insert(0, newAddress);
+    }
+    
+    state = state.copyWith(
+      shippingAddress: address, 
+      userAddresses: updatedAddresses,
+      selectedAddressId: newAddressId,
+    );
   }
 
   void toggleSaveAddress(bool? value) {

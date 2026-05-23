@@ -273,8 +273,6 @@ class _ProductManagementScreenState extends ConsumerState<ProductManagementScree
           }
           context.pushNamed('admin-gst');
         }),
-        const SizedBox(height: 12),
-        _buildGstPricingTile(context, isDark),
       ],
     );
   }

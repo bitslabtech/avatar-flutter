@@ -263,7 +263,7 @@ class _ProductDetailScreenState extends ConsumerState<ProductDetailScreen> {
               itemBuilder: (context, index) {
                 return CachedNetworkImage(
                   imageUrl: images[index],
-                  fit: BoxFit.cover,
+                  fit: BoxFit.contain,
                   placeholder: (context, url) => Center(child: LoadingIndicator(color: isDark ? Colors.white : Colors.blue)),
                   errorWidget: (context, url, error) => const Icon(Icons.broken_image, size: 50, color: Colors.grey),
                 );

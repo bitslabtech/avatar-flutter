@@ -443,7 +443,7 @@ class _BrandManagementScreenState extends ConsumerState<BrandManagementScreen> {
                          borderRadius: BorderRadius.circular(8),
                          child: CachedNetworkImage(
                            imageUrl: ApiEndpoints.resolveImageUrl(item.logo!),
-                           fit: BoxFit.cover,
+                           fit: BoxFit.contain,
                            placeholder: (context, url) => Center(child: Icon(icon, color: color, size: 16)),
                            errorWidget: (context, url, error) => Icon(icon, color: color, size: 20),
                          ),
@@ -562,37 +562,9 @@ class _BrandDialogState extends ConsumerState<_BrandDialog> {
   Future<void> _pickImage() async {
     final XFile? image = await _picker.pickImage(source: ImageSource.gallery);
     if (image != null) {
-      final croppedFile = await ImageCropper().cropImage(
-        sourcePath: image.path,
-        uiSettings: [
-          AndroidUiSettings(
-            toolbarTitle: 'Crop Brand Logo',
-            toolbarColor: Theme.of(context).colorScheme.primary,
-            toolbarWidgetColor: Colors.white,
-            initAspectRatio: CropAspectRatioPreset.square,
-            lockAspectRatio: false,
-            aspectRatioPresets: [
-              CropAspectRatioPreset.square,
-              CropAspectRatioPreset.ratio4x3,
-              CropAspectRatioPreset.ratio16x9,
-            ],
-          ),
-          IOSUiSettings(
-            title: 'Crop Brand Logo',
-            aspectRatioPresets: [
-              CropAspectRatioPreset.square,
-              CropAspectRatioPreset.ratio4x3,
-              CropAspectRatioPreset.ratio16x9,
-            ],
-          ),
-        ],
-      );
-
-      if (croppedFile != null) {
-        setState(() {
-          _selectedImage = File(croppedFile.path);
-        });
-      }
+      setState(() {
+        _selectedImage = File(image.path);
+      });
     }
   }
 
@@ -652,9 +624,9 @@ class _BrandDialogState extends ConsumerState<_BrandDialog> {
                                 BoxShadow(color: Colors.black.withOpacity(0.08), blurRadius: 16, offset: const Offset(0, 4)),
                               ],
                               image: _selectedImage != null 
-                                ? DecorationImage(image: FileImage(_selectedImage!), fit: BoxFit.cover)
+                                ? DecorationImage(image: FileImage(_selectedImage!), fit: BoxFit.contain)
                                 : (_currentLogoUrl != null && _currentLogoUrl!.isNotEmpty)
-                                  ? DecorationImage(image: CachedNetworkImageProvider(ApiEndpoints.resolveImageUrl(_currentLogoUrl!)), fit: BoxFit.cover)
+                                  ? DecorationImage(image: CachedNetworkImageProvider(ApiEndpoints.resolveImageUrl(_currentLogoUrl!)), fit: BoxFit.contain)
                                   : null,
                             ),
                             child: _selectedImage == null && (_currentLogoUrl == null || _currentLogoUrl!.isEmpty)
