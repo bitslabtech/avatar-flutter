@@ -70,7 +70,7 @@ class UserManagementState {
 
 // Provider
 final userManagementProvider =
-    StateNotifierProvider<UserManagementNotifier, UserManagementState>((ref) {
+    StateNotifierProvider.autoDispose<UserManagementNotifier, UserManagementState>((ref) {
   return UserManagementNotifier(ref.read(apiClientProvider));
 });
 

@@ -152,20 +152,63 @@ class CartScreen extends ConsumerWidget {
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 16),
                     child: Container(
-                      padding: const EdgeInsets.all(12),
+                      padding: const EdgeInsets.all(16),
                       decoration: BoxDecoration(
-                        color: Colors.orange.withOpacity(0.1),
+                        color: isDark ? AppColors.errorRed.withOpacity(0.15) : const Color(0xFFFEE2E2), // Tailwind red-100
                         borderRadius: BorderRadius.circular(10),
-                        border: Border.all(color: Colors.orange.withOpacity(0.4)),
+                        border: Border.all(color: isDark ? AppColors.errorRed.withOpacity(0.5) : const Color(0xFFFCA5A5)), // Tailwind red-300
                       ),
-                      child: Row(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const Icon(Icons.info_outline, color: Colors.orange, size: 18),
-                          const SizedBox(width: 8),
-                          Expanded(
+                          Row(
+                            children: [
+                              Icon(Icons.error_outline, color: isDark ? const Color(0xFFFCA5A5) : const Color(0xFFDC2626), size: 22),
+                              const SizedBox(width: 10),
+                              Expanded(
+                                child: Text(
+                                  'Minimum order value is ₹${settings.minOrderValue.toStringAsFixed(0)}',
+                                  style: TextStyle(
+                                    color: isDark ? const Color(0xFFFCA5A5) : const Color(0xFF991B1B), 
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(height: 6),
+                          Padding(
+                            padding: const EdgeInsets.only(left: 32),
                             child: Text(
-                              'Add ₹$shortfallRs more to reach the minimum order of ₹${settings.minOrderValue.toStringAsFixed(0)}',
-                              style: const TextStyle(color: Colors.orange, fontSize: 12),
+                              'Please add ₹$shortfallRs more worth of products to proceed with checkout.',
+                              style: TextStyle(
+                                color: isDark ? const Color(0xFFFECACA) : const Color(0xFFB91C1C), 
+                                fontSize: 13,
+                              ),
+                            ),
+                          ),
+                          const SizedBox(height: 16),
+                          SizedBox(
+                            width: double.infinity,
+                            child: ElevatedButton.icon(
+                              onPressed: () {
+                                if (context.canPop()) {
+                                  context.pop();
+                                } else {
+                                  context.goNamed('home');
+                                }
+                              },
+                              icon: const Icon(Icons.add_shopping_cart, size: 18),
+                              label: const Text('Add More Products'),
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: isDark ? AppColors.errorRed.withOpacity(0.2) : Colors.white,
+                                foregroundColor: isDark ? Colors.white : const Color(0xFFDC2626),
+                                elevation: 0,
+                                side: BorderSide(color: isDark ? AppColors.errorRed.withOpacity(0.5) : const Color(0xFFDC2626)),
+                                padding: const EdgeInsets.symmetric(vertical: 12),
+                                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                              ),
                             ),
                           ),
                         ],

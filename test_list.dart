@@ -1,0 +1,1 @@
+﻿void main() { var userAddresses = <Map<String,dynamic>>[]; var address = {'name': 'test'}; var newAddressId = 'temp_123'; var newAddress = Map<String, dynamic>.from(address); newAddress['id'] = newAddressId; var updatedAddresses = List<Map<String, dynamic>>.from(userAddresses); updatedAddresses.insert(0, newAddress); print(updatedAddresses); }

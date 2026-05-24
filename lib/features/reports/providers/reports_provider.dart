@@ -39,7 +39,7 @@ class ReportsState {
   }
 }
 
-final reportsProvider = StateNotifierProvider<ReportsNotifier, ReportsState>((ref) {
+final reportsProvider = StateNotifierProvider.autoDispose<ReportsNotifier, ReportsState>((ref) {
   final repository = ref.read(reportsRepositoryProvider);
   return ReportsNotifier(repository);
 });

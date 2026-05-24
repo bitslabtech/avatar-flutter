@@ -59,7 +59,7 @@ class _Step2AddressSelectionState extends ConsumerState<Step2AddressSelection> {
               subtitleColor: subtitleColor!,
               cardColor: cardColor!,
               borderColor: borderColor!,
-            )),
+            )).toList(),
           ],
 
           const SizedBox(height: 16),
@@ -138,6 +138,7 @@ class _Step2AddressSelectionState extends ConsumerState<Step2AddressSelection> {
     final iconData = type == 'work' ? Icons.work_outline : (type == 'other' ? Icons.location_on_outlined : Icons.home_outlined);
 
     return GestureDetector(
+      key: ValueKey(address['id']),
       onTap: () {
         ref.read(createOrderProvider.notifier).selectAddress(address['id']);
       },
@@ -429,11 +430,23 @@ class _AddressFormModalState extends State<AddressFormModal> {
                       },
                     ),
                     const SizedBox(height: 16),
-                    _buildInputField('Street Address', _streetController, labelColor, textColor, inputBgColor, borderColor, hintColor),
+                    _buildInputField('Street Address', _streetController, labelColor, textColor, inputBgColor, borderColor, hintColor,
+                      validator: (value) {
+                        if (value == null || value.trim().isEmpty) return 'Street address is required';
+                        if (value.trim().length < 3) return 'Enter valid address';
+                        return null;
+                      },
+                    ),
                     const SizedBox(height: 16),
                     _buildInputField('Landmark (Optional)', _landmarkController, labelColor, textColor, inputBgColor, borderColor, hintColor, validator: (val) => null),
                     const SizedBox(height: 16),
-                    _buildInputField('Town/City', _cityController, labelColor, textColor, inputBgColor, borderColor, hintColor),
+                    _buildInputField('Town/City', _cityController, labelColor, textColor, inputBgColor, borderColor, hintColor,
+                      validator: (value) {
+                        if (value == null || value.trim().isEmpty) return 'City is required';
+                        if (value.trim().length < 3) return 'Enter valid city';
+                        return null;
+                      },
+                    ),
                     const SizedBox(height: 16),
                     
                     // State & Zip Code Row
@@ -760,9 +773,9 @@ class _AddressFormModalState extends State<AddressFormModal> {
 
   void _saveAddress() {
     if (_formKey.currentState!.validate()) {
-      if (_stateController.text.isEmpty) {
+      if (_stateController.text.trim().isEmpty || _stateController.text.trim().length < 3) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Please select a state'), backgroundColor: Colors.red),
+          const SnackBar(content: Text('Please select a valid state'), backgroundColor: Colors.red),
         );
         return;
       }

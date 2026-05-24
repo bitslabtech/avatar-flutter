@@ -83,104 +83,7 @@ class _UserAddEditScreenState extends ConsumerState<UserAddEditScreen> {
     }
   }
 
-  void _showDisableDialog() {
-    final TextEditingController disableController = TextEditingController();
-    final isDark = Theme.of(context).brightness == Brightness.dark;
 
-    showDialog(
-      context: context,
-      builder: (ctx) => StatefulBuilder(
-        builder: (context, setDialogState) {
-          final isDisableEnabled = disableController.text == 'DISABLE';
-
-          return AlertDialog(
-            backgroundColor: isDark ? AppColors.surfaceDark : Colors.white,
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-            title: Row(
-              children: [
-                Container(
-                  padding: const EdgeInsets.all(8),
-                  decoration: BoxDecoration(
-                    color: Colors.orange.withOpacity(0.1),
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  child: const Icon(Icons.warning_amber_rounded, color: Colors.orange, size: 24),
-                ),
-                const SizedBox(width: 12),
-                Text(
-                  'Disable Account',
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    color: isDark ? Colors.white : Colors.black87,
-                  ),
-                ),
-              ],
-            ),
-            content: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'To disable this account, please type DISABLE below:',
-                  style: TextStyle(color: isDark ? Colors.grey.shade300 : Colors.grey.shade700),
-                ),
-                const SizedBox(height: 16),
-                TextField(
-                  controller: disableController,
-                  onChanged: (_) => setDialogState(() {}),
-                  style: TextStyle(
-                    color: isDark ? Colors.white : Colors.black,
-                    fontWeight: FontWeight.bold,
-                  ),
-                  decoration: InputDecoration(
-                    hintText: 'DISABLE',
-                    hintStyle: TextStyle(color: isDark ? Colors.grey.shade500 : Colors.grey.shade400),
-                    filled: true,
-                    fillColor: isDark ? Colors.white.withOpacity(0.05) : Colors.grey.shade100,
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10),
-                      borderSide: BorderSide.none,
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10),
-                      borderSide: BorderSide(color: isDisableEnabled ? Colors.orange : Theme.of(context).colorScheme.primary, width: 2),
-                    ),
-                    contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
-                  ),
-                ),
-              ],
-            ),
-            actions: [
-              TextButton(
-                onPressed: () => Navigator.of(ctx).pop(),
-                child: Text(
-                  'Cancel',
-                  style: TextStyle(color: isDark ? Colors.grey.shade400 : Colors.grey.shade600),
-                ),
-              ),
-              ElevatedButton(
-                onPressed: isDisableEnabled
-                    ? () {
-                        Navigator.of(ctx).pop();
-                        setState(() => _isActive = false);
-                      }
-                    : null,
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.orange,
-                  foregroundColor: Colors.white,
-                  disabledBackgroundColor: isDark ? Colors.grey.shade800 : Colors.grey.shade300,
-                  disabledForegroundColor: isDark ? Colors.grey.shade600 : Colors.grey.shade500,
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-                  padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
-                ),
-                child: const Text('Disable'),
-              ),
-            ],
-          );
-        },
-      ),
-    );
-  }
 
   void _showDeleteDialog() {
     final TextEditingController deleteController = TextEditingController();
@@ -189,7 +92,7 @@ class _UserAddEditScreenState extends ConsumerState<UserAddEditScreen> {
     showDialog(
       context: context,
       builder: (ctx) => StatefulBuilder(
-        builder: (context, setDialogState) {
+        builder: (innerCtx, setDialogState) {
           final isDeleteEnabled = deleteController.text.toUpperCase() == 'DELETE';
 
           return AlertDialog(
@@ -395,14 +298,10 @@ class _UserAddEditScreenState extends ConsumerState<UserAddEditScreen> {
                         ],
                       ),
                     ),
-                      Switch(
+                    Switch(
                       value: _isActive,
                       onChanged: (v) {
-                        if (!v) {
-                          _showDisableDialog();
-                        } else {
-                          setState(() => _isActive = v);
-                        }
+                        setState(() => _isActive = v);
                       },
                       activeColor: Colors.green,
                     ),

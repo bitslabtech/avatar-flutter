@@ -120,7 +120,7 @@ class _ProductAddEditScreenState extends ConsumerState<ProductAddEditScreen> {
 
   Future<void> _pickAndUploadImages() async {
     try {
-      final List<XFile> images = await _picker.pickMultiImage();
+      final List<XFile> images = await _picker.pickMultiImage(imageQuality: 70, maxHeight: 1200, maxWidth: 1200);
       if (images.isEmpty) return;
 
       setState(() => _isUploading = true);

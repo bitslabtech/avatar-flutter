@@ -279,14 +279,8 @@ class _AdminManagementScreenState extends ConsumerState<AdminManagementScreen> {
                              ],
                            ),
                          )
-                       : GridView.builder(
+                       : ListView.builder(
                           padding: const EdgeInsets.all(16),
-                          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 2,
-                            childAspectRatio: 0.82, // Tuned for card height
-                            crossAxisSpacing: 12,
-                            mainAxisSpacing: 12,
-                          ),
                           itemCount: _filteredAdmins.length,
                           itemBuilder: (context, index) {
                             final admin = _filteredAdmins[index];
@@ -302,8 +296,10 @@ class _AdminManagementScreenState extends ConsumerState<AdminManagementScreen> {
 
   Widget _buildAdminCard(BuildContext context, User admin, bool isDark, Color cardDark, Color cardLight) {
     final isActive = admin.status == 'active';
-    
+    final primaryColor = Theme.of(context).colorScheme.primary;
+
     return Container(
+      margin: const EdgeInsets.only(bottom: 16),
       decoration: BoxDecoration(
         color: isDark ? cardDark : cardLight,
         borderRadius: BorderRadius.circular(16),
@@ -313,150 +309,314 @@ class _AdminManagementScreenState extends ConsumerState<AdminManagementScreen> {
         boxShadow: [
           if (!isDark)
             BoxShadow(
-              color: Colors.black.withOpacity(0.05),
-              blurRadius: 10,
+              color: Colors.black.withOpacity(0.04),
+              blurRadius: 12,
               offset: const Offset(0, 4),
             ),
         ],
       ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-           // Edit Icon
-           Align(
-             alignment: Alignment.topRight,
-             child: InkWell(
-               onTap: () {
-                 final user = ref.read(authProvider).user;
-                 if (user?.hasPermission('users', 'update') != true) {
-                   ScaffoldMessenger.of(context).showSnackBar(
-                     const SnackBar(content: Text('You do not have permission to manage admins')),
-                   );
-                   return;
-                 }
-                 _navigateToPermissions(admin);
-               },
-               borderRadius: BorderRadius.circular(20),
-               child: Padding(
-                 padding: const EdgeInsets.all(8.0),
-                 child: Icon(Icons.edit, size: 20, color: isDark ? Colors.grey[400] : Colors.grey[500]),
-               ),
-             ),
-           ),
-           
-           // Avatar
-           Stack(
-             children: [
-               Container(
-                 margin: const EdgeInsets.only(bottom: 12),
-                 width: 64,
-                 height: 64,
-                 decoration: BoxDecoration(
-                   shape: BoxShape.circle,
-                   boxShadow: [
-                     BoxShadow(
-                       color: Colors.black.withOpacity(0.1),
-                       blurRadius: 8,
-                       offset: const Offset(0, 4),
-                     ),
-                   ],
-                 ),
-                 child: admin.resolvedAvatarUrl != null && admin.resolvedAvatarUrl!.isNotEmpty
-                     ? ClipOval(
-                         child: CachedNetworkImage(
-                           imageUrl: admin.resolvedAvatarUrl!,
-                           fit: BoxFit.cover,
-                           placeholder: (_, __) => Container(color: Colors.grey[300]),
-                           errorWidget: (_, __, ___) => _buildFallbackAvatar(admin.name),
-                         ),
-                       )
-                     : _buildFallbackAvatar(admin.name),
-               ),
-               // Status Dot
-               Positioned(
-                 bottom: 12, 
-                 right: 4,
-                 child: Container(
-                   width: 14,
-                   height: 14,
-                   decoration: BoxDecoration(
-                     color: isActive ? Colors.green : Colors.grey,
-                     shape: BoxShape.circle,
-                     border: Border.all(color: isDark ? cardDark : Colors.white, width: 2),
-                   ),
-                 ),
-               ),
-             ],
-           ),
-           
-           // Name
-           Padding(
-             padding: const EdgeInsets.symmetric(horizontal: 8),
-             child: Text(
-               admin.name,
-               style: TextStyle(
-                 fontSize: 14,
-                 fontWeight: FontWeight.bold,
-                 color: isDark ? Colors.white : Colors.black87,
-               ),
-               maxLines: 1,
-               overflow: TextOverflow.ellipsis,
-             ),
-           ),
-           
-           const Spacer(),
-           
-           // Logs Button (Navigates to Permissions for now as per plan/design flow)
-           Padding(
-             padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
-             child: InkWell(
-               onTap: () {
-                 final user = ref.read(authProvider).user;
-                 if (user?.hasPermission('users', 'update') != true) {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(content: Text('Permission Denied: Cannot view logs')),
-                    );
-                    return;
-                 }
-                 // Navigate to Individual Logs
-                 Navigator.push(
-                   context,
-                   MaterialPageRoute(
-                     builder: (context) => AdminLogScreen(
-                       userId: admin.id,
-                       userName: admin.name,
-                       userRole: admin.role,
-                     ),
-                   ),
-                 );
-               },
-               borderRadius: BorderRadius.circular(8),
-               child: Container(
-                 width: double.infinity,
-                 padding: const EdgeInsets.symmetric(vertical: 8),
-                 decoration: BoxDecoration(
-                   color: Theme.of(context).colorScheme.primary.withOpacity(0.1),
-                   borderRadius: BorderRadius.circular(8),
-                 ),
-                 child: Row(
-                   mainAxisAlignment: MainAxisAlignment.center,
-                   children: [
-                     Icon(Icons.history, size: 16, color: Theme.of(context).colorScheme.primary),
-                     const SizedBox(width: 6),
-                     Text(
-                       'Logs',
-                       style: TextStyle(
-                         color: Theme.of(context).colorScheme.primary,
-                         fontSize: 12,
-                         fontWeight: FontWeight.bold,
-                       ),
-                     ),
-                   ],
-                 ),
-               ),
-             ),
-           ),
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          children: [
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                // Avatar with Status
+                Stack(
+                  children: [
+                    Container(
+                      width: 56,
+                      height: 56,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withOpacity(0.08),
+                            blurRadius: 8,
+                            offset: const Offset(0, 2),
+                          ),
+                        ],
+                      ),
+                      child: admin.resolvedAvatarUrl != null && admin.resolvedAvatarUrl!.isNotEmpty
+                          ? ClipOval(
+                              child: CachedNetworkImage(
+                                imageUrl: admin.resolvedAvatarUrl!,
+                                fit: BoxFit.cover,
+                                placeholder: (_, __) => Container(color: Colors.grey[300]),
+                                errorWidget: (_, __, ___) => _buildFallbackAvatar(admin.name),
+                              ),
+                            )
+                          : _buildFallbackAvatar(admin.name),
+                    ),
+                    Positioned(
+                      bottom: 0,
+                      right: 0,
+                      child: Container(
+                        width: 14,
+                        height: 14,
+                        decoration: BoxDecoration(
+                          color: isActive ? AppColors.successGreen : Colors.grey,
+                          shape: BoxShape.circle,
+                          border: Border.all(color: isDark ? cardDark : Colors.white, width: 2),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(width: 16),
+                
+                // Info
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Expanded(
+                            child: Text(
+                              admin.name,
+                              style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                                color: isDark ? Colors.white : Colors.black87,
+                              ),
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ),
+                          // Role Badge
+                          Container(
+                            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                            decoration: BoxDecoration(
+                              color: primaryColor.withOpacity(0.1),
+                              borderRadius: BorderRadius.circular(6),
+                            ),
+                            child: Text(
+                              (admin.role == 'super_admin' ? 'Super Admin' : 'Admin').toUpperCase(),
+                              style: TextStyle(
+                                fontSize: 10,
+                                fontWeight: FontWeight.bold,
+                                color: primaryColor,
+                                letterSpacing: 0.5,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 4),
+                      Row(
+                        children: [
+                          Icon(Icons.phone, size: 14, color: isDark ? Colors.grey[500] : Colors.grey[400]),
+                          const SizedBox(width: 4),
+                          Text(
+                            admin.phone,
+                            style: TextStyle(
+                              fontSize: 13,
+                              color: isDark ? Colors.grey[400] : Colors.grey[600],
+                            ),
+                          ),
+                        ],
+                      ),
+                      if (admin.email != null && admin.email!.isNotEmpty) ...[
+                        const SizedBox(height: 2),
+                        Row(
+                          children: [
+                            Icon(Icons.email, size: 14, color: isDark ? Colors.grey[500] : Colors.grey[400]),
+                            const SizedBox(width: 4),
+                            Expanded(
+                              child: Text(
+                                admin.email!,
+                                style: TextStyle(
+                                  fontSize: 13,
+                                  color: isDark ? Colors.grey[400] : Colors.grey[600],
+                                ),
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ],
+                  ),
+                ),
+              ],
+            ),
+            
+            const SizedBox(height: 16),
+            Divider(height: 1, color: isDark ? Colors.grey[800] : Colors.grey[100]),
+            const SizedBox(height: 16),
+            
+            // Actions
+            Row(
+              children: [
+                // Edit Button
+                Expanded(
+                  child: _buildActionBtn(
+                    context,
+                    icon: Icons.edit_outlined,
+                    label: 'Edit',
+                    color: isDark ? Colors.grey[300]! : Colors.grey[700]!,
+                    bgColor: isDark ? Colors.white.withOpacity(0.05) : Colors.grey[100]!,
+                    onTap: () {
+                      final user = ref.read(authProvider).user;
+                      if (user?.hasPermission('users', 'update') != true) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(content: Text('You do not have permission to manage admins')),
+                        );
+                        return;
+                      }
+                      _navigateToPermissions(admin);
+                    },
+                  ),
+                ),
+                const SizedBox(width: 8),
+                // Logs Button
+                Expanded(
+                  child: _buildActionBtn(
+                    context,
+                    icon: Icons.history,
+                    label: 'Logs',
+                    color: primaryColor,
+                    bgColor: primaryColor.withOpacity(0.1),
+                    onTap: () {
+                      final user = ref.read(authProvider).user;
+                      if (user?.hasPermission('users', 'update') != true) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(content: Text('Permission Denied: Cannot view logs')),
+                        );
+                        return;
+                      }
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => AdminLogScreen(
+                            userId: admin.id,
+                            userName: admin.name,
+                            userRole: admin.role,
+                          ),
+                        ),
+                      );
+                    },
+                  ),
+                ),
+                const SizedBox(width: 8),
+                // Delete Button
+                Expanded(
+                  child: _buildActionBtn(
+                    context,
+                    icon: Icons.delete_outline,
+                    label: 'Delete',
+                    color: AppColors.errorRed,
+                    bgColor: AppColors.errorRed.withOpacity(0.1),
+                    onTap: () => _deleteAdmin(admin),
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Future<void> _deleteAdmin(User admin) async {
+    final user = ref.read(authProvider).user;
+    if (user?.hasPermission('users', 'delete') != true) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Permission Denied: Cannot delete admin')),
+      );
+      return;
+    }
+
+    final confirmController = TextEditingController();
+    final confirm = await showDialog<bool>(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Delete Admin', style: TextStyle(color: Colors.red)),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Text('This action will permanently delete the admin account.'),
+            const SizedBox(height: 16),
+            const Text('Type "delete" to confirm:', style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold)),
+            const SizedBox(height: 8),
+            TextField(
+              controller: confirmController,
+              decoration: const InputDecoration(
+                border: OutlineInputBorder(),
+                hintText: 'delete',
+                isDense: true,
+              ),
+              autofocus: true,
+            ),
+          ],
+        ),
+        actions: [
+          TextButton(onPressed: () => Navigator.pop(context, false), child: const Text('Cancel')),
+          ValueListenableBuilder<TextEditingValue>(
+            valueListenable: confirmController,
+            builder: (context, value, child) {
+              return ElevatedButton(
+                style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
+                onPressed: value.text.toLowerCase() == 'delete' 
+                    ? () => Navigator.pop(context, true)
+                    : null, 
+                child: const Text('Delete', style: TextStyle(color: Colors.white)),
+              );
+            },
+          ),
         ],
+      ),
+    );
+
+    if (confirm != true) return;
+
+    setState(() => _isLoading = true);
+    try {
+      await ref.read(adminServiceProvider).deleteAdmin(admin.id);
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Admin account deleted successfully'), backgroundColor: AppColors.successGreen),
+        );
+      }
+      _loadAdmins();
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Error: $e'), backgroundColor: AppColors.errorRed));
+        setState(() => _isLoading = false);
+      }
+    }
+  }
+
+  Widget _buildActionBtn(BuildContext context, {required IconData icon, required String label, required Color color, required Color bgColor, required VoidCallback onTap}) {
+    return InkWell(
+      onTap: onTap,
+      borderRadius: BorderRadius.circular(8),
+      child: Container(
+        padding: const EdgeInsets.symmetric(vertical: 8),
+        decoration: BoxDecoration(
+          color: bgColor,
+          borderRadius: BorderRadius.circular(8),
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(icon, size: 16, color: color),
+            const SizedBox(width: 4),
+            Text(
+              label,
+              style: TextStyle(
+                color: color,
+                fontSize: 12,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -497,6 +657,17 @@ class _CreateAdminSheetState extends ConsumerState<_CreateAdminSheet> {
   final _passCtrl = TextEditingController();
   bool _submitting = false;
   bool _obscurePass = true;
+  final Map<String, List<dynamic>> _perms = {};
+
+  final Map<String, IconData> _modules = {
+    'products': Icons.inventory_2,
+    'orders': Icons.shopping_cart,
+    'dealers': Icons.store,
+    'users': Icons.group,
+    'ecommerce': Icons.shopping_bag,
+    'reports': Icons.bar_chart,
+    'configurations': Icons.settings,
+  };
 
   Future<void> _submit() async {
     if (!_formKey.currentState!.validate()) return;
@@ -506,7 +677,7 @@ class _CreateAdminSheetState extends ConsumerState<_CreateAdminSheet> {
         'name': _nameCtrl.text,
         'phone': _phoneCtrl.text,
         'password': _passCtrl.text,
-        'permissions': {}
+        'permissions': _perms
       });
       if (mounted) Navigator.pop(context, true);
     } catch (e) {
@@ -597,6 +768,71 @@ class _CreateAdminSheetState extends ConsumerState<_CreateAdminSheet> {
               isPassword: true,
               obscure: _obscurePass,
               onToggleObscure: () => setState(() => _obscurePass = !_obscurePass),
+            ),
+            
+            const SizedBox(height: 24),
+            Text(
+              'Module Access (Full Access)',
+              style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: textColor),
+            ),
+            const SizedBox(height: 4),
+            Text(
+              'Select modules to grant full access. You can fine-tune specific permissions (Read, Add, Edit, Delete) later.',
+              style: TextStyle(fontSize: 12, color: isDark ? Colors.grey[500] : Colors.grey[600]),
+            ),
+            const SizedBox(height: 12),
+            Container(
+              decoration: BoxDecoration(
+                color: isDark ? Colors.white.withOpacity(0.02) : Colors.grey[50],
+                borderRadius: BorderRadius.circular(16),
+                border: Border.all(color: borderColor),
+              ),
+              child: ListView.separated(
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                padding: EdgeInsets.zero,
+                itemCount: _modules.length,
+                separatorBuilder: (context, index) => Divider(height: 1, color: borderColor, indent: 48),
+                itemBuilder: (context, index) {
+                  final module = _modules.keys.elementAt(index);
+                  final icon = _modules.values.elementAt(index);
+                  final hasAccess = _perms.containsKey(module) && _perms[module]!.isNotEmpty;
+                  return Theme(
+                    data: Theme.of(context).copyWith(
+                      checkboxTheme: CheckboxThemeData(
+                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
+                      ),
+                    ),
+                    child: CheckboxListTile(
+                      contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+                      title: Text(
+                        module[0].toUpperCase() + module.substring(1), 
+                        style: TextStyle(color: textColor, fontSize: 14, fontWeight: FontWeight.w600)
+                      ),
+                      secondary: Container(
+                        padding: const EdgeInsets.all(8),
+                        decoration: BoxDecoration(
+                          color: Theme.of(context).colorScheme.primary.withOpacity(0.1),
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        child: Icon(icon, color: Theme.of(context).colorScheme.primary, size: 18),
+                      ),
+                      value: hasAccess,
+                      activeColor: Theme.of(context).colorScheme.primary,
+                      checkboxShape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
+                      onChanged: (val) {
+                        setState(() {
+                          if (val == true) {
+                            _perms[module] = ['read', 'create', 'update', 'delete'];
+                          } else {
+                            _perms.remove(module);
+                          }
+                        });
+                      },
+                    ),
+                  );
+                },
+              ),
             ),
             
             const SizedBox(height: 32),

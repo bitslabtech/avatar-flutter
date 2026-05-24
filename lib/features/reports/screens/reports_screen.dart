@@ -156,70 +156,30 @@ class _ReportsScreenState extends ConsumerState<ReportsScreen> with SingleTicker
   }
 
   Widget _buildTransactionsTab(BuildContext context, ReportsState state, bool isDark) {
-    return Stack(
+    return Column(
       children: [
-        // Background - Filters
-        const Positioned.fill(
-          child: SingleChildScrollView(
-            child: Padding(
-              padding: EdgeInsets.only(
-                left: 16.0,
-                right: 16.0,
-                top: 16.0,
-                bottom: 250.0, // Space so filters can be scrolled above the bottom sheet
-              ),
-              child: ReportsFilterBar(),
-            ),
-          ),
+        // Top Filter Bar Section
+        Container(
+          color: isDark ? const Color(0xFF101822) : Colors.white,
+          padding: const EdgeInsets.all(16.0),
+          child: const ReportsFilterBar(),
         ),
         
-        // Draggable Bottom Sheet for Transactions
-        DraggableScrollableSheet(
-          initialChildSize: 0.5,
-          minChildSize: 0.5, // Matches initialChildSize to prevent dragging below default state
-          maxChildSize: 0.9,
-          builder: (context, scrollController) {
-            return Container(
-              decoration: BoxDecoration(
-                color: isDark ? const Color(0xFF101822) : Colors.white,
-                borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black.withValues(alpha: 0.05),
-                    blurRadius: 10,
-                    offset: const Offset(0, -5),
-                  ),
-                ],
-              ),
-              child: Column(
-                children: [
-                  // Drag handle
-                  Center(
-                    child: Container(
-                      margin: const EdgeInsets.symmetric(vertical: 12),
-                      width: 48,
-                      height: 5,
-                      decoration: BoxDecoration(
-                        color: isDark ? Colors.grey[700] : Colors.grey[300],
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                    ),
-                  ),
-                  // Transactions List
-                  Expanded(
-                    child: ReportsTable(
-                      state: state,
-                      isDark: isDark,
-                      scrollController: scrollController,
-                      onPageChanged: (page) {
-                        ref.read(reportsProvider.notifier).setPage(page);
-                      },
-                    ),
-                  ),
-                ],
-              ),
-            );
-          },
+        // Divider
+        Divider(height: 1, color: isDark ? Colors.grey[800] : Colors.grey[200]),
+
+        // Transactions List
+        Expanded(
+          child: Container(
+            color: isDark ? const Color(0xFF101822) : const Color(0xFFF8FAFC),
+            child: ReportsTable(
+              state: state,
+              isDark: isDark,
+              onPageChanged: (page) {
+                ref.read(reportsProvider.notifier).setPage(page);
+              },
+            ),
+          ),
         ),
       ],
     );

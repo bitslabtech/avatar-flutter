@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:intl/intl.dart';
 import '../providers/reports_provider.dart';
-import '../../../models/order.dart'; // Import Order model for extension methods
-import '../../../core/utils/currency_utils.dart'; // Assuming this exists
+import '../../../models/order.dart'; 
+import '../../../core/utils/currency_utils.dart'; 
 
 class ReportsTable extends StatelessWidget {
   final ReportsState state;
@@ -25,9 +27,32 @@ class ReportsTable extends StatelessWidget {
 
     if (state.report == null || state.report!.data.isEmpty) {
       return Center(
-        child: Text(
-          'No transactions found',
-          style: TextStyle(color: isDark ? Colors.grey[400] : Colors.grey[600]),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(
+              Icons.receipt_long_rounded,
+              size: 64,
+              color: isDark ? Colors.grey[700] : Colors.grey[300],
+            ),
+            const SizedBox(height: 16),
+            Text(
+              'No transactions found',
+              style: TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.w600,
+                color: isDark ? Colors.grey[400] : Colors.grey[600],
+              ),
+            ),
+            const SizedBox(height: 8),
+            Text(
+              'Try adjusting your filters',
+              style: TextStyle(
+                fontSize: 14,
+                color: isDark ? Colors.grey[500] : Colors.grey[400],
+              ),
+            ),
+          ],
         ),
       );
     }
@@ -37,180 +62,302 @@ class ReportsTable extends StatelessWidget {
 
     return Column(
       children: [
-        // Table Header
-        Container(
-          color: isDark ? const Color(0xFF1F2937) : Colors.grey[50],
-          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-          child: Row(
-            children: [
-              _buildHeaderCell('Date', flex: 2),
-              _buildHeaderCell('Order #', flex: 2),
-              _buildHeaderCell('User', flex: 3),
-              _buildHeaderCell('Amount', flex: 2, align: TextAlign.end),
-              _buildHeaderCell('Status', flex: 2, align: TextAlign.center),
-            ],
-          ),
-        ),
-
-        // List View (Rows)
+        // List View (Cards)
         Expanded(
           child: ListView.separated(
             controller: scrollController,
-            padding: EdgeInsets.zero,
+            padding: const EdgeInsets.only(top: 16, left: 16, right: 16, bottom: 8),
             itemCount: orders.length,
-            separatorBuilder: (c, i) => Divider(height: 1, color: isDark ? Colors.grey[800] : Colors.grey[200]),
+            separatorBuilder: (c, i) => const SizedBox(height: 12),
             itemBuilder: (context, index) {
               final order = orders[index];
-              return Container(
-                color: isDark ? const Color(0xFF101822) : Colors.white,
-                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-                child: Row(
-                  children: [
-                    // Date
-                    Expanded(
-                      flex: 2,
-                      child: Text(
-                        _formatDate(order.createdAt),
-                        style: TextStyle(
-                          fontSize: 13,
-                          color: isDark ? Colors.grey[400] : Colors.grey[600],
-                        ),
-                      ),
-                    ),
-                    // Order No
-                    Expanded(
-                      flex: 2,
-                      child: Text(
-                        order.orderNo,
-                        style: TextStyle(
-                          fontSize: 13,
-                          fontWeight: FontWeight.w600,
-                          color: isDark ? Colors.white : const Color(0xFF111418),
-                        ),
-                      ),
-                    ),
-                    // User
-                    Expanded(
-                      flex: 3,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            order.user?['name'] ?? 'Unknown',
-                            style: TextStyle(
-                              fontSize: 13,
-                              color: isDark ? Colors.white : const Color(0xFF111418),
-                            ),
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                          Text(
-                            order.user?['role'] ?? '',
-                            style: TextStyle(
-                              fontSize: 11,
-                              color: order.user?['isDealer'] == true ? Colors.purple : Colors.blue,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    // Amount
-                    Expanded(
-                      flex: 2,
-                      child: Text(
-                        CurrencyUtils.format(order.grandTotalPaise / 100),
-                        textAlign: TextAlign.end,
-                        style: TextStyle(
-                          fontSize: 13,
-                          fontWeight: FontWeight.bold,
-                          color: isDark ? Colors.white : const Color(0xFF111418),
-                        ),
-                      ),
-                    ),
-                    // Status
-                    Expanded(
-                      flex: 2,
-                      child: Center(child: _buildStatusBadge(order.status.nameStr)),
-                    ),
-                  ],
-                ),
-              );
+              return _buildTransactionCard(context, order);
             },
           ),
         ),
 
-        // Pagination Controls
-        Container(
-          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-          decoration: BoxDecoration(
-            color: isDark ? const Color(0xFF1F2937) : Colors.white,
-            border: Border(top: BorderSide(color: isDark ? Colors.grey[800]! : Colors.grey[200]!)),
-          ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                'Page ${meta.page} of ${meta.totalPages} (${meta.total} items)',
-                style: TextStyle(
-                  fontSize: 12,
-                  color: isDark ? Colors.grey[400] : Colors.grey[600],
-                ),
-              ),
-              Row(
-                children: [
-                  IconButton(
-                    icon: const Icon(Icons.chevron_left),
-                    onPressed: meta.page > 1 ? () => onPageChanged(meta.page - 1) : null,
-                  ),
-                  IconButton(
-                    icon: const Icon(Icons.chevron_right),
-                    onPressed: meta.page < meta.totalPages ? () => onPageChanged(meta.page + 1) : null,
-                  ),
-                ],
-              ),
-            ],
-          ),
-        ),
+        // Modern Pagination Controls
+        _buildPaginationControls(meta),
       ],
     );
   }
 
-  Widget _buildHeaderCell(String label, {int flex = 1, TextAlign align = TextAlign.start}) {
-    return Expanded(
-      flex: flex,
-      child: Text(
-        label,
-        textAlign: align,
-        style: TextStyle(
-          fontSize: 12,
-          fontWeight: FontWeight.bold,
-          color: isDark ? Colors.grey[300] : Colors.grey[700],
+  Widget _buildTransactionCard(BuildContext context, Order order) {
+    final bool isDealer = order.user?['isDealer'] == true;
+    final Color primaryColor = isDark ? Colors.blueAccent : const Color(0xFF136DEC);
+
+    return Container(
+      decoration: BoxDecoration(
+        color: isDark ? const Color(0xFF1E293B) : Colors.white,
+        borderRadius: BorderRadius.circular(16),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withValues(alpha: isDark ? 0.2 : 0.04),
+            blurRadius: 10,
+            offset: const Offset(0, 4),
+          ),
+        ],
+        border: Border.all(
+          color: isDark ? Colors.grey[800]! : Colors.grey[200]!,
+        ),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // Top Row: Date and Order No
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Row(
+                  children: [
+                    Icon(
+                      Icons.tag_rounded,
+                      size: 16,
+                      color: isDark ? Colors.grey[400] : Colors.grey[600],
+                    ),
+                    const SizedBox(width: 4),
+                    Text(
+                      order.orderNo,
+                      style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.bold,
+                        color: isDark ? Colors.white : const Color(0xFF0F172A),
+                      ),
+                    ),
+                    const SizedBox(width: 8),
+                    InkWell(
+                      onTap: () {
+                        Clipboard.setData(ClipboardData(text: order.orderNo));
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(content: Text('Order number copied')),
+                        );
+                      },
+                      child: Icon(Icons.copy_rounded, size: 14, color: primaryColor),
+                    ),
+                  ],
+                ),
+                Text(
+                  _formatDate(order.createdAt),
+                  style: TextStyle(
+                    fontSize: 12,
+                    fontWeight: FontWeight.w500,
+                    color: isDark ? Colors.grey[400] : Colors.grey[500],
+                  ),
+                ),
+              ],
+            ),
+            
+            const SizedBox(height: 12),
+            const Divider(height: 1),
+            const SizedBox(height: 12),
+            
+            // Middle Row: User Details and Amount
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                // User Info
+                Expanded(
+                  child: Row(
+                    children: [
+                      Container(
+                        padding: const EdgeInsets.all(8),
+                        decoration: BoxDecoration(
+                          color: isDealer 
+                            ? (isDark ? Colors.purple[900]?.withValues(alpha: 0.3) : Colors.purple[50])
+                            : (isDark ? Colors.blue[900]?.withValues(alpha: 0.3) : Colors.blue[50]),
+                          shape: BoxShape.circle,
+                        ),
+                        child: Icon(
+                          isDealer ? Icons.storefront_rounded : Icons.person_rounded,
+                          size: 20,
+                          color: isDealer ? Colors.purple : primaryColor,
+                        ),
+                      ),
+                      const SizedBox(width: 12),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              order.user?['name'] ?? 'Unknown User',
+                              style: TextStyle(
+                                fontSize: 14,
+                                fontWeight: FontWeight.w600,
+                                color: isDark ? Colors.grey[200] : const Color(0xFF334155),
+                              ),
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                            const SizedBox(height: 2),
+                            Text(
+                              order.user?['role'] ?? (isDealer ? 'Dealer' : 'Customer'),
+                              style: TextStyle(
+                                fontSize: 12,
+                                fontWeight: FontWeight.w500,
+                                color: isDealer ? Colors.purple : primaryColor,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                // Amount
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    Text(
+                      CurrencyUtils.format(order.grandTotalPaise / 100),
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                        color: isDark ? Colors.white : const Color(0xFF0F172A),
+                      ),
+                    ),
+                    const SizedBox(height: 4),
+                    _buildStatusBadge(order.status.nameStr),
+                  ],
+                ),
+              ],
+            ),
+          ],
         ),
       ),
     );
   }
 
+  Widget _buildPaginationControls(dynamic meta) {
+    if (meta.totalPages <= 1) return const SizedBox.shrink();
+
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          // Previous Button
+          Material(
+            color: Colors.transparent,
+            child: InkWell(
+              onTap: meta.page > 1 ? () => onPageChanged(meta.page - 1) : null,
+              borderRadius: BorderRadius.circular(12),
+              child: Container(
+                padding: const EdgeInsets.all(8),
+                decoration: BoxDecoration(
+                  border: Border.all(
+                    color: meta.page > 1 
+                        ? (isDark ? Colors.grey[700]! : Colors.grey[300]!)
+                        : Colors.transparent,
+                  ),
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: Icon(
+                  Icons.arrow_back_ios_new_rounded,
+                  size: 16,
+                  color: meta.page > 1 
+                      ? (isDark ? Colors.white : Colors.black87)
+                      : Colors.grey,
+                ),
+              ),
+            ),
+          ),
+          
+          const SizedBox(width: 16),
+          
+          // Page Indicator
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+            decoration: BoxDecoration(
+              color: isDark ? const Color(0xFF1E293B) : const Color(0xFFF1F5F9),
+              borderRadius: BorderRadius.circular(20),
+            ),
+            child: Text(
+              'Page ${meta.page} of ${meta.totalPages}',
+              style: TextStyle(
+                fontSize: 13,
+                fontWeight: FontWeight.w600,
+                color: isDark ? Colors.grey[300] : const Color(0xFF475569),
+              ),
+            ),
+          ),
+          
+          const SizedBox(width: 16),
+          
+          // Next Button
+          Material(
+            color: Colors.transparent,
+            child: InkWell(
+              onTap: meta.page < meta.totalPages ? () => onPageChanged(meta.page + 1) : null,
+              borderRadius: BorderRadius.circular(12),
+              child: Container(
+                padding: const EdgeInsets.all(8),
+                decoration: BoxDecoration(
+                  border: Border.all(
+                    color: meta.page < meta.totalPages 
+                        ? (isDark ? Colors.grey[700]! : Colors.grey[300]!)
+                        : Colors.transparent,
+                  ),
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: Icon(
+                  Icons.arrow_forward_ios_rounded,
+                  size: 16,
+                  color: meta.page < meta.totalPages 
+                      ? (isDark ? Colors.white : Colors.black87)
+                      : Colors.grey,
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
   Widget _buildStatusBadge(String status) {
-    Color color = Colors.grey;
+    Color color;
+    Color bgColor;
+    
     switch (status.toLowerCase()) {
-      case 'confirmed': color = Colors.blue; break;
-      case 'delivered': color = Colors.green; break;
-      case 'cancelled': color = Colors.red; break;
-      case 'pending': color = Colors.orange; break;
+      case 'confirmed': 
+        color = Colors.blue[700]!; 
+        bgColor = Colors.blue[50]!;
+        if(isDark) { color = Colors.blue[400]!; bgColor = Colors.blue[900]!.withValues(alpha: 0.3); }
+        break;
+      case 'delivered': 
+        color = Colors.green[700]!; 
+        bgColor = Colors.green[50]!;
+        if(isDark) { color = Colors.green[400]!; bgColor = Colors.green[900]!.withValues(alpha: 0.3); }
+        break;
+      case 'cancelled': 
+        color = Colors.red[700]!; 
+        bgColor = Colors.red[50]!;
+        if(isDark) { color = Colors.red[400]!; bgColor = Colors.red[900]!.withValues(alpha: 0.3); }
+        break;
+      case 'pending': 
+      default:
+        color = Colors.orange[700]!; 
+        bgColor = Colors.orange[50]!;
+        if(isDark) { color = Colors.orange[400]!; bgColor = Colors.orange[900]!.withValues(alpha: 0.3); }
+        break;
     }
 
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
       decoration: BoxDecoration(
-        color: color.withValues(alpha: 0.1),
-        borderRadius: BorderRadius.circular(12),
+        color: bgColor,
+        borderRadius: BorderRadius.circular(20),
         border: Border.all(color: color.withValues(alpha: 0.2)),
       ),
       child: Text(
         status.toUpperCase(),
         style: TextStyle(
           fontSize: 10,
-          fontWeight: FontWeight.bold,
+          fontWeight: FontWeight.w800,
+          letterSpacing: 0.5,
           color: color,
         ),
       ),
@@ -218,6 +365,6 @@ class ReportsTable extends StatelessWidget {
   }
 
   String _formatDate(DateTime date) {
-    return '${date.day}/${date.month}/${date.year}';
+    return DateFormat('MMM dd, yyyy - hh:mm a').format(date);
   }
 }

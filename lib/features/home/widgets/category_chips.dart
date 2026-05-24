@@ -32,17 +32,6 @@ class CategoryChips extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 16),
         physics: const BouncingScrollPhysics(),
         children: [
-          // "All" Category Item
-          _buildCategoryItem(
-            context: context,
-            label: 'All',
-            icon: Icons.grid_view_rounded,
-            imageUrl: null,
-            isSelected: selectedCategory == null,
-            onTap: () => onCategorySelected(null),
-            isAllItem: true,
-          ),
-          
           // Category Items
           ...categories.map((category) => _buildCategoryItem(
                 context: context,

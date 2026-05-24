@@ -8,6 +8,7 @@ import '../../../providers/upload_provider.dart';
 import '../providers/admin_provider.dart';
 import 'admin_add_banner_screen.dart';
 import '../../../providers/auth_provider.dart';
+import '../../../core/api/api_endpoints.dart';
 
 class EcommerceHomeScreen extends ConsumerStatefulWidget {
   const EcommerceHomeScreen({super.key});
@@ -141,7 +142,7 @@ class _EcommerceHomeScreenState extends ConsumerState<EcommerceHomeScreen> {
                               leading: ClipRRect(
                                 borderRadius: BorderRadius.circular(8),
                                 child: Image.network(
-                                  banner.imageUrl,
+                                  ApiEndpoints.resolveImageUrl(banner.imageUrl),
                                   width: 80,
                                   height: 50,
                                   fit: BoxFit.cover,

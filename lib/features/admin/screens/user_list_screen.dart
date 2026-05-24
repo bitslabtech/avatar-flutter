@@ -36,9 +36,9 @@ class _UserListScreenState extends ConsumerState<UserListScreen> {
     final isDark = Theme.of(context).brightness == Brightness.dark;
     final userState = ref.watch(userManagementProvider);
 
-    // Local filtering: Exclude dealers and super_admin from THIS screen
+    // Local filtering: Exclude dealers, admins, and super_admin from THIS screen
     // (Provider returns all users so other screens can use them)
-    final manageableUsers = userState.users.where((u) => u.role != 'dealer' && u.role != 'super_admin').toList();
+    final manageableUsers = userState.users.where((u) => u.role != 'dealer' && u.role != 'super_admin' && u.role != 'admin').toList();
     
     final displayStats = UserStats(
       totalUsers: manageableUsers.length,
@@ -46,7 +46,7 @@ class _UserListScreenState extends ConsumerState<UserListScreen> {
       inactiveUsers: manageableUsers.where((u) => !u.isActive).length,
     );
 
-    final displayUsers = userState.filteredUsers.where((u) => u.role != 'dealer' && u.role != 'super_admin').toList();
+    final displayUsers = userState.filteredUsers.where((u) => u.role != 'dealer' && u.role != 'super_admin' && u.role != 'admin').toList();
 
     return Scaffold(
       backgroundColor: isDark ? AppColors.backgroundBlack : AppColors.backgroundLight,
@@ -74,7 +74,7 @@ class _UserListScreenState extends ConsumerState<UserListScreen> {
                                 _buildActiveFilters(isDark, userState),
                                 const SizedBox(height: 12),
                                 Text(
-                                  'Users',
+                                  'Customers',
                                   style: TextStyle(
                                     fontSize: 14,
                                     fontWeight: FontWeight.w500,
@@ -127,7 +127,7 @@ class _UserListScreenState extends ConsumerState<UserListScreen> {
           const SizedBox(width: 12),
           Expanded(
             child: Text(
-              'Manage Users',
+              'Manage Customers',
               style: TextStyle(
                 fontSize: 20,
                 fontWeight: FontWeight.bold,
@@ -374,7 +374,7 @@ class _UserListScreenState extends ConsumerState<UserListScreen> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    'Filter Users',
+                    'Filter Customers',
                     style: TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
@@ -441,10 +441,6 @@ class _UserListScreenState extends ConsumerState<UserListScreen> {
                     ),
                     _buildFilterRadio(ctx, isDark, 'All Roles', state.roleFilter == UserRoleFilter.all, () {
                       ref.read(userManagementProvider.notifier).setRoleFilter(UserRoleFilter.all);
-                      Navigator.pop(ctx);
-                    }),
-                    _buildFilterRadio(ctx, isDark, 'Admins', state.roleFilter == UserRoleFilter.admin, () {
-                      ref.read(userManagementProvider.notifier).setRoleFilter(UserRoleFilter.admin);
                       Navigator.pop(ctx);
                     }),
                     _buildFilterRadio(ctx, isDark, 'Consumers', state.roleFilter == UserRoleFilter.consumer, () {
