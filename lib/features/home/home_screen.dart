@@ -204,8 +204,19 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                     child: Container(
                       height: 48,
                       decoration: BoxDecoration(
-                        color: isDark ? Colors.grey[800] : Colors.grey[200]!.withOpacity(0.5),
+                        color: isDark ? Colors.grey[800] : Colors.white,
                         borderRadius: BorderRadius.circular(12),
+                        border: Border.all(
+                          color: isDark ? Colors.transparent : Colors.grey[300]!,
+                        ),
+                        boxShadow: [
+                          if (!isDark)
+                            BoxShadow(
+                              color: Colors.black.withValues(alpha: 0.05),
+                              blurRadius: 8,
+                              offset: const Offset(0, 2),
+                            ),
+                        ],
                       ),
                       child: TextField(
                         controller: _searchController,

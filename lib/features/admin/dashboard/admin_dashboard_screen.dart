@@ -193,61 +193,82 @@ class _AdminDashboardScreenState extends ConsumerState<AdminDashboardScreen> {
           // Top App Bar
           Container(
             padding: EdgeInsets.only(
-              top: MediaQuery.of(context).padding.top + 16,
+              top: MediaQuery.of(context).padding.top + 12,
               left: 16,
               right: 16,
-              bottom: 16,
+              bottom: 12,
             ),
             decoration: BoxDecoration(
-              color: surfaceColor.withValues(alpha: 0.9),
-              border: Border(bottom: BorderSide(color: borderColor)),
+              color: surfaceColor,
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withValues(alpha: 0.05),
+                  blurRadius: 4,
+                  offset: const Offset(0, 2),
+                ),
+              ],
             ),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Row(
                   children: [
-                    // Avatar
+                    Image.asset(
+                      isDark 
+                          ? 'assets/logo/skw-avatar-logo-light.png' 
+                          : 'assets/logo/skw-avatar-logo-dark.png',
+                      height: 28,
+                      errorBuilder: (context, error, stackTrace) => Icon(
+                        Icons.admin_panel_settings,
+                        color: primaryColor,
+                        size: 32,
+                      ),
+                    ),
+                    const SizedBox(width: 8),
                     Container(
-                      width: 40,
-                      height: 40,
+                      padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                      decoration: BoxDecoration(
+                        color: primaryColor.withValues(alpha: 0.1),
+                        borderRadius: BorderRadius.circular(6),
+                        border: Border.all(color: primaryColor.withValues(alpha: 0.2)),
+                      ),
+                      child: Text(
+                        'ADMIN',
+                        style: TextStyle(
+                          fontSize: 10,
+                          fontWeight: FontWeight.bold,
+                          color: primaryColor,
+                          letterSpacing: 0.5,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                Row(
+                  children: [
+                    // Profile Avatar Mini
+                    Container(
+                      margin: const EdgeInsets.only(right: 12),
+                      width: 32,
+                      height: 32,
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
                         color: primaryColor.withValues(alpha: 0.1),
-                        border: Border.all(color: primaryColor.withValues(alpha: 0.2), width: 2),
+                        border: Border.all(color: primaryColor.withValues(alpha: 0.2)),
                       ),
                       alignment: Alignment.center,
                       child: Text(
                         user?.name.isNotEmpty == true ? user!.name[0].toUpperCase() : 'A',
                         style: TextStyle(
-                            color: primaryColor, fontWeight: FontWeight.bold, fontSize: 18),
+                          color: primaryColor, 
+                          fontWeight: FontWeight.bold, 
+                          fontSize: 14,
+                        ),
                       ),
                     ),
-                    const SizedBox(width: 12),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'Admin Console',
-                          style: TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w500,
-                            color: isDark ? Colors.grey.shade400 : Colors.grey.shade600,
-                          ),
-                        ),
-                        Text(
-                          'Dashboard',
-                          style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
-                            color: isDark ? Colors.white : Colors.black87,
-                          ),
-                        ),
-                      ],
-                    ),
+                    NotificationBell(isDark: isDark),
                   ],
                 ),
-                NotificationBell(isDark: isDark),
               ],
             ),
           ),
@@ -268,7 +289,7 @@ class _AdminDashboardScreenState extends ConsumerState<AdminDashboardScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const SizedBox(height: 24),
+                    const SizedBox(height: 12),
                     // Greeting
                     Text.rich(
                       TextSpan(
@@ -491,9 +512,9 @@ class _AdminDashboardScreenState extends ConsumerState<AdminDashboardScreen> {
                       ],
                     ),
 
-                    const SizedBox(height: 24),
+                    const SizedBox(height: 16),
 
-                    const SizedBox(height: 100), // Bottom padding
+                    const SizedBox(height: 32), // Bottom padding
                   ],
                 ),
               ),
