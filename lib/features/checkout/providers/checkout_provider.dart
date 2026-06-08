@@ -5,22 +5,26 @@ import '../../../../services/order_service.dart'; // OrderService class
 
 class CheckoutState {
   final Address? selectedAddress;
+  final String? selectedTransportId;
   final bool isProcessing;
   final String? error;
 
   CheckoutState({
     this.selectedAddress,
+    this.selectedTransportId,
     this.isProcessing = false,
     this.error,
   });
 
   CheckoutState copyWith({
     Address? selectedAddress,
+    String? selectedTransportId,
     bool? isProcessing,
     String? error,
   }) {
     return CheckoutState(
       selectedAddress: selectedAddress ?? this.selectedAddress,
+      selectedTransportId: selectedTransportId ?? this.selectedTransportId,
       isProcessing: isProcessing ?? this.isProcessing,
       error: error,
     );
@@ -37,6 +41,10 @@ class CheckoutNotifier extends StateNotifier<CheckoutState> {
     state = state.copyWith(selectedAddress: address);
   }
 
+  void selectTransport(String? transportId) {
+    state = state.copyWith(selectedTransportId: transportId);
+  }
+
   Future<bool> placeOrder() async {
     if (state.selectedAddress == null) {
       state = state.copyWith(error: 'Please select a shipping address');
@@ -49,6 +57,7 @@ class CheckoutNotifier extends StateNotifier<CheckoutState> {
       await _orderService.placeOrder(
         address: state.selectedAddress!,
         paymentMethod: 'COD', // Direct placement (Manual/COD)
+        transportId: state.selectedTransportId,
       );
       
       // Refresh cart (which should now be empty or get a new draft)

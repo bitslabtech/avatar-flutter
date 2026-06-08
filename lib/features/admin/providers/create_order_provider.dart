@@ -19,6 +19,7 @@ class CreateOrderState {
   final List<Map<String, dynamic>> userAddresses;
   final String? selectedAddressId;
   final bool isLoadingAddresses;
+  final String? selectedTransportId;
 
   CreateOrderState({
     this.currentStep = 0,
@@ -32,6 +33,7 @@ class CreateOrderState {
     this.userAddresses = const [],
     this.selectedAddressId,
     this.isLoadingAddresses = false,
+    this.selectedTransportId,
   });
 
   CreateOrderState copyWith({
@@ -47,6 +49,7 @@ class CreateOrderState {
     String? selectedAddressId,
     bool? isLoadingAddresses,
     bool clearSelectedAddress = false,
+    String? selectedTransportId,
   }) {
     return CreateOrderState(
       currentStep: currentStep ?? this.currentStep,
@@ -60,6 +63,7 @@ class CreateOrderState {
       userAddresses: userAddresses ?? this.userAddresses,
       selectedAddressId: clearSelectedAddress ? null : (selectedAddressId ?? this.selectedAddressId),
       isLoadingAddresses: isLoadingAddresses ?? this.isLoadingAddresses,
+      selectedTransportId: selectedTransportId ?? this.selectedTransportId,
     );
   }
   
@@ -189,6 +193,10 @@ class CreateOrderNotifier extends StateNotifier<CreateOrderState> {
     state = state.copyWith(saveAddressToProfile: value ?? false);
   }
 
+  void selectTransport(String? transportId) {
+    state = state.copyWith(selectedTransportId: transportId);
+  }
+
   Future<bool> submitOrder() async {
     if (state.selectedUser == null || state.cartItems.isEmpty) return false;
 
@@ -206,6 +214,7 @@ class CreateOrderNotifier extends StateNotifier<CreateOrderState> {
         'paymentMethod': 'COD', 
         'address': state.shippingAddress,
         'saveAddress': state.saveAddressToProfile,
+        if (state.selectedTransportId != null) 'transportId': state.selectedTransportId,
       });
 
       state = state.copyWith(isLoading: false);

@@ -40,6 +40,7 @@ import '../../features/admin/screens/ecommerce_dashboard_screen.dart';
 import '../../features/admin/screens/ecommerce_home_screen.dart';
 import '../../features/admin/screens/ecommerce_category_screen.dart';
 import '../../features/admin/screens/ecommerce_cart_screen.dart';
+import '../../features/admin/screens/transport_management_screen.dart';
 import '../../features/admin/screens/admin_configurations_screen.dart';
 import '../../features/admin/screens/content/admin_policy_list_screen.dart';
 import '../../features/admin/screens/content/admin_policy_edit_screen.dart';
@@ -385,6 +386,11 @@ final routerProvider = Provider<GoRouter>((ref) {
                   path: 'cart',
                   name: 'admin-ecommerce-cart',
                   builder: (context, state) => const EcommerceCartScreen(),
+                ),
+                GoRoute(
+                  path: 'transports',
+                  name: 'admin-ecommerce-transports',
+                  builder: (context, state) => const TransportManagementScreen(),
                 ),
 
              ],

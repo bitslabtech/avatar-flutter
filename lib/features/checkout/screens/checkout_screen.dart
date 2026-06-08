@@ -7,12 +7,26 @@ import '../../../models/address.dart';
 import '../../../providers/cart_provider.dart';
 import '../providers/checkout_provider.dart';
 import '../../profile/providers/address_provider.dart';
+import '../../admin/providers/transport_provider.dart';
 
-class CheckoutScreen extends ConsumerWidget {
+class CheckoutScreen extends ConsumerStatefulWidget {
   const CheckoutScreen({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<CheckoutScreen> createState() => _CheckoutScreenState();
+}
+
+class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      ref.read(transportProvider.notifier).loadTransports(activeOnly: true);
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final checkoutState = ref.watch(checkoutProvider);
     final cartState = ref.watch(cartProvider);
     final addressState = ref.watch(addressProvider);
@@ -187,6 +201,10 @@ class CheckoutScreen extends ConsumerWidget {
                     ),
                   ),
 
+                  const SizedBox(height: 24),
+                  _buildSectionHeader('Transport (Optional)', textColor),
+                  _buildTransportDropdown(isDark, textColor, surfaceColor, borderColor),
+
                   const SizedBox(height: 32),
 
                   // Order Summary
@@ -281,5 +299,48 @@ class CheckoutScreen extends ConsumerWidget {
     );
   }
 
+  Widget _buildTransportDropdown(bool isDark, Color textColor, Color? cardColor, Color? borderColor) {
+    final transportState = ref.watch(transportProvider);
+    final checkoutState = ref.watch(checkoutProvider);
 
+    if (transportState.isLoading) {
+      return const Center(child: CircularProgressIndicator());
+    }
+
+    if (transportState.transports.isEmpty) {
+      return Text('No active transports available', style: TextStyle(color: Colors.grey[600]));
+    }
+
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+      decoration: BoxDecoration(
+        color: cardColor,
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(color: borderColor!),
+      ),
+      child: DropdownButtonHideUnderline(
+        child: DropdownButton<String>(
+          value: checkoutState.selectedTransportId,
+          hint: const Text('Select Transport'),
+          isExpanded: true,
+          dropdownColor: cardColor,
+          items: [
+            const DropdownMenuItem<String>(
+              value: null,
+              child: Text('None'),
+            ),
+            ...transportState.transports.map((transport) {
+              return DropdownMenuItem<String>(
+                value: transport.id,
+                child: Text(transport.name),
+              );
+            }),
+          ],
+          onChanged: (value) {
+            ref.read(checkoutProvider.notifier).selectTransport(value);
+          },
+        ),
+      ),
+    );
+  }
 }

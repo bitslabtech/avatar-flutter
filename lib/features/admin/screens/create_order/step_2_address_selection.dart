@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../providers/create_order_provider.dart';
+import '../../providers/transport_provider.dart';
 
 class Step2AddressSelection extends ConsumerStatefulWidget {
   const Step2AddressSelection({super.key});
@@ -11,6 +12,14 @@ class Step2AddressSelection extends ConsumerStatefulWidget {
 }
 
 class _Step2AddressSelectionState extends ConsumerState<Step2AddressSelection> {
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      ref.read(transportProvider.notifier).loadTransports(activeOnly: true);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     final state = ref.watch(createOrderProvider);
@@ -78,7 +87,64 @@ class _Step2AddressSelectionState extends ConsumerState<Step2AddressSelection> {
               ),
             ),
           ),
+          const SizedBox(height: 24),
+          Text(
+            'Transport (Optional)',
+            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: textColor),
+          ),
+          const SizedBox(height: 8),
+          Text(
+            'Select a transport for this order',
+            style: TextStyle(fontSize: 14, color: subtitleColor),
+          ),
+          const SizedBox(height: 16),
+          _buildTransportDropdown(isDark, textColor, cardColor, borderColor),
         ],
+      ),
+    );
+  }
+
+  Widget _buildTransportDropdown(bool isDark, Color textColor, Color? cardColor, Color? borderColor) {
+    final transportState = ref.watch(transportProvider);
+    final orderState = ref.watch(createOrderProvider);
+
+    if (transportState.isLoading) {
+      return const Center(child: CircularProgressIndicator());
+    }
+
+    if (transportState.transports.isEmpty) {
+      return Text('No active transports available', style: TextStyle(color: Colors.grey[600]));
+    }
+
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+      decoration: BoxDecoration(
+        color: cardColor,
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(color: borderColor!),
+      ),
+      child: DropdownButtonHideUnderline(
+        child: DropdownButton<String>(
+          value: orderState.selectedTransportId,
+          hint: const Text('Select Transport'),
+          isExpanded: true,
+          dropdownColor: cardColor,
+          items: [
+            const DropdownMenuItem<String>(
+              value: null,
+              child: Text('None'),
+            ),
+            ...transportState.transports.map((transport) {
+              return DropdownMenuItem<String>(
+                value: transport.id,
+                child: Text(transport.name),
+              );
+            }),
+          ],
+          onChanged: (value) {
+            ref.read(createOrderProvider.notifier).selectTransport(value);
+          },
+        ),
       ),
     );
   }

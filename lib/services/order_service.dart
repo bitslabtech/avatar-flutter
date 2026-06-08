@@ -113,6 +113,7 @@ class OrderService {
   Future<Order> placeOrder({
     required Address address,
     required String paymentMethod,
+    String? transportId,
   }) async {
     try {
       final response = await _apiClient.dio.post(
@@ -128,6 +129,7 @@ class OrderService {
             'phone': address.phone,
           },
           'paymentMethod': paymentMethod,
+          if (transportId != null) 'transportId': transportId,
         },
       );
       return Order.fromJson(response.data);

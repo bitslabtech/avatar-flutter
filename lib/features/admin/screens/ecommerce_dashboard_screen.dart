@@ -37,8 +37,13 @@ class EcommerceDashboardScreen extends ConsumerWidget {
         'color': Colors.green,
         'route': 'admin-ecommerce-cart',
       },
-
-
+      {
+        'title': 'Transports',
+        'subtitle': 'Manage transport details for orders',
+        'icon': Icons.local_shipping,
+        'color': Colors.purple,
+        'route': 'admin-ecommerce-transports',
+      },
     ];
 
     return Scaffold(
