@@ -1,5 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../core/api/api_client.dart';
+import '../../../providers/auth_provider.dart';
 
 class TransportItem {
   final String id;

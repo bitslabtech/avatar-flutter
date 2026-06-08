@@ -27,6 +27,7 @@ class Order {
   final List<OrderItem> items;
   final Map<String, dynamic>? addressSnapshot;
   final Map<String, dynamic>? courier;
+  final Map<String, dynamic>? transportSnapshot;
   final Map<String, dynamic>? tracking;
   final DateTime createdAt;
   final DateTime updatedAt;
@@ -48,6 +49,7 @@ class Order {
     required this.items,
     this.addressSnapshot,
     this.courier,
+    this.transportSnapshot,
     this.tracking,
     required this.createdAt,
     required this.updatedAt,
@@ -67,6 +69,23 @@ class Order {
       return 0;
     }
 
+    // Helper to safely parse DateTime from any value type
+    DateTime parseDate(dynamic value, {DateTime? fallback}) {
+      if (value is String && value.isNotEmpty) {
+        return DateTime.tryParse(value) ?? fallback ?? DateTime.now();
+      }
+      if (value is DateTime) return value;
+      return fallback ?? DateTime.now();
+    }
+
+    DateTime? parseDateNullable(dynamic value) {
+      if (value is String && value.isNotEmpty) {
+        return DateTime.tryParse(value);
+      }
+      if (value is DateTime) return value;
+      return null;
+    }
+
     return Order(
       id: json['id'] as String,
       orderNo: json['orderNo'] as String,
@@ -82,16 +101,11 @@ class Order {
           .toList() ?? [],
       addressSnapshot: json['addressSnapshot'] as Map<String, dynamic>?,
       courier: json['courier'] as Map<String, dynamic>?,
+      transportSnapshot: json['transportSnapshot'] as Map<String, dynamic>?,
       tracking: json['tracking'] as Map<String, dynamic>?,
-      createdAt: json['createdAt'] is String 
-          ? DateTime.parse(json['createdAt']) 
-          : DateTime.now(),
-      updatedAt: json['updatedAt'] is String 
-          ? DateTime.parse(json['updatedAt']) 
-          : DateTime.now(),
-      estimatedDeliveryDate: json['estimatedDeliveryDate'] is String 
-          ? DateTime.parse(json['estimatedDeliveryDate']) 
-          : null,
+      createdAt: parseDate(json['createdAt'] ?? json['created_at']),
+      updatedAt: parseDate(json['updatedAt'] ?? json['updated_at']),
+      estimatedDeliveryDate: parseDateNullable(json['estimatedDeliveryDate'] ?? json['estimated_delivery_date']),
       user: json['user'] as Map<String, dynamic>?,
       paymentMethod: json['paymentMethod'] as String?,
       notes: json['notes'] as String?,
@@ -113,6 +127,7 @@ class Order {
       'items': items.map((item) => item.toJson()).toList(),
       'addressSnapshot': addressSnapshot,
       'courier': courier,
+      'transportSnapshot': transportSnapshot,
       'tracking': tracking,
       'createdAt': createdAt.toIso8601String(),
       'updatedAt': updatedAt.toIso8601String(),

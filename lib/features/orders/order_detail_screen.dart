@@ -619,7 +619,7 @@ class _OrderDetailScreenState extends ConsumerState<OrderDetailScreen> {
                               Row(
                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                  children: [
-                                    const Text('METHOD', style: TextStyle(fontSize: 10, fontWeight: FontWeight.bold, color: Colors.grey)),
+                                    const Text('COURIER', style: TextStyle(fontSize: 10, fontWeight: FontWeight.bold, color: Colors.grey)),
                                     Flexible(
                                       child: Text(
                                         order.courier!['provider'], 
@@ -628,7 +628,40 @@ class _OrderDetailScreenState extends ConsumerState<OrderDetailScreen> {
                                       ),
                                     ),
                                  ],
-                              )
+                              ),
+                              if (order.transportSnapshot != null) ...[
+                                const SizedBox(height: 8),
+                                Row(
+                                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                   children: [
+                                      const Text('TRANSPORT', style: TextStyle(fontSize: 10, fontWeight: FontWeight.bold, color: Colors.grey)),
+                                      Flexible(
+                                        child: Text(
+                                          order.transportSnapshot!['name'] ?? 'N/A', 
+                                          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 12, color: isDark?Colors.white:Colors.black87),
+                                          overflow: TextOverflow.ellipsis,
+                                        ),
+                                      ),
+                                   ],
+                                ),
+                                if (order.transportSnapshot!['contact'] != null && order.transportSnapshot!['contact'].toString().isNotEmpty)
+                                  Padding(
+                                    padding: const EdgeInsets.only(top: 4),
+                                    child: Row(
+                                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                       children: [
+                                          const Text('CONTACT', style: TextStyle(fontSize: 10, fontWeight: FontWeight.bold, color: Colors.grey)),
+                                          Flexible(
+                                            child: Text(
+                                              order.transportSnapshot!['contact'].toString(), 
+                                              style: TextStyle(fontSize: 12, color: isDark?Colors.grey[400]:Colors.grey[600]),
+                                              overflow: TextOverflow.ellipsis,
+                                            ),
+                                          ),
+                                       ],
+                                    ),
+                                  ),
+                              ]
                            ]
                         ),
 
