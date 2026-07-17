@@ -670,7 +670,22 @@ class _AdminOrderDetailScreenState extends ConsumerState<AdminOrderDetailScreen>
               _formatAddress(order.addressSnapshot ?? {}),
               style: TextStyle(fontSize: 14, height: 1.5, color: isDark ? Colors.grey[300] : Colors.grey[800]),
             ),
-          )
+          ),
+          if (order.transportSnapshot != null) ...[
+             const SizedBox(height: 16),
+             const Align(
+                alignment: Alignment.centerLeft,
+                child: Text('TRANSPORT DETAILS', style: TextStyle(fontSize: 10, fontWeight: FontWeight.bold, letterSpacing: 1.2, color: Colors.grey))
+             ),
+             const SizedBox(height: 8),
+             Align(
+                alignment: Alignment.centerLeft,
+                child: Text(
+                   '${order.transportSnapshot!['name'] ?? 'N/A'}${order.transportSnapshot!['contact'] != null && order.transportSnapshot!['contact'].toString().isNotEmpty ? '\nContact: ${order.transportSnapshot!['contact']}' : ''}',
+                   style: TextStyle(fontSize: 14, height: 1.5, color: isDark ? Colors.grey[300] : Colors.grey[800]),
+                ),
+             ),
+          ]
         ],
       )
     );

@@ -38,6 +38,8 @@ class _Step1UserSelectionState extends ConsumerState<Step1UserSelection> {
     // Filter consumers and dealers for order creation
     final isSearching = _searchController.text.trim().isNotEmpty;
     final customers = userState.filteredUsers.where((u) {
+      if (!u.isActive) return false;
+      
       if (isSearching) {
         return u.role == 'consumer' || u.role == 'dealer';
       } else {
