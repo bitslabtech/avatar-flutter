@@ -1,3 +1,5 @@
+// Category chips rail
+// Design inspired by Avatar_project (clean circular 58px category icons, subtle border, Crimson active ring)
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import '../../../core/theme/app_colors.dart';
@@ -16,33 +18,36 @@ class CategoryChips extends StatelessWidget {
   });
 
   IconData _getCategoryIcon(String category) {
-    if (category.toLowerCase().contains('kitchen') || category == 'Home Appliances') return Icons.kitchen;
-    if (category.toLowerCase().contains('laundry') || category == 'Washing Machines') return Icons.local_laundry_service;
-    if (category.toLowerCase().contains('smart') || category == 'Smart Home') return Icons.smart_toy;
-    if (category.toLowerCase().contains('climate') || category.toLowerCase().contains('air') || category == 'Air Conditioners') return Icons.ac_unit;
-    return Icons.category;
+    final lower = category.toLowerCase();
+    if (lower.contains('kitchen') || lower.contains('cookware') || category == 'Home Appliances') return Icons.kitchen_rounded;
+    if (lower.contains('laundry') || lower.contains('washer') || category == 'Washing Machines') return Icons.local_laundry_service_rounded;
+    if (lower.contains('smart') || lower.contains('appliance')) return Icons.bolt_rounded;
+    if (lower.contains('climate') || lower.contains('air') || lower.contains('cool')) return Icons.ac_unit_rounded;
+    return Icons.category_rounded;
   }
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 116,
-      child: ListView(
+      height: 106,
+      child: ListView.builder(
         scrollDirection: Axis.horizontal,
-        padding: const EdgeInsets.symmetric(horizontal: 16),
+        clipBehavior: Clip.none,
         physics: const BouncingScrollPhysics(),
-        children: [
-          // Category Items
-          ...categories.map((category) => _buildCategoryItem(
-                context: context,
-                label: category.name,
-                icon: category.icon != null ? null : _getCategoryIcon(category.name),
-                imageUrl: category.resolvedImageUrl,
-                isSelected: selectedCategory == category.name,
-                onTap: () => onCategorySelected(category.name),
-                isAllItem: false,
-              )),
-        ],
+        padding: const EdgeInsets.symmetric(horizontal: 16),
+        itemCount: categories.length,
+        itemBuilder: (context, index) {
+          final category = categories[index];
+          final isSelected = selectedCategory == category.name;
+          return _buildCategoryItem(
+            context: context,
+            label: category.name,
+            icon: category.icon != null ? null : _getCategoryIcon(category.name),
+            imageUrl: category.resolvedImageUrl,
+            isSelected: isSelected,
+            onTap: () => onCategorySelected(category.name),
+          );
+        },
       ),
     );
   }
@@ -54,88 +59,91 @@ class CategoryChips extends StatelessWidget {
     String? imageUrl,
     required bool isSelected,
     required VoidCallback onTap,
-    required bool isAllItem,
   }) {
     final theme = Theme.of(context);
     final isDark = theme.brightness == Brightness.dark;
-    final primaryColor = theme.colorScheme.primary;
 
-    return GestureDetector(
-      onTap: onTap,
-      behavior: HitTestBehavior.opaque,
-      child: Container(
-        width: 76,
-        margin: const EdgeInsets.only(right: 12),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            // Image/Icon Container with Animation
-            AnimatedContainer(
-              duration: const Duration(milliseconds: 200),
-              curve: Curves.easeInOut,
-              width: 64,
-              height: 64,
-              decoration: BoxDecoration(
-                color: isSelected 
-                    ? primaryColor.withOpacity(isDark ? 0.2 : 0.1) 
-                    : (isAllItem ? (isDark ? Colors.white10 : Colors.black.withOpacity(0.03)) : Colors.transparent),
-                borderRadius: BorderRadius.circular(16),
-                border: isSelected 
-                    ? Border.all(color: primaryColor.withOpacity(0.5), width: 1.5)
-                    : null,
-              ),
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(15),
-                child: (imageUrl != null && imageUrl.isNotEmpty)
-                    ? CachedNetworkImage(
-                        imageUrl: imageUrl,
-                        fit: BoxFit.contain,
-                        width: double.infinity,
-                        height: double.infinity,
-                        placeholder: (context, url) => const Center(
-                          child: SizedBox(
-                            width: 20,
-                            height: 20,
-                            child: CircularProgressIndicator(strokeWidth: 2),
+    return Padding(
+      padding: const EdgeInsets.only(right: 12),
+      child: GestureDetector(
+        onTap: onTap,
+        behavior: HitTestBehavior.opaque,
+        child: SizedBox(
+          width: 68,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              AnimatedContainer(
+                duration: const Duration(milliseconds: 200),
+                curve: Curves.easeInOut,
+                width: 58,
+                height: 58,
+                padding: const EdgeInsets.all(7),
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: isDark ? const Color(0xFF24292E) : const Color(0xFFF5F7FA),
+                  border: Border.all(
+                    color: isSelected
+                        ? AppColors.primary
+                        : (isDark ? const Color(0xFF2E343A) : AppColors.borderLight),
+                    width: isSelected ? 2.0 : 1.0,
+                  ),
+                  boxShadow: isSelected
+                      ? [
+                          BoxShadow(
+                            color: AppColors.primary.withValues(alpha: 0.25),
+                            blurRadius: 8,
+                            offset: const Offset(0, 2),
+                          ),
+                        ]
+                      : null,
+                ),
+                child: ClipOval(
+                  child: (imageUrl != null && imageUrl.isNotEmpty)
+                      ? CachedNetworkImage(
+                          imageUrl: imageUrl,
+                          fit: BoxFit.contain,
+                          width: double.infinity,
+                          height: double.infinity,
+                          placeholder: (context, url) => const Center(
+                            child: SizedBox(
+                              width: 16,
+                              height: 16,
+                              child: CircularProgressIndicator(strokeWidth: 1.5),
+                            ),
+                          ),
+                          errorWidget: (context, url, error) => Icon(
+                            icon ?? Icons.kitchen_rounded,
+                            size: 22,
+                            color: isSelected ? AppColors.primary : AppColors.textMuted,
+                          ),
+                        )
+                      : Center(
+                          child: Icon(
+                            icon ?? Icons.kitchen_rounded,
+                            size: 24,
+                            color: isSelected ? AppColors.primary : AppColors.textMuted,
                           ),
                         ),
-                        errorWidget: (context, url, error) => Icon(
-                          icon ?? Icons.category_rounded,
-                          color: isSelected ? primaryColor : (isDark ? Colors.grey[500] : Colors.grey[400]),
-                        ),
-                      )
-                    : Center(
-                        child: Icon(
-                          icon ?? Icons.category_rounded,
-                          size: 28,
-                          color: isSelected 
-                              ? primaryColor 
-                              : (isDark ? Colors.grey[400] : Colors.grey[600]),
-                        ),
-                      ),
+                ),
               ),
-            ),
-            const SizedBox(height: 10),
-            
-            // Label with Animated Style
-            AnimatedDefaultTextStyle(
-              duration: const Duration(milliseconds: 200),
-              textAlign: TextAlign.center,
-              maxLines: 2,
-              overflow: TextOverflow.ellipsis,
-              style: TextStyle(
-                fontFamily: theme.textTheme.bodyMedium?.fontFamily,
-                fontSize: 12,
-                height: 1.1,
-                fontWeight: isSelected ? FontWeight.w700 : FontWeight.w500,
-                color: isSelected 
-                    ? primaryColor 
-                    : (isDark ? Colors.grey[300] : Colors.grey[800]),
-                letterSpacing: -0.2,
+              const SizedBox(height: 6),
+              Text(
+                label,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 11,
+                  fontWeight: isSelected ? FontWeight.bold : FontWeight.w500,
+                  color: isSelected
+                      ? AppColors.primary
+                      : (isDark ? Colors.white70 : AppColors.textMuted),
+                ),
               ),
-              child: Text(label),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

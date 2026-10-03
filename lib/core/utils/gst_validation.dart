@@ -23,7 +23,7 @@ class GSTValidator {
     // Checksum Validation
     try {
       if (!_validateChecksum(gstin)) {
-        return {'isValid': false, 'error': 'Invalid GST Number'};
+        return {'isValid': false, 'error': 'Invalid Checksum'};
       }
     } catch (e) {
        return {'isValid': false, 'error': 'Checksum calculation error'};

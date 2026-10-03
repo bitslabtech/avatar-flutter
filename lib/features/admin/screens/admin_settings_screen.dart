@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import '../../../core/theme/app_colors.dart';
 import '../../../providers/auth_provider.dart';
 import '../../../models/user.dart';
 import '../providers/settings_provider.dart';
+import '../widgets/admin_bottom_nav_bar.dart';
 
 class AdminSettingsScreen extends ConsumerStatefulWidget {
   const AdminSettingsScreen({super.key});
@@ -326,15 +326,17 @@ class _AdminSettingsScreenState extends ConsumerState<AdminSettingsScreen> {
     final subTextColor = isDark ? Colors.grey.shade400 : Colors.grey.shade500;
 
     return Scaffold(
+      extendBody: true,
       backgroundColor: backgroundColor,
       body: SafeArea(
+        bottom: false,
         child: Column(
           children: [
              _buildHeader(context, isDark, surfaceColor, borderColor, textColor),
              if (settingsState.isLoading) const LinearProgressIndicator(),
              Expanded(
                child: SingleChildScrollView(
-                 padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                 padding: const EdgeInsets.fromLTRB(16, 8, 16, 100),
                  child: Column(
                    crossAxisAlignment: CrossAxisAlignment.start,
                    children: [
@@ -470,6 +472,7 @@ class _AdminSettingsScreenState extends ConsumerState<AdminSettingsScreen> {
           ],
         ),
       ),
+      bottomNavigationBar: const AdminBottomNavBar(currentRoute: '/admin/settings'),
     );
   }
 

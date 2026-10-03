@@ -147,29 +147,29 @@ class _CategoryManagementScreenState extends ConsumerState<CategoryManagementScr
         border: Border(bottom: BorderSide(color: isDark ? Colors.grey.shade800 : Colors.grey.shade200)),
       ),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Row(
-            children: [
-              IconButton(
-                onPressed: () => context.pop(),
-                icon: Icon(Icons.arrow_back, color: isDark ? Colors.grey.shade300 : Colors.grey.shade600),
-                style: IconButton.styleFrom(
-                   padding: EdgeInsets.zero,
-                   visualDensity: VisualDensity.compact,
-                ),
-              ),
-              const SizedBox(width: 8),
-              Text(
-                'Categories',
-                style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                  color: isDark ? Colors.white : Colors.black87,
-                ),
-              ),
-            ],
+          IconButton(
+            onPressed: () => context.pop(),
+            icon: Icon(Icons.arrow_back, color: isDark ? Colors.grey.shade300 : Colors.grey.shade600),
+            style: IconButton.styleFrom(
+               padding: EdgeInsets.zero,
+               visualDensity: VisualDensity.compact,
+            ),
           ),
+          const SizedBox(width: 8),
+          Expanded(
+            child: Text(
+              'Categories',
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+                color: isDark ? Colors.white : Colors.black87,
+              ),
+            ),
+          ),
+          const SizedBox(width: 12),
           ElevatedButton.icon(
             onPressed: () {
               final user = ref.read(authProvider).user;
@@ -179,15 +179,14 @@ class _CategoryManagementScreenState extends ConsumerState<CategoryManagementScr
               }
               _showAddDialog(context);
             },
-            icon: const Icon(Icons.add, size: 18),
-            label: const Text('Create New'),
+            icon: const Icon(Icons.add_rounded, size: 18),
+            label: const Text('Create New', style: TextStyle(fontSize: 13, fontWeight: FontWeight.bold)),
             style: ElevatedButton.styleFrom(
               backgroundColor: Theme.of(context).colorScheme.primary,
               foregroundColor: Colors.white,
-              elevation: 4,
-              shadowColor: Theme.of(context).colorScheme.primary.withOpacity(0.2),
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+              elevation: 2,
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+              padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
             ),
           ),
         ],

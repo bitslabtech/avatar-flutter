@@ -1,5 +1,5 @@
-/// Reusable product card widget
-/// Used in product grids with Hero animation support and animated wishlist button
+// Reusable product card widget
+// Design inspired by Avatar_project (clean rounded 20px card, subtle border, Crimson price, charcoal circular cart button)
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -44,8 +44,8 @@ class _ProductCardState extends ConsumerState<ProductCard>
       duration: const Duration(milliseconds: 300),
     );
     _scaleAnimation = TweenSequence<double>([
-      TweenSequenceItem(tween: Tween(begin: 1.0, end: 1.4), weight: 50),
-      TweenSequenceItem(tween: Tween(begin: 1.4, end: 1.0), weight: 50),
+      TweenSequenceItem(tween: Tween(begin: 1.0, end: 1.35), weight: 50),
+      TweenSequenceItem(tween: Tween(begin: 1.35, end: 1.0), weight: 50),
     ]).animate(CurvedAnimation(
       parent: _heartController,
       curve: Curves.easeInOut,
@@ -56,9 +56,9 @@ class _ProductCardState extends ConsumerState<ProductCard>
       duration: const Duration(milliseconds: 200),
     );
     _cartScaleAnimation = TweenSequence<double>([
-      TweenSequenceItem(tween: Tween(begin: 1.0, end: 0.8), weight: 50),
-      TweenSequenceItem(tween: Tween(begin: 0.8, end: 1.2), weight: 30),
-      TweenSequenceItem(tween: Tween(begin: 1.2, end: 1.0), weight: 20),
+      TweenSequenceItem(tween: Tween(begin: 1.0, end: 0.85), weight: 50),
+      TweenSequenceItem(tween: Tween(begin: 0.85, end: 1.15), weight: 30),
+      TweenSequenceItem(tween: Tween(begin: 1.15, end: 1.0), weight: 20),
     ]).animate(CurvedAnimation(
       parent: _cartController,
       curve: Curves.easeInOut,
@@ -89,7 +89,6 @@ class _ProductCardState extends ConsumerState<ProductCard>
     final user = ref.watch(authProvider).user;
     final settings = ref.watch(adminSettingsProvider);
     final isDark = Theme.of(context).brightness == Brightness.dark;
-    final primaryBlue = AppColors.primaryBlueFor(isDark);
     final isPendingDealer = user != null && user.isDealer && user.status == 'pending';
     final isRejected = user != null && user.status == 'rejected';
     final shouldShowPrice = widget.showPrice && !isPendingDealer && !isRejected;
@@ -97,69 +96,91 @@ class _ProductCardState extends ConsumerState<ProductCard>
 
     return Container(
       decoration: BoxDecoration(
-        color: isDark ? AppColors.cardDark : Colors.white,
-        borderRadius: BorderRadius.circular(16),
+        color: isDark ? AppColors.darkSurface : Colors.white,
+        borderRadius: BorderRadius.circular(20),
+        border: Border.all(
+          color: isDark ? AppColors.borderDark : AppColors.borderLight,
+          width: 1,
+        ),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(isDark ? 0.3 : 0.05),
-            blurRadius: 8,
-            offset: const Offset(0, 2),
+            color: Colors.black.withValues(alpha: isDark ? 0.25 : 0.04),
+            blurRadius: 10,
+            offset: const Offset(0, 3),
           ),
         ],
       ),
       child: InkWell(
         onTap: widget.onTap,
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: BorderRadius.circular(20),
         child: Padding(
-          padding: const EdgeInsets.all(12.0),
+          padding: const EdgeInsets.all(10.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // Product image
+              // Product image with Discount badge & Wishlist Heart Button
               Expanded(
                 flex: 4,
                 child: Stack(
                   children: [
-                    Hero(
-                      tag: 'product-${widget.product.id}',
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(12),
+                    Container(
+                      width: double.infinity,
+                      height: double.infinity,
+                      decoration: BoxDecoration(
+                        color: isDark ? const Color(0xFF2B2F33) : AppColors.surfaceSubtle,
+                        borderRadius: BorderRadius.circular(16),
+                      ),
+                      padding: const EdgeInsets.all(8),
+                      child: Hero(
+                        tag: 'product-${widget.product.id}',
                         child: CachedNetworkImage(
                           imageUrl: widget.product.primaryImageUrl,
                           fit: BoxFit.contain,
                           width: double.infinity,
                           height: double.infinity,
-                          placeholder: (context, url) => Container(
-                            color: isDark ? const Color(0xFF2A2A2A) : Colors.grey[100],
-                            child: const Center(child: CircularProgressIndicator(strokeWidth: 2)),
+                          placeholder: (context, url) => Center(
+                            child: SizedBox(
+                              width: 22,
+                              height: 22,
+                              child: CircularProgressIndicator(
+                                strokeWidth: 2,
+                                color: AppColors.primary,
+                              ),
+                            ),
                           ),
-                          errorWidget: (context, url, error) => Container(
-                            color: isDark ? const Color(0xFF2A2A2A) : Colors.grey[100],
-                            child: const Icon(Icons.image_not_supported, color: Colors.grey),
+                          errorWidget: (context, url, error) => const Center(
+                            child: Icon(
+                              Icons.kitchen_rounded,
+                              color: AppColors.textMuted,
+                              size: 28,
+                            ),
                           ),
                         ),
                       ),
                     ),
 
-                    // Badge (Top Left)
+                    // Badge / Discount (Top Left)
                     if (widget.product.badge != null)
                       Positioned(
                         top: 8,
                         left: 8,
                         child: Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                          padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 3.5),
                           decoration: BoxDecoration(
-                            color: _getBadgeColor(widget.product.badge!),
-                            borderRadius: BorderRadius.circular(6),
+                            color: AppColors.primary,
+                            borderRadius: BorderRadius.circular(8),
                             boxShadow: [
-                              BoxShadow(color: Colors.black.withOpacity(0.1), blurRadius: 4),
+                              BoxShadow(
+                                color: Colors.black.withValues(alpha: 0.12),
+                                blurRadius: 4,
+                              ),
                             ],
                           ),
                           child: Text(
                             widget.product.badge!.toUpperCase(),
                             style: const TextStyle(
                               color: Colors.white,
-                              fontSize: 10,
+                              fontSize: 9.5,
                               fontWeight: FontWeight.bold,
                               letterSpacing: 0.5,
                             ),
@@ -170,25 +191,33 @@ class _ProductCardState extends ConsumerState<ProductCard>
                     // Variation Indicator
                     if (widget.product.variationGroupId != null)
                       Positioned(
-                        top: 8,
+                        top: widget.product.badge != null ? 34 : 8,
                         left: 8,
                         child: Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 4),
+                          padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 3),
                           decoration: BoxDecoration(
-                            color: Colors.black.withOpacity(0.6),
-                            borderRadius: BorderRadius.circular(4),
+                            color: AppColors.surfaceDark.withValues(alpha: 0.8),
+                            borderRadius: BorderRadius.circular(6),
                           ),
                           child: const Row(
+                            mainAxisSize: MainAxisSize.min,
                             children: [
-                              Icon(Icons.style_outlined, size: 12, color: Colors.white),
-                              SizedBox(width: 4),
-                              Text('Options', style: TextStyle(color: Colors.white, fontSize: 10, fontWeight: FontWeight.bold)),
+                              Icon(Icons.style_outlined, size: 11, color: Colors.white),
+                              SizedBox(width: 3),
+                              Text(
+                                'Options',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 9.5,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
                             ],
                           ),
                         ),
                       ),
 
-                    // ❤️ Wishlist Button (Top Right) — always visible
+                    // ❤️ Wishlist Button (Top Right)
                     Positioned(
                       top: 8,
                       right: 8,
@@ -201,16 +230,17 @@ class _ProductCardState extends ConsumerState<ProductCard>
                             child: child,
                           ),
                           child: Container(
-                            width: 32,
-                            height: 32,
+                            width: 30,
+                            height: 30,
                             decoration: BoxDecoration(
-                              color: Colors.black.withOpacity(0.55),
+                              color: (isDark ? const Color(0xFF1E2226) : Colors.white)
+                                  .withValues(alpha: 0.92),
                               shape: BoxShape.circle,
                               boxShadow: [
                                 BoxShadow(
-                                  color: Colors.black.withOpacity(0.2),
+                                  color: Colors.black.withValues(alpha: 0.08),
                                   blurRadius: 4,
-                                  offset: const Offset(0, 2),
+                                  offset: const Offset(0, 1),
                                 ),
                               ],
                             ),
@@ -221,50 +251,42 @@ class _ProductCardState extends ConsumerState<ProductCard>
                                 child: child,
                               ),
                               child: Icon(
-                                isInWishlist ? Icons.favorite : Icons.favorite_border,
+                                isInWishlist ? Icons.favorite_rounded : Icons.favorite_border_rounded,
                                 key: ValueKey(isInWishlist),
                                 size: 16,
-                                color: isInWishlist ? Colors.red : Colors.white,
+                                color: isInWishlist ? AppColors.primary : AppColors.textMuted,
                               ),
                             ),
                           ),
                         ),
                       ),
                     ),
-
-
                   ],
                 ),
               ),
 
-              const SizedBox(height: 12),
+              const SizedBox(height: 10),
 
-              // Product info
+              // Product Info: Name, Price, and Cart Action Button
               Expanded(
                 flex: 3,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const SizedBox(height: 4),
-                        Text(
-                          widget.product.name,
-                          style: TextStyle(
-                            color: isDark ? Colors.white : AppColors.backgroundBlack,
-                            fontSize: 14,
-                            fontWeight: FontWeight.w600,
-                            height: 1.2,
-                          ),
-                          maxLines: 2,
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                      ],
+                    Text(
+                      widget.product.name,
+                      style: TextStyle(
+                        color: isDark ? Colors.white : AppColors.textPrimary,
+                        fontSize: 13,
+                        fontWeight: FontWeight.bold,
+                        height: 1.25,
+                      ),
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
                     ),
 
-                    // Price Row & Cart Button
+                    // Price Row & Charcoal Add-to-Cart Circle Button
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       crossAxisAlignment: CrossAxisAlignment.end,
@@ -273,9 +295,17 @@ class _ProductCardState extends ConsumerState<ProductCard>
                           child: Builder(
                             builder: (context) {
                               if (shouldShowPrice && widget.product.price != null) {
-                                double displayPrice = widget.product.getDisplayPrice(user, isGstInclusive: settings.priceIncludesGst);
-                                double originalDisplayPrice = widget.product.getOriginalDisplayPrice(isGstInclusive: settings.priceIncludesGst);
-                                bool hasDiscount = user != null && user.isDealer && !isPendingDealer && user.discountPercentage > 0;
+                                double displayPrice = widget.product.getDisplayPrice(
+                                  user,
+                                  isGstInclusive: settings.priceIncludesGst,
+                                );
+                                double originalDisplayPrice = widget.product.getOriginalDisplayPrice(
+                                  isGstInclusive: settings.priceIncludesGst,
+                                );
+                                bool hasDiscount = user != null &&
+                                    user.isDealer &&
+                                    !isPendingDealer &&
+                                    user.discountPercentage > 0;
 
                                 return Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -283,47 +313,51 @@ class _ProductCardState extends ConsumerState<ProductCard>
                                   children: [
                                     Text(
                                       CurrencyUtils.format(displayPrice),
-                                      style: TextStyle(
-                                        color: primaryBlue,
-                                        fontSize: 16,
+                                      style: const TextStyle(
+                                        color: AppColors.primary,
+                                        fontSize: 15,
                                         fontWeight: FontWeight.bold,
                                       ),
                                     ),
                                     if (hasDiscount)
                                       Text(
                                         CurrencyUtils.format(originalDisplayPrice),
-                                        style: TextStyle(
-                                          color: Colors.grey[500],
-                                          fontSize: 12,
+                                        style: const TextStyle(
+                                          color: AppColors.textMuted,
+                                          fontSize: 11,
                                           decoration: TextDecoration.lineThrough,
-                                          decorationColor: Colors.black54,
                                         ),
                                       ),
                                   ],
                                 );
                               } else if (isPendingDealer || isRejected) {
                                 return Container(
-                                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                                  padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 3),
                                   decoration: BoxDecoration(
-                                    color: (isRejected ? Colors.red : Colors.amber).withOpacity(0.1),
-                                    borderRadius: BorderRadius.circular(4),
-                                    border: Border.all(color: isRejected ? Colors.red : Colors.amber),
+                                    color: (isRejected ? AppColors.errorRed : AppColors.dealerGold)
+                                        .withValues(alpha: 0.12),
+                                    borderRadius: BorderRadius.circular(6),
+                                    border: Border.all(
+                                      color: isRejected ? AppColors.errorRed : AppColors.dealerGold,
+                                      width: 1,
+                                    ),
                                   ),
                                   child: Text(
                                     isRejected ? 'Account Rejected' : 'Approval Pending',
                                     style: TextStyle(
-                                      color: isRejected ? Colors.red : Colors.amber,
+                                      color: isRejected ? AppColors.errorRed : AppColors.dealerGold,
                                       fontSize: 10,
                                       fontWeight: FontWeight.bold,
                                     ),
                                   ),
                                 );
                               } else {
-                                return Text(
+                                return const Text(
                                   'Login for price',
                                   style: TextStyle(
-                                    color: Colors.grey[500],
+                                    color: AppColors.textMuted,
                                     fontSize: 12,
+                                    fontWeight: FontWeight.w500,
                                     fontStyle: FontStyle.italic,
                                   ),
                                 );
@@ -331,7 +365,8 @@ class _ProductCardState extends ConsumerState<ProductCard>
                             },
                           ),
                         ),
-                        // 🛒 Add to Cart Button (Bottom Right)
+
+                        // 🛒 Add to Cart Circular Button (Charcoal Slate / Minimal Pill)
                         if (widget.onAddToCart != null && !isPendingDealer)
                           GestureDetector(
                             onTap: () {
@@ -345,15 +380,23 @@ class _ProductCardState extends ConsumerState<ProductCard>
                                 child: child,
                               ),
                               child: Container(
+                                width: 34,
+                                height: 34,
                                 decoration: BoxDecoration(
-                                  color: primaryBlue.withOpacity(0.1),
+                                  color: isDark ? const Color(0xFF2B2F33) : AppColors.surfaceDark,
                                   shape: BoxShape.circle,
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.black.withValues(alpha: isDark ? 0.3 : 0.1),
+                                      blurRadius: 6,
+                                      offset: const Offset(0, 2),
+                                    ),
+                                  ],
                                 ),
-                                padding: const EdgeInsets.all(8.0),
-                                child: Icon(
-                                  Icons.add_shopping_cart, 
-                                  size: 18, 
-                                  color: primaryBlue,
+                                child: const Icon(
+                                  Icons.shopping_bag_outlined,
+                                  size: 16,
+                                  color: Colors.white,
                                 ),
                               ),
                             ),
@@ -368,12 +411,5 @@ class _ProductCardState extends ConsumerState<ProductCard>
         ),
       ),
     );
-  }
-
-  Color _getBadgeColor(String badge) {
-    switch (badge.toLowerCase()) {
-      case 'new': return AppColors.primaryBlueDark;
-      default: return AppColors.primaryBlueDark;
-    }
   }
 }

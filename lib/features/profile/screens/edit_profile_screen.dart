@@ -19,6 +19,8 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
   late TextEditingController _phoneController;
   late TextEditingController _alternativePhoneController;
   late TextEditingController _emailController;
+  late TextEditingController _companyNameController;
+  late TextEditingController _gstVatController;
   
   // ignore: unused_field
   bool _isLoading = false;
@@ -31,6 +33,8 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
     _phoneController = TextEditingController(text: user?.phone ?? '');
     _alternativePhoneController = TextEditingController(text: user?.alternativePhone ?? '');
     _emailController = TextEditingController(text: user?.email ?? '');
+    _companyNameController = TextEditingController(text: user?.companyName ?? '');
+    _gstVatController = TextEditingController(text: user?.gstVat ?? '');
   }
 
   @override
@@ -39,6 +43,8 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
     _phoneController.dispose();
     _alternativePhoneController.dispose();
     _emailController.dispose();
+    _companyNameController.dispose();
+    _gstVatController.dispose();
     super.dispose();
   }
 
@@ -50,11 +56,15 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
     // Slight delay to simulate network/UI feel if needed, or just proceed
     // The provider handles the actual API call
     try {
-      final data = {
+      final user = ref.read(authProvider).user;
+      final data = <String, dynamic>{
         'name': _nameController.text.trim(),
         'email': _emailController.text.trim(),
         'alternativePhone': _alternativePhoneController.text.trim(),
-        // Phone is read-only, not updating it
+        if (user?.isDealer == true) ...{
+          'companyName': _companyNameController.text.trim(),
+          'gstVat': _gstVatController.text.trim().toUpperCase(),
+        },
       };
 
       await ref.read(authProvider.notifier).updateProfile(data);

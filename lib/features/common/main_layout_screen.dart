@@ -75,7 +75,7 @@ class _MainLayoutScreenState extends ConsumerState<MainLayoutScreen> {
     final result = await showDialog<bool>(
       context: context,
       barrierDismissible: true,
-      barrierColor: Colors.black.withOpacity(0.5),
+      barrierColor: Colors.black.withValues(alpha: 0.5),
       builder: (ctx) => Dialog(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
         backgroundColor: isDark ? const Color(0xFF1E293B) : Colors.white,
@@ -89,7 +89,7 @@ class _MainLayoutScreenState extends ConsumerState<MainLayoutScreen> {
                 width: 64,
                 height: 64,
                 decoration: BoxDecoration(
-                  color: Theme.of(context).colorScheme.primary.withOpacity(0.1),
+                  color: Theme.of(context).colorScheme.primary.withValues(alpha: 0.1),
                   shape: BoxShape.circle,
                 ),
                 child: Icon(
@@ -264,7 +264,6 @@ class _FloatingNavBar extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final cartState = ref.watch(cartProvider);
-    final authState = ref.watch(authProvider);
 
     final navItems = [
       _NavItem(
@@ -280,68 +279,64 @@ class _FloatingNavBar extends ConsumerWidget {
         index: 1,
       ),
       _NavItem(
-        icon: Icons.shopping_cart_outlined,
-        selectedIcon: Icons.shopping_cart_rounded,
+        icon: Icons.shopping_bag_outlined,
+        selectedIcon: Icons.shopping_bag_rounded,
         label: 'Cart',
         index: 2,
-        badgeCount: (authState.isAuthenticated && authState.user?.status != 'rejected') ? cartState.itemCount : 0,
+        badgeCount: cartState.itemCount,
       ),
       _NavItem(
-        icon: Icons.person_outline,
+        icon: Icons.person_outline_rounded,
         selectedIcon: Icons.person_rounded,
-        label: authState.isAuthenticated ? 'Profile' : 'Login',
+        label: 'Profile',
         index: 3,
       ),
-    ].where((item) {
-      // Remove Cart for Guest users AND Rejected users
-      if (item.label == 'Cart') {
-        if (!authState.isAuthenticated) return false;
-        if (authState.user?.status == 'rejected') return false;
-      }
-      return true;
-    }).toList();
+    ];
 
-    return Container(
-      decoration: BoxDecoration(
-        color: (isDark ? const Color(0xFF1E1E1E) : Colors.white).withOpacity(0.95), // Less transparent for solid feel
-        border: Border(
-           top: BorderSide(
-             color: isDark ? Colors.white.withOpacity(0.1) : Colors.black.withOpacity(0.05),
-             width: 1,
-           ),
+    return SafeArea(
+      top: false,
+      child: Container(
+        margin: const EdgeInsets.fromLTRB(20, 0, 20, 16),
+        height: 66,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(33),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withValues(alpha: isDark ? 0.35 : 0.08),
+              blurRadius: 20,
+              offset: const Offset(0, 6),
+            ),
+          ],
         ),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.05),
-            blurRadius: 10,
-            offset: const Offset(0, -5),
-          ),
-        ],
-      ),
-      child: ClipRRect(
-        child: BackdropFilter(
-          filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
-          child: SafeArea(
-            top: false,
-            child: SizedBox(
-               height: 70,
-               child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround, // Distribute evenly
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(33),
+          child: BackdropFilter(
+            filter: ImageFilter.blur(sigmaX: 12, sigmaY: 12),
+            child: Container(
+              padding: const EdgeInsets.symmetric(horizontal: 10),
+              decoration: BoxDecoration(
+                color: (isDark ? const Color(0xFF1E2226) : Colors.white).withValues(alpha: 0.95),
+                borderRadius: BorderRadius.circular(33),
+                border: Border.all(
+                  color: (isDark ? Colors.white : Colors.black).withValues(alpha: 0.07),
+                  width: 1.2,
+                ),
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: navItems.map((item) {
                   final isSelected = navigationShell.currentIndex == item.index;
-                  return Expanded(
-                    child: _NavBarItem(
-                      item: item,
-                      isSelected: isSelected,
-                      isDark: isDark,
-                      onTap: () {
-                        HapticFeedback.lightImpact();
-                        navigationShell.goBranch(
-                          item.index,
-                          initialLocation: item.index == navigationShell.currentIndex,
-                        );
-                      },
-                    ),
+                  return _NavBarItem(
+                    item: item,
+                    isSelected: isSelected,
+                    isDark: isDark,
+                    onTap: () {
+                      HapticFeedback.lightImpact();
+                      navigationShell.goBranch(
+                        item.index,
+                        initialLocation: item.index == navigationShell.currentIndex,
+                      );
+                    },
                   );
                 }).toList(),
               ),
@@ -384,72 +379,80 @@ class _NavBarItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final selectedColor = Theme.of(context).colorScheme.primary;
-    final unselectedColor = isDark ? Colors.grey[500] : Colors.grey[600];
-    
+    final activeBgColor = isDark ? Colors.white : AppColors.surfaceDark;
+    final activeTextColor = isDark ? AppColors.surfaceDark : Colors.white;
+    final inactiveIconColor = isDark ? Colors.white60 : AppColors.surfaceDark;
+
     return GestureDetector(
-      onTap: onTap,
       behavior: HitTestBehavior.opaque,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Stack(
-            clipBehavior: Clip.none,
-            children: [
-              AnimatedContainer(
-                duration: const Duration(milliseconds: 200),
-                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 4),
-                decoration: BoxDecoration(
-                   color: isSelected ? selectedColor.withOpacity(0.1) : Colors.transparent,
-                   borderRadius: BorderRadius.circular(20),
-                ),
-                child: Icon(
+      onTap: onTap,
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 250),
+        curve: Curves.easeInOutCubic,
+        padding: EdgeInsets.symmetric(
+          horizontal: isSelected ? 16 : 12,
+          vertical: 9,
+        ),
+        decoration: BoxDecoration(
+          color: isSelected ? activeBgColor : Colors.transparent,
+          borderRadius: BorderRadius.circular(22),
+        ),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Stack(
+              clipBehavior: Clip.none,
+              children: [
+                Icon(
                   isSelected ? (item.selectedIcon ?? item.icon) : item.icon,
-                  color: isSelected ? selectedColor : unselectedColor,
-                  size: 26,
+                  color: isSelected ? activeTextColor : inactiveIconColor,
+                  size: 20,
                 ),
-              ),
-              if (item.badgeCount > 0)
-                Positioned(
-                  right: 12,
-                  top: 0,
-                  child: Container(
-                    padding: const EdgeInsets.all(4),
-                    decoration: const BoxDecoration(
-                      color: Colors.red,
-                      shape: BoxShape.circle,
-                      border: Border.fromBorderSide(BorderSide(color: Colors.white, width: 1.5))
-                    ),
-                    constraints: const BoxConstraints(
-                      minWidth: 16,
-                      minHeight: 16,
-                    ),
-                    child: Center(
-                      child: Text(
-                        item.badgeCount > 99 ? '99+' : item.badgeCount.toString(),
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 9,
-                          fontWeight: FontWeight.bold,
+                if (item.badgeCount > 0)
+                  Positioned(
+                    top: -5,
+                    right: -7,
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 1.5),
+                      decoration: BoxDecoration(
+                        color: AppColors.primary,
+                        borderRadius: BorderRadius.circular(10),
+                        border: Border.all(
+                          color: isSelected ? activeBgColor : (isDark ? const Color(0xFF1E2226) : Colors.white),
+                          width: 1.5,
                         ),
-                        textAlign: TextAlign.center,
+                      ),
+                      constraints: const BoxConstraints(
+                        minWidth: 16,
+                        minHeight: 16,
+                      ),
+                      child: Center(
+                        child: Text(
+                          item.badgeCount > 99 ? '99+' : '${item.badgeCount}',
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 9,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
                       ),
                     ),
                   ),
-                ),
-            ],
-          ),
-          const SizedBox(height: 4),
-          Text(
-            item.label,
-            style: TextStyle(
-              color: isSelected ? selectedColor : unselectedColor,
-              fontSize: 12,
-              fontWeight: isSelected ? FontWeight.w600 : FontWeight.w500,
+              ],
             ),
-          ),
-        ],
+            if (isSelected) ...[
+              const SizedBox(width: 8),
+              Text(
+                item.label,
+                style: TextStyle(
+                  color: activeTextColor,
+                  fontSize: 12,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ],
+          ],
+        ),
       ),
     );
   }

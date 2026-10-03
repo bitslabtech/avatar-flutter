@@ -138,7 +138,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                   decoration: BoxDecoration(
                     color: isDark ? AppColors.surfaceDark : Colors.grey[100],
                     borderRadius: BorderRadius.circular(12),
-                    border: Border.all(color: AppColors.primaryRed.withOpacity(0.3)),
+                    border: Border.all(color: AppColors.primaryBlue.withOpacity(0.3)),
                   ),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -321,7 +321,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                   onPressed: authState.isLoading ? null : _handleRegister,
                   style: ElevatedButton.styleFrom(
                     padding: const EdgeInsets.symmetric(vertical: 16),
-                    backgroundColor: AppColors.primaryRed,
+                    backgroundColor: AppColors.primaryBlue,
                     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                   ),
                   child: authState.isLoading
@@ -420,7 +420,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
           borderRadius: BorderRadius.circular(12),
         ),
         focusedBorder: OutlineInputBorder(
-          borderSide: const BorderSide(color: AppColors.primaryRed),
+          borderSide: const BorderSide(color: AppColors.primaryBlue),
           borderRadius: BorderRadius.circular(12),
         ),
       ),
@@ -441,12 +441,12 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
         padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
           color: isSelected
-              ? AppColors.primaryRed.withOpacity(0.2)
+              ? AppColors.primaryBlue.withOpacity(0.2)
               : (isDark ? AppColors.surfaceDark : Colors.grey[200]),
           borderRadius: BorderRadius.circular(12),
           border: Border.all(
             color: isSelected
-                ? AppColors.primaryRed
+                ? AppColors.primaryBlue
                 : (isDark ? AppColors.borderGray : Colors.grey[400]!),
             width: isSelected ? 2 : 1,
           ),
@@ -456,7 +456,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
             Icon(
               icon,
               color: isSelected
-                  ? AppColors.primaryRed
+                  ? AppColors.primaryBlue
                   : (isDark ? AppColors.textSecondary : Colors.grey[600]),
               size: 32,
             ),
@@ -465,7 +465,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
               label,
               style: TextStyle(
                 color: isSelected
-                    ? AppColors.primaryRed
+                    ? AppColors.primaryBlue
                     : (isDark ? AppColors.textSecondary : Colors.grey[800]),
                 fontSize: 14,
                 fontWeight: isSelected ? FontWeight.w600 : FontWeight.normal,

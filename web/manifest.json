@@ -1,6 +1,6 @@
 {
-    "name": "avatar_app",
-    "short_name": "avatar_app",
+    "name": "Avatar",
+    "short_name": "Avatar",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#FFFFFF",

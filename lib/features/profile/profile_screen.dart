@@ -213,28 +213,79 @@ class ProfileScreen extends ConsumerWidget {
                   padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
                   decoration: BoxDecoration(
                     color: user.isDealer 
-                        ? (isDark ? Colors.purple.shade900.withOpacity(0.2) : Colors.purple.shade50)
-                        : (isDark ? Colors.blue.shade900.withOpacity(0.2) : Colors.blue.shade50),
+                        ? (isDark ? Colors.purple.shade900.withValues(alpha: 0.25) : Colors.purple.shade50)
+                        : (isDark ? AppColors.primaryBlue.withValues(alpha: 0.15) : Colors.blue.shade50),
                     borderRadius: BorderRadius.circular(16),
                     border: Border.all(
                       color: user.isDealer 
-                          ? (isDark ? Colors.purple.shade700 : Colors.purple.shade100)
-                          : (isDark ? Colors.blue.shade700 : Colors.blue.shade100),
+                          ? (isDark ? Colors.purple.shade600 : Colors.purple.shade200)
+                          : (isDark ? AppColors.primaryBlue : Colors.blue.shade200),
                     ),
                   ),
                   child: Text(
-                    user.isDealer ? 'Dealer' : 'Consumer',
+                    user.isDealer ? 'Wholesale Dealer' : 'Consumer',
                     style: TextStyle(
                       fontSize: 12,
                       fontWeight: FontWeight.bold,
                       color: user.isDealer 
                           ? (isDark ? Colors.purple.shade300 : Colors.purple.shade700)
-                          : (isDark ? Colors.blue.shade300 : Colors.blue.shade700),
+                          : (isDark ? AppColors.primaryBlue : Colors.blue.shade700),
                     ),
                   ),
                 ),
               ],
             ),
+            if (user.isDealer) ...[
+              const SizedBox(height: 8),
+              if (user.companyName != null && user.companyName!.isNotEmpty)
+                Text(
+                  user.companyName!,
+                  style: TextStyle(
+                    fontSize: 15,
+                    fontWeight: FontWeight.w600,
+                    color: isDark ? Colors.grey[300] : Colors.grey[700],
+                  ),
+                ),
+              if (user.gstVat != null && user.gstVat!.isNotEmpty) ...[
+                const SizedBox(height: 2),
+                Text(
+                  'GSTIN: ${user.gstVat}',
+                  style: TextStyle(
+                    fontSize: 12,
+                    color: isDark ? Colors.grey[400] : Colors.grey[500],
+                    letterSpacing: 0.5,
+                  ),
+                ),
+              ],
+              if (user.discountPercentage > 0) ...[
+                const SizedBox(height: 8),
+                Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+                  decoration: BoxDecoration(
+                    color: AppColors.primaryBlue.withValues(alpha: isDark ? 0.2 : 0.1),
+                    borderRadius: BorderRadius.circular(20),
+                    border: Border.all(
+                      color: AppColors.primaryBlue.withValues(alpha: 0.3),
+                    ),
+                  ),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      const Icon(Icons.percent_rounded, size: 13, color: AppColors.primaryBlue),
+                      const SizedBox(width: 4),
+                      Text(
+                        '${user.discountPercentage.toInt()}% Wholesale Discount Tier',
+                        style: const TextStyle(
+                          color: AppColors.primaryBlue,
+                          fontSize: 12,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ],
         ],
       ),
     );

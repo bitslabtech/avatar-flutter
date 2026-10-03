@@ -1,3 +1,4 @@
+import 'page_transitions.dart';
 /// App routing configuration using go_router
 /// Defines all routes and navigation guards
 import 'package:flutter/material.dart';

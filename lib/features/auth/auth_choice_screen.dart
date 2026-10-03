@@ -62,7 +62,7 @@ class AuthChoiceScreen extends StatelessWidget {
                   child: ElevatedButton(
                     onPressed: () => context.go('/home'),
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: AppColors.primaryRed,
+                      backgroundColor: AppColors.primaryBlue,
                       foregroundColor: Colors.white,
                       padding: const EdgeInsets.symmetric(vertical: 16),
                       shape: RoundedRectangleBorder(
@@ -108,8 +108,8 @@ class AuthChoiceScreen extends StatelessWidget {
                     onPressed: () => context.push('/login'),
                     style: OutlinedButton.styleFrom(
                       padding: const EdgeInsets.symmetric(vertical: 16),
-                      side: const BorderSide(color: AppColors.primaryRed),
-                      foregroundColor: AppColors.primaryRed,
+                      side: const BorderSide(color: AppColors.primaryBlue),
+                      foregroundColor: AppColors.primaryBlue,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(12),
                       ),

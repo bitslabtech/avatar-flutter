@@ -27,7 +27,7 @@ class CurvedHeader extends StatelessWidget {
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
             colors: [
-              color ?? AppColors.primaryRed.withOpacity(0.2),
+              color ?? AppColors.primaryBlue.withOpacity(0.2),
               AppColors.surfaceDark,
             ],
           ),

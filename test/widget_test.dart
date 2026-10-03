@@ -22,6 +22,7 @@ void main() {
 
     // Pump additional frames to allow animations to settle
     // This prevents timer-related test failures
-    await tester.pumpAndSettle(const Duration(seconds: 3));
+    await tester.pump(const Duration(milliseconds: 2100));
+    await tester.pump(const Duration(milliseconds: 700));
   });
 }

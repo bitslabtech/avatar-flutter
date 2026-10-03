@@ -5,6 +5,7 @@ import '../../../../core/theme/app_colors.dart';
 import '../../../../models/order.dart';
 import '../providers/orders_provider.dart';
 import '../../../../providers/auth_provider.dart';
+import '../widgets/admin_bottom_nav_bar.dart';
 
 class OrderListScreen extends ConsumerStatefulWidget {
   const OrderListScreen({super.key});
@@ -51,8 +52,10 @@ class _OrderListScreenState extends ConsumerState<OrderListScreen> {
     final state = ref.watch(ordersProvider);
 
     return Scaffold(
+      extendBody: true,
       backgroundColor: isDark ? AppColors.backgroundBlack : AppColors.backgroundLight,
       body: SafeArea(
+        bottom: false,
         child: Column(
           children: [
             _buildHeader(isDark),
@@ -126,7 +129,7 @@ class _OrderListScreenState extends ConsumerState<OrderListScreen> {
                         ),
                       ),
 
-                    const SliverToBoxAdapter(child: SizedBox(height: 60)),
+                    const SliverToBoxAdapter(child: SizedBox(height: 100)),
                   ],
                 ),
               ),
@@ -134,6 +137,7 @@ class _OrderListScreenState extends ConsumerState<OrderListScreen> {
           ],
         ),
       ),
+      bottomNavigationBar: const AdminBottomNavBar(currentRoute: '/admin/orders'),
     );
   }
 
@@ -154,17 +158,20 @@ class _OrderListScreenState extends ConsumerState<OrderListScreen> {
               shape: const CircleBorder(),
             ),
           ),
-          const SizedBox(width: 12),
+          const SizedBox(width: 10),
           Expanded(
             child: Text(
               'Order Management',
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
               style: TextStyle(
-                fontSize: 20,
+                fontSize: 18,
                 fontWeight: FontWeight.bold,
                 color: isDark ? Colors.white : Colors.black87,
               ),
             ),
           ),
+          const SizedBox(width: 12),
           ElevatedButton.icon(
             onPressed: () {
               final user = ref.read(authProvider).user;
@@ -177,12 +184,13 @@ class _OrderListScreenState extends ConsumerState<OrderListScreen> {
               context.pushNamed('admin-create-order');
             },
             icon: const Icon(Icons.add, size: 18, color: Colors.white),
-            label: const Text('Create', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+            label: const Text('Create', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 13)),
             style: ElevatedButton.styleFrom(
               backgroundColor: Theme.of(context).colorScheme.primary,
               foregroundColor: Colors.white,
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+              elevation: 2,
+              padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
             ),
           ),
         ],

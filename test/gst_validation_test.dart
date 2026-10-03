@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import '../lib/core/utils/gst_validation.dart';
+import 'package:avatar_app/core/utils/gst_validation.dart';
 
 void main() {
   group('GSTIN Validation Tests', () {

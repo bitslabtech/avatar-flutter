@@ -1,3 +1,4 @@
+import '../../core/animations/bounce_tap.dart';
 /// Cart screen using order drafts
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';

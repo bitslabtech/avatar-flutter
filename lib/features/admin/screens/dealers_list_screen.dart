@@ -8,6 +8,7 @@ import '../../../widgets/common/loading_indicator.dart';
 import '../providers/dealer_provider.dart';
 import 'add_dealer_screen.dart';
 import 'dealer_detail_screen.dart';
+import '../widgets/admin_bottom_nav_bar.dart';
 
 final dealerFilterProvider = StateProvider.autoDispose<String?>((ref) => null);
 final dealerSearchProvider = StateProvider.autoDispose<String>((ref) => '');
@@ -162,8 +163,10 @@ class _DealersListScreenState extends ConsumerState<DealersListScreen> {
     });
 
     return Scaffold(
+      extendBody: true,
       backgroundColor: isDark ? AppColors.backgroundBlack : AppColors.backgroundLight,
       body: SafeArea(
+        bottom: false,
         child: Column(
           children: [
             _buildAppBar(context, isDark),
@@ -182,6 +185,7 @@ class _DealersListScreenState extends ConsumerState<DealersListScreen> {
           ],
         ),
       ),
+      bottomNavigationBar: const AdminBottomNavBar(currentRoute: '/admin/dealers'),
     );
   }
 
@@ -383,7 +387,7 @@ class _DealersListScreenState extends ConsumerState<DealersListScreen> {
             child: filteredDealers.isEmpty
                 ? Center(child: Text('No dealers match filter', style: TextStyle(color: isDark ? Colors.white : Colors.black)))
                 : ListView.separated(
-                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                    padding: const EdgeInsets.fromLTRB(16, 8, 16, 100),
                     itemCount: filteredDealers.length,
                     separatorBuilder: (_, __) => const SizedBox(height: 12),
                     itemBuilder: (context, index) {

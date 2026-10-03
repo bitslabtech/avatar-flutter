@@ -7,6 +7,7 @@ import '../providers/product_management_provider.dart';
 import '../../../models/product.dart';
 import '../widgets/product_list_skeleton.dart';
 import 'product_add_edit_screen.dart';
+import '../widgets/admin_bottom_nav_bar.dart';
 
 class ProductListScreen extends ConsumerStatefulWidget {
   const ProductListScreen({super.key});
@@ -240,8 +241,10 @@ class _ProductListScreenState extends ConsumerState<ProductListScreen> {
     final productState = ref.watch(productManagementProvider);
 
     return Scaffold(
+      extendBody: true,
       backgroundColor: isDark ? const Color(0xFF101522) : const Color(0xFFF6F6F8),
       body: SafeArea(
+        bottom: false,
         child: Column(
           children: [
             _buildHeader(context, isDark),
@@ -419,7 +422,7 @@ class _ProductListScreenState extends ConsumerState<ProductListScreen> {
                         ),
 
                       // Bottom Spacer
-                      const SliverToBoxAdapter(child: SizedBox(height: 80)),
+                      const SliverToBoxAdapter(child: SizedBox(height: 100)),
                     ],
                   ],
                 ),
@@ -428,6 +431,7 @@ class _ProductListScreenState extends ConsumerState<ProductListScreen> {
           ],
         ),
       ),
+      bottomNavigationBar: const AdminBottomNavBar(currentRoute: '/admin/products'),
     );
   }
 
@@ -457,50 +461,49 @@ class _ProductListScreenState extends ConsumerState<ProductListScreen> {
         ),
       ),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Row(
-            children: [
-              GestureDetector(
-                onTap: () => context.pop(),
-                child: Icon(
-                  Icons.arrow_back_ios_new,
-                  size: 20,
-                  color: isDark ? Colors.white : Colors.black,
-                ),
-              ),
-              const SizedBox(width: 12),
-              Text(
-                'Manage Products',
-                style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                  letterSpacing: -0.5,
-                  color: isDark ? Colors.white : const Color(0xFF0F172A),
-                ),
-              ),
-            ],
+          IconButton(
+            onPressed: () => context.pop(),
+            icon: Icon(
+              Icons.arrow_back_ios_new,
+              size: 18,
+              color: isDark ? Colors.white : Colors.black,
+            ),
+            style: IconButton.styleFrom(
+              padding: EdgeInsets.zero,
+              visualDensity: VisualDensity.compact,
+            ),
           ),
-          
-          Row(
-            children: [
-              ElevatedButton.icon(
-                onPressed: () => Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (_) => const ProductAddEditScreen()),
-                ),
-                icon: const Icon(Icons.add, size: 20),
-                label: const Text('New Product'),
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color(0xFF1349EC),
-                  foregroundColor: Colors.white,
-                  elevation: 2,
-                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-                  textStyle: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
-                ),
+          const SizedBox(width: 8),
+          Expanded(
+            child: Text(
+              'Manage Products',
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+                letterSpacing: -0.5,
+                color: isDark ? Colors.white : const Color(0xFF0F172A),
               ),
-            ],
+            ),
+          ),
+          const SizedBox(width: 12),
+          ElevatedButton.icon(
+            onPressed: () => Navigator.push(
+              context,
+              MaterialPageRoute(builder: (_) => const ProductAddEditScreen()),
+            ),
+            icon: const Icon(Icons.add_rounded, size: 18),
+            label: const Text('New Product'),
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Theme.of(context).colorScheme.primary,
+              foregroundColor: Colors.white,
+              elevation: 2,
+              padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+              textStyle: const TextStyle(fontSize: 13, fontWeight: FontWeight.bold),
+            ),
           ),
         ],
       ),
