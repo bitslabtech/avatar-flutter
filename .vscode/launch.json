@@ -18,9 +18,27 @@
       ]
     },
     {
-      "name": "Avatar App (iOS Simulator)",
+      "name": "Avatar App (iOS / Web / Windows - Localhost)",
       "request": "launch",
       "type": "dart",
+      "args": [
+        "--dart-define=API_BASE_URL=http://localhost:3000"
+      ]
+    },
+    {
+      "name": "Avatar App (Chrome Web)",
+      "request": "launch",
+      "type": "dart",
+      "deviceId": "chrome",
+      "args": [
+        "--dart-define=API_BASE_URL=http://localhost:3000"
+      ]
+    },
+    {
+      "name": "Avatar App (Windows Desktop)",
+      "request": "launch",
+      "type": "dart",
+      "deviceId": "windows",
       "args": [
         "--dart-define=API_BASE_URL=http://localhost:3000"
       ]

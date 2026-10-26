@@ -204,5 +204,7 @@ extension OrderStatusX on OrderStatus {
     final name = toString().split('.').last;
     return name == 'delivered' ? 'completed' : name;
   }
+}
+
 
 
