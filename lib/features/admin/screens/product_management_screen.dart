@@ -234,7 +234,7 @@ class _ProductManagementScreenState extends ConsumerState<ProductManagementScree
           context.pushNamed('admin-products');
         }),
         const SizedBox(height: 12),
-        _buildActionButton('Bulk Import/Export', Icons.import_export, Colors.teal, isDark, () {
+        _buildActionButton('Bulk Price Edit (Excel)', Icons.request_quote, Colors.teal, isDark, () {
            if (user?.hasPermission('products', 'create') != true) {
              ScaffoldMessenger.of(context).showSnackBar(
                const SnackBar(content: Text('You do not have permission to import/export products')),

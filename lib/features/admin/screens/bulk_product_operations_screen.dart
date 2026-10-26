@@ -198,7 +198,7 @@ class _BulkProductOperationsScreenState extends ConsumerState<BulkProductOperati
             ),
           ),
           Text(
-            'Bulk Import/Export',
+            'Bulk Price Edit',
             style: TextStyle(
               fontSize: 16, 
               fontWeight: FontWeight.bold,
@@ -433,7 +433,7 @@ class _BulkProductOperationsScreenState extends ConsumerState<BulkProductOperati
                   style: TextStyle(fontSize: 13, color: isDark ? textColorMuted : Colors.grey.shade700, height: 1.4),
                   children: const [
                     TextSpan(text: 'Note: ', style: TextStyle(color: Colors.amber, fontWeight: FontWeight.bold)),
-                    TextSpan(text: 'Import only exported excel files. Do not modify the structure or headers.'),
+                    TextSpan(text: 'Import only exported excel files to update existing products (e.g. bulk price updates). Adding new products is not supported.'),
                   ],
                 ),
               ),
@@ -533,7 +533,7 @@ class _BulkProductOperationsScreenState extends ConsumerState<BulkProductOperati
               ),
               const SizedBox(height: 8),
               Text(
-                'Generate an Excel file with all your products, including Brands, Categories, and Variations. Use this for backups or bulk editing.',
+                'Generate an Excel file with all your products. Edit the prices, MRP, or details, and reupload. (Adding new products via Excel is not supported - only updating existing ones).',
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   color: isDark ? textColorMuted : Colors.grey,
@@ -544,7 +544,7 @@ class _BulkProductOperationsScreenState extends ConsumerState<BulkProductOperati
                ElevatedButton.icon(
                 onPressed: _handleExport,
                 icon: const Icon(Icons.download),
-                label: const Text('Export Excel File'), // Updated Label
+                label: const Text('Download Price List Template'), // Updated Label
                 style: ElevatedButton.styleFrom(
                   backgroundColor: primaryColor,
                   foregroundColor: Colors.white,

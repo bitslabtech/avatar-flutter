@@ -26,6 +26,7 @@ class _DealerDetailScreenState extends ConsumerState<DealerDetailScreen> {
   late TextEditingController _nameController;
   late TextEditingController _phoneController;
   late TextEditingController _emailController;
+  late TextEditingController _transportNoteController;
 
   late TextEditingController _discountController;
   late String _status;
@@ -39,6 +40,7 @@ class _DealerDetailScreenState extends ConsumerState<DealerDetailScreen> {
     _nameController = TextEditingController(text: widget.dealer.name);
     _phoneController = TextEditingController(text: widget.dealer.phone);
     _emailController = TextEditingController(text: widget.dealer.email ?? '');
+    _transportNoteController = TextEditingController(text: widget.dealer.transportNote ?? '');
     // Format discount to remove .0 if it's a whole number
     final discount = widget.dealer.discountPercentage;
     _discountController = TextEditingController(
@@ -54,6 +56,7 @@ class _DealerDetailScreenState extends ConsumerState<DealerDetailScreen> {
     _nameController.dispose();
     _phoneController.dispose();
     _emailController.dispose();
+    _transportNoteController.dispose();
     _discountController.dispose();
     super.dispose();
   }
@@ -72,6 +75,12 @@ class _DealerDetailScreenState extends ConsumerState<DealerDetailScreen> {
         'discountPercentage': double.tryParse(_discountController.text) ?? 0.0,
       };
       
+      if (_transportNoteController.text.trim().isNotEmpty) {
+        data['transportNote'] = _transportNoteController.text.trim();
+      } else {
+        data['transportNote'] = '';
+      }
+
       if (_emailController.text.trim().isNotEmpty) {
         data['email'] = _emailController.text.trim();
       }
@@ -142,6 +151,16 @@ class _DealerDetailScreenState extends ConsumerState<DealerDetailScreen> {
                          if (!value.contains('@')) return 'Invalid email';
                          return null;
                       },
+                    ),
+                     const SizedBox(height: 32),
+                    _buildSectionHeader('Transport Details', isDark),
+                    const SizedBox(height: 16),
+                    _buildTextField(
+                      'Transport Notes (Name, GST, Contact, etc.)', 
+                      _transportNoteController, 
+                      Icons.local_shipping, 
+                      isDark,
+                      maxLines: 3,
                     ),
                      const SizedBox(height: 32),
                     _buildSectionHeader('Account Status', isDark),
@@ -234,6 +253,7 @@ class _DealerDetailScreenState extends ConsumerState<DealerDetailScreen> {
     TextInputType? keyboardType, 
     String? Function(String?)? validator,
     List<TextInputFormatter>? inputFormatters,
+    int maxLines = 1,
   }) {
     final bgColor = isDark ? AppColors.surfaceDark : Colors.white;
     final borderColor = isDark ? AppColors.borderGray : Colors.grey.shade400;
@@ -242,6 +262,7 @@ class _DealerDetailScreenState extends ConsumerState<DealerDetailScreen> {
       controller: controller,
       keyboardType: keyboardType,
       inputFormatters: inputFormatters,
+      maxLines: maxLines,
       style: TextStyle(color: isDark ? Colors.white : Colors.black),
       decoration: InputDecoration(
         labelText: label,

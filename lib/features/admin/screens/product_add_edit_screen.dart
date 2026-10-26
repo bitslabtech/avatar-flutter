@@ -11,6 +11,7 @@ import '../providers/product_management_provider.dart';
 import '../providers/brand_provider.dart';
 import '../providers/category_provider.dart';
 import '../providers/gst_provider.dart';
+import '../providers/inventory_type_provider.dart';
 import '../../../providers/upload_provider.dart';
 
 class ProductAddEditScreen extends ConsumerStatefulWidget {
@@ -61,6 +62,10 @@ class _ProductAddEditScreenState extends ConsumerState<ProductAddEditScreen> {
 
   // Specs (List of MapEntries for easier editing)
   final List<MapEntry<TextEditingController, TextEditingController>> _specsControllers = [];
+  
+  // UOM Settings
+  String? _selectedBaseUomId;
+  List<Map<String, dynamic>> _bulkUoms = [];
   
   // Loading
   bool _isSaving = false;
@@ -178,6 +183,11 @@ class _ProductAddEditScreenState extends ConsumerState<ProductAddEditScreen> {
 
     _selectedBrandId = p?.brandId;    
     _selectedCategoryId = p?.categoryId;
+
+    _selectedBaseUomId = p?.baseUomId;
+    if (p?.bulkUoms != null) {
+      _bulkUoms = List<Map<String, dynamic>>.from(p!.bulkUoms!);
+    }
 
     // Specs - exclude internal pricing details
     if (productSpecs != null) {
@@ -373,6 +383,11 @@ class _ProductAddEditScreenState extends ConsumerState<ProductAddEditScreen> {
       'variant': _variantController.text.isEmpty ? null : _variantController.text,
       'size': _sizeController.text.isEmpty ? null : _sizeController.text,
       'badge': _selectedBadge,
+
+      // New fields from latest requirements
+      'purchasePrice': _purchaseCost,
+      'baseUomId': _selectedBaseUomId,
+      'bulkUoms': _bulkUoms,
     };
 
     final notifier = ref.read(productManagementProvider.notifier);
@@ -409,6 +424,7 @@ class _ProductAddEditScreenState extends ConsumerState<ProductAddEditScreen> {
     final brandState = ref.watch(brandProvider);
     final categoryState = ref.watch(categoryProvider);
     final gstState = ref.watch(gstProvider);
+    final inventoryState = ref.watch(inventoryTypeProvider);
 
     return Scaffold(
       backgroundColor: isDark ? AppColors.backgroundBlack : AppColors.backgroundLight,
@@ -505,6 +521,10 @@ class _ProductAddEditScreenState extends ConsumerState<ProductAddEditScreen> {
                 ],
               ),
               const SizedBox(height: 24),
+
+              // Inventory / UOM Summary Card (Opens Bottom Sheet)
+              _buildInventoryUomCard(isDark, inventoryState),
+              const SizedBox(height: 20),
 
               // Product Variations Summary Card (Opens Bottom Sheet)
               _buildVariationsSummaryCard(isDark),
@@ -770,6 +790,217 @@ class _ProductAddEditScreenState extends ConsumerState<ProductAddEditScreen> {
         filled: true,
         fillColor: isDark ? AppColors.surfaceDark : Colors.white,
       ),
+    );
+  }
+
+  // ==================== INVENTORY / UOM SECTION ====================
+
+  Widget _buildInventoryUomCard(bool isDark, AsyncValue<List<InventoryTypeModel>> inventoryState) {
+    final cardBorderColor = isDark ? Colors.grey.shade800 : Colors.grey.shade200;
+    final textMutedColor = isDark ? Colors.grey.shade400 : Colors.grey.shade600;
+    
+    final isConfigured = _selectedBaseUomId != null || _bulkUoms.isNotEmpty;
+
+    return Container(
+      decoration: BoxDecoration(
+        color: isDark ? const Color(0xFF1E222B) : const Color(0xFFF8FAFC),
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: cardBorderColor, width: 1.5),
+      ),
+      child: Material(
+        color: Colors.transparent,
+        child: InkWell(
+          onTap: () => _openInventoryUomBottomSheet(context, isDark, inventoryState),
+          borderRadius: BorderRadius.circular(16),
+          child: Padding(
+            padding: const EdgeInsets.all(20),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Row(
+                      children: [
+                        Icon(Icons.inventory_2, color: Theme.of(context).colorScheme.primary),
+                        const SizedBox(width: 12),
+                        Text('Inventory & UOM', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: isDark ? Colors.white : Colors.black)),
+                      ],
+                    ),
+                    Icon(Icons.edit_outlined, color: textMutedColor, size: 20),
+                  ],
+                ),
+                const SizedBox(height: 12),
+                if (!isConfigured)
+                  Text('Set base unit (e.g. Piece) and bulk units (e.g. Box = 10 Pcs)', style: TextStyle(color: textMutedColor, fontSize: 13))
+                else
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      if (_selectedBaseUomId != null)
+                        Text('Base Unit: Configured', style: TextStyle(color: isDark ? Colors.grey.shade300 : Colors.grey.shade800, fontSize: 14)),
+                      if (_bulkUoms.isNotEmpty)
+                        Text('${_bulkUoms.length} Bulk Unit(s) Configured', style: TextStyle(color: isDark ? Colors.grey.shade300 : Colors.grey.shade800, fontSize: 14)),
+                    ],
+                  ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  void _openInventoryUomBottomSheet(BuildContext context, bool isDark, AsyncValue<List<InventoryTypeModel>> inventoryState) {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      builder: (ctx) {
+        return StatefulBuilder(
+          builder: (ctx, setModalState) {
+            return Container(
+              height: MediaQuery.of(context).size.height * 0.85,
+              decoration: BoxDecoration(
+                color: isDark ? AppColors.backgroundBlack : Colors.white,
+                borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
+              ),
+              child: Column(
+                children: [
+                  // Header
+                  Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+                    decoration: BoxDecoration(
+                      border: Border(bottom: BorderSide(color: isDark ? Colors.grey.shade800 : Colors.grey.shade200)),
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text('Inventory & UOM', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: isDark ? Colors.white : Colors.black)),
+                        IconButton(icon: const Icon(Icons.close), onPressed: () => Navigator.pop(ctx)),
+                      ],
+                    ),
+                  ),
+                  
+                  // Content
+                  Expanded(
+                    child: inventoryState.when(
+                      data: (types) {
+                        return ListView(
+                          padding: const EdgeInsets.all(20),
+                          children: [
+                            Text('Base Unit of Measurement', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16, color: isDark ? Colors.white : Colors.black)),
+                            const SizedBox(height: 8),
+                            Text('This is the smallest unit you sell (e.g., Piece, Kg)', style: TextStyle(color: Colors.grey, fontSize: 12)),
+                            const SizedBox(height: 12),
+                            DropdownButtonFormField<String>(
+                              value: _selectedBaseUomId,
+                              items: types.map((t) => DropdownMenuItem(value: t.id, child: Text(t.name))).toList(),
+                              onChanged: (val) {
+                                setModalState(() => _selectedBaseUomId = val);
+                                setState(() => _selectedBaseUomId = val);
+                              },
+                              decoration: InputDecoration(
+                                labelText: 'Select Base UOM',
+                                border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
+                              ),
+                            ),
+                            
+                            const SizedBox(height: 32),
+                            
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text('Bulk Units', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16, color: isDark ? Colors.white : Colors.black)),
+                                    Text('Optional. e.g., Box = 10 Pieces', style: TextStyle(color: Colors.grey, fontSize: 12)),
+                                  ],
+                                ),
+                                TextButton.icon(
+                                  icon: const Icon(Icons.add),
+                                  label: const Text('Add'),
+                                  onPressed: () {
+                                    setModalState(() {
+                                      _bulkUoms.add({'uomId': '', 'conversionRate': 1});
+                                    });
+                                    setState(() {});
+                                  },
+                                )
+                              ],
+                            ),
+                            const SizedBox(height: 16),
+                            
+                            if (_bulkUoms.isEmpty)
+                              const Padding(
+                                padding: EdgeInsets.all(16.0),
+                                child: Center(child: Text('No bulk units added', style: TextStyle(color: Colors.grey))),
+                              )
+                            else
+                              ..._bulkUoms.asMap().entries.map((entry) {
+                                final index = entry.key;
+                                final bulk = entry.value;
+                                return Card(
+                                  margin: const EdgeInsets.only(bottom: 12),
+                                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                                  color: isDark ? AppColors.surfaceDark : Colors.grey.shade50,
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(12),
+                                    child: Row(
+                                      children: [
+                                        Expanded(
+                                          flex: 2,
+                                          child: DropdownButtonFormField<String>(
+                                            value: bulk['uomId'].toString().isEmpty ? null : bulk['uomId'],
+                                            items: types.map((t) => DropdownMenuItem(value: t.id, child: Text(t.name))).toList(),
+                                            onChanged: (val) {
+                                              setModalState(() => _bulkUoms[index]['uomId'] = val);
+                                              setState(() {});
+                                            },
+                                            decoration: const InputDecoration(labelText: 'Bulk UOM', isDense: true),
+                                          ),
+                                        ),
+                                        const SizedBox(width: 8),
+                                        const Text('='),
+                                        const SizedBox(width: 8),
+                                        Expanded(
+                                          flex: 2,
+                                          child: TextFormField(
+                                            initialValue: bulk['conversionRate'].toString(),
+                                            keyboardType: TextInputType.number,
+                                            decoration: const InputDecoration(labelText: 'Base Qty', isDense: true),
+                                            onChanged: (val) {
+                                              setModalState(() => _bulkUoms[index]['conversionRate'] = int.tryParse(val) ?? 1);
+                                              setState(() {});
+                                            },
+                                          ),
+                                        ),
+                                        IconButton(
+                                          icon: const Icon(Icons.delete, color: Colors.red),
+                                          onPressed: () {
+                                            setModalState(() => _bulkUoms.removeAt(index));
+                                            setState(() {});
+                                          },
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                );
+                              }).toList(),
+                          ],
+                        );
+                      },
+                      loading: () => const Center(child: CircularProgressIndicator()),
+                      error: (err, stack) => Center(child: Text('Error: $err')),
+                    ),
+                  ),
+                ],
+              ),
+            );
+          },
+        );
+      },
     );
   }
 

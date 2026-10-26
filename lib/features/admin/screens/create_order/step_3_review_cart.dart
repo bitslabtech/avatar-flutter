@@ -56,7 +56,7 @@ class Step3ReviewCart extends ConsumerWidget {
                     // Price is already GST-inclusive, just apply dealer discount
                     double rawPrice = (product.price ?? 0).toDouble();
                     final dpPrice = discountPct > 0 ? rawPrice * (1 - discountPct / 100) : rawPrice;
-                    final lineTotal = dpPrice * entry.value;
+                    final lineTotal = dpPrice * entry.value.qty;
                     subtotal += lineTotal;
                     // Back-calculate GST from inclusive price (for display only)
                     if ((product.gstPercent ?? 0) > 0) {
@@ -91,7 +91,7 @@ class Step3ReviewCart extends ConsumerWidget {
                                  Text(product.name, maxLines: 1, overflow: TextOverflow.ellipsis,
                                    style: TextStyle(fontWeight: FontWeight.w600, color: isDark ? Colors.white : Colors.black87),
                                  ),
-                                 Text('Qty: ${entry.value}', style: TextStyle(color: isDark ? Colors.grey.shade400 : Colors.grey.shade600, fontSize: 13)),
+                                 Text('Qty: ${entry.value.orderedQty.toInt()} ${entry.value.orderedUomName ?? 'Pcs'} (Total: ${entry.value.qty} Base)', style: TextStyle(color: isDark ? Colors.grey.shade400 : Colors.grey.shade600, fontSize: 13)),
                                ],
                              ),
                            ),

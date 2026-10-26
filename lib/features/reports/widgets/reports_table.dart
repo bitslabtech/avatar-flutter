@@ -353,7 +353,7 @@ class ReportsTable extends StatelessWidget {
         border: Border.all(color: color.withValues(alpha: 0.2)),
       ),
       child: Text(
-        status.toUpperCase(),
+        status.toLowerCase() == 'delivered' ? 'COMPLETED' : status.toUpperCase(),
         style: TextStyle(
           fontSize: 10,
           fontWeight: FontWeight.w800,

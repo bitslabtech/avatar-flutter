@@ -200,8 +200,9 @@ class OrderStats {
 }
 
 extension OrderStatusX on OrderStatus {
-  /// Safe getter for enum name (helper for older Dart runtimes)
-  String get nameStr => toString().split('.').last;
-}
+  String get nameStr {
+    final name = toString().split('.').last;
+    return name == 'delivered' ? 'completed' : name;
+  }
 
 

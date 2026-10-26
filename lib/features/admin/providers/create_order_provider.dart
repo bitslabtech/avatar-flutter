@@ -5,10 +5,19 @@ import '../../../providers/auth_provider.dart';
 import '../../../../core/api/api_client.dart';
 import '../../../../core/api/api_endpoints.dart';
 
+class CartItemData {
+  final int qty; // Base qty (pieces)
+  final double orderedQty;
+  final String? orderedUomId;
+  final String? orderedUomName;
+
+  CartItemData({required this.qty, required this.orderedQty, this.orderedUomId, this.orderedUomName});
+}
+
 class CreateOrderState {
   final int currentStep;
   final User? selectedUser;
-  final Map<String, int> cartItems; // ProductId -> Quantity
+  final Map<String, CartItemData> cartItems; // ProductId -> CartItemData
   final Map<String, Product> productDetails; // ProductId -> Product (for display)
   final Map<String, dynamic>? shippingAddress;
   final bool saveAddressToProfile;
@@ -39,7 +48,7 @@ class CreateOrderState {
   CreateOrderState copyWith({
     int? currentStep,
     User? selectedUser,
-    Map<String, int>? cartItems,
+    Map<String, CartItemData>? cartItems,
     Map<String, Product>? productDetails,
     bool? isLoading,
     String? error,
@@ -69,7 +78,7 @@ class CreateOrderState {
   
   double get totalAmount {
     double total = 0;
-    cartItems.forEach((productId, quantity) {
+    cartItems.forEach((productId, itemData) {
       final product = productDetails[productId];
       if (product != null) {
         // Safe check for price, assuming double or int
@@ -78,7 +87,7 @@ class CreateOrderState {
           : 0.0;
         
         // Price is already GST-inclusive, no need to add GST
-        total += price * quantity;
+        total += price * itemData.qty;
       }
     });
     return total;
@@ -145,14 +154,14 @@ class CreateOrderNotifier extends StateNotifier<CreateOrderState> {
     }
   }
 
-  void addToCart(Product product, int quantity) {
-    final currentCart = Map<String, int>.from(state.cartItems);
+  void addToCart(Product product, CartItemData itemData) {
+    final currentCart = Map<String, CartItemData>.from(state.cartItems);
     final currentDetails = Map<String, Product>.from(state.productDetails);
 
-    if (quantity <= 0) {
+    if (itemData.qty <= 0) {
       currentCart.remove(product.id);
     } else {
-      currentCart[product.id] = quantity;
+      currentCart[product.id] = itemData;
       currentDetails[product.id] = product;
     }
 
@@ -205,7 +214,9 @@ class CreateOrderNotifier extends StateNotifier<CreateOrderState> {
     try {
       final items = state.cartItems.entries.map((e) => {
         'productId': e.key,
-        'qty': e.value,
+        'qty': e.value.qty,
+        'orderedQty': e.value.orderedQty,
+        'orderedUomId': e.value.orderedUomId,
       }).toList();
 
       await _apiClient.post('/orders/create-on-behalf', data: {

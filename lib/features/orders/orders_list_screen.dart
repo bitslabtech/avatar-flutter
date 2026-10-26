@@ -169,7 +169,7 @@ class _OrderCard extends ConsumerWidget {
         statusBgColor = Theme.of(context).colorScheme.primary.withOpacity(0.1);
         break;
       case OrderStatus.delivered:
-        statusText = 'Delivered';
+        statusText = 'Completed';
         statusColor = Colors.green;
         statusBgColor = Colors.green.withOpacity(0.1);
         break;
@@ -197,7 +197,7 @@ class _OrderCard extends ConsumerWidget {
     double progress = 0.0;
     
     if (order.status == OrderStatus.delivered) {
-       estText = 'Delivered ${order.updatedAt != null ? DateFormat('MMM dd').format(order.updatedAt) : ''}';
+       estText = 'Completed ${order.updatedAt != null ? DateFormat('MMM dd').format(order.updatedAt) : ''}';
        estColor = Colors.green;
        progress = 1.0;
     } else if (order.estimatedDeliveryDate != null) {

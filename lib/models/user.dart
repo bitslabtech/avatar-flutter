@@ -16,6 +16,7 @@ class User {
   final Map<String, dynamic>? address;
   final String? avatar; // Added avatar field
   final Map<String, List<dynamic>>? permissions; // Admin permissions
+  final String? transportNote;
 
   User({
     required this.id,
@@ -31,6 +32,7 @@ class User {
     this.address,
     this.avatar,
     this.permissions,
+    this.transportNote,
   });
 
   String? get resolvedAvatarUrl => avatar != null ? ApiEndpoints.resolveImageUrl(avatar!) : null;
@@ -54,6 +56,7 @@ class User {
           ? (json['permissions'] as Map<String, dynamic>).map(
               (key, value) => MapEntry(key, List<dynamic>.from(value)))
           : null,
+      transportNote: json['transportNote'] as String?,
     );
   }
 
@@ -73,6 +76,7 @@ class User {
       'address': address,
       'avatar': avatar,
       'permissions': permissions,
+      'transportNote': transportNote,
     };
   }
 

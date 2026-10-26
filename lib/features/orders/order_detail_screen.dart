@@ -276,7 +276,7 @@ class _OrderDetailScreenState extends ConsumerState<OrderDetailScreen> {
     // Header Logic
     String headline = 'Order Placed';
     if (order.status == OrderStatus.delivered) {
-      headline = 'Delivered';
+      headline = 'Completed';
     } else if (order.estimatedDeliveryDate != null) {
       final now = DateTime.now();
       final diff = order.estimatedDeliveryDate!.difference(now).inDays;
@@ -367,7 +367,7 @@ class _OrderDetailScreenState extends ConsumerState<OrderDetailScreen> {
                              Expanded(child: _buildProgressLabel('Ordered', currentStep >= 0, isDark, TextAlign.left)),
                              Expanded(child: _buildProgressLabel('Shipped', currentStep >= 1, isDark, TextAlign.center)),
                              Expanded(child: _buildProgressLabel('In Transit', currentStep >= 2, isDark, TextAlign.center)),
-                             Expanded(child: _buildProgressLabel('Delivered', currentStep >= 3, isDark, TextAlign.right)),
+                             Expanded(child: _buildProgressLabel('Completed', currentStep >= 3, isDark, TextAlign.right)),
                           ],
                       )
                     ],

@@ -12,6 +12,7 @@ class Product {
   final String category;
   final double? price; 
   final double? mrp; 
+  final double? purchasePrice;
   final double? taxPercent; // Null for guests
   final Map<String, dynamic>? specs;
   final String? warrantyPeriod;
@@ -32,6 +33,9 @@ class Product {
   final String? material;
   final String? badge;
   final bool isGstInclusive;
+  final String? baseUomId;
+  final Map<String, dynamic>? baseUom;
+  final List<dynamic>? bulkUoms;
 
   Product({
     required this.id,
@@ -41,6 +45,7 @@ class Product {
     required this.category,
     this.price,
     this.mrp,
+    this.purchasePrice,
     this.taxPercent,
     this.specs,
     this.warrantyPeriod,
@@ -61,6 +66,9 @@ class Product {
     this.material,
     this.badge,
     this.isGstInclusive = false,
+    this.baseUomId,
+    this.baseUom,
+    this.bulkUoms,
   });
 
   /// Returns image URLs with the base URL prepended for relative paths
@@ -122,6 +130,7 @@ class Product {
       category: categoryName,
       price: parseDouble(json['price']),
       mrp: parseDouble(json['mrp']),
+      purchasePrice: parseDouble(json['purchasePrice'] ?? json['purchase_price']),
       taxPercent: parseDouble(json['taxPercent']),
       specs: parseSpecs(json['specs'] ?? json['specifications']),
       warrantyPeriod: json['warrantyPeriod'],
@@ -142,6 +151,9 @@ class Product {
       material: json['material'],
       badge: json['badge'],
       isGstInclusive: json['isGstInclusive'] ?? json['is_gst_inclusive'] ?? false,
+      baseUomId: json['baseUomId'] ?? json['base_uom_id'],
+      baseUom: json['baseUom'] != null && json['baseUom'] is Map ? Map<String, dynamic>.from(json['baseUom']) : null,
+      bulkUoms: json['bulkUoms'] ?? json['bulk_uoms'],
     );
   }
 
@@ -175,6 +187,7 @@ class Product {
       'category': category,
       'price': price,
       'mrp': mrp,
+      'purchasePrice': purchasePrice,
       'taxPercent': taxPercent,
       'specs': specs,
       'warrantyPeriod': warrantyPeriod,
@@ -195,6 +208,8 @@ class Product {
       'material': material,
       'badge': badge,
       'isGstInclusive': isGstInclusive,
+      'baseUomId': baseUomId,
+      'bulkUoms': bulkUoms,
     };
   }
 

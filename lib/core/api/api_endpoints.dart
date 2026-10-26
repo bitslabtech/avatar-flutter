@@ -57,6 +57,7 @@ class ApiEndpoints {
   static String productById(String id) => '/products/$id';
   static const String brands = '/products/meta/brands';
   static const String categories = '/products/meta/categories';
+  static const String inventoryTypes = '/inventory-types';
   static const String banners = '/products/banners';
   static String productsByGroup(String groupId) => '/products/group/$groupId';
 

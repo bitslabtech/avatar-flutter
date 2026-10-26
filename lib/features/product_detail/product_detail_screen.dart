@@ -345,6 +345,23 @@ class _ProductDetailScreenState extends ConsumerState<ProductDetailScreen> {
                                   ],
                                 ),
                               ],
+                              if (user?.role == 'superadmin' && product.purchasePrice != null && product.purchasePrice! > 0) ...[
+                                const SizedBox(height: 6),
+                                Row(
+                                  children: [
+                                    const Icon(Icons.info_outline_rounded, size: 14, color: AppColors.errorRed),
+                                    const SizedBox(width: 4),
+                                    Text(
+                                      'Purchase Cost: ${CurrencyUtils.format(product.purchasePrice!)}',
+                                      style: const TextStyle(
+                                        fontSize: 13,
+                                        fontWeight: FontWeight.bold,
+                                        color: AppColors.errorRed,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ],
                               const SizedBox(height: 10),
 
                               // Brand, Category & Discount Badges
@@ -377,6 +394,22 @@ class _ProductDetailScreenState extends ConsumerState<ProductDetailScreen> {
                                       ),
                                       child: Text(
                                         product.category,
+                                        style: const TextStyle(
+                                          color: AppColors.textMuted,
+                                          fontWeight: FontWeight.w600,
+                                          fontSize: 11,
+                                        ),
+                                      ),
+                                    ),
+                                  if (product.hsn != null && product.hsn!.isNotEmpty)
+                                    Container(
+                                      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                                      decoration: BoxDecoration(
+                                        color: isDark ? const Color(0xFF2B2F33) : const Color(0xFFF1F3F5),
+                                        borderRadius: BorderRadius.circular(8),
+                                      ),
+                                      child: Text(
+                                        'HSN: ${product.hsn}',
                                         style: const TextStyle(
                                           color: AppColors.textMuted,
                                           fontWeight: FontWeight.w600,
@@ -470,6 +503,74 @@ class _ProductDetailScreenState extends ConsumerState<ProductDetailScreen> {
                               ],
                             ),
                           ),
+
+                        if (product.specifications != null && product.specifications!.isNotEmpty) ...[
+                          const SizedBox(height: 20),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 24),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  'Specifications',
+                                  style: TextStyle(
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.bold,
+                                    color: isDark ? Colors.white : AppColors.textPrimary,
+                                  ),
+                                ),
+                                const SizedBox(height: 12),
+                                Container(
+                                  decoration: BoxDecoration(
+                                    border: Border.all(color: isDark ? Colors.grey.shade800 : Colors.grey.shade200),
+                                    borderRadius: BorderRadius.circular(12),
+                                  ),
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(12),
+                                    child: Table(
+                                      border: TableBorder(
+                                        horizontalInside: BorderSide(color: isDark ? Colors.grey.shade800 : Colors.grey.shade200),
+                                        verticalInside: BorderSide(color: isDark ? Colors.grey.shade800 : Colors.grey.shade200),
+                                      ),
+                                      columnWidths: const {
+                                        0: FlexColumnWidth(1),
+                                        1: FlexColumnWidth(1.5),
+                                      },
+                                      children: product.specifications!.entries.map((entry) {
+                                        return TableRow(
+                                          children: [
+                                            Padding(
+                                              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+                                              child: Text(
+                                                entry.key,
+                                                style: TextStyle(
+                                                  color: isDark ? Colors.grey.shade400 : Colors.grey.shade600,
+                                                  fontWeight: FontWeight.w500,
+                                                  fontSize: 13,
+                                                ),
+                                              ),
+                                            ),
+                                            Padding(
+                                              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+                                              child: Text(
+                                                entry.value.toString(),
+                                                style: TextStyle(
+                                                  color: isDark ? Colors.white : Colors.black87,
+                                                  fontWeight: FontWeight.w600,
+                                                  fontSize: 13,
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        );
+                                      }).toList(),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
 
                         const SizedBox(height: 20),
 

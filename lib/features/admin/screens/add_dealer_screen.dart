@@ -23,6 +23,7 @@ class _AddDealerScreenState extends ConsumerState<AddDealerScreen> {
   final _confirmPasswordController = TextEditingController();
   final _companyNameController = TextEditingController();
   final _gstVatController = TextEditingController();
+  final _transportNoteController = TextEditingController();
   final _discountController = TextEditingController(text: '0.0');
   
   bool _obscurePassword = true;
@@ -38,6 +39,7 @@ class _AddDealerScreenState extends ConsumerState<AddDealerScreen> {
     _confirmPasswordController.dispose();
     _companyNameController.dispose();
     _gstVatController.dispose();
+    _transportNoteController.dispose();
     _discountController.dispose();
     super.dispose();
   }
@@ -57,6 +59,7 @@ class _AddDealerScreenState extends ConsumerState<AddDealerScreen> {
         'email': _emailController.text.trim().isEmpty ? null : _emailController.text.trim(),
         'companyName': _companyNameController.text.trim(),
         'gstVat': _gstVatController.text.trim(),
+        'transportNote': _transportNoteController.text.trim(),
         'discountPercentage': double.tryParse(_discountController.text) ?? 0.0,
       });
 
@@ -194,6 +197,18 @@ class _AddDealerScreenState extends ConsumerState<AddDealerScreen> {
                 ],
 
                 const SizedBox(height: 32),
+                _buildSectionHeader('Transport Details', isDark),
+                const SizedBox(height: 16),
+                _buildTextField(
+                  controller: _transportNoteController,
+                  label: 'Transport Notes (Name, GST, Contact, etc.)',
+                  hint: 'Enter transport notes',
+                  icon: Icons.local_shipping,
+                  isDark: isDark,
+                  maxLines: 3,
+                ),
+
+                const SizedBox(height: 32),
                 _buildSectionHeader('Security', isDark),
                 const SizedBox(height: 16),
 
@@ -287,11 +302,13 @@ class _AddDealerScreenState extends ConsumerState<AddDealerScreen> {
     VoidCallback? onToggleObscure,
     String? Function(String?)? validator,
     TextInputType? keyboardType,
+    int maxLines = 1,
   }) {
     return TextFormField(
       controller: controller,
       obscureText: obscureText,
       keyboardType: keyboardType,
+      maxLines: maxLines,
       style: TextStyle(color: isDark ? Colors.white : Colors.black),
       decoration: InputDecoration(
         // Add visual indicator for mandatory fields if not optional

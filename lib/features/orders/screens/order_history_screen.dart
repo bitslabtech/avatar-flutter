@@ -138,7 +138,7 @@ class _OrderHistoryScreenState extends ConsumerState<OrderHistoryScreen> {
         border: Border.all(color: color.withOpacity(0.5)),
       ),
       child: Text(
-        status.toUpperCase(),
+        status.toLowerCase() == 'delivered' ? 'COMPLETED' : status.toUpperCase(),
         style: TextStyle(color: color, fontSize: 10, fontWeight: FontWeight.bold),
       ),
     );
